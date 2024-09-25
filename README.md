@@ -9,6 +9,6 @@ Project Plan: https://docs.google.com/document/d/1qh6nYtIoLk3SCgy1w7i65mkEFARC9V
 
 Data Information: https://docs.google.com/document/d/1WB1_4Ag4AhMdLL1pKCAz1oXL769oyNVykCOUNMegWck/edit?usp=sharing
 
-Data structure ideas: https://1drv.ms/w/s!AoAwfpmucUUlhs1ke9VtK3tHkGnkBA?e=wuRb4S
+Data structure ideas: https://1drv.ms/w/s!AoAwfpmucUUlhs1ke9VtK3tHkGnkBA?e=dMVQY0
 
 Figma Designs: https://www.figma.com/design/qVIomzGrpswDvT58SzL7B3/Roadmap?node-id=1032-38796&m=dev
