@@ -1,5 +1,5 @@
-# ReentryResources
-The Dignifi Reentry Resource and Provider Matching Hub
+# ReentryRoadmap
+The Dignifi Reentry Roadmap
 
 Google Maps API Key: AIzaSyCy3mK_j0BkAkVyLUl2eQlCB7rugYIgQIc
 
