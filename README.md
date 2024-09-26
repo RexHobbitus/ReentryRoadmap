@@ -12,3 +12,36 @@ Data Information: https://docs.google.com/document/d/1WB1_4Ag4AhMdLL1pKCAz1oXL76
 Data structure ideas: https://1drv.ms/w/s!AoAwfpmucUUlhs1ke9VtK3tHkGnkBA?e=dMVQY0
 
 Figma Designs: https://www.figma.com/design/qVIomzGrpswDvT58SzL7B3/Roadmap?node-id=1032-38796&m=dev
+
+
+
+# Flutter Information
+
+## Flutter
+
+| Version | Channel | Repository                               |
+|---|---------|------------------------------------------|
+| 3.24.3   | stable  | [Flutter Repo](https://github.com/flutter/flutter.git) |
+
+### Framework/FEATURES
+
+| Architecture & Services       | 
+|-------------------------------|
+| CLEAN CODE ARCHITECTURE       |
+| FIREBASE                      |
+| BLOC (CUBIT) STATE MANAGEMENT |
+
+### Engine
+
+| Revision       |
+|----------------|
+| 36335019a8     |
+
+## Tools
+
+| Dart Version | DevTools Version |
+|--------------|------------------|
+| 3.5.3        | 2.37.3           |
+
+
+
