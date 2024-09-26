@@ -6,6 +6,9 @@ class CustomButton extends StatelessWidget {
   final bool isDisabled;
   final bool isLoading;
   final bool isSecondary;
+  final double? width;
+  final double? height;
+
 
   const CustomButton({
     super.key,
@@ -14,6 +17,8 @@ class CustomButton extends StatelessWidget {
     this.isDisabled = false,
     this.isLoading = false,
     this.isSecondary = false,
+    this.height,
+    this.width,
   });
 
   @override
@@ -22,17 +27,18 @@ class CustomButton extends StatelessWidget {
         ? const CircularProgressIndicator()
         : ElevatedButton(
             style: ElevatedButton.styleFrom(
-              minimumSize: const Size(150, 45),
+              minimumSize:  Size(width??context.sw, height??50),
+              maximumSize:Size(width??context.sw, height??57),
               backgroundColor: isDisabled
                   ? Colors.grey.shade300
                   : isSecondary
-                      ? context.colorTheme.surface
+                      ? context.themeData.colorScheme.secondary
                       : null,
               // Set the disabled background color
               foregroundColor: isDisabled
                   ? Colors.grey.shade500
                   : isSecondary
-                      ? context.colorTheme.onSurface
+                      ?  context.themeData.colorScheme.onSecondary
                       : null, // Set the disabled text color
             ),
             onPressed: isDisabled ? null : onTap,

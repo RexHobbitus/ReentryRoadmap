@@ -1,0 +1,4 @@
+class ReviewInitialParams {
+
+const ReviewInitialParams();
+}

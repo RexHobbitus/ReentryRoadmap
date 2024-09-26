@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import '../welcome/welcome_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'splash_initial_params.dart';
 import 'splash_state.dart';
 import 'splash_navigator.dart';
@@ -13,12 +13,12 @@ class SplashCubit extends Cubit<SplashState> {
   BuildContext get context => navigator.context;
 
   onInit(SplashInitialParams initialParams) {
-    _navigateToWelcome();
+    _navigateToBottomNav();
   }
 
-  _navigateToWelcome() {
+  _navigateToBottomNav() {
     Future.delayed(const Duration(seconds: 2)).then((val){
-      navigator.openWelcome(const WelcomeInitialParams());
+      navigator.openBottomNav(const BottomNavInitialParams());
     });
   }
 }

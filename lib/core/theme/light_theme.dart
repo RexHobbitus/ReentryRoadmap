@@ -2,33 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Light Theme
-const Color _lightScaffold = Color(0xFFF7F4F2);
+const Color _lightScaffold = Color(0xFfFFFFFF);
+
 const Color _lightSurface = Color(0xFFFFFFFF);
-const Color _lightPrimary = Color(0xFF4F3422);
-const Color _lightSecondary = Color(0xFF9BB168);
-const Color _lightOnSurface = Color(0xFF002911);
+const Color _lightOnSurface = Color(0xFFFFFFFF);
+
+
+const Color _lightPrimary = Color(0xFF807ED5);
 const Color _lightOnPrimary = Color(0xFFFFFFFF);
+
+const Color _lightSecondary = Color(0xFF11404C);
 const Color _lightOnSecondary = Color(0xFFFFFFFF);
-const Color _lightTertiaryColor = Color(0xFF767575);
+
+const Color _lightTertiaryColor =  Color(0xff89898A);
+const Color _lightOnTertiaryColor = Color(0xFF151517);
+
+const Color _lightTertiaryContainerColor = Color(0xFFBFD4D9);
 
 
-final ThemeData LIGHT_THEME=ThemeData(
+
+const Color _lightCardColor = Color(0xFFF6F9FA);
+
+final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,
   useMaterial3: false,
   scaffoldBackgroundColor: _lightScaffold,
-  fontFamily:'CircularStd',
+  fontFamily: GoogleFonts.poppins().fontFamily,
   textTheme: const TextTheme(
-    displayLarge:TextStyle(color: Colors.black),
-    displaySmall:TextStyle(color: Colors.black),
-    displayMedium:TextStyle(color: Colors.black),
+    displayLarge: TextStyle(color: Colors.black),
+    displaySmall: TextStyle(color: Colors.black),
+    displayMedium: TextStyle(color: Colors.black),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      // Customize the elevated button's appearance
-      backgroundColor: _lightPrimary, // Set the background color
-      foregroundColor: _lightOnPrimary, // Set the text color
+      backgroundColor: _lightPrimary,
+      foregroundColor: _lightOnPrimary,
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         // Set the button's border radius
       ),
     ),
@@ -38,12 +48,9 @@ final ThemeData LIGHT_THEME=ThemeData(
       elevation: 0,
       titleTextStyle: TextStyle(
         color: _lightPrimary,
-        fontSize: 20,
+        fontSize: 15,
       ),
-      iconTheme: IconThemeData(
-          color: Colors.black
-      )
-  ),
+      iconTheme: IconThemeData(color: Colors.black)),
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
       TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
@@ -51,17 +58,31 @@ final ThemeData LIGHT_THEME=ThemeData(
     },
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: _lightPrimary,
-    selectedItemColor: Colors.white,
-    unselectedItemColor: Colors.grey,
+    elevation: 10,
+    backgroundColor: _lightScaffold,
+    selectedItemColor:_lightPrimary,
+    unselectedItemColor: _lightSecondary,
+    showUnselectedLabels: true,
+    type:BottomNavigationBarType.fixed ,
+    unselectedLabelStyle: TextStyle(
+      fontWeight: FontWeight.w500,
+      fontSize: 12,
+    ),
+    selectedLabelStyle: TextStyle(
+        fontWeight: FontWeight.w600,
+        fontSize: 12,
+    ),
   ),
+  cardColor: _lightCardColor,
   colorScheme: const ColorScheme.light(
-      surface: _lightSurface,
-      onSurface: _lightOnSurface,
-      primary: _lightPrimary,
-      onPrimary: _lightOnPrimary,
-      secondary: _lightSecondary,
-      onSecondary: _lightOnSecondary,
-      tertiary: _lightTertiaryColor
+    surface: _lightSurface,
+    onSurface: _lightOnSurface,
+    primary: _lightPrimary,
+    onPrimary: _lightOnPrimary,
+    secondary: _lightSecondary,
+    onSecondary: _lightOnSecondary,
+    tertiary: _lightTertiaryColor,
+    onTertiary: _lightOnTertiaryColor,
+    tertiaryContainer: _lightTertiaryContainerColor,
   ),
 );

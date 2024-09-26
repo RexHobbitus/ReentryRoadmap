@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/extensions/theme_extension.dart';
 
 class CustomTextField extends StatelessWidget {
   TextEditingController controller;
-  String? label;
+  String label;
   String hint;
   Function(String)? onChange;
   Function(String)? onSubmit;
@@ -40,7 +41,7 @@ class CustomTextField extends StatelessWidget {
 
   CustomTextField({Key? key,
     required this.controller,
-    this.label,
+    this.label="",
     required this.hint,
     this.onChange,
     this.onSubmit,
@@ -77,15 +78,15 @@ class CustomTextField extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            label ?? "",
+          label.isEmpty?const SizedBox.shrink():Text(
+            label,
             style: context.textTheme.labelLarge,
           ),
-          const SizedBox(
+          label.isEmpty?const SizedBox.shrink():const SizedBox(
             height: 8,
           ),
           SizedBox(
-            width: 200,
+            width: width??double.maxFinite,
             child: TextFormField(
               controller: controller,
               initialValue: initialValue,
@@ -107,10 +108,10 @@ class CustomTextField extends StatelessWidget {
                   readOnly ??
                   false,
               obscureText: hide ?? false,
-              cursorColor: context.colorTheme.primary,
+              cursorColor: context.themeData.primaryColor,
               decoration: InputDecoration(
                 hintStyle: context.textTheme.bodyMedium?.copyWith(
-                    color: context.colorTheme.tertiaryContainer
+                    color: context.themeData.colorScheme.tertiary
                 ),
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 hintText: hint,
@@ -121,8 +122,15 @@ class CustomTextField extends StatelessWidget {
                   horizontal: 10,
                   vertical: 10
                 ),
-                fillColor: context.colorTheme.surface,
-                enabledBorder: unFocusedBorder(context),
+                fillColor: context.themeData.cardColor,
+                suffixIcon: suffixPath!=null?Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: SvgPicture.asset(suffixPath!),
+                ):null,
+                suffixIconConstraints: const BoxConstraints(
+                  maxHeight: 35,
+                ),
+                enabledBorder: borderStyle(context),
                 focusedBorder: borderStyle(context, isActive: true),
               ),
             ),
@@ -135,16 +143,9 @@ class CustomTextField extends StatelessWidget {
 
   borderStyle(BuildContext context, {bool isActive = false}) {
     return OutlineInputBorder(
-        borderSide:
-        BorderSide(color: context.colorTheme.tertiaryContainer, width: 1),
-        borderRadius: BorderRadius.circular(20));
+      borderRadius: BorderRadius.circular(30),
+      borderSide: const BorderSide(color: Colors.transparent),);
   }
 
-  unFocusedBorder(BuildContext context, {bool isActive = false}) {
-    return OutlineInputBorder(
-        borderSide:
-        BorderSide(color: context.colorTheme.tertiaryContainer, width: 1),
-        borderRadius: BorderRadius.circular(20));
-  }
 
 }

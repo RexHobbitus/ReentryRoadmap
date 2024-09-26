@@ -1,0 +1,4 @@
+class MoreInitialParams {
+
+const MoreInitialParams();
+}

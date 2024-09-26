@@ -1,0 +1,4 @@
+class MyServicesInitialParams {
+
+const MyServicesInitialParams();
+}

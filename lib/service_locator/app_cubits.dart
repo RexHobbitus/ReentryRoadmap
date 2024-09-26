@@ -1,9 +1,16 @@
+import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/more/more_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/more/more_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/review/review_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.dart';
 
 import '../presentation/pages/splash/splash_cubit.dart';
-import '../presentation/pages/splash/splash_initial_params.dart';
 import '../presentation/pages/splash/splash_navigator.dart';
-import '../presentation/pages/welcome/welcome_cubit.dart';
-import '../presentation/pages/welcome/welcome_navigator.dart';
 import 'service_locator.dart';
 
 /*
@@ -23,9 +30,26 @@ class AppCubits {
       navigator: getIt(),
     ));
 
-    /// welcome screen Cubit + navigator
-    getIt.registerSingleton<WelcomeNavigator>(WelcomeNavigator(getIt()));
-    getIt.registerSingleton<WelcomeCubit>(WelcomeCubit(
+    getIt.registerSingleton<ExploreNavigator>(ExploreNavigator(getIt()));
+    getIt.registerSingleton<ExploreCubit>(ExploreCubit(
+      navigator: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<MoreNavigator>(MoreNavigator(getIt()));
+    getIt.registerSingleton<MoreCubit>(MoreCubit(
+      navigator: getIt(),
+    ));
+    getIt.registerSingleton<MyServicesNavigator>(MyServicesNavigator(getIt()));
+    getIt.registerSingleton<MyServicesCubit>(MyServicesCubit(
+      navigator: getIt(),
+    ));
+    getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));
+    getIt.registerSingleton<ReviewCubit>(ReviewCubit(
+      navigator: getIt(),
+    ));
+
+    getIt.registerSingleton<BottomNavNavigator>(BottomNavNavigator(getIt()));
+    getIt.registerSingleton<BottomNavCubit>(BottomNavCubit(
       navigator: getIt(),
     ));
   }
