@@ -8,8 +8,6 @@ import 'explore_initial_params.dart';
 import 'widgets/explore_footer_section.dart';
 import 'widgets/explore_search_section.dart';
 import 'widgets/explore_service_categories_section.dart';
-import 'widgets/header/explore_mobile_header.dart';
-
 class ExplorePage extends StatefulWidget {
   final ExploreCubit cubit;
   final ExploreInitialParams initialParams;
@@ -39,16 +37,6 @@ class _ExploreState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leadingWidth: double.maxFinite,
-        elevation: 0.5,
-        leading: const HeaderLogo(),
-        actions: [
-          ExploreMobileHeader(
-            cubit: cubit,
-          ),
-        ],
-      ),
       body: SingleChildScrollView(
         child: Padding(
           padding:
@@ -61,9 +49,7 @@ class _ExploreState extends State<ExplorePage> {
               ),
               ExploreBannerSection(cubit: cubit),
               ExploreServiceCategoriesSection(cubit: cubit),
-               ExploreServicesSection(
-                  cubit: cubit
-              ),
+              ExploreServicesSection(cubit: cubit),
               const SizedBox(
                 height: 20,
               ),

@@ -40,7 +40,7 @@ class ExploreServicesSection extends StatelessWidget {
             ),
             LayoutBuilder(
               builder: (context, constraints) {
-                debugPrint(constraints.maxWidth.toString());
+
                 // Define the item width (you can adjust this value as needed)
                 double itemWidth = 280.0;
                 // Calculate the number of columns based on the screen width

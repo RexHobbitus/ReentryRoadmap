@@ -19,7 +19,7 @@ class AppUser {
     return data;
   }
   AppUser.empty(){
-    id = null;
+    id ="s";
     name = "Dummy username";
     email = "Dummy email";
   }

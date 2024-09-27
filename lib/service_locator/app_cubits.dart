@@ -59,6 +59,7 @@ class AppCubits {
     getIt.registerSingleton<BottomNavCubit>(BottomNavCubit(
       navigator: getIt(),
       userStore: getIt(),
+      snackBar: getIt(),
     ));
 
   }

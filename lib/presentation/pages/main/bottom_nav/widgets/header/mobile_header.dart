@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import '../../../../../../core/utils/assets.dart';
 import '../../../../../../core/utils/constants.dart';
 import '../../../../../../domain/entities/app_user.dart';
 import '../../../../../../domain/stores/user_store.dart';
 import '../../../../../widgets/custom_button.dart';
 
-class ExploreMobileHeader extends StatelessWidget {
-  final ExploreCubit cubit;
+class MobileHeader extends StatelessWidget {
+  final BottomNavCubit cubit;
 
-  const ExploreMobileHeader({super.key, required this.cubit});
+  const MobileHeader({super.key, required this.cubit});
 
   @override
   Widget build(BuildContext context) {
