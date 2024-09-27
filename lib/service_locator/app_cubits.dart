@@ -6,6 +6,8 @@ import 'package:reentry_roadmap/presentation/pages/main/more/more_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/profile/profile_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/profile/profile_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.dart';
 
@@ -34,6 +36,7 @@ class AppCubits {
     getIt.registerSingleton<ExploreCubit>(ExploreCubit(
       navigator: getIt(),
       userStore: getIt(),
+      snackBar: getIt(),
     ));
     getIt.registerSingleton<MoreNavigator>(MoreNavigator(getIt()));
     getIt.registerSingleton<MoreCubit>(MoreCubit(
@@ -47,10 +50,16 @@ class AppCubits {
     getIt.registerSingleton<ReviewCubit>(ReviewCubit(
       navigator: getIt(),
     ));
+    getIt.registerSingleton<ProfileNavigator>(ProfileNavigator(getIt()));
+    getIt.registerSingleton<ProfileCubit>(ProfileCubit(
+      navigator: getIt(),
+    ));
 
     getIt.registerSingleton<BottomNavNavigator>(BottomNavNavigator(getIt()));
     getIt.registerSingleton<BottomNavCubit>(BottomNavCubit(
       navigator: getIt(),
+      userStore: getIt(),
     ));
+
   }
 }

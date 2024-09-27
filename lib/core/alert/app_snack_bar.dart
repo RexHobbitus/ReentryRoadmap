@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import '../navigation/app_navigator.dart';
 
 enum SnackBarType { ERROR, SUCCESS, INFO }
@@ -45,7 +46,7 @@ enum SnackBarType { ERROR, SUCCESS, INFO }
       case SnackBarType.ERROR:
         return Colors.red;
       case SnackBarType.INFO:
-        return Colors.orange[600]!;
+        return context.colorScheme.secondary;
       case SnackBarType.SUCCESS:
         return Colors.green;
     }

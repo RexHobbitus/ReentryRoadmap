@@ -18,4 +18,11 @@ class AppUser {
     data['email'] = this.email;
     return data;
   }
+  AppUser.empty(){
+    id = null;
+    name = "Dummy username";
+    email = "Dummy email";
+  }
+  bool get isLoggedIn => id!=null;
+
 }

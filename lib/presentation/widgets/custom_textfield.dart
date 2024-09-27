@@ -119,12 +119,12 @@ class CustomTextField extends StatelessWidget {
                 isDense: true,
                 filled: true,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 10,
+                  horizontal: 20,
                   vertical: 10
                 ),
                 fillColor: context.themeData.cardColor,
                 suffixIcon: suffixPath!=null?Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: SvgPicture.asset(suffixPath!),
                 ):null,
                 suffixIconConstraints: const BoxConstraints(

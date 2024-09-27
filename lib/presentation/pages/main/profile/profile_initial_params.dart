@@ -1,0 +1,4 @@
+class ProfileInitialParams {
+
+const ProfileInitialParams();
+}

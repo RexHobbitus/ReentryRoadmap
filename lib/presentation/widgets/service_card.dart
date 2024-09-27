@@ -9,10 +9,13 @@ import 'service_card_category_chip.dart';
 class ServiceCard extends StatelessWidget {
   const ServiceCard({super.key});
 
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: context.sw,
+      constraints: const BoxConstraints(
+        maxWidth: 400,
+      ),
       padding: const EdgeInsets.all(15),
       margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(

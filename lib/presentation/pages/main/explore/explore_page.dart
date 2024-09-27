@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
-import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/explore_header_auth_buttons.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/banner/explore_banner_section.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/explore_services_section.dart';
-import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import '../../../widgets/header_logo.dart';
 import 'explore_cubit.dart';
 import 'explore_initial_params.dart';
-import 'widgets/explore_popular_services_section.dart';
+import 'widgets/explore_footer_section.dart';
 import 'widgets/explore_search_section.dart';
-import 'widgets/explore_take_quiz_section.dart';
+import 'widgets/explore_service_categories_section.dart';
+import 'widgets/header/explore_mobile_header.dart';
 
 class ExplorePage extends StatefulWidget {
   final ExploreCubit cubit;
@@ -48,14 +44,9 @@ class _ExploreState extends State<ExplorePage> {
         elevation: 0.5,
         leading: const HeaderLogo(),
         actions: [
-          !cubit.userStore.state
-              ? ExploreHeaderAuthButtons(
-                  onSignUp: () {},
-                  onLogin: () {},
-                )
-              : IconButton(
-                  onPressed: () {},
-                  icon: SvgPicture.asset(Assets.notification)),
+          ExploreMobileHeader(
+            cubit: cubit,
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -65,10 +56,18 @@ class _ExploreState extends State<ExplorePage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const ExploreSearchSection(),
-              const ExploreTakeQuizSection(),
-              ExploreServicesSection(cubit: cubit),
-              const ExplorePopularServicesSection(),
+              ExploreSearchSection(
+                cubit: cubit,
+              ),
+              ExploreBannerSection(cubit: cubit),
+              ExploreServiceCategoriesSection(cubit: cubit),
+               ExploreServicesSection(
+                  cubit: cubit
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              const ExploreFooterSection(),
             ],
           ),
         ),

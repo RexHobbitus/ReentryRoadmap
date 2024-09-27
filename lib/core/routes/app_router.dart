@@ -3,12 +3,14 @@ import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_in
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
 import '../../presentation/pages/main/my_services/my_services_page.dart';
+import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
@@ -62,6 +64,15 @@ class AppRouter {
         },
       ),
       GoRoute(
+        path: ProfilePage.path,
+        builder: (context, state) {
+          return ProfilePage(
+            cubit: getIt(),
+            initialParams: const ProfileInitialParams(),
+          );
+        },
+      ),
+      GoRoute(
         path: ReviewPage.path,
         builder: (context, state) {
           return ReviewPage(
@@ -79,6 +90,7 @@ class AppRouter {
           );
         },
       ),
+
     ],
   );
 }

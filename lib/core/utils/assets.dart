@@ -11,6 +11,7 @@ class Assets{
   static const String verified ="assets/icons/verified.svg";
   static const String location ="assets/icons/location.svg";
   static const String leaf ="assets/icons/leaf.svg";
+  static const String openGate ="assets/icons/open_gate.svg";
 
 
 

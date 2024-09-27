@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,6 +33,11 @@ class _BottomNavState extends State<BottomNavPage> {
     super.initState();
     cubit.navigator.context = context;
     cubit.onInit(widget.initialParams);
+    cubit.userStore.stream.listen((data){
+      setState(() {
+        debugPrint("User updated////////");
+      });
+    });
   }
 
   _statusBarColor(){
@@ -62,8 +68,14 @@ class _BottomNavState extends State<BottomNavPage> {
                   isSelected: state.currentIndex == 1,
                 ),
                 _customBottomNavIcon(
-                  label: "Sign Up",
+                  label: cubit.userStore.state.isLoggedIn?"Me":"Sign Up",
                   assetPath: Assets.signup,
+                  child:cubit.userStore.state.isLoggedIn?CircleAvatar(
+                    radius: 10,
+                    backgroundImage: CachedNetworkImageProvider(
+                      "https://deadline.com/wp-content/uploads/2023/03/Keanu-Reeves-john-wick-4.jpg"
+                    ),
+                  ):null,
                   isSelected: state.currentIndex == 2,
                 ),
                 _customBottomNavIcon(
@@ -85,12 +97,13 @@ class _BottomNavState extends State<BottomNavPage> {
   BottomNavigationBarItem _customBottomNavIcon(
       {required String label,
       required String assetPath,
+         Widget? child,
       bool isSelected = false}) {
     return BottomNavigationBarItem(
       label: label,
       icon: Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
-        child: SvgPicture.asset(
+        child:child??SvgPicture.asset(
           assetPath,
           color: isSelected
               ? context.themeData.primaryColor

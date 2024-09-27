@@ -1,9 +1,14 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path/path.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+
+import '../../../../widgets/service_card.dart';
+import 'explore_services_slider.dart';
 
 class ExploreServicesSection extends StatelessWidget {
   final ExploreCubit cubit;
@@ -15,66 +20,85 @@ class ExploreServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
-      // Define the item width (you can adjust this value as needed)
-      double itemWidth = 100.0;
-
-      // Calculate the number of columns based on the screen width
-      int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
-
-      return AlignedGridView.count(
-        crossAxisCount: crossAxisCount,
-        mainAxisSpacing: 13,
-        crossAxisSpacing: 13,
-        shrinkWrap: true,
-        primary: false,
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        itemCount: cubit.serviceCategories.length,
-        itemBuilder: (context, index) {
-          return _serviceCategoryWidget(
-            context: context,
-            asset: cubit.serviceCategories[index].icon,
-            title: cubit.serviceCategories[index].title,
-          );
-        },
-      );
-    });
-  }
-
-  Widget _serviceCategoryWidget(
-      {required BuildContext context,
-      required String asset,
-      required String title}) {
-    return Container(
-      height: 115,
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        color: context.themeData.cardColor,
-        border: Border.all(color: context.themeData.colorScheme.tertiary),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
+    return BlocBuilder<UserStore, AppUser>(
+      bloc: cubit.userStore,
+      builder: (context, state) {
+        return Column(
           children: [
-            SvgPicture.asset(
-              asset,
-              height: 30,
+            LayoutBuilder(
+              builder: (context, constraints) {
+                return constraints.maxWidth > 500
+                    ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children:state.isLoggedIn?_loggedInUserHeadings(context: context):_loggedInUserHeadings(context: context),
+                )
+                    : Column(children:state.isLoggedIn?_loggedInUserHeadings(context: context):_loggedInUserHeadings(context: context));
+              },
             ),
             const SizedBox(
               height: 10,
             ),
-            Text(
-              title,
-              style: context.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: context.themeData.colorScheme.onTertiary,
-              ),
-              textAlign: TextAlign.center,
-            )
+            LayoutBuilder(
+              builder: (context, constraints) {
+                debugPrint(constraints.maxWidth.toString());
+                // Define the item width (you can adjust this value as needed)
+                double itemWidth = 280.0;
+                // Calculate the number of columns based on the screen width
+                int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
+                return crossAxisCount > 1
+                    ? AlignedGridView.count(
+                  crossAxisCount: crossAxisCount,
+                  mainAxisSpacing: 13,
+                  crossAxisSpacing: 13,
+                  shrinkWrap: true,
+                  primary: false,
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  itemCount: 4,
+                  itemBuilder: (context, index) {
+                    return const ServiceCard();
+                  },
+                )
+                    : const ExploreServicesSlider();
+              },
+            ),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
+
+  List<Widget> _loggedInUserHeadings({required BuildContext context}) {
+    return [
+      Text(
+        "Recommended Services for you",
+        style:
+        context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+      ),
+      Text(
+        "View All >",
+        style: context.textTheme.titleMedium?.copyWith(
+            color: context.themeData.colorScheme.tertiary,
+            decoration: TextDecoration.underline,
+            height: 2),
+      ),
+    ];
+  }
+
+  List<Widget> _notLoggedInUserHeadings({required BuildContext context}) {
+    return [
+      Text(
+        "Popular Services",
+        style:
+        context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+      ),
+      Text(
+        "Get Personalized Recommendations >",
+        style: context.textTheme.titleMedium?.copyWith(
+            color: context.themeData.colorScheme.tertiary,
+            decoration: TextDecoration.underline,
+            height: 2),
+      ),
+    ];
+  }
+
 }
