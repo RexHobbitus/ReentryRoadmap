@@ -19,10 +19,10 @@ class AppUser {
     return data;
   }
   AppUser.empty(){
-    id ="s";
+    id =null;
     name = "Dummy username";
     email = "Dummy email";
   }
-  bool get isLoggedIn => id!=null;
+  bool get isLoggedIn => id==null;
 
 }

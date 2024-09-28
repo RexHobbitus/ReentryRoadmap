@@ -54,10 +54,13 @@ class ExploreFooterSection extends StatelessWidget {
             Text("OpenGate Oakland",style: context.textTheme.titleLarge?.copyWith(
               fontWeight: FontWeight.w600
             ),),
-            Text("View OpenGate Oakland >",style: context.textTheme.bodyMedium?.copyWith(
-              decoration: TextDecoration.underline,
-              color: context.colorScheme.primary
-            ),),
+            InkWell(
+              onTap: (){},
+              child: Text("View OpenGate Oakland >",style: context.textTheme.bodyMedium?.copyWith(
+                decoration: TextDecoration.underline,
+                color: context.colorScheme.primary
+              ),),
+            ),
           ],
         )
       ],

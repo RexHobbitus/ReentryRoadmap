@@ -38,7 +38,7 @@ class CustomTextField extends StatelessWidget {
 
   List<TextInputFormatter>? inputFormatters;
   Function? suffixAction;
-
+  InputBorder? inputBorder;
   CustomTextField({Key? key,
     required this.controller,
     this.label="",
@@ -68,6 +68,8 @@ class CustomTextField extends StatelessWidget {
     this.suffixHeight,
     this.suffixColor,
     this.suffixAction,
+    this.inputBorder,
+
     this.suffixPath})
       : super(key: key);
 
@@ -118,20 +120,21 @@ class CustomTextField extends StatelessWidget {
                 hintFadeDuration: const Duration(milliseconds: 500),
                 isDense: true,
                 filled: true,
+                hoverColor: Colors.transparent,
                 contentPadding: const EdgeInsets.symmetric(
                   horizontal: 20,
-                  vertical: 10
+                  vertical: 15
                 ),
                 fillColor: context.themeData.cardColor,
-                suffixIcon: suffixPath!=null?Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                suffixIcon: suffixPath!=null?InkWell(
+                  onTap: (){},
                   child: SvgPicture.asset(suffixPath!),
                 ):null,
                 suffixIconConstraints: const BoxConstraints(
-                  maxHeight: 35,
+                  maxHeight: 30,
                 ),
-                enabledBorder: borderStyle(context),
-                focusedBorder: borderStyle(context, isActive: true),
+                enabledBorder: inputBorder??borderStyle(context),
+                focusedBorder: inputBorder??borderStyle(context, isActive: true),
               ),
             ),
           ),

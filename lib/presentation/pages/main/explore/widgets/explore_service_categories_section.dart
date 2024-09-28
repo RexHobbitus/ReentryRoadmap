@@ -45,34 +45,37 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
       {required BuildContext context,
       required String asset,
       required String title}) {
-    return Container(
-      height: 115,
-      padding: const EdgeInsets.symmetric(horizontal: 5),
-      decoration: BoxDecoration(
-        color: context.themeData.cardColor,
-        border: Border.all(color: context.themeData.colorScheme.tertiary),
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(
-              asset,
-              height: 30,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              title,
-              style: context.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: context.themeData.colorScheme.onTertiary,
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        height: 115,
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        decoration: BoxDecoration(
+          color: context.themeData.cardColor,
+          border: Border.all(color: context.themeData.colorScheme.tertiary),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SvgPicture.asset(
+                asset,
+                height: 30,
               ),
-              textAlign: TextAlign.center,
-            )
-          ],
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                title,
+                style: context.textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: context.themeData.colorScheme.onTertiary,
+                ),
+                textAlign: TextAlign.center,
+              )
+            ],
+          ),
         ),
       ),
     );

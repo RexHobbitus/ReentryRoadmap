@@ -74,12 +74,15 @@ class ExploreServicesSection extends StatelessWidget {
         style:
         context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
-      Text(
-        "View All >",
-        style: context.textTheme.titleMedium?.copyWith(
-            color: context.themeData.colorScheme.tertiary,
-            decoration: TextDecoration.underline,
-            height: 2),
+      InkWell(
+        onTap: (){},
+        child: Text(
+          "View All >",
+          style: context.textTheme.titleMedium?.copyWith(
+              color: context.themeData.colorScheme.tertiary,
+              decoration: TextDecoration.underline,
+              height: 2),
+        ),
       ),
     ];
   }
@@ -91,12 +94,15 @@ class ExploreServicesSection extends StatelessWidget {
         style:
         context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
-      Text(
-        "Get Personalized Recommendations >",
-        style: context.textTheme.titleMedium?.copyWith(
-            color: context.themeData.colorScheme.tertiary,
-            decoration: TextDecoration.underline,
-            height: 2),
+      InkWell(
+        onTap: (){},
+        child: Text(
+          "Get Personalized Recommendations >",
+          style: context.textTheme.titleMedium?.copyWith(
+              color: context.themeData.colorScheme.tertiary,
+              decoration: TextDecoration.underline,
+              height: 2),
+        ),
       ),
     ];
   }

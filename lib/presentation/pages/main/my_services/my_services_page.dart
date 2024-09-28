@@ -33,7 +33,7 @@ class _MyServicesState extends State<MyServicesPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body:  Center(child: Text("My services"),),
+      body:  Center(child: Text("My Services"),),
     );
   }
 }

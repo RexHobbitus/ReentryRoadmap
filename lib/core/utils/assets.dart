@@ -12,6 +12,15 @@ class Assets{
   static const String location ="assets/icons/location.svg";
   static const String leaf ="assets/icons/leaf.svg";
   static const String openGate ="assets/icons/open_gate.svg";
+  static const String notificationBullet ="assets/icons/notification_bullet.svg";
+
+  static const String addBusiness ="assets/icons/add_business.svg";
+  static const String claimYourBusiness ="assets/icons/claim_your_business.svg";
+  static const String login ="assets/icons/login.svg";
+  static const String exploreLandmark ="assets/icons/explore_landmark.svg";
+
+
+
 
 
 

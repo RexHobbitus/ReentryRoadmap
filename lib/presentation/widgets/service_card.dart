@@ -12,68 +12,74 @@ class ServiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(
-        maxWidth: 400,
-      ),
-      padding: const EdgeInsets.all(15),
-      margin: const EdgeInsets.symmetric(vertical: 10),
-      decoration: BoxDecoration(
-        color: context.themeData.cardColor,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _serviceImage(context: context),
-          const SizedBox(
-            height: 24,
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      child: GestureDetector(
+        onTap: (){},
+        child: Container(
+          constraints: const BoxConstraints(
+            maxWidth: 400,
           ),
-          _serviceTitle(context: context, title: "OpenGate Oakland"),
-          const SizedBox(
-            height: 5,
+          padding: const EdgeInsets.all(15),
+          margin: const EdgeInsets.symmetric(vertical: 10),
+          decoration: BoxDecoration(
+            color: context.themeData.cardColor,
+            borderRadius: BorderRadius.circular(10),
           ),
-          _locationWidget(
-              context: context, location: "5506 Martha Ave, Hayward, CA 99922"),
-          const SizedBox(
-            height: 20,
-          ),
-          _serviceCategories(context: context),
-          const SizedBox(
-            height: 20,
-          ),
-          _serviceTitles(context: context),
-          const Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: const Divider(
-              thickness: 1,
-              height: 0,
-            ),
-          ),
-          Container(
-            width: double.maxFinite,
-            padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
-            decoration: BoxDecoration(
-                color: context.themeData.primaryColor,
-                borderRadius: BorderRadius.circular(10)),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "70% Match",
-                  style: context.textTheme.bodyMedium?.copyWith(
-                      color: context.themeData.colorScheme.onPrimary),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              _serviceImage(context: context),
+              const SizedBox(
+                height: 24,
+              ),
+              _serviceTitle(context: context, title: "OpenGate Oakland"),
+              const SizedBox(
+                height: 5,
+              ),
+              _locationWidget(
+                  context: context, location: "5506 Martha Ave, Hayward, CA 99922"),
+              const SizedBox(
+                height: 20,
+              ),
+              _serviceCategories(context: context),
+              const SizedBox(
+                height: 20,
+              ),
+              _serviceTitles(context: context),
+              const Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: const Divider(
+                  thickness: 1,
+                  height: 0,
                 ),
-                Text(
-                  "You might be eligible",
-                  style: context.textTheme.bodySmall?.copyWith(
-                      color: context.themeData.colorScheme.onPrimary
-                          .withOpacity(0.5)),
+              ),
+              Container(
+                width: double.maxFinite,
+                padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
+                decoration: BoxDecoration(
+                    color: context.themeData.primaryColor,
+                    borderRadius: BorderRadius.circular(10)),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "70% Match",
+                      style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.themeData.colorScheme.onPrimary),
+                    ),
+                    Text(
+                      "You might be eligible",
+                      style: context.textTheme.bodySmall?.copyWith(
+                          color: context.themeData.colorScheme.onPrimary
+                              .withOpacity(0.5)),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

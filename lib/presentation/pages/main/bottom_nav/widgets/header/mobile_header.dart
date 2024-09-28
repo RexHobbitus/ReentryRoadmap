@@ -22,14 +22,14 @@ class MobileHeader extends StatelessWidget {
         builder: (context, state) {
           return state.isLoggedIn
               ? IconButton(
-                  onPressed: () {}, icon: SvgPicture.asset(Assets.notification))
+                  onPressed:cubit.notificationAction, icon: SvgPicture.asset(Assets.notification))
               : Row(
                   children: [
                     CustomButton(
                       text: "Log In",
                       onTap: cubit.loginAction,
                       width: 100,
-                      height: 35,
+                      height: 40,
                       isSecondary: true,
                     ),
                     const SizedBox(
@@ -39,7 +39,7 @@ class MobileHeader extends StatelessWidget {
                       text: "Sign Up",
                       onTap: cubit.signupAction,
                       width: 100,
-                      height: 35,
+                      height: 40,
                     ),
                   ],
                 );

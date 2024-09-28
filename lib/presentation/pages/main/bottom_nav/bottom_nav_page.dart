@@ -3,12 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/widgets/header/mobile_header.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/widgets/header/web_header.dart';
 import '../../../widgets/header_logo.dart';
+import '../explore/explore_page.dart';
+import '../more/more_page.dart';
+import '../my_services/my_services_page.dart';
+import '../profile/profile_page.dart';
+import '../review/review_page.dart';
 import 'bottom_nav_cubit.dart';
 import 'bottom_nav_initial_params.dart';
 import 'bottom_nav_state.dart';
@@ -16,13 +22,15 @@ import 'bottom_nav_state.dart';
 class BottomNavPage extends StatefulWidget {
   final BottomNavCubit cubit;
   final BottomNavInitialParams initialParams;
-
+  final Widget child;
   static const path = '/BottomNavPage';
 
   const BottomNavPage({
     Key? key,
     required this.cubit,
     required this.initialParams,
+    required this.child,
+
   }) : super(key: key);
 
   @override
@@ -42,6 +50,9 @@ class _BottomNavState extends State<BottomNavPage> {
         debugPrint("User updated////////");
       });
     });
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      cubit.setActiveIndex(_calculateSelectedIndex(context));
+    });
   }
 
   _statusBarColor() {
@@ -58,7 +69,6 @@ class _BottomNavState extends State<BottomNavPage> {
           return Scaffold(
             appBar: AppBar(
               leadingWidth: double.maxFinite,
-              elevation: 0.5,
               leading: LayoutBuilder(builder: (context, constraints) {
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -75,12 +85,13 @@ class _BottomNavState extends State<BottomNavPage> {
                 );
               }),
             ),
-            body: cubit.pages[state.currentIndex],
+            // body: cubit.pages[state.currentIndex],
+            body: widget.child,
             bottomNavigationBar: LayoutBuilder(builder: (context, constraints) {
               return constraints.maxWidth>kMenuBreakPoint?const SizedBox.shrink():
               BottomNavigationBar(
-                currentIndex: state.currentIndex,
-                onTap: cubit.changeIndex,
+                currentIndex: _calculateSelectedIndex(context),
+                onTap: (int idx) => cubit.onMenuTapped(idx, context),
                 items: [
                   _customBottomNavIcon(
                     label: "Explore",
@@ -120,6 +131,31 @@ class _BottomNavState extends State<BottomNavPage> {
           );
         });
   }
+
+
+  static int _calculateSelectedIndex(BuildContext context) {
+    final String location = GoRouterState.of(context).uri.path;
+    if (location.startsWith(ExplorePage.path)) {
+      return 0;
+    }
+    if (location.startsWith(MyServicesPage.path)) {
+      return 1;
+    }
+    if (location.startsWith(ProfilePage.path)) {
+      return 2;
+    }
+    if (location.startsWith(ReviewPage.path)) {
+      return 3;
+    }
+    if (location.startsWith(MorePage.path)) {
+      return 4;
+    }
+    return 0;
+  }
+
+
+
+
 
   BottomNavigationBarItem _customBottomNavIcon(
       {required String label,
