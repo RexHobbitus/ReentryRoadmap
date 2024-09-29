@@ -60,6 +60,69 @@ class AuthPage extends StatelessWidget {
                   },
                   child: Text('Register'),
                 ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => ForgotPasswordScreen(),
+                    ));
+                  },
+                  child: Text('Forgot Password?'),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class ForgotPasswordScreen extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Forgot Password')),
+      body: BlocConsumer<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthError) {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text(state.message)));
+          } else if (state is AuthInitial) {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Password reset email sent!')));
+            Navigator.of(context).pop();
+          }
+        },
+        builder: (context, state) {
+          if (state is AuthLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(labelText: 'Email'),
+                  keyboardType: TextInputType.emailAddress,
+                ),
+                SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    final email = emailController.text.trim();
+                    if (email.isNotEmpty) {
+                      context.read<AuthCubit>().forgotPass(email);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text('Please enter your email')));
+                    }
+                  },
+                  child: Text('Send Password Reset Email'),
+                ),
               ],
             ),
           );

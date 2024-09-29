@@ -7,14 +7,12 @@ import 'package:reentry_roadmap/presentation/auth_bloc.dart';
 final sl = GetIt.instance;
 
 void init() {
-  // Bloc
+ 
   sl.registerFactory(() => AuthCubit(sl()));
 
-  // Repository
   sl.registerLazySingleton<AuthRepository>(
       () => AuthRepositoryImpl(sl()));
 
-  // Data source
   sl.registerLazySingleton<FirebaseAuthDataSource>(
       () => FirebaseAuthDataSource());
 }

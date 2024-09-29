@@ -6,8 +6,8 @@ class FirebaseAuthDataSource {
 
   Future<UserEntity?> login(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+          email: email, password: password);
       return _userFromFirebase(userCredential.user);
     } catch (e) {
       return null;
@@ -16,11 +16,22 @@ class FirebaseAuthDataSource {
 
   Future<UserEntity?> register(String email, String password) async {
     try {
-      UserCredential userCredential =
-          await _auth.createUserWithEmailAndPassword(email: email, password: password);
+      UserCredential userCredential = await _auth
+          .createUserWithEmailAndPassword(email: email, password: password);
       return _userFromFirebase(userCredential.user);
     } catch (e) {
       return null;
+    }
+  }
+
+  Future<void> forgotPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        throw Exception('No user found for that email.');
+      }
+      throw Exception('Failed to send password reset email: ${e.message}');
     }
   }
 

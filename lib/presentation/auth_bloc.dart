@@ -70,6 +70,18 @@ class AuthCubit extends Cubit<AuthState> {
     emit(AuthInitial());
   }
 
+  Future<void> forgotPass(String email) async {
+    try {
+      emit(AuthLoading());
+      await _authRepository.forgotPassword(email);
+      emit(
+          AuthInitial()); // You can also create a state like AuthEmailSent if needed
+    } catch (e) {
+      emit(AuthError(e
+          .toString())); // This will now get the detailed message from the repository
+    }
+  }
+
   Future<void> checkCurrentUser() async {
     final user = await _authRepository.getCurrentUser();
     if (user != null) {

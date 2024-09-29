@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:reentry_roadmap/data/repositories/auth_repo.dart';
 import 'package:reentry_roadmap/domain/repositories/user_repository.dart';
+import 'package:reentry_roadmap/presentation/pages/login_signup.dart';
 
 import '../../domain/entities/user_entity.dart';
 
@@ -22,6 +25,11 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<void> logout() {
     return _firebaseAuthDataSource.logout();
+  }
+  
+  @override
+  Future<void> forgotPassword(String email) async {
+    return await _firebaseAuthDataSource.forgotPassword(email);
   }
 
   @override
