@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/banner/explore_banner_section.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/explore_services_section.dart';
+import '../../../widgets/custom_scroll_view.dart';
 import '../../../widgets/header_logo.dart';
 import 'explore_cubit.dart';
 import 'explore_initial_params.dart';
@@ -37,7 +38,7 @@ class _ExploreState extends State<ExplorePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body: CustomSingleChildScrollView(
         child: Padding(
           padding:
               const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),

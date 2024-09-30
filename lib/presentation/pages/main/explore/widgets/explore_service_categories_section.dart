@@ -3,6 +3,7 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path/path.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 
 class ExploreServiceCategoriesSection extends StatelessWidget {
@@ -17,7 +18,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       // Define the item width (you can adjust this value as needed)
-      double itemWidth = 100.0;
+      double itemWidth = constraints.maxWidth>kMenuBreakPoint?130:100.0;
 
       // Calculate the number of columns based on the screen width
       int crossAxisCount = (constraints.maxWidth / itemWidth).floor();

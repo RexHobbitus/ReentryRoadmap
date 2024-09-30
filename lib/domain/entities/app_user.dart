@@ -23,6 +23,6 @@ class AppUser {
     name = "Dummy username";
     email = "Dummy email";
   }
-  bool get isLoggedIn => id==null;
+  bool get isLoggedIn => id!=null;
 
 }
