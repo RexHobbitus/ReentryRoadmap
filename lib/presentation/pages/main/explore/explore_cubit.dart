@@ -13,6 +13,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   ExploreNavigator navigator;
   UserStore userStore;
   AppSnackBar snackBar;
+
   ExploreCubit({
     required this.navigator,
     required this.userStore,
