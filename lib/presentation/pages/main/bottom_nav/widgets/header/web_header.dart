@@ -13,6 +13,7 @@ import '../../../../../../core/utils/constants.dart';
 import '../../../../../../domain/entities/app_user.dart';
 import '../../../../../../domain/stores/user_store.dart';
 import '../../../../../../service_locator/service_locator.dart';
+import '../../../../../widgets/header_auth_buttons.dart';
 import 'web_notification_popup.dart';
 
 class WebHeader extends StatelessWidget {
@@ -77,25 +78,10 @@ class WebHeader extends StatelessWidget {
                             ),
                           ],
                         )
-                      : Row(
-                          children: [
-                            CustomButton(
-                              text: "Log In",
-                              onTap: cubit.loginAction,
-                              width: 100,
-                              height: 45,
-                              isSecondary: true,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            CustomButton(
-                              text: "Sign Up",
-                              onTap: cubit.signupAction,
-                              width: 100,
-                              height: 45,
-                            ),
-                          ],
+                      : HeaderAuthButtons(
+                          loginAction: cubit.loginAction,
+                          signUpAction: cubit.signUpAction,
+                          isMobileView: false,
                         )
                 ],
               );
@@ -131,7 +117,7 @@ class WebHeader extends StatelessWidget {
     return CustomPopupMenu(
       menuBuilder: () => const WebNotificationPopup(),
       pressType: PressType.singleClick,
-      verticalMargin:5,
+      verticalMargin: 5,
       controller: _notificationPopUpController,
       child: SvgPicture.asset(Assets.notification),
     );
@@ -141,13 +127,15 @@ class WebHeader extends StatelessWidget {
     return CustomPopupMenu(
       menuBuilder: () => const WebForProviderMenu(),
       pressType: PressType.singleClick,
-      verticalMargin:5,
+      verticalMargin: 5,
       controller: _providerDropdownController,
       child: IgnorePointer(
           child: TextButton.icon(
-              onPressed: (){},
-              icon:  Icon(Icons.keyboard_arrow_down,size: 15,
-              color: context.colorScheme.onSurface,
+              onPressed: () {},
+              icon: Icon(
+                Icons.keyboard_arrow_down,
+                size: 15,
+                color: context.colorScheme.onSurface,
               ),
               iconAlignment: IconAlignment.end,
               label: Text(

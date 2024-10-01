@@ -83,6 +83,10 @@ dependencies:
   carousel_slider: ^5.0.0
 
   custom_pop_up_menu: ^1.2.4
+  step_progress_indicator: ^1.0.2
+  vph_web_date_picker: ^0.0.9
+  country_picker: ^2.0.26
+
 
 
 

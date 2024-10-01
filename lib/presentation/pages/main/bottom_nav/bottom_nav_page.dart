@@ -70,6 +70,7 @@ class _BottomNavState extends State<BottomNavPage> {
             appBar: AppBar(
               leadingWidth: double.maxFinite,
               leading: LayoutBuilder(builder: (context, constraints) {
+                debugPrint("Leading layout ${constraints.maxWidth.toString()}");
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -8,6 +9,7 @@ import 'package:reentry_roadmap/presentation/pages/main/notification/notificatio
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
 import 'package:url_strategy/url_strategy.dart';
+import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
@@ -21,9 +23,8 @@ import '../../presentation/widgets/scaffold_with_nav_bar.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 
-
 final GlobalKey<NavigatorState> _shellNavigatorKey =
-GlobalKey<NavigatorState>(debugLabel: 'shell');
+    GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
   static initialize() {
@@ -31,11 +32,9 @@ class AppRouter {
     GoRouter.optionURLReflectsImperativeAPIs = true;
   }
 
-
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: ExplorePage.path,
-
     routes: [
       GoRoute(
         path: SplashPage.path,
@@ -46,18 +45,10 @@ class AppRouter {
           );
         },
       ),
-      // GoRoute(
-      //   path: BottomNavPage.path,
-      //   builder: (context, state) {
-      //     return BottomNavPage(
-      //       cubit: getIt(),
-      //       initialParams: const BottomNavInitialParams(),
-      //     );
-      //   },
-      // ),
-      //
+
+      /// BOTTOM NAV BAR AND THEIR INNER SCREENS
       ShellRoute(
-          navigatorKey:_shellNavigatorKey,
+          navigatorKey: _shellNavigatorKey,
           builder: (BuildContext context, GoRouterState state, Widget child) {
             return BottomNavPage(
               cubit: getIt(),
@@ -68,7 +59,6 @@ class AppRouter {
           routes: [
             GoRoute(
               path: ExplorePage.path,
-
               builder: (context, state) {
                 return ExplorePage(
                   cubit: getIt(),
@@ -114,6 +104,9 @@ class AppRouter {
             ),
           ]),
 
+      /// BOTTOM NAV BAR ENDS HERE
+      ///
+
       GoRoute(
         path: NotificationPage.path,
         builder: (context, state) {
@@ -123,7 +116,15 @@ class AppRouter {
           );
         },
       ),
-
+      GoRoute(
+        path: OnboardingPage.path,
+        builder: (context, state) {
+          return OnboardingPage(
+            cubit: getIt(),
+            initialParams: const OnboardingInitialParams(),
+          );
+        },
+      ),
     ],
   );
 }

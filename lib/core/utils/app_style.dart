@@ -9,4 +9,10 @@ class AppStyle{
         fontWeight: FontWeight.w600,
         color: isSelected ? context.colorScheme.primary : null);
   }
+
+  static TextStyle? onboardingTitle(BuildContext context){
+    return context.textTheme.titleMedium?.copyWith(
+        fontWeight: FontWeight.w600,
+    );
+  }
 }

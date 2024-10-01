@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -51,9 +52,6 @@ class BottomNavCubit extends Cubit<BottomNavState> {
     snackBar.show("Logged in successfully.",snackBarType: SnackBarType.SUCCESS);
   }
 
-  signupAction(){
-    snackBar.show("Stay tuned....",snackBarType: SnackBarType.SUCCESS);
-  }
 
   void setActiveIndex(int index){
     emit(state.copyWith(currentIndex: index));
@@ -79,4 +77,7 @@ class BottomNavCubit extends Cubit<BottomNavState> {
     navigator.openNotification(const NotificationInitialParams());
   }
 
+  signUpAction(){
+    navigator.openOnboarding(const OnboardingInitialParams());
+  }
 }

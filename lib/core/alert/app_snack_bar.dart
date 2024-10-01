@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+
 import '../navigation/app_navigator.dart';
 
 enum SnackBarType { ERROR, SUCCESS, INFO }

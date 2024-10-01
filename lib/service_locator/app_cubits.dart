@@ -1,3 +1,5 @@
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
@@ -64,13 +66,17 @@ class AppCubits {
       snackBar: getIt(),
     ));
 
-    getIt.registerSingleton<NotificationNavigator>(NotificationNavigator(getIt()));
+    getIt.registerSingleton<NotificationNavigator>(
+        NotificationNavigator(getIt()));
     getIt.registerSingleton<NotificationCubit>(NotificationCubit(
       navigator: getIt(),
       userStore: getIt(),
       snackBar: getIt(),
     ));
 
-
+    getIt.registerSingleton<OnboardingNavigator>(OnboardingNavigator(getIt()));
+    getIt.registerSingleton<OnboardingCubit>(OnboardingCubit(
+      navigator: getIt(),
+    ));
   }
 }

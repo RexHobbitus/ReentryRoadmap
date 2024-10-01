@@ -7,6 +7,7 @@ import '../../../../../../core/utils/constants.dart';
 import '../../../../../../domain/entities/app_user.dart';
 import '../../../../../../domain/stores/user_store.dart';
 import '../../../../../widgets/custom_button.dart';
+import '../../../../../widgets/header_auth_buttons.dart';
 
 class MobileHeader extends StatelessWidget {
   final BottomNavCubit cubit;
@@ -22,26 +23,12 @@ class MobileHeader extends StatelessWidget {
         builder: (context, state) {
           return state.isLoggedIn
               ? IconButton(
-                  onPressed:cubit.notificationAction, icon: SvgPicture.asset(Assets.notification))
-              : Row(
-                  children: [
-                    CustomButton(
-                      text: "Log In",
-                      onTap: cubit.loginAction,
-                      width: 100,
-                      height: 40,
-                      isSecondary: true,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    CustomButton(
-                      text: "Sign Up",
-                      onTap: cubit.signupAction,
-                      width: 100,
-                      height: 40,
-                    ),
-                  ],
+                  onPressed: cubit.notificationAction,
+                  icon: SvgPicture.asset(Assets.notification))
+              : HeaderAuthButtons(
+                  loginAction: cubit.loginAction,
+                  signUpAction: cubit.signUpAction,
+                  isMobileView: true,
                 );
         },
       ),
