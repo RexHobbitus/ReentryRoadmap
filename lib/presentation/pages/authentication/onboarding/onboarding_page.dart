@@ -69,9 +69,11 @@ class _OnboardingState extends State<OnboardingPage> {
       body: BlocBuilder<OnboardingCubit, OnboardingState>(
         bloc: cubit,
         builder: (context, state) {
-          return Padding(
-            padding: const EdgeInsets.all(kScreenHorizontalPadding),
-            child: cubit.onBoardingSteps[state.onboardingSectionIndex],
+          return SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.all(kScreenHorizontalPadding),
+              child: cubit.onBoardingSteps[state.onboardingSectionIndex],
+            ),
           );
         },
       ),

@@ -87,6 +87,8 @@ dependencies:
   vph_web_date_picker: ^0.0.9
   country_picker: ^2.0.26
 
+  animated_custom_dropdown: ^3.1.1
+
 
 
 

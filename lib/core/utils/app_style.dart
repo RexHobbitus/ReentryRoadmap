@@ -15,4 +15,11 @@ class AppStyle{
         fontWeight: FontWeight.w600,
     );
   }
+  static TextStyle? onboardingSubTitle(BuildContext context){
+    return context.textTheme.bodySmall?.copyWith(
+        fontWeight: FontWeight.w600,
+      color: context.colorScheme.tertiary,
+    );
+  }
+
 }

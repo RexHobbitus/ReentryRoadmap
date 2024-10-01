@@ -9,6 +9,16 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/ste
 import 'onboarding_initial_params.dart';
 import 'onboarding_state.dart';
 import 'onboarding_navigator.dart';
+import 'steps/incarceration_details/incarceration_details_first_incarcerated_date.dart';
+import 'steps/incarceration_details/incarceration_details_id_number.dart';
+import 'steps/incarceration_details/incarceration_details_incarcerated_time.dart';
+import 'steps/incarceration_details/incarceration_details_incarceration_history.dart';
+import 'steps/incarceration_details/incarceration_details_incarceration_length.dart';
+import 'steps/incarceration_details/incarceration_details_intro.dart';
+import 'steps/incarceration_details/incarceration_details_latest_release_date.dart';
+import 'steps/incarceration_details/incarceration_details_offences_section.dart';
+import 'steps/incarceration_details/incarceration_details_programs_section.dart';
+import 'steps/incarceration_details/incarceration_details_recent_serve.dart';
 import 'steps/personal_details/personal_details_ethnicity_section.dart';
 import 'steps/personal_details/personal_details_gender_section.dart';
 
@@ -21,7 +31,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
 
   onInit(OnboardingInitialParams initialParams) {}
 
-  /// Personal details section
+  /// Personal Details section
   ///
   ///
   final txtFullName = TextEditingController();
@@ -34,7 +44,27 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   TextEditingController txtLocationState = TextEditingController();
   final txtPhoneNumber = TextEditingController();
 
+  /// Incarceration Details Section
+  ///
+  ///
+
+  final txtIdType = TextEditingController();
+  final txtIdNumber = TextEditingController();
+  final txtOtherIdType = TextEditingController();
+  String selectedIncarceratedBefore = "";
+  String selectedIncarceratedHistory = "";
+  List<String> selectedTypeOfOffences = [];
+  String selectedLongestIncarcerationLength = "";
+  String selectedLatestIncarcerationLength = "";
+  final txtFirstIncarceratedDate = TextEditingController();
+  final txtLatestReleaseDate = TextEditingController();
+  String selectedServeMost ="";
+  List<String> selectedPrograms = [];
+
+
+
   List<Widget> get onBoardingSteps => [
+        /// 1st part
         PersonalDetailsIntro(),
         PersonalDetailsNameSection(),
         PersonalDetailsDobSection(),
@@ -43,6 +73,18 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         PersonalDetailsVeteranSection(),
         PersonalDetailsLocationSection(),
         PersonalDetailsPhoneSection(),
+
+        /// 2nd part
+        IncarcerationDetailsIntro(),
+        IncarcerationDetailsIdNumber(),
+        IncarcerationDetailsIncarceratedTime(),
+        IncarcerationDetailsIncarcerationHistory(),
+        IncarcerationDetailsOffencesSection(),
+        IncarcerationDetailsIncarcerationLength(),
+        IncarcerationDetailsFirstIncarceratedDate(),
+        IncarcerationDetailsLatestReleaseDate(),
+        IncarcerationDetailsRecentServe(),
+        IncarcerationDetailsProgramsSection(),
       ];
 
   disposeControllers() {
