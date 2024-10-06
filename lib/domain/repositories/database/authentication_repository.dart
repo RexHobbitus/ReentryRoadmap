@@ -1,9 +1,9 @@
-import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/user_entity.dart';
 
-abstract class AuthenticationRepository{
-  Future<AppUser> loginWithEmailAndPassword({required String email,required String password});
-  Future<AppUser> createAccount({required String email,required String password});
-  Future<bool> forgetPassword({required String email});
-  Future<bool> logout({required String email});
-
+abstract class AuthRepository {
+  Future<UserEntity?> login(String email, String password);
+  Future<UserEntity?> register(String email, String password);
+  Future<void> logout();
+  Future<void> forgotPassword(String email);
+  Future<UserEntity?> getCurrentUser();
 }

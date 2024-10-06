@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:reentry_roadmap/data/repositories/auth_repo.dart';
-import 'package:reentry_roadmap/domain/repositories/user_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/user_repository.dart';
 import 'package:reentry_roadmap/presentation/pages/login_signup.dart';
 
 import '../../domain/entities/user_entity.dart';

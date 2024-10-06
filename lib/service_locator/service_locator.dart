@@ -22,7 +22,6 @@ class ServiceLocator {
     getIt.registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository()).initialize();
     /// http request repository
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));
-    getIt.registerSingleton<AuthenticationRepository>(FirebaseAuthRepository());
     getIt.registerSingleton<RemoteDatabaseRepository>(FirebaseDatabaseRepository());
 
 

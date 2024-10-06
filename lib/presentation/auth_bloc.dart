@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reentry_roadmap/domain/repositories/user_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/user_repository.dart';
 import '../../domain/entities/user_entity.dart';
 
 abstract class AuthState extends Equatable {
