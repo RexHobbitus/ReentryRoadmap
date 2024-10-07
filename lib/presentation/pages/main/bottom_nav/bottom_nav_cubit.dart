@@ -36,15 +36,6 @@ class BottomNavCubit extends Cubit<BottomNavState> {
 
   onInit(BottomNavInitialParams initialParams) {}
 
-  var pages = [
-    ExplorePage(cubit: getIt(), initialParams: const ExploreInitialParams()),
-    MyServicesPage(
-        cubit: getIt(), initialParams: const MyServicesInitialParams()),
-    ProfilePage(cubit: getIt(), initialParams: const ProfileInitialParams()),
-    ReviewPage(cubit: getIt(), initialParams: const ReviewInitialParams()),
-    MorePage(cubit: getIt(), initialParams: const MoreInitialParams()),
-  ];
-
   loginAction() async {
     snackBar.show("Please wait....",snackBarType: SnackBarType.INFO);
     await Future.delayed(const Duration(seconds: 2));

@@ -22,6 +22,7 @@ class _IncarcerationDetailsIdNumberState
   void initState() {
     // TODO: implement initState
     super.initState();
+    _selectedIdType=cubit.txtIdType.text;
   }
   @override
   Widget build(BuildContext context) {
@@ -36,6 +37,7 @@ class _IncarcerationDetailsIdNumberState
           height: 20,
         ),
         CustomDropDown<String>(
+          selectedItem:_selectedIdType.isEmpty?null:_selectedIdType,
           items: const [
             "Federal Prison ID",
             "CDCR Number",

@@ -18,6 +18,8 @@ class Assets{
   static const String claimYourBusiness ="assets/icons/claim_your_business.svg";
   static const String login ="assets/icons/login.svg";
   static const String exploreLandmark ="assets/icons/explore_landmark.svg";
+  static const String delete ="assets/icons/delete.svg";
+
 
 
 
@@ -42,5 +44,13 @@ class Assets{
   static const String mentalHealth ="assets/icons/services/mental_health.svg";
   static const String firstSteps ="assets/icons/services/first_steps.svg";
   static const String personalizedServices ="assets/icons/services/personalized_services.svg";
+
+
+  /// Service Providers
+///
+  static const String serviceProviderOpenDoor ="assets/icons/service_providers/opendoor.png";
+  static const String serviceProviderOpenGate ="assets/icons/service_providers/opengate.png";
+  static const String serviceProviderOpenHeart ="assets/icons/service_providers/openheart.png";
+  static const String serviceProviderOpenSky ="assets/icons/service_providers/opensky.png";
 
 }

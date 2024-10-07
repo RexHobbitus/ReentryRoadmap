@@ -25,7 +25,7 @@ class CustomTextField extends StatelessWidget {
   bool? genderPicker;
   double? bottomPadding;
   String? initialValue;
-  bool? isDetail;
+  bool isDetail;
   double? height;
   bool autoFocus;
   TextFieldMode textFieldMode;
@@ -39,53 +39,57 @@ class CustomTextField extends StatelessWidget {
   List<TextInputFormatter>? inputFormatters;
   Function? suffixAction;
   InputBorder? inputBorder;
+  FocusNode? focusNode;
 
-  CustomTextField(
-      {Key? key,
-      required this.controller,
-      this.hint,
-      this.onChange,
-      this.onSubmit,
-      this.onTap,
-      this.height,
-      this.label,
-      this.width,
-      this.initialValue,
-      this.prefixPath,
-      this.readOnly,
-      this.bottomPadding,
-      this.dealAsDate,
-      this.dealAsTime,
-      this.inputFormatters,
-      this.showCurrentCharacters = false,
-      this.textFieldMode = TextFieldMode.normal,
-      this.autoFocus = false,
-      this.whenTypingEnds = false,
-      this.disable,
-      this.isDetail,
-      this.keyboard,
-      this.countryPicker,
-      this.genderPicker,
-      this.hide,
-      this.prefixHeight,
-      this.suffixHeight,
-      this.suffixColor,
-      this.suffixAction,
-      this.inputBorder,
-      this.suffixPath})
-      : super(key: key);
+  CustomTextField({
+    Key? key,
+    required this.controller,
+    this.hint,
+    this.onChange,
+    this.onSubmit,
+    this.onTap,
+    this.height,
+    this.label,
+    this.width,
+    this.initialValue,
+    this.prefixPath,
+    this.readOnly,
+    this.bottomPadding,
+    this.dealAsDate,
+    this.dealAsTime,
+    this.inputFormatters,
+    this.showCurrentCharacters = false,
+    this.textFieldMode = TextFieldMode.normal,
+    this.autoFocus = false,
+    this.whenTypingEnds = false,
+    this.disable,
+    this.isDetail = false,
+    this.keyboard,
+    this.countryPicker,
+    this.genderPicker,
+    this.hide,
+    this.prefixHeight,
+    this.suffixHeight,
+    this.suffixColor,
+    this.suffixAction,
+    this.inputBorder,
+    this.focusNode,
+    this.suffixPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: width ?? double.maxFinite,
+      height: isDetail ? 150 : null,
       margin: EdgeInsets.only(bottom: bottomPadding ?? 16),
       child: TextFormField(
         controller: controller,
         initialValue: initialValue,
         textAlignVertical: TextAlignVertical.top,
-        expands: isDetail != null ? true : false,
+        expands: isDetail,
         onChanged: onChange,
+        focusNode: focusNode,
         onFieldSubmitted: onSubmit,
         autofocus: autoFocus,
         inputFormatters: inputFormatters,
@@ -102,6 +106,9 @@ class CustomTextField extends StatelessWidget {
             false,
         obscureText: hide ?? false,
         cursorColor: context.themeData.primaryColor,
+        onTapOutside: (event) {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
         decoration: InputDecoration(
           labelText: label,
           hintStyle: context.textTheme.bodyMedium

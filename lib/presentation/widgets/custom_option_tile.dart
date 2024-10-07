@@ -5,12 +5,15 @@ import 'package:reentry_roadmap/core/utils/constants.dart';
 class CustomOptionTile extends StatelessWidget {
   final bool isSelected;
   final String title;
+  final String subTitle;
+
   final VoidCallback? onTap;
 
   const CustomOptionTile({
     super.key,
     this.isSelected = false,
     required this.title,
+    this.subTitle="",
     this.onTap,
   });
 
@@ -30,14 +33,29 @@ class CustomOptionTile extends StatelessWidget {
                   : context.colorScheme.tertiary.withOpacity(0.15),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Text(
-              title,
-              style: context.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
-                color: isSelected
-                    ? context.colorScheme.onSecondary
-                    : context.colorScheme.onTertiaryContainer,
-              ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: context.textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: isSelected
+                        ? context.colorScheme.onSecondary
+                        : context.colorScheme.onTertiaryContainer,
+                  ),
+                ),
+                subTitle.isEmpty?const SizedBox.shrink():
+                Text(
+                  subTitle,
+                  style: context.textTheme.bodySmall?.copyWith(
+                    color: isSelected
+                        ? context.colorScheme.onPrimary
+                        : context.colorScheme.tertiary,
+                  ),
+                ),
+              ],
             ),
           );
         }

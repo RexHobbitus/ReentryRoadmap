@@ -88,6 +88,7 @@ dependencies:
   country_picker: ^2.0.26
 
   animated_custom_dropdown: ^3.1.1
+  flutter_typeahead: ^5.2.0
 
 
 
@@ -122,6 +123,7 @@ flutter:
   assets:
     - assets/icons/
     - assets/icons/services/
+    - assets/icons/service_providers/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

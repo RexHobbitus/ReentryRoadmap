@@ -35,6 +35,7 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: ExplorePage.path,
+
     routes: [
       GoRoute(
         path: SplashPage.path,

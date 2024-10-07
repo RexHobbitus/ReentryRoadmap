@@ -9,8 +9,6 @@ import '../../onboarding_cubit.dart';
 class PersonalDetailsLocationSection extends StatelessWidget {
    PersonalDetailsLocationSection({super.key});
 
-  final txtState=TextEditingController();
-
    OnboardingCubit get cubit => getIt();
 
   @override
@@ -23,7 +21,7 @@ class PersonalDetailsLocationSection extends StatelessWidget {
           style: AppStyle.onboardingTitle(context),
         ),
         const SizedBox(
-          height: 30,
+          height: 20,
         ),
         CustomTextField(
           controller: cubit.txtLocationStreet,

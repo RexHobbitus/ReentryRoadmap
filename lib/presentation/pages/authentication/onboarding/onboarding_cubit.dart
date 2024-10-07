@@ -9,6 +9,20 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/ste
 import 'onboarding_initial_params.dart';
 import 'onboarding_state.dart';
 import 'onboarding_navigator.dart';
+import 'steps/current_needs/current_needs_career_change.dart';
+import 'steps/current_needs/current_needs_current_career.dart';
+import 'steps/current_needs/current_needs_education_level.dart';
+import 'steps/current_needs/current_needs_employment_status.dart';
+import 'steps/current_needs/current_needs_expected_salary.dart';
+import 'steps/current_needs/current_needs_future_career.dart';
+import 'steps/current_needs/current_needs_housing_status.dart';
+import 'steps/current_needs/current_needs_intro.dart';
+import 'steps/current_needs/current_needs_other_resource.dart';
+import 'steps/current_needs/current_needs_salary_level.dart';
+import 'steps/current_needs/current_needs_service_provider_type.dart';
+import 'steps/current_needs/current_needs_skills_to_improve.dart';
+import 'steps/current_needs/current_needs_top_priorities.dart';
+import 'steps/current_needs/current_needs_trade_certifications.dart';
 import 'steps/incarceration_details/incarceration_details_first_incarcerated_date.dart';
 import 'steps/incarceration_details/incarceration_details_id_number.dart';
 import 'steps/incarceration_details/incarceration_details_incarcerated_time.dart';
@@ -21,6 +35,9 @@ import 'steps/incarceration_details/incarceration_details_programs_section.dart'
 import 'steps/incarceration_details/incarceration_details_recent_serve.dart';
 import 'steps/personal_details/personal_details_ethnicity_section.dart';
 import 'steps/personal_details/personal_details_gender_section.dart';
+import 'steps/service_providers/service_providers_access_dates.dart';
+import 'steps/service_providers/service_providers_accessed_so_far.dart';
+import 'steps/service_providers/service_providers_intro.dart';
 
 class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingNavigator navigator;
@@ -58,10 +75,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   String selectedLatestIncarcerationLength = "";
   final txtFirstIncarceratedDate = TextEditingController();
   final txtLatestReleaseDate = TextEditingController();
-  String selectedServeMost ="";
+  String selectedServeMost = "";
   List<String> selectedPrograms = [];
-
-
 
   List<Widget> get onBoardingSteps => [
         /// 1st part
@@ -85,6 +100,27 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         IncarcerationDetailsLatestReleaseDate(),
         IncarcerationDetailsRecentServe(),
         IncarcerationDetailsProgramsSection(),
+
+        /// 3rd part
+        CurrentNeedsIntro(),
+        CurrentNeedsTopPriorities(),
+        CurrentNeedsServiceProviderType(),
+        CurrentNeedsHousingStatus(),
+        CurrentNeedsEducationLevel(),
+        CurrentNeedsTradeCertifications(),
+        CurrentNeedsSkillsToImprove(),
+        CurrentNeedsEmploymentStatus(),
+        CurrentNeedsCurrentCareer(),
+        CurrentNeedsSalaryLevel(),
+        CurrentNeedsCareerChange(),
+        CurrentNeedsFutureCareer(),
+        CurrentNeedsExpectedSalary(),
+        CurrentNeedsOtherResource(),
+
+        /// 4th part
+        ServiceProvidersIntro(),
+        ServiceProvidersAccessedSoFar(),
+        ServiceProvidersAccessDates(),
       ];
 
   disposeControllers() {

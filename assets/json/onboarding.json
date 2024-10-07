@@ -1,0 +1,89 @@
+{
+  "userId": "XYZ12344",
+  "createAt": "01 Oct 2024 9:52 PM",
+  "updatedAt": "23 Oct 2024 9:52 PM",
+  "onboardingInfo": [
+    {
+      "sectionName": "Personal Details",
+      "sectionIndex": 0,
+      "personalAnswers": {
+        "fullName": "JohnDoe",
+        "dateOfBirth": "28 September 1998",
+        "ethnicity": "Hispanic or Latino",
+        "gender": "Male",
+        "veteranStatus": "Not Veteran"
+      }
+    },
+    {
+      "sectionName": "Incarceration Details",
+      "sectionIndex": 1,
+      "incarcerationAnswers": {
+        "idNumber": "Federal Prison ID-ABC123",
+        "numberOfTimesIncarcerated": "1-3",
+        "incarceratedHistory": "In and Out my entire life",
+        "latestOffenceType": "Violent",
+        "lengthOfLongestIncarceration": "0-3",
+        "lengthOfLatestIncarceration": "0-3",
+        "firstIncarcerationDate": "June 13 2004",
+        "latestReleaseDate": "June 13 2024",
+        "mostRecentTermServerIn": "Country Jail",
+        "programAttendedWhileIncarcerated": [
+          "Alternatives to Violence Project (AVP)",
+          "Arts in Corrections",
+          "BRAG (Brothers Reaching Across the Gate)"
+        ]
+      }
+    },
+    {
+      "sectionName": "Current Needs",
+      "sectionIndex": 2,
+      "currentNeedsAnswers": {
+        "currentTopPriorities": [
+          "Education",
+          "Employment",
+          "Housing"
+        ],
+        "preferredServiceProviderSize": "Small (0-50)",
+        "currentHousingStatus": "Housing Insecure",
+        "highestLevelOfEducation": "Working to GED",
+        "tradeCertifications": [
+          "OSHA",
+          "Forklift Operator",
+          "CDL"
+        ],
+        "skillsToImproveOn": [
+          "Digital Skills",
+          "Financial Skills"
+        ],
+        "currentEmploymentStatus": "Yes, employed full-time",
+        "currentCareerStatus": "Service",
+        "currentSalaryStatus": "$25,000 - $50,000",
+        "aspiringCareerTrack": [
+          "Administrative/Office Support",
+          "Labor/ Manufacturing",
+          "Housing"
+        ],
+        "aspiringSalaryLevel": "$25,000 - $50,000",
+        "otherResourceWanted": "In publishing and graphic design"
+      }
+    },
+    {
+      "sectionName": "Service Provider Accessed",
+      "sectionIndex": 3,
+      "currentNeedsAnswers": {
+        "providers": [
+          {
+            "providerName": "OpenGate Foundation",
+            "providerLogo": "https:www.google.com",
+            "accessedDate": "June 13 2024"
+          },
+          {
+            "providerName": "OpenHeart Foundation",
+            "providerLogo": "https:www.facebook.com",
+            "accessedDate": "June 13 2024"
+          }
+        ]
+      }
+    }
+  ]
+}
