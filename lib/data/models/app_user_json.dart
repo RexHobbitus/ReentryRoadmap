@@ -34,10 +34,6 @@ class AppUserJson {
   }
 
   AppUser toDomain() {
-    return AppUser(
-      id: id??"",
-      name: name??"N/A",
-      email: email??"N/A",
-    );
+   return AppUser();
   }
 }

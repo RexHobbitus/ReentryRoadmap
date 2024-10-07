@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:reentry_roadmap/domain/repositories/database/onboarding_repository.dart';
 
+import '../../../domain/entities/onboarding_info.dart';
+
 class AssessmentRepositoryImpl implements OnboardingRepository {
   final FirebaseFirestore firestore;
   final FirebaseAuth auth;
@@ -10,7 +12,7 @@ class AssessmentRepositoryImpl implements OnboardingRepository {
 
   @override
   Future<void> submitAssessment(
-      Map<String, Map<String, dynamic>> answers) async {
+      OnboardingInfo onboardingInfo) async {
     try {
       final user = auth.currentUser;
       if (user == null) throw Exception('User not logged in');
@@ -19,7 +21,7 @@ class AssessmentRepositoryImpl implements OnboardingRepository {
       await docRef.set({
         'email': user.email,
         'createdAt': FieldValue.serverTimestamp(),
-        ...answers,
+        "onboardingInfo":onboardingInfo.toJson(),
       });
     } catch (e) {
       throw Exception('Failed to save answers: $e');

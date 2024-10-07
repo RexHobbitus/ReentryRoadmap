@@ -1,21 +1,39 @@
-class AppUser {
-  String? id;
-  String? name;
-  String? email;
+import 'onboarding_info.dart';
 
-  AppUser({this.id, this.name, this.email});
+class AppUser {
+  String? userId;
+  String? email;
+  String? createdAt;
+  String? updatedAt;
+  OnboardingInfo? onboardingInfo;
+
+  AppUser({this.userId, this.createdAt, this.updatedAt, this.onboardingInfo,this.email});
 
   AppUser.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
+    userId = json['userId'];
     email = json['email'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    onboardingInfo = json['onboardingInfo'] != null
+        ? new OnboardingInfo.fromJson(json['onboardingInfo'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['userId'] = this.userId;
     data['email'] = this.email;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.onboardingInfo != null) {
+      data['onboardingInfo'] = this.onboardingInfo!.toJson();
+    }
     return data;
   }
 }
+
+
+
+
+
+
