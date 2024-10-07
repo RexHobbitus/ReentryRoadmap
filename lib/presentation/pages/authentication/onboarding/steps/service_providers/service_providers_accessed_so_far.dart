@@ -9,6 +9,8 @@ import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 class ServiceProvidersAccessedSoFar extends StatefulWidget {
   ServiceProvidersAccessedSoFar({super.key});
 
@@ -28,12 +30,8 @@ class _ServiceProvidersAccessedSoFarState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What Service Providers have you accessed so far?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+          title: "What Service Providers have you accessed so far?",
         ),
         for (var selected in selectedProviders)
           Container(
@@ -78,7 +76,7 @@ class _ServiceProvidersAccessedSoFarState
           builder: (context, controller, focusNode) {
             return CustomTextField(
               controller:controller,label: "Enter Provider's name",autoFocus: true,
-            bottomPadding: 0,
+            bottomPadding: 10,
             focusNode: focusNode,
             );
           },
@@ -157,7 +155,7 @@ class _ServiceProvidersAccessedSoFarState
   List<ServiceProvider> _onSearch(String value) {
     List<ServiceProvider> serviceProviders = [];
     for (var serviceProvider in _serviceProviders) {
-      if (serviceProvider.title!.toLowerCase().contains(value)) {
+      if (serviceProvider.title!.toLowerCase().contains(value.toLowerCase())) {
         serviceProviders.add(serviceProvider);
       }
     }

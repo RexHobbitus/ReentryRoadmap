@@ -4,6 +4,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onb
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 class PersonalDetailsNameSection extends StatelessWidget {
   const PersonalDetailsNameSection({super.key});
 
@@ -14,14 +16,26 @@ class PersonalDetailsNameSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What is your full name?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "What is your full name?",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-        CustomTextField(controller: cubit.txtFullName, hint: ""),
+        Wrap(
+          spacing: 15,
+          children: [
+            CustomTextField(
+              controller: cubit.txtFullName,
+              label: "First Name",
+            ),
+            CustomTextField(
+              controller: cubit.txtFullName,
+              label: "Middle Name (optional)",
+            ),
+            CustomTextField(
+              controller: cubit.txtFullName,
+              label: "Last Name",
+            ),
+          ],
+        )
       ],
     );
   }

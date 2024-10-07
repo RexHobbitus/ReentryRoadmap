@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
 import '../../onboarding_cubit.dart';
+import '../../widgets/onboarding_title_widget.dart';
 class IncarcerationDetailsRecentServe extends StatefulWidget {
   const IncarcerationDetailsRecentServe({super.key});
 
@@ -33,14 +34,9 @@ class _IncarcerationDetailsRecentServeState extends State<IncarcerationDetailsRe
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "When were you first incarcerated?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "When were you first incarcerated?",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-
         Wrap(
           children: [
             for (var term in recentTerms)

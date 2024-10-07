@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
+import '../../widgets/onboarding_title_widget.dart';
 
 class CurrentNeedsSkillsToImprove extends StatefulWidget {
   const CurrentNeedsSkillsToImprove({super.key});
@@ -48,19 +49,9 @@ class _CurrentNeedsSkillsToImproveState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What kind of skills would you like to improve on?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Select all that apply",
-          style: AppStyle.onboardingSubTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+          title: "What kind of skills would you like to improve on?",
+          subTitle: "Select all that apply",
         ),
         Wrap(
           children: [

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 
 class CurrentNeedsServiceProviderType extends StatefulWidget {
   const CurrentNeedsServiceProviderType({super.key});
@@ -31,14 +33,9 @@ class _CurrentNeedsServiceProviderTypeState extends State<CurrentNeedsServicePro
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Do you prefer large or small service providers?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "Do you prefer large or small service providers",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-
         Wrap(
           children: [
             for (var size in serviceProviderSizes)

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 
 class CurrentNeedsEmploymentStatus extends StatefulWidget {
   const CurrentNeedsEmploymentStatus({super.key});
@@ -31,14 +33,9 @@ class _CurrentNeedsEmploymentStatusState extends State<CurrentNeedsEmploymentSta
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Are you currently employed?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "Are you currently employed?",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-
         Wrap(
           children: [
             for (var employment in employmentOptions)

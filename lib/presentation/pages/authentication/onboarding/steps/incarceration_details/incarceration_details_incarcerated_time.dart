@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/utils/app_style.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
+import '../../widgets/onboarding_title_widget.dart';
 
 class IncarcerationDetailsIncarceratedTime extends StatefulWidget {
   const IncarcerationDetailsIncarceratedTime({super.key});
@@ -33,14 +34,9 @@ class _IncarcerationDetailsIncarceratedTimeState extends State<IncarcerationDeta
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "How many times have you been incarcerated?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "How many times have you been incarcerated?",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-
         Wrap(
           children: [
             for (var time in timeRange)

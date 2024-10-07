@@ -1,6 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
@@ -16,37 +17,38 @@ class PersonalDetailsLocationSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Please provide your location",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "Please provide your location",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-        CustomTextField(
-          controller: cubit.txtLocationStreet,
-          label: "Street Address (optional)",
-        ),
-        CustomTextField(
-          controller:cubit.txtLocationCity,
-          label: "City",
-        ),
-        CustomTextField(
-          controller: cubit.txtLocationState,
-          label: "State",
-          disable: true,
-          onTap: () {
-            showCountryPicker(
-              context: context,
-              showPhoneCode: true,
-              // optional. Shows phone code before the country name.
-              onSelect: (Country country) {
-                cubit.txtLocationState.text=country.name;
-                print('Select country: ${country.name}');
+        Wrap(
+          spacing: 10,
+          children: [
+            CustomTextField(
+              controller: cubit.txtLocationStreet,
+              label: "Street Address (optional)",
+            ),
+            CustomTextField(
+              controller:cubit.txtLocationCity,
+              label: "City",
+            ),
+            CustomTextField(
+              controller: cubit.txtLocationState,
+              label: "State",
+              disable: true,
+              onTap: () {
+                showCountryPicker(
+                  context: context,
+                  showPhoneCode: true,
+                  // optional. Shows phone code before the country name.
+                  onSelect: (Country country) {
+                    cubit.txtLocationState.text=country.name;
+                    print('Select country: ${country.name}');
+                  },
+                );
               },
-            );
-          },
-        ),
+            ),
+          ],
+        )
       ],
     );
   }

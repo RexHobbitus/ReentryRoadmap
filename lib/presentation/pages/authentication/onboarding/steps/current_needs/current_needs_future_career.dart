@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/utils/app_style.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
+import '../../widgets/onboarding_title_widget.dart';
 
 class CurrentNeedsFutureCareer extends StatefulWidget {
   const CurrentNeedsFutureCareer({super.key});
@@ -51,19 +52,9 @@ class _CurrentNeedsFutureCareerState extends State<CurrentNeedsFutureCareer> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What kind of career would you like to pursue?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Select all that apply",
-          style: AppStyle.onboardingSubTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+          title: "What kind of career would you like to pursue?",
+          subTitle: "Select all that apply",
         ),
         Wrap(
           children: [

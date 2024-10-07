@@ -5,6 +5,8 @@ import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_date_picker_field.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 class ServiceProvidersAccessDates extends StatelessWidget {
   const ServiceProvidersAccessDates({super.key});
 
@@ -14,15 +16,12 @@ class ServiceProvidersAccessDates extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          "When did you access these providers?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+          title: "When did you access these providers?",
         ),
         for (var index = 0; index < 3; index++)
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 children: [

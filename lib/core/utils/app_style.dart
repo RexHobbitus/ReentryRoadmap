@@ -12,7 +12,7 @@ class AppStyle {
   }
 
   static TextStyle? onboardingTitle(BuildContext context) {
-    return context.textTheme.titleMedium?.copyWith(
+    return context.textTheme.titleLarge?.copyWith(
       fontWeight: FontWeight.w600,
     );
   }

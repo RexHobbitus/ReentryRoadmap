@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/extensions/theme_extension.dart';
+import 'custom_responsive_builder.dart';
 
 enum TextFieldMode { search, normal }
 
@@ -79,63 +80,65 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: width ?? double.maxFinite,
-      height: isDetail ? 150 : null,
-      margin: EdgeInsets.only(bottom: bottomPadding ?? 16),
-      child: TextFormField(
-        controller: controller,
-        initialValue: initialValue,
-        textAlignVertical: TextAlignVertical.top,
-        expands: isDetail,
-        onChanged: onChange,
-        focusNode: focusNode,
-        onFieldSubmitted: onSubmit,
-        autofocus: autoFocus,
-        inputFormatters: inputFormatters,
-        style: context.textTheme.bodyMedium,
-        onTap: onTap,
-        keyboardType: keyboard ?? TextInputType.text,
-        maxLines: isDetail != null ? null : 1,
-        readOnly: disable ??
-            dealAsDate ??
-            dealAsTime ??
-            countryPicker ??
-            genderPicker ??
-            readOnly ??
-            false,
-        obscureText: hide ?? false,
-        cursorColor: context.themeData.primaryColor,
-        onTapOutside: (event) {
-          FocusManager.instance.primaryFocus?.unfocus();
-        },
-        decoration: InputDecoration(
-          labelText: label,
-          hintStyle: context.textTheme.bodyMedium
-              ?.copyWith(color: context.themeData.colorScheme.tertiary),
-          floatingLabelBehavior: FloatingLabelBehavior.always,
-          hintText: hint,
-          hintFadeDuration: const Duration(milliseconds: 500),
-          isDense: true,
-          filled: textFieldMode == TextFieldMode.normal ? false : true,
-          hoverColor: Colors.transparent,
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-          fillColor: context.themeData.cardColor,
-          suffixIcon: suffixPath != null
-              ? InkWell(
-                  onTap: () {},
-                  child: SvgPicture.asset(suffixPath!),
-                )
-              : null,
-          suffixIconConstraints: const BoxConstraints(
-            maxHeight: 30,
+    return CustomResponsiveBuilder(builder: (context, constraints, device) {
+      return Container(
+        width: width ?? (device == DeviceSize.mobile ? double.maxFinite : isDetail?450:300),
+        height: isDetail ? 150 : null,
+        margin: EdgeInsets.only(bottom: bottomPadding ?? 16),
+        child: TextFormField(
+          controller: controller,
+          initialValue: initialValue,
+          textAlignVertical: TextAlignVertical.top,
+          expands: isDetail,
+          onChanged: onChange,
+          focusNode: focusNode,
+          onFieldSubmitted: onSubmit,
+          autofocus: autoFocus,
+          inputFormatters: inputFormatters,
+          style: context.textTheme.bodyMedium,
+          onTap: onTap,
+          keyboardType: keyboard ?? TextInputType.text,
+          maxLines: isDetail ? null : 1,
+          readOnly: disable ??
+              dealAsDate ??
+              dealAsTime ??
+              countryPicker ??
+              genderPicker ??
+              readOnly ??
+              false,
+          obscureText: hide ?? false,
+          cursorColor: context.themeData.primaryColor,
+          onTapOutside: (event) {
+            FocusManager.instance.primaryFocus?.unfocus();
+          },
+          decoration: InputDecoration(
+            labelText: label,
+            hintStyle: context.textTheme.bodyMedium
+                ?.copyWith(color: context.themeData.colorScheme.tertiary),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            hintText: hint,
+            hintFadeDuration: const Duration(milliseconds: 500),
+            isDense: true,
+            filled: textFieldMode == TextFieldMode.normal ? false : true,
+            hoverColor: Colors.transparent,
+            contentPadding: EdgeInsets.symmetric(
+                horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
+            fillColor: context.themeData.cardColor,
+            suffixIcon: suffixPath != null
+                ? InkWell(
+                    onTap: () {},
+                    child: SvgPicture.asset(suffixPath!),
+                  )
+                : null,
+            suffixIconConstraints: const BoxConstraints(
+              maxHeight: 30,
+            ),
+            enabledBorder: inputBorder ?? borderStyle(context),
+            focusedBorder: inputBorder ?? borderStyle(context, isActive: true),
           ),
-          enabledBorder: inputBorder ?? borderStyle(context),
-          focusedBorder: inputBorder ?? borderStyle(context, isActive: true),
         ),
-      ),
-    );
+      );
+    });
   }
 
   borderStyle(BuildContext context, {bool isActive = false}) {

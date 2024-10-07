@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/utils/app_style.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
+import '../../widgets/onboarding_title_widget.dart';
 
 class CurrentNeedsTopPriorities extends StatefulWidget {
   const CurrentNeedsTopPriorities({super.key});
@@ -42,19 +43,9 @@ class _CurrentNeedsTopPrioritiesState extends State<CurrentNeedsTopPriorities> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What are your top priorities for the next few months?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Select any 3 ",
-          style: AppStyle.onboardingSubTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+          title: "What are your top priorities for the next few months?",
+          subTitle: "Select any 3",
         ),
         Wrap(
           children: [

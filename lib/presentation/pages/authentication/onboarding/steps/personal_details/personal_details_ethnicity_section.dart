@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import '../../../../../widgets/custom_option_tile.dart';
@@ -39,12 +40,8 @@ class _PersonalDetailsEthnicitySectionState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Which of these best describe your ethnicity?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 10,
+        const OnboardingTitleWidget(
+          title:"Which of these best describe your ethnicity?",
         ),
         Wrap(
           children: [

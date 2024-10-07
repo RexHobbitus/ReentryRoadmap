@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
@@ -42,19 +43,9 @@ class _IncarcerationDetailsProgramsSectionState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What programs did you attend while incarcerated?",
-          style: AppStyle.onboardingTitle(context),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        Text(
-          "Select all that apply",
-          style: AppStyle.onboardingSubTitle(context),
-        ),
-        const SizedBox(
-          height: 20,
+        const OnboardingTitleWidget(
+         title: "What programs did you attend while incarcerated?",
+          subTitle: "Select all that apply",
         ),
         Wrap(
           children: [

@@ -25,6 +25,7 @@ class ExploreWebSearchField extends StatelessWidget {
                 hint: "Search",
                 width: constraints.maxWidth*0.3,
                 bottomPadding: 0,
+                textFieldMode: TextFieldMode.search,
               ),
               const SizedBox(
                 width: 10,
@@ -39,6 +40,7 @@ class ExploreWebSearchField extends StatelessWidget {
                 suffixPath: Assets.search,
                 width: constraints.maxWidth*0.3,
                 bottomPadding: 0,
+                textFieldMode: TextFieldMode.search,
               ),
             ],
           ),

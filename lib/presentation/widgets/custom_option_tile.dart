@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
 class CustomOptionTile extends StatelessWidget {
   final bool isSelected;
@@ -21,12 +22,12 @@ class CustomOptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: LayoutBuilder(
-        builder: (context,constraints) {
+      child: CustomResponsiveBuilder(
+        builder: (context,constraints,device) {
           return Container(
-            width:constraints.maxWidth>=kMenuBreakPoint?200:constraints.maxWidth,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-            margin: const EdgeInsets.symmetric(vertical: 5),
+            width:device==DeviceSize.web?400:constraints.maxWidth,
+            padding:  EdgeInsets.symmetric(horizontal: 20, vertical: device==DeviceSize.web?25:15),
+            margin:  EdgeInsets.symmetric(vertical: 5,horizontal:device==DeviceSize.web?5:0 ),
             decoration: BoxDecoration(
               color: isSelected
                   ? context.colorScheme.secondary

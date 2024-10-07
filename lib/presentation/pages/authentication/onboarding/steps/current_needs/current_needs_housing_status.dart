@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
+import '../../widgets/onboarding_title_widget.dart';
+
 
 class CurrentNeedsHousingStatus extends StatefulWidget {
   const CurrentNeedsHousingStatus({super.key});
@@ -40,14 +42,9 @@ class _CurrentNeedsHousingStatusState extends State<CurrentNeedsHousingStatus> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "What is your current housing status?",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "What is your current housing status?",
         ),
-        const SizedBox(
-          height: 20,
-        ),
-
         Wrap(
           children: [
             for (var status in housingStatues)

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_drop_down.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
@@ -29,13 +30,10 @@ class _IncarcerationDetailsIdNumberState
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "Please provide your ID number",
-          style: AppStyle.onboardingTitle(context),
+        const OnboardingTitleWidget(
+          title: "Please provide your ID number",
         ),
-        const SizedBox(
-          height: 20,
-        ),
+
         CustomDropDown<String>(
           selectedItem:_selectedIdType.isEmpty?null:_selectedIdType,
           items: const [
