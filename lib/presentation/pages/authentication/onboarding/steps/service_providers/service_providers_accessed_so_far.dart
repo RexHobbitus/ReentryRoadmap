@@ -6,8 +6,10 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import '../../widgets/onboarding_title_widget.dart';
 
@@ -24,6 +26,15 @@ class _ServiceProvidersAccessedSoFarState
   List<ServiceProvider> selectedProviders = [];
 
   final _controller = TextEditingController();
+
+  OnboardingCubit get cubit => getIt();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectedProviders = cubit.selectedProviders;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -62,6 +73,8 @@ class _ServiceProvidersAccessedSoFarState
                   onPressed: () {
                     setState(() {
                       selectedProviders.remove(selected);
+                      cubit.selectedProviders = selectedProviders;
+                      cubit.notifyTextFieldUpdates();
                     });
                   },
                   icon: SvgPicture.asset(Assets.delete)),
@@ -75,9 +88,11 @@ class _ServiceProvidersAccessedSoFarState
           controller: _controller,
           builder: (context, controller, focusNode) {
             return CustomTextField(
-              controller:controller,label: "Enter Provider's name",autoFocus: true,
-            bottomPadding: 10,
-            focusNode: focusNode,
+              controller: controller,
+              label: "Enter Provider's name",
+              autoFocus: true,
+              bottomPadding: 10,
+              focusNode: focusNode,
             );
           },
           emptyBuilder: (context) {
@@ -89,6 +104,8 @@ class _ServiceProvidersAccessedSoFarState
                   setState(() {
                     _controller.text = "";
                     selectedProviders.add(newProvider);
+                    cubit.selectedProviders = selectedProviders;
+                    cubit.notifyTextFieldUpdates();
                   });
                 }
               },
@@ -142,12 +159,25 @@ class _ServiceProvidersAccessedSoFarState
             if (!selectedProviders.contains(service)) {
               setState(() {
                 selectedProviders.add(service);
-                ;
+                cubit.selectedProviders = selectedProviders;
+                cubit.notifyTextFieldUpdates();
               });
             }
           },
         ),
-        const CustomCheckBox()
+        CustomCheckBox(
+          value: cubit.noServiceProviderAccessedSoFar,
+          onChange: (val) {
+            setState(() {
+              if (val) {
+                selectedProviders.clear();
+                cubit.selectedProviders = selectedProviders;
+              }
+              cubit.noServiceProviderAccessedSoFar = val;
+              cubit.notifyTextFieldUpdates();
+            });
+          },
+        )
       ],
     );
   }

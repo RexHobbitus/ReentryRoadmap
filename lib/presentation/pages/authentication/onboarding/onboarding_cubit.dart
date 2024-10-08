@@ -107,6 +107,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   String otherResource="";
   bool isOtherResource=true;
 
+  /// service Providers info
+  List<ServiceProvider> selectedProviders=[];
+  bool noServiceProviderAccessedSoFar=false;
+
 
   final textFieldUpdateListener = StreamController<bool>.broadcast();
 
@@ -254,6 +258,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         return expectedSalaryLevel.isNotEmpty;
       case 31:
         return !isOtherResource || otherResource.isNotEmpty;
+      case 32: /// service provider info
+        return true;
+      case 33: /// service provider info
+        return selectedProviders.isNotEmpty || noServiceProviderAccessedSoFar;
 
       default:
         return false;
