@@ -1,4 +1,6 @@
-class AppProvider {
+import 'package:equatable/equatable.dart';
+
+class AppProvider extends Equatable {
   String? providerName;
   String? providerLogo;
   String? accessedDate;
@@ -18,4 +20,23 @@ class AppProvider {
     data['accessedDate'] = this.accessedDate;
     return data;
   }
+
+  AppProvider copyWith({
+    String? providerName,
+    String? providerLogo,
+    String? accessedDate,
+  }) {
+    return AppProvider(
+      providerName: providerName ?? this.providerName,
+      providerLogo: providerLogo ?? this.providerLogo,
+      accessedDate: accessedDate ?? this.accessedDate,
+    );
+  }
+
+  @override
+  List<Object?> get props => [
+        providerName,
+        providerLogo,
+        accessedDate,
+      ];
 }

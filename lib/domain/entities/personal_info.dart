@@ -1,4 +1,6 @@
-class PersonalInfo {
+import 'package:equatable/equatable.dart';
+
+class PersonalInfo extends Equatable {
   String? fullName;
   String? dateOfBirth;
   String? ethnicity;
@@ -7,10 +9,10 @@ class PersonalInfo {
 
   PersonalInfo(
       {this.fullName,
-        this.dateOfBirth,
-        this.ethnicity,
-        this.gender,
-        this.veteranStatus});
+      this.dateOfBirth,
+      this.ethnicity,
+      this.gender,
+      this.veteranStatus});
 
   PersonalInfo.fromJson(Map<String, dynamic> json) {
     fullName = json['fullName'];
@@ -29,4 +31,28 @@ class PersonalInfo {
     data['veteranStatus'] = this.veteranStatus;
     return data;
   }
+
+  PersonalInfo copyWith({
+    String? fullName,
+    String? dateOfBirth,
+    String? ethnicity,
+    String? gender,
+    String? veteranStatus,
+  }) {
+    return PersonalInfo(
+      fullName: fullName ?? this.fullName,
+      dateOfBirth: dateOfBirth ?? this.dateOfBirth,
+      ethnicity: ethnicity ?? this.ethnicity,
+      gender: gender ?? this.gender,
+      veteranStatus: veteranStatus ?? this.veteranStatus,
+    );
+  }
+ @override
+  List<Object?> get props => [
+        fullName,
+        dateOfBirth,
+        ethnicity,
+        gender,
+        veteranStatus,
+      ];
 }

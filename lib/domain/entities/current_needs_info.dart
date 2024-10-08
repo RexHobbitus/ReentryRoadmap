@@ -1,7 +1,7 @@
-
 import 'app_provider.dart';
+import 'package:equatable/equatable.dart';
 
-class CurrentNeedsInfo {
+class CurrentNeedsInfo extends Equatable {
   List<AppProvider>? providers;
 
   CurrentNeedsInfo({this.providers});
@@ -22,4 +22,17 @@ class CurrentNeedsInfo {
     }
     return data;
   }
+
+  CurrentNeedsInfo copyWith({
+    List<AppProvider>? providers,
+  }) {
+    return CurrentNeedsInfo(
+      providers: providers ?? this.providers,
+    );
+  }
+  @override
+  List<Object?> get props => [
+        providers,
+      ];
+
 }

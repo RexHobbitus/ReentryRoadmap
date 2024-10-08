@@ -1,8 +1,9 @@
 import 'current_needs_info.dart';
 import 'incarceration_info.dart';
 import 'personal_info.dart';
+import 'package:equatable/equatable.dart';
 
-class OnboardingInfo {
+class OnboardingInfo extends Equatable{
   PersonalInfo? personalInfo;
   IncarcerationInfo? incarcerationInfo;
   CurrentNeedsInfo? currentNeedsInfo;
@@ -37,4 +38,26 @@ class OnboardingInfo {
     }
     return data;
   }
+
+
+    OnboardingInfo copyWith({
+    PersonalInfo? personalInfo,
+    IncarcerationInfo? incarcerationInfo,
+    CurrentNeedsInfo? currentNeedsInfo,
+  }) {
+    return OnboardingInfo(
+      personalInfo: personalInfo ?? this.personalInfo,
+      incarcerationInfo: incarcerationInfo ?? this.incarcerationInfo,
+      currentNeedsInfo: currentNeedsInfo ?? this.currentNeedsInfo,
+    );
+  }
+  
+  @override
+  // TODO: implement props
+@override
+  List<Object?> get props => [
+        personalInfo,
+        incarcerationInfo,
+        currentNeedsInfo,
+      ];
 }
