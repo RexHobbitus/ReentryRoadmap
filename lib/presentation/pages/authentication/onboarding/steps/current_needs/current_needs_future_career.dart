@@ -44,7 +44,7 @@ class _CurrentNeedsFutureCareerState extends State<CurrentNeedsFutureCareer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected = cubit.selectedTypeOfOffences;
+    selected = cubit.careersToPursue;
   }
 
   @override
@@ -71,7 +71,8 @@ class _CurrentNeedsFutureCareerState extends State<CurrentNeedsFutureCareer> {
                       selected.add(career);
                     }
                   });
-                  // cubit.selectedTypeOfOffences = selected;
+                   cubit.careersToPursue = selected;
+                   cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

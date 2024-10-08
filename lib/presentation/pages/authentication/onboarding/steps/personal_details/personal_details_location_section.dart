@@ -7,9 +7,14 @@ import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import '../../onboarding_cubit.dart';
 
-class PersonalDetailsLocationSection extends StatelessWidget {
+class PersonalDetailsLocationSection extends StatefulWidget {
    PersonalDetailsLocationSection({super.key});
 
+  @override
+  State<PersonalDetailsLocationSection> createState() => _PersonalDetailsLocationSectionState();
+}
+
+class _PersonalDetailsLocationSectionState extends State<PersonalDetailsLocationSection> {
    OnboardingCubit get cubit => getIt();
 
   @override
@@ -24,25 +29,36 @@ class PersonalDetailsLocationSection extends StatelessWidget {
           spacing: 10,
           children: [
             CustomTextField(
-              controller: cubit.txtLocationStreet,
+              initialValue: cubit.locationStreet,
+              onChange: (val){
+                cubit.locationStreet=val;
+                cubit.notifyTextFieldUpdates();
+              },
               label: "Street Address (optional)",
             ),
             CustomTextField(
-              controller:cubit.txtLocationCity,
+              initialValue: cubit.locationCity,
+              onChange: (val){
+                cubit.locationCity=val;
+                cubit.notifyTextFieldUpdates();
+              },
               label: "City",
             ),
             CustomTextField(
-              controller: cubit.txtLocationState,
+              initialValue: cubit.locationState,
               label: "State",
               disable: true,
+              key: UniqueKey(),
               onTap: () {
                 showCountryPicker(
                   context: context,
-                  showPhoneCode: true,
-                  // optional. Shows phone code before the country name.
+                  showPhoneCode: false,
                   onSelect: (Country country) {
-                    cubit.txtLocationState.text=country.name;
-                    print('Select country: ${country.name}');
+                    setState(() {
+                      cubit.locationState=country.name;
+                      cubit.notifyTextFieldUpdates();
+                    });
+
                   },
                 );
               },

@@ -53,6 +53,7 @@ class _IncarcerationDetailsIncarcerationLengthState
                     selected = time;
                   });
                   cubit.selectedLongestIncarcerationLength=time;
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

@@ -7,7 +7,7 @@ import 'custom_responsive_builder.dart';
 enum TextFieldMode { search, normal }
 
 class CustomTextField extends StatelessWidget {
-  TextEditingController controller;
+  TextEditingController? controller;
   String? hint;
   Function(String)? onChange;
   Function(String)? onSubmit;
@@ -44,7 +44,7 @@ class CustomTextField extends StatelessWidget {
 
   CustomTextField({
     Key? key,
-    required this.controller,
+    this.controller,
     this.hint,
     this.onChange,
     this.onSubmit,
@@ -82,7 +82,12 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomResponsiveBuilder(builder: (context, constraints, device) {
       return Container(
-        width: width ?? (device == DeviceSize.mobile ? double.maxFinite : isDetail?450:300),
+        width: width ??
+            (device == DeviceSize.mobile
+                ? double.maxFinite
+                : isDetail
+                    ? 450
+                    : 300),
         height: isDetail ? 150 : null,
         margin: EdgeInsets.only(bottom: bottomPadding ?? 16),
         child: TextFormField(

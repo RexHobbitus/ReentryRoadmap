@@ -53,6 +53,7 @@ class _PersonalDetailsVeteranSectionState extends State<PersonalDetailsVeteranSe
                     selected = val;
                     cubit.selectedVeteran=val;
                   });
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

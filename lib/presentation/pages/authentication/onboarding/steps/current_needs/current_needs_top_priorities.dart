@@ -35,7 +35,7 @@ class _CurrentNeedsTopPrioritiesState extends State<CurrentNeedsTopPriorities> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected = cubit.selectedTypeOfOffences;
+    selected = cubit.selectedTopPriorities;
   }
 
   @override
@@ -61,6 +61,8 @@ class _CurrentNeedsTopPrioritiesState extends State<CurrentNeedsTopPriorities> {
                         selected.length < 3) {
                       selected.add(priority);
                     }
+                    cubit.selectedTopPriorities=selected;
+                    cubit.notifyTextFieldUpdates();
                   });
                   // cubit.selectedTypeOfOffences = selected;
                 },

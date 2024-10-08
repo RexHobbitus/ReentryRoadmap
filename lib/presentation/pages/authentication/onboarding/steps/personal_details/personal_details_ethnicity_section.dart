@@ -54,6 +54,7 @@ class _PersonalDetailsEthnicitySectionState
                     selected = ethnicity;
                     cubit.selectedEthnicity=ethnicity;
                   });
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

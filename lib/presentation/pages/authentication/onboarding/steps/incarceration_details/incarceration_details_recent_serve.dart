@@ -35,7 +35,7 @@ class _IncarcerationDetailsRecentServeState extends State<IncarcerationDetailsRe
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const OnboardingTitleWidget(
-          title: "When were you first incarcerated?",
+          title: "Where did you serve your most recent term?",
         ),
         Wrap(
           children: [
@@ -48,6 +48,7 @@ class _IncarcerationDetailsRecentServeState extends State<IncarcerationDetailsRe
                     selected = term;
                      cubit.selectedServeMost=term;
                   });
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import '../../widgets/onboarding_title_widget.dart';
 
@@ -20,13 +22,13 @@ class _CurrentNeedsEmploymentStatusState extends State<CurrentNeedsEmploymentSta
   ];
 
   String selected = "";
-  // OnboardingCubit get cubit  => getIt();
+   OnboardingCubit get cubit  => getIt();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected=cubit.selectedIncarceratedHistory;
+     selected=cubit.selectedEmploymentStatus;
   }
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class _CurrentNeedsEmploymentStatusState extends State<CurrentNeedsEmploymentSta
                 onTap: () {
                   setState(() {
                     selected = employment;
-                    // cubit.selectedIncarceratedHistory=history;
+                    cubit.selectedEmploymentStatus=employment;
+                    cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

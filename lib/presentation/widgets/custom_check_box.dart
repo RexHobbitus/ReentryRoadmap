@@ -2,24 +2,31 @@ import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;
-   const CustomCheckBox({super.key,this.value=false});
+  final Function(bool)? onChange;
+
+  const CustomCheckBox({
+    super.key,
+    this.value = false,
+    this.onChange,
+  });
 
   @override
   State<CustomCheckBox> createState() => _CustomCheckBoxState();
 }
 
 class _CustomCheckBoxState extends State<CustomCheckBox> {
-  bool _initialValue=false;
+  bool _initialValue = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _initialValue=widget.value;
+    _initialValue = widget.value;
   }
+
   @override
   Widget build(BuildContext context) {
-    return  Row(
+    return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
@@ -29,6 +36,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
               onChanged: (val) {
                 setState(() {
                   _initialValue = val ?? false;
+                  widget.onChange?.call(_initialValue);
                 });
               }),
         ),

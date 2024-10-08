@@ -48,6 +48,7 @@ class _IncarcerationDetailsIncarcerationHistoryState extends State<Incarceration
                   setState(() {
                     selected = history;
                     cubit.selectedIncarceratedHistory=history;
+                    cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

@@ -47,6 +47,7 @@ class _IncarcerationDetailsIncarceratedTimeState extends State<IncarcerationDeta
                   setState(() {
                     selected = time;
                     cubit.selectedIncarceratedBefore=time;
+                    cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

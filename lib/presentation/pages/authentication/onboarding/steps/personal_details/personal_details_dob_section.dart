@@ -18,7 +18,11 @@ class PersonalDetailsDobSection extends StatelessWidget {
           title:"What is your Date of Birth?",
         ),
         CustomDatePickerField(
-          controller: cubit.txtDob,
+          initialValue:cubit.selectedDob,
+          onChange: (date){
+            cubit.selectedDob=date;
+            cubit.notifyTextFieldUpdates();
+          },
         ),
       ],
     );

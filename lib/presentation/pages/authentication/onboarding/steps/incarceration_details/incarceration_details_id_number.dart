@@ -17,14 +17,16 @@ class IncarcerationDetailsIdNumber extends StatefulWidget {
 class _IncarcerationDetailsIdNumberState
     extends State<IncarcerationDetailsIdNumber> {
   String _selectedIdType = "";
-  OnboardingCubit get cubit  => getIt();
+
+  OnboardingCubit get cubit => getIt();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    _selectedIdType=cubit.txtIdType.text;
+    _selectedIdType = cubit.idType;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -33,9 +35,8 @@ class _IncarcerationDetailsIdNumberState
         const OnboardingTitleWidget(
           title: "Please provide your ID number",
         ),
-
         CustomDropDown<String>(
-          selectedItem:_selectedIdType.isEmpty?null:_selectedIdType,
+          selectedItem: _selectedIdType.isEmpty ? null : _selectedIdType,
           items: const [
             "Federal Prison ID",
             "CDCR Number",
@@ -45,14 +46,31 @@ class _IncarcerationDetailsIdNumberState
           onChange: (val) {
             setState(() {
               _selectedIdType = val.toString();
-              cubit.txtIdType.text=val.toString();
+              cubit.idType = val.toString();
+              cubit.notifyTextFieldUpdates();
             });
           },
         ),
-        _selectedIdType.toLowerCase()=="other institutional id"?
-        CustomTextField(controller: cubit.txtOtherIdType,label: "Enter ID Type",):const SizedBox.shrink(),
-        _selectedIdType!=""?
-        CustomTextField(controller:cubit.txtIdNumber,label: "ID Number",):const SizedBox.shrink(),
+        _selectedIdType.toLowerCase() == "other institutional id"
+            ? CustomTextField(
+                initialValue: cubit.otherIdType,
+                label: "Enter ID Type",
+                onChange: (val) {
+                  cubit.otherIdType = val.toString();
+                  cubit.notifyTextFieldUpdates();
+                },
+              )
+            : const SizedBox.shrink(),
+        _selectedIdType != ""
+            ? CustomTextField(
+                initialValue: cubit.idNumber,
+                label: "ID Number",
+                onChange: (val) {
+                  cubit.idNumber = val.toString();
+                  cubit.notifyTextFieldUpdates();
+                },
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }

@@ -41,7 +41,7 @@ class _CurrentNeedsSkillsToImproveState
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected = cubit.selectedTypeOfOffences;
+     selected = cubit.skillsToImprove;
   }
 
   @override
@@ -76,7 +76,8 @@ class _CurrentNeedsSkillsToImproveState
                       selected.add(skill);
                     }
                   });
-                  // cubit.selectedTypeOfOffences = selected;
+                  cubit.skillsToImprove = selected;
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],
@@ -97,7 +98,12 @@ class _CurrentNeedsSkillsToImproveState
                           height: 10,
                         ),
                         CustomTextField(
-                          controller: TextEditingController(),
+                         initialValue: selected.first.subTitle,
+                          onChange: (val){
+                            selected.first.title="Other";
+                            selected.first.subTitle=val;
+                            cubit.notifyTextFieldUpdates();
+                          },
                           isDetail: true,
                           bottomPadding: 0,
                         ),
@@ -114,6 +120,11 @@ class _CurrentNeedsSkillsToImproveState
                                   onChanged: (val) {
                                     setState(() {
                                       isNone = val ?? false;
+                                      cubit.isNoSkillToImprove=isNone;
+                                      cubit.notifyTextFieldUpdates();
+                                      if(isNone){
+                                        selected.first.subTitle="";
+                                      }
                                     });
                                   }),
                             ),

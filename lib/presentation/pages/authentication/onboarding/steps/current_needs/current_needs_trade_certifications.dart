@@ -35,7 +35,7 @@ class _CurrentNeedsTradeCertificationsState
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected = cubit.selectedTypeOfOffences;
+     selected = cubit.tradeCertifications;
   }
 
   @override
@@ -61,7 +61,8 @@ class _CurrentNeedsTradeCertificationsState
                       selected.add(certificate);
                     }
                   });
-                  // cubit.selectedTypeOfOffences = selected;
+                   cubit.tradeCertifications = selected;
+                   cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

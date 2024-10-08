@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
+import '../../../../../../service_locator/service_locator.dart';
 import '../../widgets/onboarding_title_widget.dart';
 
 
@@ -20,13 +22,13 @@ class _CurrentNeedsServiceProviderTypeState extends State<CurrentNeedsServicePro
   ];
 
   String selected = "";
-  // OnboardingCubit get cubit  => getIt();
+   OnboardingCubit get cubit  => getIt();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected=cubit.selectedIncarceratedHistory;
+    selected=cubit.selectedServiceProviderSize;
   }
   @override
   Widget build(BuildContext context) {
@@ -45,7 +47,8 @@ class _CurrentNeedsServiceProviderTypeState extends State<CurrentNeedsServicePro
                 onTap: () {
                   setState(() {
                     selected = size;
-                    // cubit.selectedIncarceratedHistory=history;
+                     cubit.selectedServiceProviderSize=size;
+                     cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

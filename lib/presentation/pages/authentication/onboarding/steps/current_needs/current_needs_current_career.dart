@@ -5,6 +5,7 @@ import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
 import '../../widgets/onboarding_title_widget.dart';
+import 'current_needs_future_career.dart';
 
 class CurrentNeedsCurrentCareer extends StatefulWidget {
   const CurrentNeedsCurrentCareer({super.key});
@@ -45,7 +46,7 @@ class _CurrentNeedsCurrentCareerState extends State<CurrentNeedsCurrentCareer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected = cubit.selectedTypeOfOffences;
+    selected = cubit.currentCareer;
   }
 
   @override
@@ -54,8 +55,7 @@ class _CurrentNeedsCurrentCareerState extends State<CurrentNeedsCurrentCareer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const OnboardingTitleWidget(
-          title: "What kind of skills would you like to improve on?",
-          subTitle: "Select all that apply",
+          title: "What kind of career do you currently have?"
         ),
         Wrap(
           children: [
@@ -68,7 +68,7 @@ class _CurrentNeedsCurrentCareerState extends State<CurrentNeedsCurrentCareer> {
                   setState(() {
                     selected = career;
                   });
-                  // cubit.selectedTypeOfOffences = selected;
+                  cubit.currentCareer = career;
                 },
               ),
           ],
@@ -76,15 +76,4 @@ class _CurrentNeedsCurrentCareerState extends State<CurrentNeedsCurrentCareer> {
       ],
     );
   }
-}
-
-class Career extends Equatable {
-  String? title;
-  String? subTitle;
-
-  Career({this.subTitle, this.title});
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [title, subTitle];
 }

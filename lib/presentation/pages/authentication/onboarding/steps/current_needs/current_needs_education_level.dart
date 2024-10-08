@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
+import '../../../../../../service_locator/service_locator.dart';
+import '../../onboarding_cubit.dart';
 import '../../widgets/onboarding_title_widget.dart';
 
 
@@ -23,13 +25,13 @@ class _CurrentNeedsEducationLevelState extends State<CurrentNeedsEducationLevel>
   ];
 
   String selected = "";
-  // OnboardingCubit get cubit  => getIt();
+   OnboardingCubit get cubit  => getIt();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected=cubit.selectedIncarceratedHistory;
+     selected=cubit.highestLevelOfEducation;
   }
   @override
   Widget build(BuildContext context) {
@@ -49,7 +51,8 @@ class _CurrentNeedsEducationLevelState extends State<CurrentNeedsEducationLevel>
                 onTap: () {
                   setState(() {
                     selected = status;
-                    // cubit.selectedIncarceratedHistory=history;
+                     cubit.highestLevelOfEducation=status;
+                     cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

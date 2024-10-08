@@ -62,6 +62,7 @@ class _IncarcerationDetailsProgramsSectionState
                     }
                   });
                   cubit.selectedPrograms=selected;
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

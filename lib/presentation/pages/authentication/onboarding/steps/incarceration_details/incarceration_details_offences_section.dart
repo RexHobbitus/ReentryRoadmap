@@ -56,6 +56,7 @@ class _IncarcerationDetailsOffencesSectionState
                     }
                   });
                   cubit.selectedTypeOfOffences=selected;
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

@@ -33,20 +33,21 @@ class CustomButton extends StatelessWidget {
                 fontWeight: FontWeight.w600,
               ),
               backgroundColor: isDisabled
-                  ? Colors.grey.shade300
+                  ? context.colorScheme.tertiary
                   : isSecondary
                       ? context.themeData.colorScheme.secondary
                       : null,
               // Set the disabled background color
               foregroundColor: isDisabled
-                  ? Colors.grey.shade500
+                  ? context.colorScheme.surface
                   : isSecondary
                       ?  context.themeData.colorScheme.onSecondary
                       : null, // Set the disabled text color
             ),
-            onPressed: isDisabled ? null : onTap,
+            onPressed: isDisabled ? (){} : onTap,
             iconAlignment: IconAlignment.end,
-            icon: iconData==null?null:Icon(iconData,color: context.colorScheme.onPrimary,size: 15,),
+            icon: iconData==null?null:Icon(iconData,color:
+            context.colorScheme.onPrimary,size: 15,),
             label: Text(text ?? "",),
           );
   }

@@ -18,7 +18,11 @@ class IncarcerationDetailsLatestReleaseDate extends StatelessWidget {
           title: "What was your latest release date?",
         ),
         CustomDatePickerField(
-          controller: cubit.txtLatestReleaseDate,
+          initialValue: cubit.latestReleaseDate,
+          onChange: (dateTime){
+            cubit.latestReleaseDate=dateTime;
+            cubit.notifyTextFieldUpdates();
+          },
         ),
       ],
     );

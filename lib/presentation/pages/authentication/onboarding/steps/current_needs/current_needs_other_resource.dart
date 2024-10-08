@@ -5,6 +5,9 @@ import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
+import '../../../../../../service_locator/service_locator.dart';
+import '../../onboarding_cubit.dart';
+
 class CurrentNeedsOtherResource extends StatefulWidget {
   const CurrentNeedsOtherResource({super.key});
 
@@ -14,15 +17,15 @@ class CurrentNeedsOtherResource extends StatefulWidget {
 }
 
 class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
-  String selected = "";
 
-  // OnboardingCubit get cubit  => getIt();
+   OnboardingCubit get cubit  => getIt();
 
+   bool isNone=false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // selected=cubit.selectedIncarceratedHistory;
+    isNone=!cubit.isOtherResource;
   }
 
   @override
@@ -34,11 +37,21 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
           title: "Are you looking for any other resources we haven’t mentioned?",
         ),
         CustomTextField(
-          controller: TextEditingController(),
+          initialValue:cubit.otherResource,
           isDetail: true,
+          onChange: (val){
+            cubit.otherResource=val;
+            cubit.notifyTextFieldUpdates();
+          },
           bottomPadding: 10,
         ),
-        CustomCheckBox(),
+        CustomCheckBox(
+          value:isNone,
+          onChange: (va){
+            cubit.isOtherResource=!va;
+            cubit.notifyTextFieldUpdates();
+          },
+        ),
       ],
     );
   }

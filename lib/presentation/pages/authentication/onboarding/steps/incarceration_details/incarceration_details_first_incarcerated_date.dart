@@ -18,7 +18,11 @@ class IncarcerationDetailsFirstIncarceratedDate extends StatelessWidget {
           title: "When were you first incarcerated?",
         ),
         CustomDatePickerField(
-          controller:cubit.txtFirstIncarceratedDate,
+          initialValue: cubit.firstIncarceratedDate,
+          onChange: (dateTime){
+            cubit.firstIncarceratedDate=dateTime;
+            cubit.notifyTextFieldUpdates();
+          },
         ),
       ],
     );

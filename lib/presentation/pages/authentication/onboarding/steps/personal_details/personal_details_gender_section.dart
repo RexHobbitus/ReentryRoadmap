@@ -58,6 +58,7 @@ class _PersonalDetailsGenderSectionState
                     selected = gender;
                     cubit.selectedGender=gender;
                   });
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

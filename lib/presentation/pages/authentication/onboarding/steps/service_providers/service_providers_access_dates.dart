@@ -42,7 +42,7 @@ class ServiceProvidersAccessDates extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              CustomDatePickerField(controller: TextEditingController())
+              CustomDatePickerField()
             ],
           )
       ],
