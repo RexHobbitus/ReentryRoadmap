@@ -10,30 +10,72 @@ var appUserJson => AppUserJson.fromJson(userData); => Convert server json data t
 var appUser=appUserJson.toDomain() => Then convert server response data model class to entity class=> This entity model will be used by UI
  */
 
+
+import 'package:reentry_roadmap/data/models/onboarding_info_json.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
 
 class AppUserJson {
-  String? id;
-  String? name;
+  String? userId;
   String? email;
+  String? createdAt;
+  String? updatedAt;
+  OnboardingInfoJson? onboardingInfo;
 
-  AppUserJson({this.id, this.name, this.email});
+  AppUserJson({
+    this.userId,
+    this.email,
+    this.createdAt,
+    this.updatedAt,
+    this.onboardingInfo,
+  });
 
   AppUserJson.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
+    userId = json['userId'];
     email = json['email'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    onboardingInfo = json['onboardingInfo'] != null
+        ? OnboardingInfoJson.fromJson(json['onboardingInfo'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    final Map<String, dynamic> data = {};
+    data['userId'] = this.userId;
     data['email'] = this.email;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.onboardingInfo != null) {
+      data['onboardingInfo'] = this.onboardingInfo!.toJson();
+    }
     return data;
   }
 
+  // Convert to Domain Model
   AppUser toDomain() {
-   return AppUser();
+    return AppUser(
+      userId: userId,
+      email: email,
+      createdAt: createdAt,
+      updatedAt: updatedAt,
+      onboardingInfo: onboardingInfo?.toDomain(),
+    );
+  }
+  
+  // CopyWith method
+  AppUserJson copyWith({
+    String? userId,
+    String? email,
+    String? createdAt,
+    String? updatedAt,
+    OnboardingInfoJson? onboardingInfo,
+  }) {
+    return AppUserJson(
+      userId: userId ?? this.userId,
+      email: email ?? this.email,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      onboardingInfo: onboardingInfo ?? this.onboardingInfo,
+    );
   }
 }

@@ -7,14 +7,14 @@ final List<Map<String, dynamic>> sections = [
   {
     'name': 'Personal Details',
     'questions': [
-      {'id': 'p1', 'type': 'text', 'question': 'What is your full name?'},
+      { 'type': 'text', 'question': 'What is your full name?'},
       {
-        'id': 'p2',
+        
         'type': 'date',
         'question': 'What is your date of birth',
       },
       {
-        'id': 'p3',
+        
         'type': 'radio',
         'question': 'Which of these best describe your ethnicity?',
         'options': [
@@ -27,19 +27,19 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'p4',
+        
         'type': 'radio',
         'question': 'What is your gender?',
         'options': ['Male', 'Female', 'Other', 'Nonbinary']
       },
       {
-        'id': 'p5',
+        
         'type': 'radio',
         'question': 'Are you a veteran?',
         'options': ['Yes', 'No']
       },
       {
-        'id': 'p6',
+        
         'type': 'dropdown-with-multi-text',
         'question': 'Please provide your location',
         'options': [
@@ -56,14 +56,14 @@ final List<Map<String, dynamic>> sections = [
           'City',
         ],
       },
-      {'id': 'p7', 'type': 'text', 'question': 'What is your Phone Number?'},
+      { 'type': 'text', 'question': 'What is your Phone Number?'},
     ]
   },
   {
     'name': 'Incarceration Details',
     'questions': [
       {
-        'id': 'i1',
+        
         'type': 'dropdown-dynamic',
         'question': 'Please provide your ID number',
         'options': [
@@ -82,13 +82,13 @@ final List<Map<String, dynamic>> sections = [
         ],
       },
       {
-        'id': 'i2',
+        
         'type': 'radio',
         'question': 'How many times have you been incarcerated?',
         'options': ['1-3', '4-6', '7+']
       },
       {
-        'id': 'i3',
+        
         'type': 'radio',
         'question': 'How would you describe your incarceration history?',
         'options': [
@@ -98,13 +98,13 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'i4',
+        
         'type': 'checkbox',
         'question': 'What type of offence were you incarcerated for? ',
         'options': ['Violent', 'Non-violent', 'Misdemeanor', 'Sexual']
       },
       {
-        'id': 'i5',
+        
         'type': 'radio',
         'question': 'What was the length of your longest incarceration?',
         'options': [
@@ -116,7 +116,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'i6',
+        
         'type': 'radio',
         'question': 'What was the length of your latest incarceration?',
         'options': [
@@ -128,23 +128,22 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'i7',
+        
         'type': 'date', // Updated type to 'date'
         'question': 'When were you first incarcerated?',
       },
       {
-        'id': 'i8',
+        
         'type': 'date', // Updated type to 'date'
         'question': 'What was your latest release date?',
       },
       {
-        'id': 'i9',
+        
         'type': 'radio',
         'question': 'Where did you serve your most recent term?',
         'options': ['County Jail', 'State Prison', 'Federal Prison']
       },
       {
-        'id': 'i10',
         'type': 'checkbox',
         'question': 'Where did you serve your most recent term?',
         'options': [
@@ -165,7 +164,7 @@ final List<Map<String, dynamic>> sections = [
     'name': 'Your current needs',
     'questions': [
       {
-        'id': 'n1',
+        
         'type': 'checkbox-limit',
         'question': 'What are your top priorities for the next few months? ',
         'options': [
@@ -182,13 +181,13 @@ final List<Map<String, dynamic>> sections = [
         'limit': 3,
       },
       {
-        'id': 'n2',
+        
         'type': 'radio',
         'question': 'Do you prefer large or small service providers?',
         'options': ['Small (0-50)', 'Medium (50-250)', 'Large (250+)']
       },
       {
-        'id': 'n3',
+        
         'type': 'radio',
         'question': 'What is your current housing status?',
         'options': [
@@ -199,7 +198,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n4',
+        
         'type': 'radio',
         'question': 'What is your highest level of education?',
         'options': [
@@ -212,7 +211,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n5',
+        
         'type': 'chekbox',
         'question': 'Do you have any trade certifications?',
         'options': [
@@ -228,7 +227,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n6',
+        
         'type': 'chekbox-subtext',
         'question': 'What kind of skills would you like to improve on?',
         'options': [
@@ -253,7 +252,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n7',
+        
         'type': 'radio',
         'question': 'Are you currently employed?',
         'options': [
@@ -263,7 +262,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n8',
+        
         'type': 'chekbox-subtext',
         'question': 'What kind of skills would you like to improve on?',
         'options': [
@@ -294,7 +293,7 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n9',
+        
         'type': 'radio',
         'question': 'What is your current salary level',
         'options': [
@@ -306,7 +305,6 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n10',
         'type': 'chekbox-subtext',
         'question': 'What kind of career would you like to pursue?',
         'options': [
@@ -337,7 +335,6 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n11',
         'type': 'radio',
         'question': 'What is your expected salary level',
         'options': [
@@ -348,7 +345,6 @@ final List<Map<String, dynamic>> sections = [
         ]
       },
       {
-        'id': 'n12',
         'type': 'text',
         'question':
             'Are you looking for any other resources we haven’t mentioned?'
@@ -359,12 +355,10 @@ final List<Map<String, dynamic>> sections = [
     'name': 'Your Service Provider',
     'questions': [
       {
-        'id': 'sp1',
         'type': 'text',
         'question': 'What Service Providers have you accessed so far?'
       },
       {
-        'id': 'sp2',
         'type': 'dateRange',
         'question': 'When did you access these providers?',
       },

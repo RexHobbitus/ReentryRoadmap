@@ -37,7 +37,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/repositories/database/onboarding_assesment_imp.dart';
-import 'package:reentry_roadmap/data/usecases/onboarding_submit_usercase.dart';
+import 'package:reentry_roadmap/domain/usecases/onboarding_submit_usercase.dart';
 import 'package:reentry_roadmap/presentation/onboarding_provider.dart';
 import 'package:reentry_roadmap/presentation/view_questions.dart';
 
@@ -56,7 +56,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => AssessmentProvider(
             SubmitOnboardingUseCase(
-              AssessmentRepositoryImpl(FirebaseFirestore.instance, FirebaseAuth.instance),
+              AssessmentRepositoryImpl(
+                FirebaseFirestore.instance,FirebaseAuth.instance
+              ),
             ),
           ),
         ),
@@ -66,7 +68,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: LoginScreen(),
+        home: QuestionFormScreen(sectionIndex: 0),
       ),
     );
   }

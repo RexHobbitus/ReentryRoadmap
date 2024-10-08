@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:reentry_roadmap/data/usecases/onboarding_submit_usercase.dart';
+import 'package:reentry_roadmap/domain/usecases/onboarding_submit_usercase.dart';
 import 'package:reentry_roadmap/domain/entities/app_provider.dart';
 import 'package:reentry_roadmap/domain/entities/current_needs_info.dart';
 import 'package:reentry_roadmap/domain/entities/incarceration_info.dart';
