@@ -258,7 +258,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       case 25:
         if (skillsToImprove.isNotEmpty) {
           if (skillsToImprove.first.title!.contains("Other")) {
-            return skillsToImprove.first.subTitle!.isNotEmpty ||
+            return skillsToImprove.first.value!.isNotEmpty ||
                 isNoSkillToImprove;
           }
 
@@ -390,8 +390,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       needOfImmediateHousing: needOfImmediateHousing,
       highestLevelOfEducation: highestLevelOfEducation,
       tradeCertifications: tradeCertifications,
-      skillsToImproveOn:
-          skillsToImprove.map((skill) => skill.title.toString()).toList(),
+      skillsToImproveOn: skillsToImprove.map((skill) => skill.value.toString()).toList(),
       currentEmploymentStatus: selectedEmploymentStatus,
       currentCareerStatus: currentCareer?.title.toString(),
       currentSalaryStatus: currentSalaryLevel,

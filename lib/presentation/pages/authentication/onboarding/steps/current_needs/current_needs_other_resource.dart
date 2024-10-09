@@ -32,6 +32,7 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint(isNone.toString());
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -41,6 +42,7 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
         CustomTextField(
           initialValue:_otherResource,
           isDetail: true,
+          disable: isNone,
           key: UniqueKey(),
           onChange: (val){
             _otherResource=val;
@@ -52,14 +54,15 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
         CustomCheckBox(
           value:isNone,
           onChange: (va){
+            setState(() {
+              isNone=va;
             if(va){
-              setState(() {
                 cubit.otherResource="";
                 _otherResource="";
-              });
             }
             cubit.isOtherResource=!va;
             cubit.notifyTextFieldUpdates();
+            });
           },
         ),
       ],

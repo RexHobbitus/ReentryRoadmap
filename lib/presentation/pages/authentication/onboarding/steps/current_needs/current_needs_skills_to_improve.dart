@@ -21,15 +21,28 @@ class _CurrentNeedsSkillsToImproveState
     extends State<CurrentNeedsSkillsToImprove> {
   final List<SkillToImprove> skillsToImprove = [
     SkillToImprove(
-        title: "Digital Skills", subTitle: "Computer literacy, IT, etc"),
+      title: "Digital Skills",
+      subTitle: "Computer literacy, IT, etc",
+      value: "Digital Skills",
+    ),
     SkillToImprove(
-        title: "Financial Skills", subTitle: "Budgeting, managing money, etc"),
+        title: "Financial Skills",
+        subTitle: "Budgeting, managing money, etc",
+        value: "Financial Skills"),
     SkillToImprove(
-        title: "Technical or trade skills", subTitle: "Plumbing, Welding, etc"),
+        title: "Technical or trade skills",
+        subTitle: "Plumbing, Welding, etc",
+        value: "Technical or trade skills"),
     SkillToImprove(
-        title: "Professional skills",
-        subTitle: "Resume writing, communication"),
-    SkillToImprove(title: "Other/ None", subTitle: ""),
+      title: "Professional skills",
+      subTitle: "Resume writing, communication",
+      value: "Professional skills",
+    ),
+    SkillToImprove(
+      title: "Other/ None",
+      subTitle: "",
+      value: "",
+    ),
   ];
 
   List<SkillToImprove> selected = [];
@@ -37,11 +50,17 @@ class _CurrentNeedsSkillsToImproveState
   OnboardingCubit get cubit => getIt();
   bool isNone = false;
 
+  TextEditingController txtOther = TextEditingController();
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     selected = cubit.skillsToImprove;
+    selected = cubit.skillsToImprove;
+    isNone = cubit.isNoSkillToImprove;
+    if(selected.isNotEmpty && selected.first.title!.contains("Other")){
+      txtOther.text=selected.first.value??"";
+    }
   }
 
   @override
@@ -57,7 +76,7 @@ class _CurrentNeedsSkillsToImproveState
           children: [
             for (var skill in skillsToImprove)
               CustomOptionTile(
-                title: skill.title ?? "",
+                title:skill.title ?? "",
                 subTitle: skill.subTitle ?? "",
                 isSelected: selected.contains(skill),
                 onTap: () {
@@ -65,7 +84,6 @@ class _CurrentNeedsSkillsToImproveState
                     setState(() {
                       selected.clear();
                       selected.add(skill);
-                      return;
                     });
                   }
                   selected.remove(skillsToImprove.last);
@@ -98,13 +116,13 @@ class _CurrentNeedsSkillsToImproveState
                           height: 10,
                         ),
                         CustomTextField(
-                         initialValue: selected.first.subTitle,
-                          onChange: (val){
-                            selected.first.title="Other";
-                            selected.first.subTitle=val;
+                          controller: txtOther,
+                          onChange: (val) {
+                            selected.first.value = val;
                             cubit.notifyTextFieldUpdates();
                           },
                           isDetail: true,
+                          disable: isNone,
                           bottomPadding: 0,
                         ),
                         const SizedBox(
@@ -120,11 +138,12 @@ class _CurrentNeedsSkillsToImproveState
                                   onChanged: (val) {
                                     setState(() {
                                       isNone = val ?? false;
-                                      cubit.isNoSkillToImprove=isNone;
-                                      cubit.notifyTextFieldUpdates();
-                                      if(isNone){
-                                        selected.first.subTitle="";
+                                      if (isNone) {
+                                        txtOther.text = "";
+                                        selected.first.value = "";
                                       }
+                                      cubit.isNoSkillToImprove = isNone;
+                                      cubit.notifyTextFieldUpdates();
                                     });
                                   }),
                             ),
@@ -142,9 +161,10 @@ class _CurrentNeedsSkillsToImproveState
 
 class SkillToImprove extends Equatable {
   String? title;
+  String? value;
   String? subTitle;
 
-  SkillToImprove({this.subTitle, this.title});
+  SkillToImprove({this.subTitle, this.title, this.value});
 
   @override
   // TODO: implement props
