@@ -1,17 +1,18 @@
+import 'package:reentry_roadmap/domain/entities/app_provider.dart';
+
 import 'current_needs_info.dart';
 import 'incarceration_info.dart';
 import 'personal_info.dart';
 import 'package:equatable/equatable.dart';
 
-class OnboardingInfo extends Equatable{
+class OnboardingInfo extends Equatable {
   PersonalInfo? personalInfo;
   IncarcerationInfo? incarcerationInfo;
   CurrentNeedsInfo? currentNeedsInfo;
+  AppProvider? appProvider;
 
   OnboardingInfo(
-      {this.personalInfo,
-        this.incarcerationInfo,
-        this.currentNeedsInfo});
+      {this.personalInfo, this.incarcerationInfo, this.currentNeedsInfo});
 
   OnboardingInfo.fromJson(Map<String, dynamic> json) {
     personalInfo = json['personalInfo'] != null
@@ -22,6 +23,9 @@ class OnboardingInfo extends Equatable{
         : null;
     currentNeedsInfo = json['currentNeedsInfo'] != null
         ? new CurrentNeedsInfo.fromJson(json['currentNeedsInfo'])
+        : null;
+    appProvider = json['appProviderInfo'] != null
+        ? new AppProvider.fromJson(json['appProviderInfo'])
         : null;
   }
 
@@ -39,8 +43,7 @@ class OnboardingInfo extends Equatable{
     return data;
   }
 
-
-    OnboardingInfo copyWith({
+  OnboardingInfo copyWith({
     PersonalInfo? personalInfo,
     IncarcerationInfo? incarcerationInfo,
     CurrentNeedsInfo? currentNeedsInfo,
@@ -51,10 +54,8 @@ class OnboardingInfo extends Equatable{
       currentNeedsInfo: currentNeedsInfo ?? this.currentNeedsInfo,
     );
   }
-  
+
   @override
-  // TODO: implement props
-@override
   List<Object?> get props => [
         personalInfo,
         incarcerationInfo,
