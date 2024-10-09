@@ -39,7 +39,7 @@ class ExploreSearchSection extends StatelessWidget {
                       bloc: cubit.userStore,
                       builder: (context, state) {
                         return Text(
-                          state.isLoggedIn?"Welcome back ${state.name}!":"Hello There!",
+                          state.isLoggedIn?"Welcome back ${state.onboardingInfo?.personalInfo?.firstName}":"Hello There!",
                           style: context.textTheme.titleLarge
                               ?.copyWith(fontWeight: FontWeight.w600),
                         );

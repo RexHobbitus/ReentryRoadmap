@@ -35,7 +35,7 @@ class _IncarcerationDetailsIncarcerationHistoryState extends State<Incarceration
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const OnboardingTitleWidget(
-          title: "How many times have you been incarcerated?",
+          title: "How would you describe your incarceration history?",
         ),
 
         Wrap(

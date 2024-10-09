@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/notification/notification_navigator.dart';
 import '../../../../core/navigation/app_navigator.dart';
 import 'bottom_nav_page.dart';
 import 'bottom_nav_initial_params.dart';
 
-class BottomNavNavigator with NotificationRoute,OnboardingRoute{
+class BottomNavNavigator with NotificationRoute,LoginRoute,SignUpRoute{
   BottomNavNavigator(this.navigator);
 
   @override

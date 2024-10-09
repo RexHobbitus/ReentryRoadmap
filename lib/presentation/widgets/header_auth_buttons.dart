@@ -7,6 +7,7 @@ import 'custom_button.dart';
 
 class HeaderAuthButtons extends StatelessWidget {
   final VoidCallback? loginAction;
+
   final VoidCallback? signUpAction;
   final bool isMobileView;
 

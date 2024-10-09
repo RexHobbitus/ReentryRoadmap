@@ -1,14 +1,22 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/enums/user_session_status.dart';
+import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'splash_initial_params.dart';
 import 'splash_state.dart';
 import 'splash_navigator.dart';
 
 class SplashCubit extends Cubit<SplashState> {
   SplashNavigator navigator;
+  CheckUserSessionUseCase checkUserSessionUseCase;
 
-  SplashCubit({required this.navigator}) : super(SplashState.initial());
+  SplashCubit({
+    required this.navigator,
+    required this.checkUserSessionUseCase,
+  }) : super(SplashState.initial());
 
   BuildContext get context => navigator.context;
 
@@ -16,9 +24,14 @@ class SplashCubit extends Cubit<SplashState> {
     _navigateToBottomNav();
   }
 
-  _navigateToBottomNav() {
-    Future.delayed(const Duration(seconds: 2)).then((val){
-      navigator.openBottomNav(const BottomNavInitialParams());
+  _navigateToBottomNav() async {
+    await checkUserSessionUseCase.execute().then((status){
+      if(status==UserSessionStatus.loggedInWithNoOnboarding){
+        navigator.openOnboarding(const OnboardingInitialParams());
+      }else{
+        navigator.openExplore(const ExploreInitialParams());
+      }
     });
+
   }
 }

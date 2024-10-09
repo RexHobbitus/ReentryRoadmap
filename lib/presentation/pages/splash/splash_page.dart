@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'splash_cubit.dart';
 import 'splash_initial_params.dart';
 import 'splash_state.dart';
@@ -33,8 +35,11 @@ class _SplashState extends State<SplashPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
-      body:const Center(child: Text("This is splash page"),),
-    );
+        body: Center(
+      child: SvgPicture.asset(
+        Assets.dignifi,
+        width: 200,
+      ),
+    ));
   }
 }

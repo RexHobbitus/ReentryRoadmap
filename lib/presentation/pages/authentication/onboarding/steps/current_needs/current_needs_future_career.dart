@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import '../../../../../../domain/entities/career.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
@@ -80,15 +81,4 @@ class _CurrentNeedsFutureCareerState extends State<CurrentNeedsFutureCareer> {
       ],
     );
   }
-}
-
-class Career extends Equatable {
-  String? title;
-  String? subTitle;
-
-  Career({this.subTitle, this.title});
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [title, subTitle];
 }

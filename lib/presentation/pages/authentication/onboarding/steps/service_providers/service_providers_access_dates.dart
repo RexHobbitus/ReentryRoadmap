@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/core/utils/app_style.dart';
-import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_date_picker_field.dart';
-import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
 import '../../onboarding_cubit.dart';
@@ -16,6 +13,7 @@ class ServiceProvidersAccessDates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -29,17 +27,19 @@ class ServiceProvidersAccessDates extends StatelessWidget {
             children: [
 
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                    CircleAvatar(
-                    radius: 10,
-                    backgroundImage: AssetImage(cubit.selectedProviders[index].icon!),
+                    radius: 20,
+                    backgroundColor: context.colorScheme.secondary,
+                    child: Text(cubit.selectedProviders[index].name!.substring(0,2).toUpperCase()),
                   ),
                   const SizedBox(
                     width: 10,
                   ),
                   Text(
-                    "${cubit.selectedProviders[index].title}",
-                    style: context.textTheme.bodyMedium
+                    "${cubit.selectedProviders[index].name}",
+                    style: context.textTheme.titleMedium
                         ?.copyWith(fontWeight: FontWeight.w600),
                   ),
                 ],
@@ -47,7 +47,13 @@ class ServiceProvidersAccessDates extends StatelessWidget {
               const SizedBox(
                 height: 15,
               ),
-              CustomDatePickerField()
+              CustomDatePickerField(
+                initialValue:cubit.selectedProviders[index].accessedDate,
+                onChange: (date){
+                  cubit.selectedProviders[index].accessedDate=date;
+                  cubit.notifyTextFieldUpdates();
+                },
+              )
             ],
           )
       ],

@@ -5,7 +5,6 @@ class FirebaseExceptionWrapper {
   final FirebaseException _exception;
 
   FirebaseExceptionWrapper(this._exception);
-
   String get message {
     switch (_exception.code) {
       case 'user-not-found':

@@ -22,6 +22,8 @@ class OnboardingFooter extends StatelessWidget {
     return BlocBuilder<OnboardingCubit, OnboardingState>(
       bloc: cubit,
       builder: (context, state) {
+        int _currentStep = state.onboardingSectionIndex + 1;
+        debugPrint("Current step: ${_currentStep}");
         return CustomResponsiveBuilder(builder: (context, constraints, device) {
           return Padding(
             padding:
@@ -29,13 +31,61 @@ class OnboardingFooter extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                StepProgressIndicator(
-                  totalSteps: 4,
-                  currentStep: 1,
-                  selectedColor: context.colorScheme.secondary,
-                  unselectedColor: context.colorScheme.tertiaryContainer,
-                  padding: 4,
-                  size: 5,
+                FittedBox(
+                  child: Row(
+                    children: [
+                      /// starting from step 1-8
+                      StepProgressIndicator(
+                        totalSteps: 8,
+                        currentStep: _currentStep >= 8 ? 8 : _currentStep,
+                        selectedColor: context.colorScheme.secondary,
+                        unselectedColor: context.colorScheme.tertiaryContainer,
+                        size: 5,
+                        padding: 0,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+
+                      /// starting step 9-18
+                      StepProgressIndicator(
+                        totalSteps: 11,
+                        currentStep: _currentStep - 8 < 0
+                            ? 0
+                            : (_currentStep - 8) > 11
+                                ? 11
+                                : (_currentStep - 8),
+                        selectedColor: context.colorScheme.secondary,
+                        unselectedColor: context.colorScheme.tertiaryContainer,
+                        size: 5,
+                        padding: 0,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      //// starting from step 19
+                      StepProgressIndicator(
+                        totalSteps: 14,
+                        currentStep:
+                            _currentStep - 19 < 0 ? 0 : (_currentStep - 19)>14?14:(_currentStep - 19),
+                        selectedColor: context.colorScheme.secondary,
+                        unselectedColor: context.colorScheme.tertiaryContainer,
+                        size: 5,
+                        padding: 0,
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      StepProgressIndicator(
+                        totalSteps: 3,
+                        currentStep: _currentStep-33<0?0:_currentStep-33,
+                        selectedColor: context.colorScheme.secondary,
+                        unselectedColor: context.colorScheme.tertiaryContainer,
+                        size: 5,
+                        padding: 0,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(
                   height: 10,
@@ -62,18 +112,22 @@ class OnboardingFooter extends StatelessWidget {
                         onPressed: cubit.backAction,
                       ),
                       StreamBuilder<bool>(
-                        stream: cubit.textFieldUpdateListener.stream,
-                        builder: (context,data) {
-                          return CustomButton(
-                            text: "Next",
-                            width: device == DeviceSize.mobile ? 90 : 120,
-                            height: device == DeviceSize.mobile ? 35 : 55,
-                            iconData: Icons.arrow_forward,
-                            isDisabled: !cubit.isNextButtonEnabled(),
-                            onTap: cubit.nextStepAction,
-                          );
-                        }
-                      )
+                          stream: cubit.textFieldUpdateListener.stream,
+                          builder: (context, data) {
+                            return CustomButton(
+                              text: cubit.isOnboardingCompleted()?
+                              "Complete Onboarding":
+                              "Next",
+                              isLoading: state.loading,
+                              width: device == DeviceSize.mobile ?
+                              cubit.isOnboardingCompleted()?
+                              200:90 :     cubit.isOnboardingCompleted()?300:120,
+                              height: device == DeviceSize.mobile ? 35 : 55,
+                              iconData:     cubit.isOnboardingCompleted()?null:Icons.arrow_forward,
+                              isDisabled: !cubit.isNextButtonEnabled(),
+                              onTap: cubit.nextStepAction,
+                            );
+                          })
                     ],
                   ),
                 )

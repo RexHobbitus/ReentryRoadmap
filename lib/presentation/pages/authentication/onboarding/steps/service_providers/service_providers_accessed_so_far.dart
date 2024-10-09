@@ -11,6 +11,7 @@ import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
+import '../../../../../../domain/entities/service_provider.dart';
 import '../../widgets/onboarding_title_widget.dart';
 
 class ServiceProvidersAccessedSoFar extends StatefulWidget {
@@ -52,21 +53,20 @@ class _ServiceProvidersAccessedSoFarState
                     color: context.colorScheme.tertiaryContainer, width: 1.5),
                 borderRadius: BorderRadius.circular(10)),
             child: ListTile(
-              leading: selected.icon == null
-                  ? null
-                  : CircleAvatar(
-                      backgroundImage: AssetImage(selected.icon!),
-                      radius: 20,
-                    ),
+              leading: CircleAvatar(
+                backgroundColor: context.colorScheme.secondary,
+                radius: 20,
+                child: Text("${selected.name?.substring(0, 2).toUpperCase()}"),
+              ),
               title: Text(
-                selected.title.toString(),
+                selected.name.toString(),
                 style: context.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
-              subtitle: selected.subTitle == null
+              subtitle: selected.address == null
                   ? null
                   : Text(
-                      selected.subTitle.toString(),
+                      selected.address.toString(),
                       style: context.textTheme.bodySmall,
                     ),
               trailing: IconButton(
@@ -99,7 +99,7 @@ class _ServiceProvidersAccessedSoFarState
             return InkWell(
               onTap: () {
                 ServiceProvider newProvider =
-                    ServiceProvider(title: _controller.text);
+                    ServiceProvider(name: _controller.text);
                 if (!selectedProviders.contains(newProvider)) {
                   setState(() {
                     _controller.text = "";
@@ -141,16 +141,17 @@ class _ServiceProvidersAccessedSoFarState
           itemBuilder: (context, service) {
             return ListTile(
               leading: CircleAvatar(
-                backgroundImage: AssetImage(service.icon!),
                 radius: 20,
+                backgroundColor: context.colorScheme.secondary,
+                child: Text(service.name!.toUpperCase().substring(0, 2)),
               ),
               title: Text(
-                service.title.toString(),
+                service.name.toString(),
                 style: context.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
-                service.subTitle.toString(),
+                service.address.toString(),
                 style: context.textTheme.bodySmall,
               ),
             );
@@ -185,7 +186,7 @@ class _ServiceProvidersAccessedSoFarState
   List<ServiceProvider> _onSearch(String value) {
     List<ServiceProvider> serviceProviders = [];
     for (var serviceProvider in _serviceProviders) {
-      if (serviceProvider.title!.toLowerCase().contains(value.toLowerCase())) {
+      if (serviceProvider.name!.toLowerCase().contains(value.toLowerCase())) {
         serviceProviders.add(serviceProvider);
       }
     }
@@ -194,36 +195,20 @@ class _ServiceProvidersAccessedSoFarState
 
   final List<ServiceProvider> _serviceProviders = [
     ServiceProvider(
-        title: "OpenGate Foundation",
-        subTitle: "2786 Marine Blvd, Hayward, California",
-        icon: Assets.serviceProviderOpenGate),
+      name: "OpenGate Foundation",
+      address: "2786 Marine Blvd, Hayward, California",
+    ),
     ServiceProvider(
-        title: "OpenHeart Foundation",
-        subTitle: "2786 Marine Blvd, Hayward, California",
-        icon: Assets.serviceProviderOpenHeart),
+      name: "OpenHeart Foundation",
+      address: "2786 Marine Blvd, Hayward, California",
+    ),
     ServiceProvider(
-        title: "OpenSky Foundation",
-        subTitle: "2786 Marine Blvd, Hayward, California",
-        icon: Assets.serviceProviderOpenSky),
+      name: "OpenSky Foundation",
+      address: "2786 Marine Blvd, Hayward, California",
+    ),
     ServiceProvider(
-        title: "OpenDoor Foundation",
-        subTitle: "2786 Marine Blvd, Hayward, California",
-        icon: Assets.serviceProviderOpenDoor),
+      name: "OpenDoor Foundation",
+      address: "2786 Marine Blvd, Hayward, California",
+    ),
   ];
-}
-
-class ServiceProvider extends Equatable {
-  String? title;
-  String? subTitle;
-  String? icon;
-
-  ServiceProvider({
-    required this.title,
-    this.subTitle,
-    this.icon,
-  });
-
-  @override
-  // TODO: implement props
-  List<Object?> get props => [title, subTitle, icon];
 }

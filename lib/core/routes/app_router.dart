@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -9,6 +12,7 @@ import 'package:reentry_roadmap/presentation/pages/main/notification/notificatio
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
 import 'package:url_strategy/url_strategy.dart';
+import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
@@ -34,9 +38,10 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
-    initialLocation: ExplorePage.path,
+    initialLocation: SplashPage.path,
 
     routes: [
+
       GoRoute(
         path: SplashPage.path,
         builder: (context, state) {
@@ -46,6 +51,25 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: LoginPage.path,
+        builder: (context, state) {
+          return LoginPage(
+            cubit: getIt(),
+            initialParams: const LoginInitialParams(),
+          );
+        },
+      ),
+      GoRoute(
+        path: SignUpPage.path,
+        builder: (context, state) {
+          return SignUpPage(
+            cubit: getIt(),
+            initialParams: const SignUpInitialParams(),
+          );
+        },
+      ),
+
 
       /// BOTTOM NAV BAR AND THEIR INNER SCREENS
       ShellRoute(
@@ -126,6 +150,7 @@ class AppRouter {
           );
         },
       ),
+
     ],
   );
 }

@@ -3,27 +3,22 @@ import '../../../../core/navigation/app_navigator.dart';
 import 'profile_page.dart';
 import 'profile_initial_params.dart';
 
-
-
 class ProfileNavigator {
-ProfileNavigator(this.navigator);
+  ProfileNavigator(this.navigator);
 
-@override
-late BuildContext context;
+  @override
+  late BuildContext context;
 
-@override
-late AppNavigator navigator;
-
+  @override
+  late AppNavigator navigator;
 }
 
 mixin ProfileRoute {
-openProfile(ProfileInitialParams initialParams) {
+  openProfile(ProfileInitialParams initialParams) {
+    navigator.push(context, ProfilePage.path, initialParams);
+  }
 
- navigator.push(context, ProfilePage.path, initialParams);
+  AppNavigator get navigator;
 
-}
-
-AppNavigator get navigator;
-
-BuildContext get context;
+  BuildContext get context;
 }

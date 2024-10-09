@@ -4,7 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -37,10 +39,7 @@ class BottomNavCubit extends Cubit<BottomNavState> {
   onInit(BottomNavInitialParams initialParams) {}
 
   loginAction() async {
-    snackBar.show("Please wait....",snackBarType: SnackBarType.INFO);
-    await Future.delayed(const Duration(seconds: 2));
-    userStore.setUser(AppUser(id: "123",name: "John",email: "John@email.com"));
-    snackBar.show("Logged in successfully.",snackBarType: SnackBarType.SUCCESS);
+    navigator.openLogin(const LoginInitialParams());
   }
 
 
@@ -69,6 +68,6 @@ class BottomNavCubit extends Cubit<BottomNavState> {
   }
 
   signUpAction(){
-    navigator.openOnboarding(const OnboardingInitialParams());
+    navigator.openSignUp(const SignUpInitialParams());
   }
 }

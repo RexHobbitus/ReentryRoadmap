@@ -1,9 +1,14 @@
 import 'package:get_it/get_it.dart';
-import 'package:reentry_roadmap/data/repositories/database/firebase_auth_repository.dart';
-import 'package:reentry_roadmap/data/repositories/database/firebase_database_repository.dart';
-import 'package:reentry_roadmap/domain/repositories/database/authentication_repository.dart';
-import 'package:reentry_roadmap/domain/repositories/database/remote_database_repository.dart';
+import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
+import 'package:reentry_roadmap/data/repositories/database/onboarding_repository_imp.dart';
+import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/onboarding_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/login_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/logout_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
 import '../core/alert/app_snack_bar.dart';
 import '../core/navigation/app_navigator.dart';
 import '../data/repositories/database/hive_database_repository.dart';
@@ -12,6 +17,7 @@ import '../network/dio/dio_network_repository.dart';
 import '../network/network_repository.dart';
 import 'app_cubits.dart';
 import 'app_services.dart';
+
 final getIt = GetIt.instance;
 
 class ServiceLocator {
@@ -20,16 +26,44 @@ class ServiceLocator {
     getIt.registerSingleton<AppNavigator>(AppNavigator());
 
     /// local storage
-    getIt.registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository()).initialize();
+    getIt
+        .registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository())
+        .initialize();
+
     /// http request repository
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));
-    getIt.registerSingleton<AuthenticationRepository>(FirebaseAuthRepository());
-    getIt.registerSingleton<RemoteDatabaseRepository>(FirebaseDatabaseRepository());
-
+    getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
+    getIt.registerSingleton<OnboardingRepository>(OnboardingRepositoryImp());
     getIt.registerSingleton<UserStore>(UserStore());
+
+    /// use cases
+    ///
+    getIt.registerSingleton<CheckUserSessionUseCase>(CheckUserSessionUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<OnboardingUseCase>(OnboardingUseCase(
+      authRepository: getIt(),
+      onboardingRepository: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<LoginUseCase>(LoginUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+
+    ));
+    getIt.registerSingleton<SignUpUseCase>(SignUpUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<LogoutUseCase>(LogoutUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+    ));
 
 
     await AppServices.initialize();
+
     /// all screens cubits + navigator
     await AppCubits.initialize();
   }

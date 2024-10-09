@@ -1,28 +1,70 @@
-class AppUser {
-  String? id;
-  String? name;
-  String? email;
+import 'onboarding_info.dart';
+import 'package:equatable/equatable.dart';
 
-  AppUser({this.id, this.name, this.email});
+class AppUser extends Equatable {
+  String? userId;
+  String? email;
+  String? createdAt;
+  String? updatedAt;
+  OnboardingInfo? onboardingInfo;
+
+  AppUser(
+      {this.userId,
+      this.createdAt,
+      this.updatedAt,
+      this.onboardingInfo,
+      this.email});
 
   AppUser.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
+    userId = json['userId'];
     email = json['email'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    onboardingInfo = json['onboardingInfo'] != null
+        ? new OnboardingInfo.fromJson(json['onboardingInfo'])
+        : null;
   }
+
+  AppUser.empty() {
+
+  }
+
+  bool get isLoggedIn => userId!=null;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['name'] = this.name;
+    data['userId'] = this.userId;
     data['email'] = this.email;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    if (this.onboardingInfo != null) {
+      data['onboardingInfo'] = this.onboardingInfo!.toJson();
+    }
     return data;
   }
-  AppUser.empty(){
-    id =null;
-    name = "Dummy username";
-    email = "Dummy email";
+
+  AppUser copyWith({
+    String? userId,
+    String? email,
+    String? createdAt,
+    String? updatedAt,
+    OnboardingInfo? onboardingInfo,
+  }) {
+    return AppUser(
+      userId: userId ?? this.userId,
+      email: email ?? this.email,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      onboardingInfo: onboardingInfo ?? this.onboardingInfo,
+    );
   }
-  bool get isLoggedIn => id!=null;
+    @override
+  List<Object?> get props => [
+        userId,
+        email,
+        createdAt,
+        updatedAt,
+        onboardingInfo,
+      ];
 
 }

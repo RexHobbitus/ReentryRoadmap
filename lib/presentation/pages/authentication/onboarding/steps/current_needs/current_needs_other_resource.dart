@@ -21,11 +21,13 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
    OnboardingCubit get cubit  => getIt();
 
    bool isNone=false;
+  String _otherResource="";
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     isNone=!cubit.isOtherResource;
+    _otherResource=cubit.otherResource;
   }
 
   @override
@@ -37,9 +39,11 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
           title: "Are you looking for any other resources we haven’t mentioned?",
         ),
         CustomTextField(
-          initialValue:cubit.otherResource,
+          initialValue:_otherResource,
           isDetail: true,
+          key: UniqueKey(),
           onChange: (val){
+            _otherResource=val;
             cubit.otherResource=val;
             cubit.notifyTextFieldUpdates();
           },
@@ -48,6 +52,12 @@ class _CurrentNeedsOtherResourceState extends State<CurrentNeedsOtherResource> {
         CustomCheckBox(
           value:isNone,
           onChange: (va){
+            if(va){
+              setState(() {
+                cubit.otherResource="";
+                _otherResource="";
+              });
+            }
             cubit.isOtherResource=!va;
             cubit.notifyTextFieldUpdates();
           },

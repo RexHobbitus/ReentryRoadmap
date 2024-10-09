@@ -5,46 +5,53 @@ class AppNavigator {
   static final GlobalKey<NavigatorState> navigatorKey =
       GlobalKey<NavigatorState>();
   static final RouteObserver<PageRoute> routeObserver =
-  RouteObserver<PageRoute>();
+      RouteObserver<PageRoute>();
 
-  push(BuildContext context, String path,Object? parameter) {
-    context.push(path,extra: parameter);
+  push(BuildContext context, String path, Object? parameter) {
+    context.push(path, extra: parameter);
   }
 
-  replace(BuildContext context, String path,Object? parameter) {
-    context.replace(path,extra: parameter);
+  go(BuildContext context, String path, Object? parameter) {
+    context.go(path, extra: parameter);
   }
 
-  pushAndClearAllPrevious(BuildContext context, String path,Object? parameter) {
+  replace(BuildContext context, String path, Object? parameter) {
+    context.replace(path, extra: parameter);
+  }
+
+  pushAndClearAllPrevious(
+      BuildContext context, String path, Object? parameter) {
     while (context.canPop() == true) {
       context.pop();
     }
-    context.pushReplacement(path,extra: parameter);
+    context.pushReplacement(path, extra: parameter);
   }
 
   showBottomSheet(BuildContext context, Widget page,
       {double? height, EdgeInsets? padding}) {
     showModalBottomSheet(
       context: context,
-       isScrollControlled: true,
-       backgroundColor: Theme.of(context).colorScheme.surface,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
-      builder: (context) =>  Padding(
-        padding: MediaQuery.of(context).viewInsets.copyWith(left: 20,right: 20,top: 20),
-          child: ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-            clipBehavior: Clip.antiAlias,
-            // Set clipBehavior to Clip.antiAlias
-            child: page,
-          ),
+      builder: (context) => Padding(
+        padding: MediaQuery.of(context)
+            .viewInsets
+            .copyWith(left: 20, right: 20, top: 20),
+        child: ClipRRect(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+          clipBehavior: Clip.antiAlias,
+          // Set clipBehavior to Clip.antiAlias
+          child: page,
         ),
+      ),
     );
   }
 
   pop(BuildContext context) {
-    if(context.canPop()){
+    if (context.canPop()) {
       context.pop();
     }
   }

@@ -46,39 +46,45 @@ class _OnboardingState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leadingWidth: double.maxFinite,
-        leading: LayoutBuilder(builder: (context, constraints) {
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const HeaderLogo(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: kScreenHorizontalPadding),
-                child: HeaderAuthButtons(
-                  loginAction: () {},
-                  isMobileView: constraints.maxWidth <= kMenuBreakPoint,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (val,data){
+        cubit.backAction();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          leadingWidth: double.maxFinite,
+          leading: LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const HeaderLogo(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: kScreenHorizontalPadding),
+                  child: HeaderAuthButtons(
+                    loginAction: () {},
+                    isMobileView: constraints.maxWidth <= kMenuBreakPoint,
+                  ),
                 ),
+              ],
+            );
+          }),
+        ),
+        body: BlocBuilder<OnboardingCubit, OnboardingState>(
+          bloc: cubit,
+          builder: (context, state) {
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(kScreenHorizontalPadding),
+                child: cubit.onBoardingSteps[state.onboardingSectionIndex],
               ),
-            ],
-          );
-        }),
-      ),
-      body: BlocBuilder<OnboardingCubit, OnboardingState>(
-        bloc: cubit,
-        builder: (context, state) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(kScreenHorizontalPadding),
-              child: cubit.onBoardingSteps[state.onboardingSectionIndex],
-            ),
-          );
-        },
-      ),
-      bottomNavigationBar: OnboardingFooter(
-        cubit: cubit,
+            );
+          },
+        ),
+        bottomNavigationBar: OnboardingFooter(
+          cubit: cubit,
+        ),
       ),
     );
   }

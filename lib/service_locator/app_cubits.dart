@@ -1,5 +1,9 @@
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
@@ -34,6 +38,7 @@ class AppCubits {
     getIt.registerSingleton<SplashNavigator>(SplashNavigator(getIt()));
     getIt.registerSingleton<SplashCubit>(SplashCubit(
       navigator: getIt(),
+      checkUserSessionUseCase: getIt(),
     ));
 
     getIt.registerSingleton<ExploreNavigator>(ExploreNavigator(getIt()));
@@ -57,6 +62,8 @@ class AppCubits {
     getIt.registerSingleton<ProfileNavigator>(ProfileNavigator(getIt()));
     getIt.registerSingleton<ProfileCubit>(ProfileCubit(
       navigator: getIt(),
+      logoutUseCase: getIt(),
+      userStore: getIt(),
     ));
 
     getIt.registerSingleton<BottomNavNavigator>(BottomNavNavigator(getIt()));
@@ -77,6 +84,22 @@ class AppCubits {
     getIt.registerSingleton<OnboardingNavigator>(OnboardingNavigator(getIt()));
     getIt.registerSingleton<OnboardingCubit>(OnboardingCubit(
       navigator: getIt(),
+      onboardingUseCase: getIt(),
+      snackBar: getIt(),
     ));
+    getIt.registerSingleton<LoginNavigator>(LoginNavigator(getIt()));
+    getIt.registerSingleton<LoginCubit>(LoginCubit(
+      navigator: getIt(),
+      loginUseCase: getIt(),
+      snackBar: getIt(),
+    ));
+    getIt.registerSingleton<SignUpNavigator>(SignUpNavigator(getIt()));
+    getIt.registerSingleton<SignUpCubit>(SignUpCubit(
+      navigator: getIt(),
+      signUpUseCase: getIt(),
+      snackBar: getIt(),
+    ));
+
+
   }
 }

@@ -5,6 +5,7 @@ abstract class FirebaseCollection{
 
   ///
   FirebaseAuth  get auth => FirebaseAuth.instance;
+  FirebaseFirestore  get firestore => FirebaseFirestore.instance;
 
   /// collections
   final usersCollection=FirebaseFirestore.instance.collection('users');

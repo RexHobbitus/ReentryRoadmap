@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'profile_cubit.dart';
 import 'profile_initial_params.dart';
 import 'profile_state.dart';
@@ -32,8 +36,26 @@ class _ProfileState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body: const Center(child: Text("Signup/Profile page"),),
+    return Scaffold(
+      body: Padding(
+        padding:  const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
+        child: BlocBuilder<UserStore, AppUser>(
+          bloc: cubit.userStore,
+          builder: (context, user) {
+            return BlocBuilder<ProfileCubit, ProfileState>(
+              bloc: cubit,
+              builder: (context, state) {
+                return user.isLoggedIn ? Center(
+                  child: CustomButton(
+                    text: "Logout",
+                    onTap: cubit.logoutAction,
+                  ),
+                ) : const SizedBox();
+              },
+            );
+          },
+        ),
+      ),
     );
   }
 }

@@ -41,6 +41,7 @@ class CustomTextField extends StatelessWidget {
   Function? suffixAction;
   InputBorder? inputBorder;
   FocusNode? focusNode;
+  Widget? suffix;
 
   CustomTextField({
     Key? key,
@@ -76,6 +77,8 @@ class CustomTextField extends StatelessWidget {
     this.inputBorder,
     this.focusNode,
     this.suffixPath,
+    this.suffix,
+
   }) : super(key: key);
 
   @override
@@ -129,12 +132,12 @@ class CustomTextField extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
             fillColor: context.themeData.cardColor,
-            suffixIcon: suffixPath != null
+            suffixIcon:suffixPath != null
                 ? InkWell(
                     onTap: () {},
                     child: SvgPicture.asset(suffixPath!),
                   )
-                : null,
+                : suffix,
             suffixIconConstraints: const BoxConstraints(
               maxHeight: 30,
             ),

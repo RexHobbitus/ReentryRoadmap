@@ -1,11 +1,9 @@
-import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/domain/entities/career.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 import '../../onboarding_cubit.dart';
 import '../../widgets/onboarding_title_widget.dart';
-import 'current_needs_future_career.dart';
 
 class CurrentNeedsCurrentCareer extends StatefulWidget {
   const CurrentNeedsCurrentCareer({super.key});
@@ -69,6 +67,7 @@ class _CurrentNeedsCurrentCareerState extends State<CurrentNeedsCurrentCareer> {
                     selected = career;
                   });
                   cubit.currentCareer = career;
+                  cubit.notifyTextFieldUpdates();
                 },
               ),
           ],

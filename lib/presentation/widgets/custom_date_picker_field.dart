@@ -44,13 +44,17 @@ class _CustomDatePickerFieldState extends State<CustomDatePickerField> {
       key: textFieldKey,
       controller: controller,
       disable: true,
+      suffix: const Padding(
+        padding:  EdgeInsets.symmetric(horizontal: 20),
+        child: Icon(Icons.keyboard_arrow_down_rounded),
+      ),
       // initialValue: widget.initialValue,
       onTap: () async {
         final pickedDate = await showWebDatePicker(
             context: textFieldKey.currentContext!,
             initialDate: _selectedDate,
-            firstDate: DateTime.now().subtract(const Duration(days: 7)),
-            lastDate: DateTime.now().add(const Duration(days: 14000)),
+            firstDate: DateTime.now().subtract(const Duration(days: 50000)),
+            lastDate: DateTime.now(),
             width: 300,
             //withoutActionButtons: true,
             //weekendDaysColor: Colors.red,
