@@ -45,3 +45,25 @@ Figma Designs: https://www.figma.com/design/qVIomzGrpswDvT58SzL7B3/Roadmap?node-
 
 
 
+------------------------------------------------------------
+
+# Create New screen Steps
+### 1. In order to create New screen, open terminal in Current project path and run following command
+#### For example you want to create a new screen for Login page. we will do following steps.
+#####     *) create a folder with name "login" inside lib=>presentation=>pages=>authentication
+#####    *) now open terminal in current source code folder and run following commands
+
+#####     cd tools/mason_template
+#####    mason make page -o ${ENTER_YOUR_PATH_TO_LOGIN_FOLDER} press enter and type name as 'login' and then press enter again.
+
+#####    *) It will take 1-2 second and will create your 5 files inside 'login' folder.
+#####    *) Now Goto lib => service_locator => app_cubits.dart
+#####    *) Add/Register your respective new files (login_cubit and login_navigator) inside gitIt just like SplashCubit already added
+#####    *) Add your new screen route in lib=>core=>routes=>app_router
+#####    *) You are done.
+
+
+
+
+
+
