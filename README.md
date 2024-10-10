@@ -48,7 +48,6 @@ Figma Designs: https://www.figma.com/design/qVIomzGrpswDvT58SzL7B3/Roadmap?node-
 ------------------------------------------------------------
 
 # Create New screen Steps
-### 1. In order to create New screen, open terminal in Current project path and run following command
 #### For example you want to create a new screen for Login page. we will do following steps.
 #####     *) create a folder with name "login" inside lib=>presentation=>pages=>authentication
 #####    *) now open terminal in current source code folder and run following commands
