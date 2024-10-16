@@ -7,7 +7,8 @@ import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'service_card_category_chip.dart';
 
 class ServiceCard extends StatelessWidget {
-  const ServiceCard({super.key});
+  final VoidCallback? onTap;
+  const ServiceCard({super.key,this.onTap});
 
 
   @override
@@ -15,7 +16,7 @@ class ServiceCard extends StatelessWidget {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: (){},
+        onTap:onTap,
         child: Container(
           constraints: const BoxConstraints(
             maxWidth: 400,

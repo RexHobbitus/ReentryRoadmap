@@ -16,6 +16,8 @@ import 'package:reentry_roadmap/presentation/pages/main/notification/notificatio
 import 'package:reentry_roadmap/presentation/pages/main/notification/notification_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.dart';
 
@@ -99,6 +101,11 @@ class AppCubits {
       signUpUseCase: getIt(),
       snackBar: getIt(),
     ));
+    getIt.registerSingleton<ProviderDetailNavigator>(ProviderDetailNavigator(getIt()));
+    getIt.registerSingleton<ProviderDetailCubit>(ProviderDetailCubit(
+      navigator: getIt(),
+    ));
+
 
 
   }

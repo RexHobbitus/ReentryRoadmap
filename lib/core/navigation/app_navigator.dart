@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+
+import '../utils/constants.dart';
 
 class AppNavigator {
   static final GlobalKey<NavigatorState> navigatorKey =
@@ -59,9 +62,21 @@ class AppNavigator {
   showDialogBox(BuildContext context, Widget page) {
     showDialog(
         context: context,
-        useSafeArea: false,
+        useSafeArea: true,
         builder: (context) {
-          return page;
+          return Scaffold(
+              backgroundColor: Colors.transparent,
+              body: Center(
+                  child: Container(
+                padding: const EdgeInsets.all(kScreenHorizontalPadding),
+                margin: const EdgeInsets.symmetric(
+                    horizontal: kScreenHorizontalPadding),
+                decoration: BoxDecoration(
+                  color: context.colorScheme.surface,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: page,
+              )));
         });
   }
 }

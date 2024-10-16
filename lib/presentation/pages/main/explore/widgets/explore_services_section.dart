@@ -29,10 +29,15 @@ class ExploreServicesSection extends StatelessWidget {
               builder: (context, constraints) {
                 return constraints.maxWidth > 500
                     ? Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children:state.isLoggedIn?_loggedInUserHeadings(context: context):_loggedInUserHeadings(context: context),
-                )
-                    : Column(children:state.isLoggedIn?_loggedInUserHeadings(context: context):_loggedInUserHeadings(context: context));
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: state.isLoggedIn
+                            ? _loggedInUserHeadings(context: context)
+                            : _loggedInUserHeadings(context: context),
+                      )
+                    : Column(
+                        children: state.isLoggedIn
+                            ? _loggedInUserHeadings(context: context)
+                            : _loggedInUserHeadings(context: context));
               },
             ),
             const SizedBox(
@@ -40,25 +45,28 @@ class ExploreServicesSection extends StatelessWidget {
             ),
             LayoutBuilder(
               builder: (context, constraints) {
-
                 // Define the item width (you can adjust this value as needed)
                 double itemWidth = 280.0;
                 // Calculate the number of columns based on the screen width
                 int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
                 return crossAxisCount > 1
                     ? AlignedGridView.count(
-                  crossAxisCount: crossAxisCount,
-                  mainAxisSpacing: 13,
-                  crossAxisSpacing: 13,
-                  shrinkWrap: true,
-                  primary: false,
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    return const ServiceCard();
-                  },
-                )
-                    : const ExploreServicesSlider();
+                        crossAxisCount: crossAxisCount,
+                        mainAxisSpacing: 13,
+                        crossAxisSpacing: 13,
+                        shrinkWrap: true,
+                        primary: false,
+                        padding: const EdgeInsets.symmetric(vertical: 20),
+                        itemCount: 4,
+                        itemBuilder: (context, index) {
+                          return ServiceCard(
+                            onTap: cubit.openProviderDetail,
+                          );
+                        },
+                      )
+                    : ExploreServicesSlider(
+                        cubit: cubit,
+                      );
               },
             ),
           ],
@@ -72,10 +80,10 @@ class ExploreServicesSection extends StatelessWidget {
       Text(
         "Recommended Services for you",
         style:
-        context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+            context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       InkWell(
-        onTap: (){},
+        onTap: () {},
         child: Text(
           "View All >",
           style: context.textTheme.titleMedium?.copyWith(
@@ -92,10 +100,10 @@ class ExploreServicesSection extends StatelessWidget {
       Text(
         "Popular Services",
         style:
-        context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+            context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       InkWell(
-        onTap: (){},
+        onTap: () {},
         child: Text(
           "Get Personalized Recommendations >",
           style: context.textTheme.titleMedium?.copyWith(
@@ -106,5 +114,4 @@ class ExploreServicesSection extends StatelessWidget {
       ),
     ];
   }
-
 }

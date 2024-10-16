@@ -45,5 +45,12 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+
+	<key>NSCameraUsageDescription</key>
+    <string>App needs access to the camera to take and upload different photos.</string>
+
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>App needs access to the photo library to upload different photos.</string>
+
 </dict>
 </plist>

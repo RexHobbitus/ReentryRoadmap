@@ -1,12 +1,14 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../../../widgets/service_card.dart';
 
 class ExploreServicesSlider extends StatefulWidget {
-  const ExploreServicesSlider({super.key});
+  final ExploreCubit cubit;
+  const ExploreServicesSlider({super.key,required this.cubit,});
 
   @override
   State<ExploreServicesSlider> createState() => _ExploreServicesSliderState();
@@ -36,7 +38,9 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
             }
           ),
           itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-              ServiceCard(),
+              ServiceCard(
+                onTap: widget.cubit.openProviderDetail,
+              ),
         ),
 
         Row(

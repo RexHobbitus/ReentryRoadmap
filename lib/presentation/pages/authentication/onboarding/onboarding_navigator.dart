@@ -4,27 +4,22 @@ import '../../../../core/navigation/app_navigator.dart';
 import 'onboarding_page.dart';
 import 'onboarding_initial_params.dart';
 
+class OnboardingNavigator with ExploreRoute {
+  OnboardingNavigator(this.navigator);
 
+  @override
+  late BuildContext context;
 
-class OnboardingNavigator with  ExploreRoute{
-OnboardingNavigator(this.navigator);
-
-@override
-late BuildContext context;
-
-@override
-late AppNavigator navigator;
-
+  @override
+  late AppNavigator navigator;
 }
 
 mixin OnboardingRoute {
-openOnboarding(OnboardingInitialParams initialParams) {
+  openOnboarding(OnboardingInitialParams initialParams) {
+    navigator.push(context, OnboardingPage.path, initialParams);
+  }
 
- navigator.push(context, OnboardingPage.path, initialParams);
+  AppNavigator get navigator;
 
-}
-
-AppNavigator get navigator;
-
-BuildContext get context;
+  BuildContext get context;
 }

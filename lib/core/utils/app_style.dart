@@ -23,6 +23,27 @@ class AppStyle {
       color: context.colorScheme.tertiary,
     );
   }
+  static TextStyle? providerDetailTitle(BuildContext context) {
+    return context.textTheme.titleMedium?.copyWith(
+      fontWeight: FontWeight.w600,
+      color: context.colorScheme.onSurface,
+    );
+  }
+  static TextStyle? providerDetailUnderlinedSubTitle(BuildContext context) {
+    return context.textTheme.bodyMedium?.copyWith(
+        decoration: TextDecoration.underline,
+        fontWeight: FontWeight.w600
+    );
+  }
+
+  static TextStyle? providerDetailBody(BuildContext context) {
+    return context.textTheme.bodyMedium?.copyWith(
+      fontWeight: FontWeight.w500,
+      color: context.colorScheme.onSurface,
+    );
+  }
+
+
 
   static InputDecoration textFieldDecoration(
     BuildContext context, {

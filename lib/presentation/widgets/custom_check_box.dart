@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;
+  final String? text;
   final Function(bool)? onChange;
 
   const CustomCheckBox({
     super.key,
     this.value = false,
+    this.text,
     this.onChange,
   });
 
@@ -40,7 +42,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 });
               }),
         ),
-        const Text("None")
+         Text(widget.text??"None")
       ],
     );
   }

@@ -20,6 +20,15 @@ class Assets{
   static const String exploreLandmark ="assets/icons/explore_landmark.svg";
   static const String delete ="assets/icons/delete.svg";
 
+  static const String arrow ="assets/icons/arrow.svg";
+  static const String clock ="assets/icons/clock.svg";
+  static const String web ="assets/icons/web.svg";
+  static const String starCheck ="assets/icons/star_check.svg";
+  static const String images ="assets/icons/images.svg";
+
+
+
+
 
 
 

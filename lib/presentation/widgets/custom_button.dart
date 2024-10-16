@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
- import '../../../core/extensions/theme_extension.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import '../../../core/extensions/theme_extension.dart';
+
 class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
   final String? text;
@@ -9,6 +11,9 @@ class CustomButton extends StatelessWidget {
   final double? width;
   final double? height;
   final IconData? iconData;
+  final String? iconPath;
+  final IconAlignment? iconAlignment;
+  final double? radius;
   const CustomButton({
     super.key,
     this.onTap,
@@ -19,16 +24,23 @@ class CustomButton extends StatelessWidget {
     this.iconData,
     this.height,
     this.width,
+    this.iconPath,
+    this.iconAlignment,
+    this.radius,
+
   });
 
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? Center(child: const CircularProgressIndicator())
+        ? const Center(child:  CircularProgressIndicator())
         : ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              minimumSize:  Size(width??context.sw, height??50),
-              maximumSize:Size(width??context.sw, height??57),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(radius??10), // <-- Radius
+              ),
+              minimumSize: Size(width ?? context.sw, height ?? 50),
+              maximumSize: Size(width ?? context.sw, height ?? 57),
               textStyle: context.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -41,14 +53,27 @@ class CustomButton extends StatelessWidget {
               foregroundColor: isDisabled
                   ? context.colorScheme.surface
                   : isSecondary
-                      ?  context.themeData.colorScheme.onSecondary
+                      ? context.themeData.colorScheme.onSecondary
                       : null, // Set the disabled text color
             ),
-            onPressed: isDisabled ? (){} : onTap,
-            iconAlignment: IconAlignment.end,
-            icon: iconData==null?null:Icon(iconData,color:
-            context.colorScheme.onPrimary,size: 15,),
-            label: Text(text ?? "",),
+            onPressed: isDisabled ? () {} : onTap,
+            iconAlignment: iconPath != null?
+            IconAlignment.start:
+            iconAlignment??IconAlignment.end,
+            icon: iconData == null
+                ? iconPath != null
+                    ? SvgPicture.asset(iconPath!)
+                    : null
+                : Icon(
+                    iconData,
+                    color: context.colorScheme.onPrimary,
+                    size: 15,
+                  ),
+            label: FittedBox(
+              child: Text(
+                text ?? "",
+              ),
+            ),
           );
   }
 }

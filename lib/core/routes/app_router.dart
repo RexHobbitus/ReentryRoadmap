@@ -10,6 +10,8 @@ import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/notification/notification_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
@@ -147,6 +149,15 @@ class AppRouter {
           return OnboardingPage(
             cubit: getIt(),
             initialParams: const OnboardingInitialParams(),
+          );
+        },
+      ),
+      GoRoute(
+        path: ProviderDetailPage.path,
+        builder: (context, state) {
+          return ProviderDetailPage(
+            cubit: getIt(),
+            initialParams: const ProviderDetailInitialParams(),
           );
         },
       ),

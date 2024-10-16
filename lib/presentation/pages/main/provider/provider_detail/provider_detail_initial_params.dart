@@ -1,0 +1,4 @@
+class ProviderDetailInitialParams {
+
+const ProviderDetailInitialParams();
+}
