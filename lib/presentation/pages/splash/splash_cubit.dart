@@ -25,13 +25,12 @@ class SplashCubit extends Cubit<SplashState> {
   }
 
   _navigateToBottomNav() async {
-    await checkUserSessionUseCase.execute().then((status){
-      if(status==UserSessionStatus.loggedInWithNoOnboarding){
+    await checkUserSessionUseCase.execute().then((status) {
+      if (status == UserSessionStatus.loggedInWithNoOnboarding) {
         navigator.openOnboarding(const OnboardingInitialParams());
-      }else{
+      } else {
         navigator.openExplore(const ExploreInitialParams());
       }
     });
-
   }
 }

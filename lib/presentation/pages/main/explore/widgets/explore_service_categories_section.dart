@@ -30,7 +30,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         padding: const EdgeInsets.symmetric(vertical: 20),
-        itemCount: cubit.serviceCategories.length,
+        itemCount:kServiceCategories.length,
         itemBuilder: (context, index) {
           return _serviceCategoryWidget(
             context: context,
