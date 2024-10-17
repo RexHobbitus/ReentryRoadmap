@@ -35,28 +35,31 @@ class RatingSubSection extends StatelessWidget {
       decoration: BoxDecoration(color: context.themeData.cardColor),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       height:120,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              _dualStar(context: context),
-              Text(
-                " 4.9 ",
-                style: context.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.w700,
+      child: Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                _dualStar(context: context),
+                Text(
+                  " 4.9 ",
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              Transform(
-                  alignment: Alignment.center,
-                  transform: Matrix4.rotationY(math.pi),
-                  child: _dualStar(context: context)),
-            ],
-          ),
-          Text(
-            "235 Reviews",
-            style: context.textTheme.bodySmall,
-          ),
-        ],
+                Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(math.pi),
+                    child: _dualStar(context: context)),
+              ],
+            ),
+            Text(
+              "235 Reviews",
+              style: context.textTheme.bodySmall,
+            ),
+          ],
+        ),
       ),
     );
   }

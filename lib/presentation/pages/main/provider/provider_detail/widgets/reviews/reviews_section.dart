@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_drop_down.dart';
@@ -10,13 +11,14 @@ import 'customer_review_widget.dart';
 import 'rating_sub_section.dart';
 
 class ReviewsSection extends StatelessWidget {
-  const ReviewsSection({super.key});
+  final ProviderDetailCubit cubit;
+  const ReviewsSection({super.key,required this.cubit});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        RatingSubSection(),
+        const RatingSubSection(),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -29,14 +31,14 @@ class ReviewsSection extends StatelessWidget {
                 ProviderDetailButton(
                   title: "Add Review",
                   icon: Icons.add,
-                  onTap: () {},
+                  onTap: cubit.addReviewAction,
                   isPrimary: true,
                 ),
                 const SizedBox(width: 10,),
                 ProviderDetailDropdown<String>(
-                  items: const ["Newest","Oldest"],
-                  selectedItem: "Newest",
-                  width: 120,
+                  items: const ["Newest First","Oldest First","Highest Rating","Lowest Rating"],
+                  selectedItem: "Newest First",
+                  width: 150,
                  // height: 3,
                   onChanged: (val){},
                 ),

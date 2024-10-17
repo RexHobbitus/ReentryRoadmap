@@ -20,7 +20,7 @@ class ProviderDetailDropdown<T> extends StatelessWidget {
     this.height,
     // Default width
     this.borderRadius = 5.0, // Default border radius
-    this.contentPadding = const EdgeInsets.symmetric(vertical: 4, horizontal: 10), // Default padding
+    this.contentPadding = const EdgeInsets.symmetric(vertical: 5, horizontal: 10), // Default padding
   }) : super(key: key);
 
   @override

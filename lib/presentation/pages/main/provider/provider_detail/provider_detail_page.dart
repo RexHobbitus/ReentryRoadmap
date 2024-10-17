@@ -55,36 +55,37 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
                 children: [
                   ProviderDetailHeader(),
                   CustomResponsiveBuilder(
-                    builder: (context,constraints,deviceSize) {
-                      return Container(
-                        width: deviceSize==DeviceSize.web?
-                        constraints.maxWidth-500:
-                        constraints.maxWidth,
-                        margin: const EdgeInsets.symmetric(vertical: 20),
-                        child: Column(
-                          children: [
-                            ProviderDetailMenuBar(
-                              cubit: cubit,
-                            ),
-                            BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
-                              bloc: cubit,
-                              builder: (context, state) {
-                                return state.selectedMenuIndex == 0
-                                    ? AboutProviderSection()
-                                    : state.selectedMenuIndex == 1
-                                    ? ReviewsSection()
-                                    : state.selectedMenuIndex == 2
-                                    ? OurTakeSection()
-                                    : PhotosSection(
-                                  cubit: cubit,
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  )
+                      builder: (context, constraints, deviceSize) {
+                    return Container(
+                      width: deviceSize == DeviceSize.web
+                          ? constraints.maxWidth - 500
+                          : constraints.maxWidth,
+                      margin: const EdgeInsets.symmetric(vertical: 20),
+                      child: Column(
+                        children: [
+                          ProviderDetailMenuBar(
+                            cubit: cubit,
+                          ),
+                          BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
+                            bloc: cubit,
+                            builder: (context, state) {
+                              return state.selectedMenuIndex == 0
+                                  ? AboutProviderSection()
+                                  : state.selectedMenuIndex == 1
+                                      ? ReviewsSection(
+                                          cubit: cubit,
+                                        )
+                                      : state.selectedMenuIndex == 2
+                                          ? OurTakeSection()
+                                          : PhotosSection(
+                                              cubit: cubit,
+                                            );
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  })
                   // ProviderDetailMenuBar(
                   //   cubit: cubit,
                   // ),
