@@ -7,11 +7,16 @@ import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_state.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_eligibility_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_features_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_describe_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_apply_catagories_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_subCatagory_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_apply_catagories_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_subCatagory_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_catagories_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_eligibility_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_features_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_intro_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_service_intro_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_service_program_offer_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_service_specific_program_section.dart';
@@ -74,12 +79,19 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   final textFieldUpdateListener = StreamController<bool>.broadcast();
 
 //amazing sauce program
-  List<ServiceCategory> catagoriesList = kServiceCategories;
+  List<ServiceCategory> amazingSauceCatagoriesList = kServiceCategories;
   String amazingSauceDetail = '';
-  List<String> categories = [];
-  List<String> subCategories = [];
-  List<String> programFeatures = [];
-  List<String> eligibilityCriteria = [];
+  List<String> amazingSauceCategories = [];
+  List<String> amazingSauceSubCategories = [];
+  List<String> amazingSauceProgramFeatures = [];
+  List<String> amazingSauceEligibilityCriteria = [];
+
+//general service
+  List<ServiceCategory> generalServiceCatagoriesList = kServiceCategories;
+  List<String> generalServiceCategories = [];
+  List<String> generalServiceSubCategories = [];
+  List<String> generalServiceProgramFeatures = [];
+  List<String> generalServiceEligibilityCriteria = [];
 
   notifyTextFieldUpdates() {
     textFieldUpdateListener.add(true);
@@ -108,27 +120,38 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         ProgramServiceProgramOfferSection(),
 
         //amazing sausce progra,
-        const ProgramServiceAmazingProgramSection(),
-        const ProgramServiceAmazingSauceDescribeSection(),
-        ProgramServiceApplyCategoriesSection(),
-        const ProgramServiceSubcatagorySection(),
-        ProgramServiceAmazingProgramFeaturesSection(),
+        for (int i = 0; i < programOffer.length; i++) ...[
+          const ProgramServiceAmazingProgramSection(),
+          const ProgramServiceAmazingSauceDescribeSection(),
+          ProgramServiceAmazingSauceApplyCatagoriesSection(),
+          const ProgramServiceAmazingSauceSubcatagorySection(),
+          ProgramServiceAmazingProgramFeaturesSection(),
+          ProgramServiceAmazingProgramEligibilitySection(),
+        ],
+
+        //general services
+        ProgramServiceGeneralServiceIntroSection(),
+        ProgramServiceGeneralServiceCatagoriesSection(),
+        ProgramServiceGeneralServiceFeaturesSection(),
+        ProgramServiceGeneralServiceEligibilitySection()
       ];
+
   disposeControllers() {
     debugPrint("controller disposed.....");
   }
 
   void addCategory(String category) {
-    categories.add(category);
-    emit(state.copyWith()); 
+    amazingSauceCategories.add(category);
+    emit(state.copyWith());
   }
 
   void removeCategory(String category) {
-    categories.remove(category);
-    emit(state.copyWith()); 
+    amazingSauceCategories.remove(category);
+    emit(state.copyWith());
   }
+
   bool isCategorySelected(String category) {
-    return categories.contains(category);
+    return amazingSauceCategories.contains(category);
   }
 
   nextStepAction() {

@@ -4,21 +4,22 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingProgramFeaturesSection extends StatefulWidget {
-  ProgramServiceAmazingProgramFeaturesSection({super.key});
+class ProgramServiceGeneralServiceFeaturesSection extends StatefulWidget {
+  ProgramServiceGeneralServiceFeaturesSection({super.key});
 
   @override
-  State<ProgramServiceAmazingProgramFeaturesSection> createState() =>
-      _ProgramServiceAmazingProgramFeaturesSectionState();
+  State<ProgramServiceGeneralServiceFeaturesSection> createState() =>
+      _ProgramServiceGeneralServiceFeaturesSectionState();
 }
 
-class _ProgramServiceAmazingProgramFeaturesSectionState
-    extends State<ProgramServiceAmazingProgramFeaturesSection> {
+class _ProgramServiceGeneralServiceFeaturesSectionState
+    extends State<ProgramServiceGeneralServiceFeaturesSection> {
   final _controller = TextEditingController();
   bool showAddButton = false; // Track whether the add button should be shown
 
@@ -71,9 +72,9 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.amazingSauceProgramFeatures.contains(feature)) {
+            if (!cubit.generalServiceProgramFeatures.contains(feature)) {
               setState(() {
-                cubit.amazingSauceProgramFeatures.add(feature);
+                cubit.generalServiceProgramFeatures.add(feature);
                 _controller.clear();
                 showAddButton = true;
               });
@@ -82,8 +83,7 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
         ),
         const SizedBox(height: 10),
 
-        // Display selected features
-        for (var feature in cubit.amazingSauceProgramFeatures)
+        for (var feature in cubit.generalServiceProgramFeatures)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -101,7 +101,7 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.amazingSauceProgramFeatures.remove(feature);
+                          cubit.generalServiceProgramFeatures.remove(feature);
                           cubit.notifyTextFieldUpdates();
                         });
                       },
@@ -110,12 +110,11 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
               ],
             ),
           ),
-        // Show the "Add Another Feature" button only after selecting a feature
 
         TextButton(
           onPressed: () {
             setState(() {
-              showAddButton = false; // Hide the button after pressing it
+              showAddButton = false;
             });
           },
           child: Row(

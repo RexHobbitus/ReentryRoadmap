@@ -1,0 +1,28 @@
+import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
+import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/provider_onboarding_repository.dart';
+import 'package:reentry_roadmap/domain/stores/user_store.dart';
+
+import '../repositories/database/onboarding_repository.dart';
+import '../entities/onboarding_info.dart';
+import 'dart:developer' as logger;
+
+class OnboardingUseCase {
+  final ProviderOnboardingRepository providerOnboardingRepository;
+  final AuthRepository authRepository;
+  final UserStore userStore;
+
+  OnboardingUseCase({
+    required this.authRepository,
+    required this.providerOnboardingRepository,
+    required this.userStore,
+  });
+
+  Future<void> execute(ProviderOnboardingInfo provideronboardingInfo) async {
+    logger.log("${provideronboardingInfo.toJson()}");
+    await providerOnboardingRepository.submitAssessment(provideronboardingInfo);
+    AppUser? user = await authRepository.getCurrentUser();
+    userStore.setUser(user!);
+  }
+}

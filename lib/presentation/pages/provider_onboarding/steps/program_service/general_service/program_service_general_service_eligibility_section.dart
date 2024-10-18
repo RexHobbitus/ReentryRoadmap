@@ -4,21 +4,22 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingProgramFeaturesSection extends StatefulWidget {
-  ProgramServiceAmazingProgramFeaturesSection({super.key});
+class ProgramServiceGeneralServiceEligibilitySection extends StatefulWidget {
+  ProgramServiceGeneralServiceEligibilitySection({super.key});
 
   @override
-  State<ProgramServiceAmazingProgramFeaturesSection> createState() =>
-      _ProgramServiceAmazingProgramFeaturesSectionState();
+  State<ProgramServiceGeneralServiceEligibilitySection> createState() =>
+      _ProgramServiceGeneralServiceEligibilitySectionState();
 }
 
-class _ProgramServiceAmazingProgramFeaturesSectionState
-    extends State<ProgramServiceAmazingProgramFeaturesSection> {
+class _ProgramServiceGeneralServiceEligibilitySectionState
+    extends State<ProgramServiceGeneralServiceEligibilitySection> {
   final _controller = TextEditingController();
   bool showAddButton = false; // Track whether the add button should be shown
 
@@ -35,10 +36,9 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const ProviderOnboardingTitleWidget(
-          title: "Enter a few features of the program",
+          title: "Enter the eligibility criteria for the program",
         ),
 
-        // Text field for adding a new feature
         TypeAheadField<String>(
           suggestionsCallback: _onSearch,
           controller: _controller,
@@ -71,10 +71,10 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.amazingSauceProgramFeatures.contains(feature)) {
+            if (!cubit.generalServiceEligibilityCriteria.contains(feature)) {
               setState(() {
-                cubit.amazingSauceProgramFeatures.add(feature);
-                _controller.clear();
+                cubit.generalServiceEligibilityCriteria.add(feature);
+                _controller.clear(); 
                 showAddButton = true;
               });
             }
@@ -83,7 +83,7 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
         const SizedBox(height: 10),
 
         // Display selected features
-        for (var feature in cubit.amazingSauceProgramFeatures)
+        for (var feature in cubit.generalServiceEligibilityCriteria)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -101,7 +101,8 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.amazingSauceProgramFeatures.remove(feature);
+                          cubit.generalServiceEligibilityCriteria
+                              .remove(feature);
                           cubit.notifyTextFieldUpdates();
                         });
                       },
@@ -138,7 +139,7 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
   }
 
   List<String> _onSearch(String value) {
-    return kProgramFeatures
+    return kEligibilityCriteria
         .where((feature) => feature.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }

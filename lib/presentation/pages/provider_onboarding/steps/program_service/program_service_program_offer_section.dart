@@ -48,7 +48,7 @@ class _ProgramServiceProgramOfferSectionState
           },
         ),
         const SizedBox(height: 10),
-        for (var provider in selectedProviders)
+        for (var provider in cubit.programOffer)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -57,6 +57,12 @@ class _ProgramServiceProgramOfferSectionState
             ),
             child: ListTile(
               title: Text(provider),
+              trailing: IconButton(
+                  onPressed: () {
+                    setState(() {});
+                    _removeServiceProvider();
+                  },
+                  icon: SvgPicture.asset(Assets.delete)),
             ),
           ),
         const SizedBox(height: 10),
@@ -67,7 +73,16 @@ class _ProgramServiceProgramOfferSectionState
   void _addServiceProvider() {
     if (_controller.text.isNotEmpty) {
       setState(() {
-        selectedProviders.add(_controller.text.trim());
+        cubit.programOffer.add(_controller.text.trim());
+        _controller.clear();
+      });
+    }
+  }
+
+  void _removeServiceProvider() {
+    if (_controller.text.isNotEmpty) {
+      setState(() {
+        cubit.programOffer.remove(_controller.text.trim());
         _controller.clear();
       });
     }

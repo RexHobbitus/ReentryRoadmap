@@ -1,32 +1,32 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
-import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceApplyCategoriesSection extends StatefulWidget {
+class ProgramServiceGeneralServiceCatagoriesSection extends StatefulWidget {
+  const ProgramServiceGeneralServiceCatagoriesSection({super.key});
+
   @override
-  _ProgramServiceApplyCategoriesSectionState createState() =>
-      _ProgramServiceApplyCategoriesSectionState();
+  _ProgramServiceGeneralServiceCatagoriesSectionState createState() =>
+      _ProgramServiceGeneralServiceCatagoriesSectionState();
 }
 
-class _ProgramServiceApplyCategoriesSectionState
-    extends State<ProgramServiceApplyCategoriesSection> {
+class _ProgramServiceGeneralServiceCatagoriesSectionState
+    extends State<ProgramServiceGeneralServiceCatagoriesSection> {
   ProviderOnboardingCubit get cubit => getIt();
-
-  // List to store the selected categories
-  List<int> selectedCategories = [];
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ProviderOnboardingTitleWidget(
+        const ProviderOnboardingTitleWidget(
           title: "What categories apply to the program?",
           subTitle: "Select all that apply",
         ),
@@ -46,8 +46,8 @@ class _ProgramServiceApplyCategoriesSectionState
             itemBuilder: (context, index) {
               return _serviceCategoryWidget(
                 context: context,
-                asset: cubit.catagoriesList[index].icon,
-                title: cubit.catagoriesList[index].title,
+                asset: cubit.generalServiceCatagoriesList[index].icon,
+                title: cubit.generalServiceCatagoriesList[index].title,
                 index: index,
               );
             },
@@ -70,10 +70,10 @@ class _ProgramServiceApplyCategoriesSectionState
         setState(() {
           if (isSelected) {
             cubit.removeCategory(title);
-            print(cubit.categories);
+            print(cubit.generalServiceCatagoriesList);
           } else {
             cubit.addCategory(title);
-            print(cubit.categories);
+            print(cubit.amazingSauceCategories);
           }
         });
       },

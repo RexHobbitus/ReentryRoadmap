@@ -6,7 +6,7 @@ const double kScreenHorizontalPadding = 20;
 const kPlaceHolderImage =
     "https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png";
 const double kMenuBreakPoint = 650;
-
+const String kPendingStatus = "Pending";
 final List<ServiceCategory> kServiceCategories = [
   ServiceCategory(icon: Assets.education, title: "Education"),
   ServiceCategory(icon: Assets.employment, title: "Employment"),

@@ -7,16 +7,16 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 
-class ProgramServiceSubcatagorySection extends StatefulWidget {
-  const ProgramServiceSubcatagorySection({super.key});
+class ProgramServiceAmazingSauceSubcatagorySection extends StatefulWidget {
+  const ProgramServiceAmazingSauceSubcatagorySection({super.key});
 
   @override
-  State<ProgramServiceSubcatagorySection> createState() =>
-      _ProgramServiceSubcatagorySectionState();
+  State<ProgramServiceAmazingSauceSubcatagorySection> createState() =>
+      _ProgramServiceAmazingSauceSubcatagorySectionState();
 }
 
-class _ProgramServiceSubcatagorySectionState
-    extends State<ProgramServiceSubcatagorySection> {
+class _ProgramServiceAmazingSauceSubcatagorySectionState
+    extends State<ProgramServiceAmazingSauceSubcatagorySection> {
   List<String> selected = [];
   ProviderOnboardingCubit get cubit => getIt();
 
@@ -24,7 +24,7 @@ class _ProgramServiceSubcatagorySectionState
   void initState() {
     // TODO: implement initState
     super.initState();
-    selected = cubit.subCategories;
+    selected = cubit.amazingSauceSubCategories;
   }
 
   @override
@@ -50,7 +50,7 @@ class _ProgramServiceSubcatagorySectionState
                       selected.add(subCategory);
                     }
                   });
-                  cubit.subCategories = selected;
+                  cubit.amazingSauceSubCategories = selected;
                   cubit.notifyTextFieldUpdates();
                 },
               ),
