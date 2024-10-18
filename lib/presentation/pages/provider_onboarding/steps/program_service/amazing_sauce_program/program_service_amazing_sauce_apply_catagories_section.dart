@@ -10,7 +10,8 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceAmazingSauceApplyCatagoriesSection extends StatefulWidget {
-  const ProgramServiceAmazingSauceApplyCatagoriesSection({super.key});
+  final int index;
+  const ProgramServiceAmazingSauceApplyCatagoriesSection({super.key,required this.index});
 
   @override
   _ProgramServiceAmazingSauceApplyCatagoriesSectionState createState() =>

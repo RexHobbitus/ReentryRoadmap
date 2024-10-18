@@ -8,21 +8,71 @@ const kPlaceHolderImage =
 const double kMenuBreakPoint = 650;
 const String kPendingStatus = "Pending";
 final List<ServiceCategory> kServiceCategories = [
-  ServiceCategory(icon: Assets.education, title: "Education"),
-  ServiceCategory(icon: Assets.employment, title: "Employment"),
-  ServiceCategory(icon: Assets.housing, title: "Housing"),
-  ServiceCategory(icon: Assets.lifeSkills, title: "Life Skills"),
-  ServiceCategory(icon: Assets.finance, title: "Finance"),
-  ServiceCategory(icon: Assets.legal, title: "Legal"),
-  ServiceCategory(icon: Assets.transportation, title: "Transportation"),
-  ServiceCategory(icon: Assets.community, title: "Community"),
-  ServiceCategory(icon: Assets.health, title: "Health"),
-  ServiceCategory(icon: Assets.friendsAndFamily, title: "Friends & Family"),
-  ServiceCategory(icon: Assets.spirituality, title: "Spirituality"),
-  ServiceCategory(icon: Assets.mentalHealth, title: "Mental Health"),
-  ServiceCategory(icon: Assets.firstSteps, title: "First Steps"),
   ServiceCategory(
-      icon: Assets.personalizedServices, title: "Personalized Services"),
+    icon: Assets.education,
+    title: "Education",
+    subCategories: kEducationSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.employment,
+    title: "Employment",
+    subCategories: kEmploymentSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.housing,
+    title: "Housing",
+    subCategories: kHousingSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.lifeSkills,
+    title: "Life Skills",
+    subCategories: kLifeSkillsSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.finance,
+    title: "Finance",
+    subCategories: kFinancialSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.legal,
+    title: "Legal",
+    subCategories: kLegalSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.transportation,
+    title: "Transportation",
+    subCategories: kTransportationSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.community,
+    title: "Community",
+    subCategories: kCommunitySubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.health,
+    title: "Health",
+    subCategories: kHealthSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.friendsAndFamily,
+    title: "Friends & Family",
+    subCategories: kFirstStepsSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.spirituality,
+    title: "Spirituality",
+    subCategories: kSpiritualitySubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.mentalHealth,
+    title: "Mental Health",
+    subCategories: kMentalHealthSubCategories,
+  ),
+  ServiceCategory(
+    icon: Assets.firstSteps,
+    title: "First Steps",
+    subCategories: kFirstStepsSubCategories,
+  ),
 ];
 
 // Sub-categories for each category
@@ -111,7 +161,7 @@ const List<String> kSpiritualitySubCategories = [
   'Faith Based',
 ];
 
-const List<String> transportationSubCategories = [
+const List<String> kTransportationSubCategories = [
   'General',
   'Public Transit Passes',
   'Ride-Sharing Programs',

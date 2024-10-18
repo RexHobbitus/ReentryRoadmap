@@ -1,5 +1,6 @@
 class ServiceCategory{
   String title;
   String icon;
-  ServiceCategory({required this.icon,required this.title});
+  List<String> subCategories;
+  ServiceCategory({required this.icon,required this.title,required this.subCategories});
 }

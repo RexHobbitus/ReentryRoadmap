@@ -8,7 +8,8 @@ import '../../../../../../service_locator/service_locator.dart';
 import '../../../../../widgets/custom_option_tile.dart';
 
 class ProgramServiceAmazingSauceSubcatagorySection extends StatefulWidget {
-  const ProgramServiceAmazingSauceSubcatagorySection({super.key});
+  final int index;
+  const ProgramServiceAmazingSauceSubcatagorySection({super.key,required this.index});
 
   @override
   State<ProgramServiceAmazingSauceSubcatagorySection> createState() =>

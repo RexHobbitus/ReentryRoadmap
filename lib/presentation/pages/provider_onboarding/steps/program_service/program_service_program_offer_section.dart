@@ -74,6 +74,7 @@ class _ProgramServiceProgramOfferSectionState
     if (_controller.text.isNotEmpty) {
       setState(() {
         cubit.programOffer.add(_controller.text.trim());
+
         _controller.clear();
       });
     }

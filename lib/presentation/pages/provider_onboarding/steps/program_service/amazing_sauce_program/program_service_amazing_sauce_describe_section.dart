@@ -7,7 +7,8 @@ import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
-  const ProgramServiceAmazingSauceDescribeSection({super.key});
+  final int index;
+  const ProgramServiceAmazingSauceDescribeSection({super.key,required this.index,});
 
   ProviderOnboardingCubit get cubit => getIt();
 
@@ -24,9 +25,9 @@ class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
           children: [
             CustomTextField(
               isDetail: true,
-              initialValue: cubit.amazingSauceDetail,
+              initialValue: cubit.amazingSauceDetail[index],
               onChange: (val) {
-                cubit.amazingSauceDetail = val;
+                cubit.amazingSauceDetail[index] = val;
                 cubit.notifyTextFieldUpdates();
               },
             ),

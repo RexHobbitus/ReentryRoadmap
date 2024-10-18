@@ -34,8 +34,8 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         itemBuilder: (context, index) {
           return _serviceCategoryWidget(
             context: context,
-            asset: cubit.serviceCategories[index].icon,
-            title: cubit.serviceCategories[index].title,
+            asset: kServiceCategories[index].icon,
+            title: kServiceCategories[index].title,
           );
         },
       );

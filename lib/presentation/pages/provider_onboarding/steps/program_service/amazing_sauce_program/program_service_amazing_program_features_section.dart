@@ -10,7 +10,8 @@ import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceAmazingProgramFeaturesSection extends StatefulWidget {
-  ProgramServiceAmazingProgramFeaturesSection({super.key});
+  final int index;
+  ProgramServiceAmazingProgramFeaturesSection({super.key,required this.index});
 
   @override
   State<ProgramServiceAmazingProgramFeaturesSection> createState() =>

@@ -35,6 +35,7 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/pro
 
 class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   ProviderOnboardingNavigator navigator;
+
   ProviderOnboardingCubit({required this.navigator})
       : super(ProviderOnboardingState.initial());
 
@@ -72,6 +73,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     endTimes[index] = time;
     emit(state.copyWith());
   }
+
 //program services
 
   String specificProgram = "";
@@ -80,7 +82,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
 //amazing sauce program
   List<ServiceCategory> amazingSauceCatagoriesList = kServiceCategories;
-  String amazingSauceDetail = '';
+  List<String> amazingSauceDetail = [];
   List<String> amazingSauceCategories = [];
   List<String> amazingSauceSubCategories = [];
   List<String> amazingSauceProgramFeatures = [];
@@ -120,13 +122,25 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         ProgramServiceProgramOfferSection(),
 
         //amazing sausce progra,
-        for (int i = 0; i < programOffer.length; i++) ...[
-          const ProgramServiceAmazingProgramSection(),
-          const ProgramServiceAmazingSauceDescribeSection(),
-          ProgramServiceAmazingSauceApplyCatagoriesSection(),
-          const ProgramServiceAmazingSauceSubcatagorySection(),
-          ProgramServiceAmazingProgramFeaturesSection(),
-          ProgramServiceAmazingProgramEligibilitySection(),
+        for (int programIndex = 0; programIndex < programOffer.length; programIndex++) ...[
+          ProgramServiceAmazingProgramSection(
+            index: programIndex,
+          ),
+           ProgramServiceAmazingSauceDescribeSection(
+            index: programIndex,
+          ),
+           ProgramServiceAmazingSauceApplyCatagoriesSection(
+            index: programIndex,
+          ),
+           ProgramServiceAmazingSauceSubcatagorySection(
+            index: programIndex,
+          ),
+          ProgramServiceAmazingProgramFeaturesSection(
+            index: programIndex,
+          ),
+          ProgramServiceAmazingProgramEligibilitySection(
+            index: programIndex,
+          ),
         ],
 
         //general services

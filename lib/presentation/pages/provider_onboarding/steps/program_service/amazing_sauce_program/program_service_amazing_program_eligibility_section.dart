@@ -11,7 +11,8 @@ import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceAmazingProgramEligibilitySection extends StatefulWidget {
-  ProgramServiceAmazingProgramEligibilitySection({super.key});
+  final int index;
+  ProgramServiceAmazingProgramEligibilitySection({super.key,required this.index});
 
   @override
   State<ProgramServiceAmazingProgramEligibilitySection> createState() =>
