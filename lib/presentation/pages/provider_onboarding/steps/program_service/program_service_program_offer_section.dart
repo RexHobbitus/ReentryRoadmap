@@ -39,7 +39,7 @@ class _ProgramServiceProgramOfferSectionState
         ),
         TextField(
           controller: _controller,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             labelText: "Enter Provider's name",
             border: OutlineInputBorder(),
           ),
@@ -74,7 +74,7 @@ class _ProgramServiceProgramOfferSectionState
     if (_controller.text.isNotEmpty) {
       setState(() {
         cubit.programOffer.add(_controller.text.trim());
-
+        _generateSubFields();
         _controller.clear();
       });
     }
@@ -84,8 +84,13 @@ class _ProgramServiceProgramOfferSectionState
     if (_controller.text.isNotEmpty) {
       setState(() {
         cubit.programOffer.remove(_controller.text.trim());
+        _generateSubFields();
         _controller.clear();
       });
     }
+  }
+
+  _generateSubFields(){
+    cubit.amazingSauceDetail=List.generate(cubit.programOffer.length, (index)=>"");
   }
 }
