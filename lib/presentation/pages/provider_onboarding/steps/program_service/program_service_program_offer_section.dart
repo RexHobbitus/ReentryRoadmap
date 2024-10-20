@@ -91,6 +91,6 @@ class _ProgramServiceProgramOfferSectionState
   }
 
   _generateSubFields(){
-    cubit.amazingSauceDetail=List.generate(cubit.programOffer.length, (index)=>"");
+    cubit.programOffer=List.generate(cubit.programOffer.length, (index)=>"");
   }
 }

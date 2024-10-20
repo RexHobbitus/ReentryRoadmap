@@ -8,7 +8,10 @@ import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
   final int index;
-  const ProgramServiceAmazingSauceDescribeSection({super.key,required this.index,});
+  const ProgramServiceAmazingSauceDescribeSection({
+    super.key,
+    required this.index,
+  });
 
   ProviderOnboardingCubit get cubit => getIt();
 
@@ -27,7 +30,7 @@ class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
               isDetail: true,
               initialValue: cubit.amazingSauceDetail[index],
               onChange: (val) {
-                cubit.amazingSauceDetail[index] = val;
+                cubit.amazingSauceDetail = val;
                 cubit.notifyTextFieldUpdates();
               },
             ),

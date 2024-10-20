@@ -86,7 +86,7 @@ class _ProviderOnboardingLocationSectionState
                           cubit.locationZipCode = val;
                           cubit.notifyTextFieldUpdates();
                         },
-                        label: "City",
+                        label: "Zip Code",
                       ),
                     ],
                   ),
@@ -144,7 +144,7 @@ class _ProviderOnboardingLocationSectionState
                       cubit.locationZipCode = val;
                       cubit.notifyTextFieldUpdates();
                     },
-                    label: "City",
+                    label: "Zip Code",
                   ),
                 ],
               );

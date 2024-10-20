@@ -1,13 +1,16 @@
 import 'package:get_it/get_it.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/onboarding_repository_imp.dart';
+import 'package:reentry_roadmap/data/repositories/database/provider_onboarding_repository_imp.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/onboarding_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/provider_onboarding_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/login_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/logout_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
 import '../core/alert/app_snack_bar.dart';
 import '../core/navigation/app_navigator.dart';
@@ -34,6 +37,9 @@ class ServiceLocator {
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));
     getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
     getIt.registerSingleton<OnboardingRepository>(OnboardingRepositoryImp());
+    getIt.registerSingleton<ProviderOnboardingRepository>(
+        ProviderOnboardingRepositoryImp());
+
     getIt.registerSingleton<UserStore>(UserStore());
 
     /// use cases
@@ -47,10 +53,16 @@ class ServiceLocator {
       onboardingRepository: getIt(),
       userStore: getIt(),
     ));
+    getIt
+        .registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
+      authRepository: getIt(),
+      providerOnboardingRepository: getIt(),
+      userStore: getIt(),
+    ));
+
     getIt.registerSingleton<LoginUseCase>(LoginUseCase(
       authRepository: getIt(),
       userStore: getIt(),
-
     ));
     getIt.registerSingleton<SignUpUseCase>(SignUpUseCase(
       authRepository: getIt(),
@@ -60,7 +72,6 @@ class ServiceLocator {
       authRepository: getIt(),
       userStore: getIt(),
     ));
-
 
     await AppServices.initialize();
 

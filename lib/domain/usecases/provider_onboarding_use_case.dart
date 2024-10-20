@@ -8,12 +8,12 @@ import '../repositories/database/onboarding_repository.dart';
 import '../entities/onboarding_info.dart';
 import 'dart:developer' as logger;
 
-class OnboardingUseCase {
+class ProviderOnboardingUseCase {
   final ProviderOnboardingRepository providerOnboardingRepository;
   final AuthRepository authRepository;
   final UserStore userStore;
 
-  OnboardingUseCase({
+  ProviderOnboardingUseCase({
     required this.authRepository,
     required this.providerOnboardingRepository,
     required this.userStore,

@@ -1,85 +1,26 @@
 import 'dart:async';
+
 //import 'dart:html' as html;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ImageUploadScreen extends StatefulWidget {
+class ProviderDetailImageUploadSection extends StatefulWidget {
   @override
-  _ImageUploadScreenState createState() => _ImageUploadScreenState();
+  _ProviderDetailImageUploadSectionState createState() =>
+      _ProviderDetailImageUploadSectionState();
 }
 
-class _ImageUploadScreenState extends State<ImageUploadScreen> {
+class _ProviderDetailImageUploadSectionState
+    extends State<ProviderDetailImageUploadSection> {
   //List<html.File> _webImages = []; // Store uploaded images for web
   bool _showUploadPopup = false; // Controls popup visibility
 
-  // Function to pick and upload images for Web
-  // void _pickImageWeb() {
-  //   html.FileUploadInputElement uploadInput = html.FileUploadInputElement();
-  //   uploadInput.accept = 'image/*';
-  //   uploadInput.multiple = true;
-  //   uploadInput.click();
-  //   uploadInput.onChange.listen((event) {
-  //     final files = uploadInput.files!;
-  //     for (var file in files) {
-  //       _handleDrop(file);
-  //     }
-  //     setState(() {
-  //       _showUploadPopup = false; // Close popup after selecting images
-  //     });
-  //   });
-  // }
-
-  // // Function to handle the file drop (web only)
-  // void _handleDrop(html.File file) {
-  //   setState(() {
-  //     _webImages.add(file);
-  //   });
-  // }
-
-  // // Widget to display uploaded images in a grid view for web
-  // Widget _buildImageGrid() {
-  //   if (_webImages.isEmpty) {
-  //     return const Center(
-  //       child: Text('No images uploaded yet.', style: TextStyle(fontSize: 16)),
-  //     );
-  //   } else {
-  //     // Show images in a staggered grid when multiple images are uploaded
-  //     return Padding(
-  //       padding: const EdgeInsets.all(8.0),
-  //       child: StaggeredGrid.count(
-  //         crossAxisCount: 3, // Number of columns in the grid
-  //         mainAxisSpacing: 4,
-  //         crossAxisSpacing: 4,
-  //         children: _webImages.map((file) {
-  //           return FutureBuilder(
-  //             future: _readFileAsDataUrl(file),
-  //             builder: (context, snapshot) {
-  //               if (snapshot.connectionState == ConnectionState.done) {
-  //                 return Image.network(snapshot.data as String,
-  //                     fit: BoxFit.cover);
-  //               }
-  //               return const CircularProgressIndicator();
-  //             },
-  //           );
-  //         }).toList(),
-  //       ),
-  //     );
-  //   }
-  // }
-
-  // // Function to read files as Data URL for web
-  // Future<String> _readFileAsDataUrl(html.File file) {
-  //   final reader = html.FileReader();
-  //   final completer = Completer<String>();
-  //   reader.readAsDataUrl(file);
-  //   reader.onLoadEnd.listen((_) {
-  //     completer.complete(reader.result as String);
-  //   });
-  //   return completer.future;
-  // }
+  ProviderOnboardingCubit get cubit => getIt();
 
   // Popup window for uploading on Web
   Widget _buildUploadPopupWeb(double height) {
@@ -169,24 +110,9 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ProviderOnboardingTitleWidget(
+          const ProviderOnboardingTitleWidget(
             title: "Share a few photos of your provider location",
           ),
-          // if (_webImages.isNotEmpty)
-          //   Align(
-          //     alignment: Alignment.topRight,
-          //     child: Padding(
-          //       padding: const EdgeInsets.all(8.0),
-          //       child: ElevatedButton(
-          //         onPressed: () {
-          //           setState(() {
-          //             _showUploadPopup = true; // Open upload popup
-          //           });
-          //         },
-          //         child: const Text('Add More Photos'),
-          //       ),
-          //     ),
-          //   ),
 
           // Big box or grid view for images
           Expanded(
@@ -195,9 +121,7 @@ class _ImageUploadScreenState extends State<ImageUploadScreen> {
                 //  if (_webImages.isEmpty && !_showUploadPopup)
                 InkWell(
                   onTap: () {
-                    setState(() {
-                      _showUploadPopup = true;
-                    });
+                    cubit.openImagePicker();
                   },
                   child: Container(
                     height: size * 0.5,

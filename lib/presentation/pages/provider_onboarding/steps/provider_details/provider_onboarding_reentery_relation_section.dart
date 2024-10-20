@@ -14,7 +14,7 @@ class ProviderOnboardingReenteryRelationSection extends StatefulWidget {
 
 class _ProviderOnboardingReenteryRelationSectionState
     extends State<ProviderOnboardingReenteryRelationSection> {
-  final List<String> veterans = [
+  final List<String> relations = [
     "Focused solely on reentry",
     "Reentry adjacent"
   ];
@@ -43,14 +43,15 @@ class _ProviderOnboardingReenteryRelationSectionState
         ),
         Wrap(
           children: [
-            for (var val in veterans)
+            for (var relation in relations)
               CustomOptionTile(
-                title: val,
-                isSelected: selected == val,
+                title: relation,
+                isSelected: selected == relation,
                 onTap: () {
                   setState(() {
-                    selected = val;
-                    cubit.relationReentry = val;
+                    selected = relation;
+                    cubit.relationReentry = relation;
+                    print(cubit.relationReentry);
                   });
                   cubit.notifyTextFieldUpdates();
                 },

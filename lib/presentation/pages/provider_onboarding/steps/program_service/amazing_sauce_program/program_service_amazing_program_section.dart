@@ -16,7 +16,7 @@ class ProgramServiceAmazingProgramSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ProviderOnboardingSubprogramIntroWidget(
-      title: cubit.programOffer[index],
+      title: '${cubit.programOffer[index]} Program',
       subTitle:
           Text("Tell us more about your specific programs and general services",
               style: context.textTheme.titleMedium?.copyWith(

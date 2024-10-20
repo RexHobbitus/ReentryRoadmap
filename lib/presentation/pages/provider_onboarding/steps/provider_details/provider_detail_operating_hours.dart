@@ -1,8 +1,12 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/extensions/date_time_extension.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/extensions/time_of_day_extension.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProviderOperatingHours extends StatefulWidget {
   @override
@@ -10,24 +14,22 @@ class ProviderOperatingHours extends StatefulWidget {
 }
 
 class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
-  List<TimeOfDay> startTimes =
-      List.generate(7, (index) => const TimeOfDay(hour: 9, minute: 0));
-  List<TimeOfDay> endTimes =
-      List.generate(7, (index) => const TimeOfDay(hour: 17, minute: 0));
+  ProviderOnboardingCubit get cubit => getIt();
+
   Future<void> _selectTime(
       BuildContext context, bool isStart, int dayIndex) async {
     final TimeOfDay? picked = await showTimePicker(
       context: context,
-      initialTime: isStart ? startTimes[dayIndex] : endTimes[dayIndex],
+      initialTime: TimeOfDay.now(),
     );
-    if (picked != null &&
-        picked != (isStart ? startTimes[dayIndex] : endTimes[dayIndex])) {
+    if (picked != null) {
       setState(() {
         if (isStart) {
-          startTimes[dayIndex] = picked;
+          cubit.operatingHours[dayIndex].startTime = picked.toDateTime();
         } else {
-          endTimes[dayIndex] = picked;
+          cubit.operatingHours[dayIndex].endTime = picked.toDateTime();
         }
+        cubit.notifyTextFieldUpdates();
       });
     }
   }
@@ -83,8 +85,6 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
   }
 
   Widget _buildDayRow(int index) {
-    final String day = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'][index];
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
@@ -96,7 +96,7 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(10)),
           child: Center(
             child: Text(
-              day,
+              cubit.operatingHours[index].day,
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -111,8 +111,8 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              startTimes[index]?.format(context) ??
-                  '--', // Show '--' if time is not selected
+              cubit.operatingHours[index].startTime?.toTimeAMPM()??"---",
+              // Show '--' if time is not selected
               style: const TextStyle(fontSize: 16),
             ),
           ),
@@ -132,8 +132,7 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              startTimes[index]?.format(context) ??
-                  '--', // Show '--' if time is not selected
+              cubit.operatingHours[index].endTime?.toTimeAMPM()??"---", // Show '--' if time is not selected
               style: const TextStyle(fontSize: 16),
             ),
           ),

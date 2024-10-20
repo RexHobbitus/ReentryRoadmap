@@ -19,6 +19,8 @@ class Assets{
   static const String login ="assets/icons/login.svg";
   static const String exploreLandmark ="assets/icons/explore_landmark.svg";
   static const String delete ="assets/icons/delete.svg";
+  static const String images ="assets/icons/images.svg";
+
 
 
 

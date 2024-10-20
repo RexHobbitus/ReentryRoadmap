@@ -92,8 +92,9 @@ class AppCubits {
     getIt.registerSingleton<ProviderOnboardingNavigator>(
         ProviderOnboardingNavigator(getIt()));
     getIt.registerSingleton<ProviderOnboardingCubit>(ProviderOnboardingCubit(
-      navigator: getIt(),
-    ));
+        navigator: getIt(),
+        providerOnboardingUseCase: getIt(),
+        snackBar: getIt()));
 
     getIt.registerSingleton<LoginNavigator>(LoginNavigator(getIt()));
     getIt.registerSingleton<LoginCubit>(LoginCubit(

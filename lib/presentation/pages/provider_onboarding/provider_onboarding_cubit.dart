@@ -1,9 +1,17 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
+import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
+import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
+import 'package:reentry_roadmap/presentation/pages/popups/upload_photos_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_state.dart';
@@ -35,13 +43,21 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/pro
 
 class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   ProviderOnboardingNavigator navigator;
+  ProviderOnboardingUseCase providerOnboardingUseCase;
+  AppSnackBar snackBar;
 
-  ProviderOnboardingCubit({required this.navigator})
+  ProviderOnboardingCubit(
+      {required this.navigator,
+      required this.providerOnboardingUseCase,
+      required this.snackBar})
       : super(ProviderOnboardingState.initial());
 
   BuildContext get context => navigator.context;
 
-  onInit(ProviderOnboardingInitialParams initialParams) {}
+  onInit(ProviderOnboardingInitialParams initialParams) {
+    operatingHours =
+        List.generate(7, (index) => OperatingHour(day: daysName[index]));
+  }
 
   //provider onboarding
   String nameProviderLocation = "";
@@ -52,25 +68,25 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   String locationCountry = "";
   String locationState = "";
   String locationZipCode = "";
-  DateTime startTime = DateTime.now();
-  DateTime endTime = DateTime.now();
-  List<String> providerLocationPhotos = [];
+
+  List<dynamic> providerLocationPhotos = [];
   String officialPhone = "";
   String officialEmail = "";
   String faxNumber = "";
   String contactPerson = "";
   String orgWebsite = "";
 
-  List<TimeOfDay?> startTimes = List.generate(7, (index) => null);
-  List<TimeOfDay?> endTimes = List.generate(7, (index) => null);
+  List<String> daysName = ["SUN", "MON", "TUE", "WED", "THUR", "FRI", "SAT"];
 
-  void updateStartTime(int index, TimeOfDay time) {
-    startTimes[index] = time;
+  List<OperatingHour> operatingHours = [];
+
+  void updateStartTime(int index, DateTime time) {
+    operatingHours[index].startTime = time;
     emit(state.copyWith());
   }
 
-  void updateEndTime(int index, TimeOfDay time) {
-    endTimes[index] = time;
+  void updateEndTime(int index, DateTime time) {
+    operatingHours[index].endTime = time;
     emit(state.copyWith());
   }
 
@@ -78,11 +94,10 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   String specificProgram = "";
   List<String> programOffer = [];
-  final textFieldUpdateListener = StreamController<bool>.broadcast();
 
 //amazing sauce program
   List<ServiceCategory> amazingSauceCatagoriesList = kServiceCategories;
-  List<String> amazingSauceDetail = [];
+  String amazingSauceDetail = '';
   List<String> amazingSauceCategories = [];
   List<String> amazingSauceSubCategories = [];
   List<String> amazingSauceProgramFeatures = [];
@@ -94,6 +109,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   List<String> generalServiceSubCategories = [];
   List<String> generalServiceProgramFeatures = [];
   List<String> generalServiceEligibilityCriteria = [];
+  final textFieldUpdateListener = StreamController<bool>.broadcast();
 
   notifyTextFieldUpdates() {
     textFieldUpdateListener.add(true);
@@ -104,11 +120,12 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         //Provider Onboarding
         const ProviderDetailsIntro(),
         const ProviderDetailNameLocationSection(),
-        const ProviderOnboardingReenteryRelationSection(),
         const ProviderDescribeLocationWidget(),
-        ProviderOperatingHours(),
-        ImageUploadScreen(),
+        const ProviderOnboardingReenteryRelationSection(),
         ProviderOnboardingLocationSection(),
+        ProviderOperatingHours(),
+        ProviderDetailImageUploadSection(),
+
         const ProviderOfficialPhoneSection(),
         const ProviderOfficialEmailSection(),
         const ProviderOfficialFaxSection(),
@@ -116,23 +133,25 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         const ProviderOrgWebSection(),
 
         //2nd part
-        //provider  program service
+        //  provider  program service
         const ProgramServiceIntroSection(),
         const ProgramServiceSpecificProgramSection(),
         ProgramServiceProgramOfferSection(),
 
-        //amazing sausce progra,
-        for (int programIndex = 0; programIndex < programOffer.length; programIndex++) ...[
+        // //amazing sausce progra,
+        for (int programIndex = 0;
+            programIndex < programOffer.length;
+            programIndex++) ...[
           ProgramServiceAmazingProgramSection(
             index: programIndex,
           ),
-           ProgramServiceAmazingSauceDescribeSection(
+          ProgramServiceAmazingSauceDescribeSection(
             index: programIndex,
           ),
-           ProgramServiceAmazingSauceApplyCatagoriesSection(
+          ProgramServiceAmazingSauceApplyCatagoriesSection(
             index: programIndex,
           ),
-           ProgramServiceAmazingSauceSubcatagorySection(
+          ProgramServiceAmazingSauceSubcatagorySection(
             index: programIndex,
           ),
           ProgramServiceAmazingProgramFeaturesSection(
@@ -143,9 +162,9 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
           ),
         ],
 
-        //general services
-        ProgramServiceGeneralServiceIntroSection(),
-        ProgramServiceGeneralServiceCatagoriesSection(),
+        // //general services
+        const ProgramServiceGeneralServiceIntroSection(),
+        const ProgramServiceGeneralServiceCatagoriesSection(),
         ProgramServiceGeneralServiceFeaturesSection(),
         ProgramServiceGeneralServiceEligibilitySection()
       ];
@@ -168,7 +187,20 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     return amazingSauceCategories.contains(category);
   }
 
+  skipStepAction() {
+    int step = state.providerOnboardingSectionIndex + 1;
+    emit(state.copyWith(providerOnboardingSectionIndex: step));
+  }
+
   nextStepAction() {
+    if (isProviderOnboardingCompleted()) {
+      //  _sendOnboardingInformation();
+      return;
+    }
+    if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
+      return;
+    }
+
     int step = state.providerOnboardingSectionIndex + 1;
     emit(state.copyWith(providerOnboardingSectionIndex: step));
   }
@@ -176,5 +208,145 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   backAction() {
     int step = state.providerOnboardingSectionIndex - 1;
     emit(state.copyWith(providerOnboardingSectionIndex: step));
+  }
+
+  _sendOnboardingInformation() async {
+    try {
+      emit(state.copyWith(loading: true));
+
+      ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
+      ProgramServiceInfo programServiceInfo = _getProgramServiceInfo();
+      ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
+          providerDetails: providerDetailsInfo,
+          programServiceInfo: programServiceInfo);
+
+      await providerOnboardingUseCase.execute(providerOnboardingInfo);
+      snackBar.show("Provider Onboarding submitted successfully",
+          snackBarType: SnackBarType.SUCCESS);
+    } catch (e) {
+      snackBar.show(e.toString());
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  bool isProviderOnboardingCompleted() {
+    if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
+      return true;
+    }
+
+    return false;
+  }
+
+  bool isNextButtonEnabled() {
+    switch (state.providerOnboardingSectionIndex) {
+      case 0:
+
+        /// Provider Details Info
+        return true;
+      case 1:
+        return nameProviderLocation.isNotEmpty;
+      case 2:
+        return describeProviderLocation.isNotEmpty;
+      case 3:
+        return relationReentry.isNotEmpty;
+      case 4:
+        return locationCity.isNotEmpty &&
+            locationState.isNotEmpty &&
+            locationCountry.isNotEmpty &&
+            locationZipCode.isNotEmpty;
+      case 5:
+        return _isAllOperatingHoursFilled();
+      // return startTime != null && endTime != null;
+
+      case 6:
+        return providerLocationPhotos.isNotEmpty;
+      case 7:
+        return officialPhone.isNotEmpty;
+      case 9:
+        return officialEmail.isNotEmpty;
+      case 10:
+        return faxNumber.isNotEmpty;
+      case 11:
+        return contactPerson.isNotEmpty;
+      case 12:
+        return orgWebsite.isNotEmpty;
+
+      case 13:
+
+        /// program services
+
+        return true;
+      case 14:
+        return specificProgram.isNotEmpty;
+      case 15:
+        return programOffer.isNotEmpty;
+      case 16:
+
+        /// amazing sauce program
+        return true;
+      case 20:
+        return amazingSauceDetail.isNotEmpty;
+      case 21:
+        return amazingSauceCategories.isNotEmpty;
+      case 22:
+        return amazingSauceSubCategories.isNotEmpty;
+      case 23:
+        return amazingSauceProgramFeatures.isNotEmpty;
+      case 24:
+        return amazingSauceEligibilityCriteria.isNotEmpty;
+
+      case 35:
+        return true;
+      default:
+        return false;
+    }
+  }
+
+  bool _isAllOperatingHoursFilled() {
+    for (final operatingHour in operatingHours) {
+      if (operatingHour.startTime == null || operatingHour.endTime == null) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  ProviderDetailsInfo _getProviderDetailsInfo() {
+    return ProviderDetailsInfo(
+      providerNameLocation: nameProviderLocation,
+      providerLocationDescribe: describeProviderLocation,
+      relationReentry: relationReentry,
+      street: locationStreet,
+      city: locationCity,
+      country: locationCountry,
+      state: locationState,
+      zipCode: locationZipCode,
+      images: [],
+      contactPerson: contactPerson,
+      officialNumber: officialPhone,
+      officialEmail: officialEmail,
+      officialFax: faxNumber,
+      orgWebsite: orgWebsite,
+      ratings: '0',
+      reviews: [],
+      operatingHours: operatingHours,
+    );
+  }
+
+  ProgramServiceInfo _getProgramServiceInfo() {
+    return ProgramServiceInfo(
+        specificProgram: specificProgram, programsList: programOffer);
+  }
+
+
+  openImagePicker() {
+    navigator.navigator.showDialogBox(
+        context,
+        UploadPhotosPopup(
+          onUpload: (files) {
+            providerLocationPhotos=files;
+          },
+        ));
   }
 }

@@ -6,7 +6,6 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-
 class ProviderOfficialContactPersonSection extends StatelessWidget {
   const ProviderOfficialContactPersonSection({super.key});
 
@@ -18,21 +17,18 @@ class ProviderOfficialContactPersonSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const ProviderOnboardingTitleWidget(
-          title: "What is the name of your provider location?",
-          subTitle: 'This is the location the services are offered at. It could be the main office of the organization or it could have a different name',
+          title: "Please provide the name of your contact person",
         ),
         Wrap(
           spacing: 15,
           children: [
             CustomTextField(
-              initialValue: cubit.nameProviderLocation,
-              onChange: (val){
-                cubit.nameProviderLocation=val;
+              initialValue: cubit.contactPerson,
+              onChange: (val) {
+                cubit.contactPerson = val;
                 cubit.notifyTextFieldUpdates();
               },
-              label: "Name",
             ),
-            
           ],
         )
       ],

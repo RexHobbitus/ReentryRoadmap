@@ -30,7 +30,6 @@ class ProviderDetailNameLocationSection extends StatelessWidget {
                 cubit.nameProviderLocation=val;
                 cubit.notifyTextFieldUpdates();
               },
-              label: "Name",
             ),
             
           ],

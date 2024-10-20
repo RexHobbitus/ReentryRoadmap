@@ -15,7 +15,7 @@ class ProviderOnboardingRepositoryImp extends FirebaseCollection
       final user = auth.currentUser;
       if (user == null) throw Exception('User not logged in');
 
-      final docRef = firestore.collection('users').doc(user.uid);
+      final docRef = firestore.collection('provider_onboarding').doc(user.uid);
 
       // Getting the current timestamp
       final timestamp = FieldValue.serverTimestamp();
@@ -27,7 +27,7 @@ class ProviderOnboardingRepositoryImp extends FirebaseCollection
         'createdAt': timestamp,
         'updatedAt': timestamp,
         'status': kPendingStatus,
-        'onboardingInfo': providerOnboardingInfo.toJson(),
+        'providerOnboardingInfo': providerOnboardingInfo.toJson(),
       };
 
       await docRef.set(userData,
