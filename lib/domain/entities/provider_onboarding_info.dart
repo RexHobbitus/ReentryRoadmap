@@ -2,24 +2,35 @@ import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 
 import 'current_needs_info.dart';
+import 'general_service.dart';
 import 'incarceration_info.dart';
 import 'personal_info.dart';
 import 'package:equatable/equatable.dart';
 
+import 'program.dart';
 import 'service_provider_accessed.dart';
 
 class ProviderOnboardingInfo extends Equatable {
   ProviderDetailsInfo? providerDetails;
-  ProgramServiceInfo? programServiceInfo;
-  ProviderOnboardingInfo({this.providerDetails, this.programServiceInfo});
+  GeneralService? generalService;
+  List<Program>? programs;
+
+  ProviderOnboardingInfo(
+      {this.providerDetails, this.programs, this.generalService});
 
   ProviderOnboardingInfo.fromJson(Map<String, dynamic> json) {
     providerDetails = json['providerDetails'] != null
         ? new ProviderDetailsInfo.fromJson(json['providerDetails'])
         : null;
-    providerDetails = json['programServices'] != null
-        ? new ProviderDetailsInfo.fromJson(json['programServices'])
+    generalService = json['generalService'] != null
+        ? new GeneralService.fromJson(json['generalService'])
         : null;
+    if (json['programs'] != null) {
+      programs = <Program>[];
+      json['programs'].forEach((v) {
+        programs!.add(new Program.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -27,23 +38,34 @@ class ProviderOnboardingInfo extends Equatable {
     if (this.providerDetails != null) {
       data['providerDetails'] = this.providerDetails!.toJson();
     }
-    if (this.programServiceInfo != null) {
-      data['programServices'] = this.programServiceInfo!.toJson();
+    if (this.generalService != null) {
+      data['generalService'] = this.generalService!.toJson();
+    }
+    if (this.programs != null) {
+      data['programs'] = this.programs!.map((v) => v.toJson()).toList();
     }
 
     return data;
   }
 
-  ProviderOnboardingInfo copyWith(
-      {ProviderDetailsInfo? providerDetails,
-      ProgramServiceInfo? programServices}) {
+  ProviderOnboardingInfo copyWith({
+    ProviderDetailsInfo? providerDetails,
+    GeneralService? generalService,
+    List<Program>? programs,
+  }) {
     return ProviderOnboardingInfo(
-        providerDetails: providerDetails ?? this.providerDetails,
-        programServiceInfo: programServices ?? this.programServiceInfo);
+      providerDetails: providerDetails ?? this.providerDetails,
+      generalService: generalService ?? this.generalService,
+      programs: programs ?? this.programs,
+    );
   }
 
   @override
   // TODO: implement props
   @override
-  List<Object?> get props => [providerDetails, programServiceInfo];
+  List<Object?> get props => [
+        providerDetails,
+        generalService,
+        programs,
+      ];
 }

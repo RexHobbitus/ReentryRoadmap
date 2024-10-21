@@ -26,9 +26,11 @@ class _ProgramServiceAmazingProgramEligibilitySectionState
 
   ProviderOnboardingCubit get cubit => getIt();
 
+  List<String> selectedEligibilityCriteria=[];
   @override
   void initState() {
     super.initState();
+    selectedEligibilityCriteria=cubit.selectedPrograms[widget.index].eligibilityCriteria??[];
   }
 
   @override
@@ -73,9 +75,10 @@ class _ProgramServiceAmazingProgramEligibilitySectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.amazingSauceEligibilityCriteria.contains(feature)) {
+            if (!selectedEligibilityCriteria.contains(feature)) {
               setState(() {
-                cubit.amazingSauceEligibilityCriteria.add(feature);
+                selectedEligibilityCriteria.add(feature);
+                cubit.selectedPrograms[widget.index].eligibilityCriteria=selectedEligibilityCriteria;
                 _controller.clear();
                 showAddButton = true;
               });
@@ -85,7 +88,7 @@ class _ProgramServiceAmazingProgramEligibilitySectionState
         const SizedBox(height: 10),
 
         // Display selected features
-        for (var feature in cubit.amazingSauceEligibilityCriteria)
+        for (var feature in selectedEligibilityCriteria)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -103,7 +106,8 @@ class _ProgramServiceAmazingProgramEligibilitySectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.amazingSauceEligibilityCriteria.remove(feature);
+                          selectedEligibilityCriteria.remove(feature);
+                          cubit.selectedPrograms[widget.index].eligibilityCriteria=selectedEligibilityCriteria;
                           cubit.notifyTextFieldUpdates();
                         });
                       },

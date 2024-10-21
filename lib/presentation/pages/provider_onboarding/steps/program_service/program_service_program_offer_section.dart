@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/domain/entities/program.dart';
+import 'package:reentry_roadmap/domain/entities/program_service.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceProgramOfferSection extends StatefulWidget {
@@ -17,7 +20,7 @@ class ProgramServiceProgramOfferSection extends StatefulWidget {
 
 class _ProgramServiceProgramOfferSectionState
     extends State<ProgramServiceProgramOfferSection> {
-  List<String> selectedProviders = [];
+  List<String> selectedPrograms = [];
 
   final _controller = TextEditingController();
 
@@ -26,7 +29,9 @@ class _ProgramServiceProgramOfferSectionState
   @override
   void initState() {
     super.initState();
-    selectedProviders = cubit.programOffer;
+    selectedPrograms = cubit.selectedPrograms
+        .map((program) => program.name.toString())
+        .toList();
   }
 
   @override
@@ -37,18 +42,15 @@ class _ProgramServiceProgramOfferSectionState
         const ProviderOnboardingTitleWidget(
           title: "List the names of the different programs you offer",
         ),
-        TextField(
+        CustomTextField(
           controller: _controller,
-          decoration: const InputDecoration(
-            labelText: "Enter Provider's name",
-            border: OutlineInputBorder(),
-          ),
-          onSubmitted: (value) {
+          label: "Enter program name",
+          onSubmit: (value) {
             _addServiceProvider();
           },
         ),
         const SizedBox(height: 10),
-        for (var provider in cubit.programOffer)
+        for (var programName in selectedPrograms)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -56,11 +58,10 @@ class _ProgramServiceProgramOfferSectionState
               borderRadius: BorderRadius.circular(10),
             ),
             child: ListTile(
-              title: Text(provider),
+              title: Text(programName),
               trailing: IconButton(
                   onPressed: () {
-                    setState(() {});
-                    _removeServiceProvider();
+                    _removeProgram(programName);
                   },
                   icon: SvgPicture.asset(Assets.delete)),
             ),
@@ -73,24 +74,32 @@ class _ProgramServiceProgramOfferSectionState
   void _addServiceProvider() {
     if (_controller.text.isNotEmpty) {
       setState(() {
-        cubit.programOffer.add(_controller.text.trim());
-        _generateSubFields();
+        selectedPrograms.add(_controller.text.trim());
         _controller.clear();
+        _generateSubFields();
+        cubit.notifyTextFieldUpdates();
       });
     }
   }
 
-  void _removeServiceProvider() {
-    if (_controller.text.isNotEmpty) {
-      setState(() {
-        cubit.programOffer.remove(_controller.text.trim());
-        _generateSubFields();
-        _controller.clear();
-      });
-    }
+  void _removeProgram(String provider) {
+    setState(() {
+      selectedPrograms.remove(provider);
+      _generateSubFields();
+      cubit.notifyTextFieldUpdates();
+    });
   }
 
-  _generateSubFields(){
-    cubit.programOffer=List.generate(cubit.programOffer.length, (index)=>"");
+  _generateSubFields() {
+    cubit.selectedCategories=List.generate(selectedPrograms.length, (index)=>[]);
+    cubit.selectedPrograms = List.generate(
+      selectedPrograms.length,
+      (index) => Program(
+          name: selectedPrograms[index],
+          description: "",
+          programCategories: [],
+          features: [],
+          eligibilityCriteria: []),
+    );
   }
 }

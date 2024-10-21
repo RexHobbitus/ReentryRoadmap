@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/general_service.dart';
 import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
 import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
@@ -40,6 +41,9 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/pro
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_onboarding_location_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_onboarding_reentery_relation_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_org_web_section.dart';
+
+import '../../../domain/entities/program.dart';
+import 'steps/program_service/general_service/program_service_general_service_subcategories_section.dart';
 
 class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   ProviderOnboardingNavigator navigator;
@@ -97,19 +101,20 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 //program services
 
   String specificProgram = "";
-  List<String> programOffer = [];
 
 //amazing sauce program
-  List<ServiceCategory> amazingSauceCatagoriesList = kServiceCategories;
-  String amazingSauceDetail = '';
-  List<String> amazingSauceCategories = [];
-  List<String> amazingSauceSubCategories = [];
-  List<String> amazingSauceProgramFeatures = [];
-  List<String> amazingSauceEligibilityCriteria = [];
+  List<Program> selectedPrograms = [];
+  GeneralService generalServiceInfo = GeneralService(
+    serviceCategories: [],
+    features: [],
+    eligibilityCriteria: [],
+  );
 
-//general service
-  List<ServiceCategory> generalServiceCatagoriesList = kServiceCategories;
-  List<String> generalServiceCategories = [];
+  List<List<ServiceCategory>> selectedCategories = [];
+  List<ServiceCategory> selectedCategoriesForGeneralService = [];
+
+  List<String> amazingSauceSubCategories = [];
+
   List<String> generalServiceSubCategories = [];
   List<String> generalServiceProgramFeatures = [];
   List<String> generalServiceEligibilityCriteria = [];
@@ -144,7 +149,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
         // //amazing sausce progra,
         for (int programIndex = 0;
-            programIndex < programOffer.length;
+            programIndex < selectedPrograms.length;
             programIndex++) ...[
           ProgramServiceAmazingProgramSection(
             index: programIndex,
@@ -169,26 +174,13 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         // //general services
         const ProgramServiceGeneralServiceIntroSection(),
         const ProgramServiceGeneralServiceCatagoriesSection(),
+        const ProgramServiceGeneralServiceSubCategoriesSection(),
         ProgramServiceGeneralServiceFeaturesSection(),
         ProgramServiceGeneralServiceEligibilitySection()
       ];
 
   disposeControllers() {
     debugPrint("controller disposed.....");
-  }
-
-  void addCategory(String category) {
-    amazingSauceCategories.add(category);
-    emit(state.copyWith());
-  }
-
-  void removeCategory(String category) {
-    amazingSauceCategories.remove(category);
-    emit(state.copyWith());
-  }
-
-  bool isCategorySelected(String category) {
-    return amazingSauceCategories.contains(category);
   }
 
   skipStepAction() {
@@ -198,7 +190,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
-      //  _sendOnboardingInformation();
+        _sendOnboardingInformation();
       return;
     }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
@@ -219,10 +211,12 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       emit(state.copyWith(loading: true));
 
       ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
-      ProgramServiceInfo programServiceInfo = _getProgramServiceInfo();
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
-          providerDetails: providerDetailsInfo,
-          programServiceInfo: programServiceInfo);
+        providerDetails: providerDetailsInfo,
+        programs: selectedPrograms,
+        generalService: generalServiceInfo,
+        //     programServiceInfo: programServiceInfo,
+      );
 
       await providerOnboardingUseCase.execute(providerOnboardingInfo);
       snackBar.show("Provider Onboarding submitted successfully",
@@ -284,26 +278,35 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       case 13:
         return specificProgram.isNotEmpty;
       case 14:
-        return programOffer.isNotEmpty;
+        return true;
       case 15:
 
         /// amazing sauce program
         return true;
       case 16:
-        return amazingSauceDetail.isNotEmpty;
-      case 17:
-        return amazingSauceCategories.isNotEmpty;
-      case 18:
-        return amazingSauceSubCategories.isNotEmpty;
-      case 19:
-        return amazingSauceProgramFeatures.isNotEmpty;
-      case 20:
-        return amazingSauceEligibilityCriteria.isNotEmpty;
 
+        /// TODO: WE  HAVE TO APPLY CHECK FOR DESCRIPTION NOT EMPTY
+        return true;
+      case 17:
+
+        /// TODO: WE  HAVE TO APPLY CHECK FOR NO CATEGORY SELECTED
+        return true;
+      case 18:
+
+        /// TODO: WE  HAVE TO APPLY CHECK FOR ALL SUB CATEGORIES SELECTED
+        return true;
+      case 19:
+
+        /// TODO: WE  HAVE TO FIX THIS
+        return true;
+      case 20:
+
+        /// TODO: WE  HAVE TO FIX THIS
+        return true;
       case 21:
         return true;
       default:
-        return false;
+        return true;
     }
   }
 
@@ -336,11 +339,6 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       reviews: [],
       operatingHours: operatingHours,
     );
-  }
-
-  ProgramServiceInfo _getProgramServiceInfo() {
-    return ProgramServiceInfo(
-        specificProgram: specificProgram, programsList: programOffer);
   }
 
   openImagePicker() {

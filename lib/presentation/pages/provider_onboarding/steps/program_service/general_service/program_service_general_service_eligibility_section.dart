@@ -25,8 +25,10 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
 
   ProviderOnboardingCubit get cubit => getIt();
 
+  List<String> eligibilityCriteria=[];
   @override
   void initState() {
+    eligibilityCriteria=cubit.generalServiceInfo.eligibilityCriteria??[];
     super.initState();
   }
 
@@ -71,9 +73,10 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.generalServiceEligibilityCriteria.contains(feature)) {
+            if (!eligibilityCriteria.contains(feature)) {
               setState(() {
-                cubit.generalServiceEligibilityCriteria.add(feature);
+                eligibilityCriteria.add(feature);
+                cubit.generalServiceInfo.eligibilityCriteria=eligibilityCriteria;
                 _controller.clear(); 
                 showAddButton = true;
               });
@@ -83,7 +86,7 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
         const SizedBox(height: 10),
 
         // Display selected features
-        for (var feature in cubit.generalServiceEligibilityCriteria)
+        for (var feature in eligibilityCriteria)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -101,8 +104,8 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.generalServiceEligibilityCriteria
-                              .remove(feature);
+                          eligibilityCriteria.remove(feature);
+                          cubit.generalServiceInfo.eligibilityCriteria=eligibilityCriteria;
                           cubit.notifyTextFieldUpdates();
                         });
                       },

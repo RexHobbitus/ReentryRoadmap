@@ -28,9 +28,9 @@ class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
           children: [
             CustomTextField(
               isDetail: true,
-              initialValue: cubit.amazingSauceDetail[index],
+              initialValue: cubit.selectedPrograms[index].description,
               onChange: (val) {
-                cubit.amazingSauceDetail = val;
+                cubit.selectedPrograms[index].description = val;
                 cubit.notifyTextFieldUpdates();
               },
             ),

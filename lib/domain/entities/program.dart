@@ -1,21 +1,26 @@
 import 'package:reentry_roadmap/domain/entities/program_category.dart';
 
-class GeneralService {
-  List<ProgramCategory>? serviceCategories;
+class Program {
+  String? name;
+  String? description;
+  List<ProgramCategory>? programCategories;
   List<String>? features;
   List<String>? eligibilityCriteria;
 
-  GeneralService(
-      {
-        this.serviceCategories,
+  Program(
+      {this.name,
+        this.description,
+        this.programCategories,
         this.features,
         this.eligibilityCriteria});
 
-  GeneralService.fromJson(Map<String, dynamic> json) {
+  Program.fromJson(Map<String, dynamic> json) {
+    name = json['name'];
+    description = json['description'];
     if (json['programCategories'] != null) {
-      serviceCategories = <ProgramCategory>[];
+      programCategories = <ProgramCategory>[];
       json['programCategories'].forEach((v) {
-        serviceCategories!.add(new ProgramCategory.fromJson(v));
+        programCategories!.add(new ProgramCategory.fromJson(v));
       });
     }
     features = json['features'].cast<String>();
@@ -24,9 +29,11 @@ class GeneralService {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.serviceCategories != null) {
-      data['serviceCategories'] =
-          this.serviceCategories!.map((v) => v.toJson()).toList();
+    data['name'] = this.name;
+    data['description'] = this.description;
+    if (this.programCategories != null) {
+      data['programCategories'] =
+          this.programCategories!.map((v) => v.toJson()).toList();
     }
     data['features'] = this.features;
     data['eligibilityCriteria'] = this.eligibilityCriteria;

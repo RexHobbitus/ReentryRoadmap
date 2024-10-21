@@ -25,9 +25,12 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
 
   ProviderOnboardingCubit get cubit => getIt();
 
+  List<String> features=[];
+
   @override
   void initState() {
     super.initState();
+    features=cubit.generalServiceInfo.features??[];
   }
 
   @override
@@ -72,9 +75,10 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.generalServiceProgramFeatures.contains(feature)) {
+            if (!features.contains(feature)) {
               setState(() {
-                cubit.generalServiceProgramFeatures.add(feature);
+                features.add(feature);
+                cubit.generalServiceInfo.features=features;
                 _controller.clear();
                 showAddButton = true;
               });
@@ -83,7 +87,7 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
         ),
         const SizedBox(height: 10),
 
-        for (var feature in cubit.generalServiceProgramFeatures)
+        for (var feature in features)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -101,7 +105,8 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.generalServiceProgramFeatures.remove(feature);
+                          features.remove(feature);
+                          cubit.generalServiceInfo.features=features;
                           cubit.notifyTextFieldUpdates();
                         });
                       },

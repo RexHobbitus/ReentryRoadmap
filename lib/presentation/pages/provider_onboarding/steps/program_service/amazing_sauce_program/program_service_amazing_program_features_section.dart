@@ -24,10 +24,12 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
   bool showAddButton = false; // Track whether the add button should be shown
 
   ProviderOnboardingCubit get cubit => getIt();
+  List<String> selectedFeatures=[];
 
   @override
   void initState() {
     super.initState();
+    selectedFeatures=cubit.selectedPrograms[widget.index].features??[];
   }
 
   @override
@@ -72,9 +74,10 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
             );
           },
           onSelected: (feature) {
-            if (!cubit.amazingSauceProgramFeatures.contains(feature)) {
+            if (!selectedFeatures.contains(feature)) {
               setState(() {
-                cubit.amazingSauceProgramFeatures.add(feature);
+                selectedFeatures.add(feature);
+                cubit.selectedPrograms[widget.index].features=selectedFeatures;
                 _controller.clear();
                 showAddButton = true;
               });
@@ -84,7 +87,7 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
         const SizedBox(height: 10),
 
         // Display selected features
-        for (var feature in cubit.amazingSauceProgramFeatures)
+        for (var feature in selectedFeatures)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
             decoration: BoxDecoration(
@@ -102,7 +105,8 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
                   trailing: IconButton(
                       onPressed: () {
                         setState(() {
-                          cubit.amazingSauceProgramFeatures.remove(feature);
+                          selectedFeatures.remove(feature);
+                          cubit.selectedPrograms[widget.index].features=selectedFeatures;
                           cubit.notifyTextFieldUpdates();
                         });
                       },

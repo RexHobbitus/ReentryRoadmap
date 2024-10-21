@@ -33,69 +33,69 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                FittedBox(
-                  child: Row(
-                    children: [
-                      /// starting from step 1-8
-                      StepProgressIndicator(
-                        totalSteps: 12,
-                        currentStep: _currentStep >= 12 ? 12 : _currentStep,
-                        selectedColor: context.colorScheme.secondary,
-                        unselectedColor: context.colorScheme.tertiaryContainer,
-                        size: 5,
-                        padding: 0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-
-                      /// starting step 13-15
-                      StepProgressIndicator(
-                        totalSteps: 3,
-                        currentStep: _currentStep - 12 < 0
-                            ? 0
-                            : (_currentStep - 12) > 3
-                                ? 3
-                                : (_currentStep - 12),
-                        selectedColor: context.colorScheme.secondary,
-                        unselectedColor: context.colorScheme.tertiaryContainer,
-                        size: 5,
-                        padding: 0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      //// starting from step 16
-                      StepProgressIndicator(
-                        totalSteps: 6,
-                        currentStep: _currentStep - 16 < 0
-                            ? 0
-                            : (_currentStep - 19) > 16
-                                ? 16
-                                : (_currentStep - 19),
-                        selectedColor: context.colorScheme.secondary,
-                        unselectedColor: context.colorScheme.tertiaryContainer,
-                        size: 5,
-                        padding: 0,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      StepProgressIndicator(
-                        totalSteps: 3,
-                        currentStep:
-                            _currentStep - 33 < 0 ? 0 : _currentStep - 33,
-                        selectedColor: context.colorScheme.secondary,
-                        unselectedColor: context.colorScheme.tertiaryContainer,
-                        size: 5,
-                        padding: 0,
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
+                // FittedBox(
+                //   child: Row(
+                //     children: [
+                //       /// starting from step 1-8
+                //       StepProgressIndicator(
+                //         totalSteps: 12,
+                //         currentStep: _currentStep >= 12 ? 12 : _currentStep,
+                //         selectedColor: context.colorScheme.secondary,
+                //         unselectedColor: context.colorScheme.tertiaryContainer,
+                //         size: 5,
+                //         padding: 0,
+                //       ),
+                //       const SizedBox(
+                //         width: 5,
+                //       ),
+                //
+                //       /// starting step 13-15
+                //       StepProgressIndicator(
+                //         totalSteps: 3,
+                //         currentStep: _currentStep - 12 < 0
+                //             ? 0
+                //             : (_currentStep - 12) > 3
+                //                 ? 3
+                //                 : (_currentStep - 12),
+                //         selectedColor: context.colorScheme.secondary,
+                //         unselectedColor: context.colorScheme.tertiaryContainer,
+                //         size: 5,
+                //         padding: 0,
+                //       ),
+                //       const SizedBox(
+                //         width: 5,
+                //       ),
+                //       //// starting from step 16
+                //       StepProgressIndicator(
+                //         totalSteps: 6,
+                //         currentStep: _currentStep - 16 < 0
+                //             ? 0
+                //             : (_currentStep - 19) > 16
+                //                 ? 16
+                //                 : (_currentStep - 19),
+                //         selectedColor: context.colorScheme.secondary,
+                //         unselectedColor: context.colorScheme.tertiaryContainer,
+                //         size: 5,
+                //         padding: 0,
+                //       ),
+                //       const SizedBox(
+                //         width: 5,
+                //       ),
+                //       StepProgressIndicator(
+                //         totalSteps: 3,
+                //         currentStep:
+                //             _currentStep - 33 < 0 ? 0 : _currentStep - 33,
+                //         selectedColor: context.colorScheme.secondary,
+                //         unselectedColor: context.colorScheme.tertiaryContainer,
+                //         size: 5,
+                //         padding: 0,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: kScreenHorizontalPadding),
@@ -135,7 +135,7 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                               builder: (context, data) {
                                 return CustomButton(
                                   text: cubit.isProviderOnboardingCompleted()
-                                      ? "Complete Provider Onboarding"
+                                      ? "Finish Onboarding"
                                       : "Next",
                                   isLoading: state.loading,
                                   width: device == DeviceSize.mobile
