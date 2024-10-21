@@ -339,14 +339,12 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         specificProgram: specificProgram, programsList: programOffer);
   }
 
-
   openImagePicker() {
-    navigator.navigator.showDialogBox(
-        context,
-        UploadPhotosPopup(
-          onUpload: (files) {
-            providerLocationPhotos=files;
-          },
-        ));
+    navigator.navigator.showDialogBox(context, UploadPhotosPopup(
+      onUpload: (files) {
+        providerLocationPhotos = files;
+        print(providerLocationPhotos);
+      },
+    ));
   }
 }

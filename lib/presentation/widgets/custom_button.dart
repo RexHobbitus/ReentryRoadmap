@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
- import '../../../core/extensions/theme_extension.dart';
+import '../../../core/extensions/theme_extension.dart';
+
 class CustomButton extends StatelessWidget {
   final VoidCallback? onTap;
   final String? text;
   final bool isDisabled;
   final bool isLoading;
   final bool isSecondary;
+  final bool isIconLeft;
   final double? width;
   final double? height;
   final IconData? iconData;
+
+  final IconData? leftIconData;
   const CustomButton({
     super.key,
     this.onTap,
@@ -16,7 +20,9 @@ class CustomButton extends StatelessWidget {
     this.isDisabled = false,
     this.isLoading = false,
     this.isSecondary = false,
+    this.isIconLeft = false,
     this.iconData,
+    this.leftIconData,
     this.height,
     this.width,
   });
@@ -27,8 +33,8 @@ class CustomButton extends StatelessWidget {
         ? Center(child: const CircularProgressIndicator())
         : ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
-              minimumSize:  Size(width??context.sw, height??50),
-              maximumSize:Size(width??context.sw, height??57),
+              minimumSize: Size(width ?? context.sw, height ?? 50),
+              maximumSize: Size(width ?? context.sw, height ?? 57),
               textStyle: context.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w600,
               ),
@@ -41,14 +47,21 @@ class CustomButton extends StatelessWidget {
               foregroundColor: isDisabled
                   ? context.colorScheme.surface
                   : isSecondary
-                      ?  context.themeData.colorScheme.onSecondary
+                      ? context.themeData.colorScheme.onSecondary
                       : null, // Set the disabled text color
             ),
-            onPressed: isDisabled ? (){} : onTap,
-            iconAlignment: IconAlignment.end,
-            icon: iconData==null?null:Icon(iconData,color:
-            context.colorScheme.onPrimary,size: 15,),
-            label: Text(text ?? "",),
+            onPressed: isDisabled ? () {} : onTap,
+            iconAlignment: isIconLeft ? IconAlignment.start : IconAlignment.end,
+            icon: iconData == null
+                ? null
+                : Icon(
+                    iconData,
+                    color: context.colorScheme.onPrimary,
+                    size: 15,
+                  ),
+            label: Text(
+              text ?? "",
+            ),
           );
   }
 }

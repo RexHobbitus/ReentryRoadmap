@@ -33,6 +33,7 @@ class _ProviderOnboardingLocationSectionState
                 spacing: 10,
                 children: [
                   CustomTextField(
+                    width: double.infinity,
                     initialValue: cubit.locationStreet,
                     onChange: (val) {
                       cubit.locationStreet = val;

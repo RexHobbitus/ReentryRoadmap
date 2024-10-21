@@ -1,13 +1,14 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
-import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
-import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_state.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_text_button.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 class ProviderOnboardingFooterWidget extends StatelessWidget {
@@ -116,38 +117,45 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                         ),
                         onPressed: cubit.backAction,
                       ),
-                      if (_currentStep == 3 || _currentStep == 4)
-                        CustomButton(
-                          text: "Skip",
-                          isLoading: state.loading,
-                          width: 150,
-                          height: device == DeviceSize.mobile ? 35 : 55,
-                          iconData: Icons.arrow_forward,
-                          onTap: cubit.nextStepAction,
-                        ),
-                      StreamBuilder<bool>(
-                          stream: cubit.textFieldUpdateListener.stream,
-                          builder: (context, data) {
-                            return CustomButton(
-                              text: cubit.isProviderOnboardingCompleted()
-                                  ? "Complete Provider Onboarding"
-                                  : "Next",
-                              isLoading: state.loading,
-                              width: device == DeviceSize.mobile
-                                  ? cubit.isProviderOnboardingCompleted()
-                                      ? 200
-                                      : 90
-                                  : cubit.isProviderOnboardingCompleted()
-                                      ? 300
-                                      : 120,
-                              height: device == DeviceSize.mobile ? 35 : 55,
-                              iconData: cubit.isProviderOnboardingCompleted()
-                                  ? null
-                                  : Icons.arrow_forward,
-                              isDisabled: !cubit.isNextButtonEnabled(),
+                      Row(
+                        children: [
+                          if (_currentStep == 3 ||
+                              _currentStep == 7 ||
+                              _currentStep == 10 ||
+                              _currentStep == 11)
+                            CustomTextButton(
+                              text: "Skip Question",
                               onTap: cubit.nextStepAction,
-                            );
-                          })
+                            ),
+                          SizedBox(
+                            width: 20,
+                          ),
+                          StreamBuilder<bool>(
+                              stream: cubit.textFieldUpdateListener.stream,
+                              builder: (context, data) {
+                                return CustomButton(
+                                  text: cubit.isProviderOnboardingCompleted()
+                                      ? "Complete Provider Onboarding"
+                                      : "Next",
+                                  isLoading: state.loading,
+                                  width: device == DeviceSize.mobile
+                                      ? cubit.isProviderOnboardingCompleted()
+                                          ? 200
+                                          : 90
+                                      : cubit.isProviderOnboardingCompleted()
+                                          ? 300
+                                          : 120,
+                                  height: device == DeviceSize.mobile ? 35 : 55,
+                                  iconData:
+                                      cubit.isProviderOnboardingCompleted()
+                                          ? null
+                                          : Icons.arrow_forward,
+                                  isDisabled: !cubit.isNextButtonEnabled(),
+                                  onTap: cubit.nextStepAction,
+                                );
+                              }),
+                        ],
+                      )
                     ],
                   ),
                 )
