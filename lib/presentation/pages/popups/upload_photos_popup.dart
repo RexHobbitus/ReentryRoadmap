@@ -41,6 +41,7 @@ class _UploadPhotosPopupState extends State<UploadPhotosPopup> {
             isDisabled: isButtonDisabled,
             onTap: () {
               widget.onUpload?.call(_images);
+              Navigator.pop(context);
             },
           ),
         ]),

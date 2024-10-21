@@ -55,8 +55,13 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   BuildContext get context => navigator.context;
 
   onInit(ProviderOnboardingInitialParams initialParams) {
-    operatingHours =
-        List.generate(7, (index) => OperatingHour(day: daysName[index]));
+    operatingHours = List.generate(
+        7,
+        (index) => OperatingHour(
+              day: daysName[index],
+              startTime: DateTime.now(),
+              endTime: DateTime.now(),
+            ));
   }
 
   //provider onboarding
@@ -69,7 +74,6 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   String locationState = "";
   String locationZipCode = "";
 
-  List<dynamic> providerLocationPhotos = [];
   String officialPhone = "";
   String officialEmail = "";
   String faxNumber = "";
@@ -260,43 +264,43 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       // return startTime != null && endTime != null;
 
       case 6:
-        return providerLocationPhotos.isNotEmpty;
+        return state.providerLocationImages.isNotEmpty;
       case 7:
         return officialPhone.isNotEmpty;
-      case 9:
+      case 8:
         return officialEmail.isNotEmpty;
-      case 10:
+      case 9:
         return faxNumber.isNotEmpty;
-      case 11:
+      case 10:
         return contactPerson.isNotEmpty;
-      case 12:
+      case 11:
         return orgWebsite.isNotEmpty;
 
-      case 13:
+      case 12:
 
         /// program services
 
         return true;
-      case 14:
+      case 13:
         return specificProgram.isNotEmpty;
-      case 15:
+      case 14:
         return programOffer.isNotEmpty;
-      case 16:
+      case 15:
 
         /// amazing sauce program
         return true;
-      case 20:
+      case 16:
         return amazingSauceDetail.isNotEmpty;
-      case 21:
+      case 17:
         return amazingSauceCategories.isNotEmpty;
-      case 22:
+      case 18:
         return amazingSauceSubCategories.isNotEmpty;
-      case 23:
+      case 19:
         return amazingSauceProgramFeatures.isNotEmpty;
-      case 24:
+      case 20:
         return amazingSauceEligibilityCriteria.isNotEmpty;
 
-      case 35:
+      case 21:
         return true;
       default:
         return false;
@@ -342,9 +346,14 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   openImagePicker() {
     navigator.navigator.showDialogBox(context, UploadPhotosPopup(
       onUpload: (files) {
-        providerLocationPhotos = files;
-        print(providerLocationPhotos);
+        emit(state.copyWith(providerLocationImages: files));
       },
     ));
+  }
+
+  removeImage(dynamic image) {
+    List<dynamic> updatedImages = List.from(state.providerLocationImages);
+    updatedImages.remove(image);
+    emit(state.copyWith(providerLocationImages: updatedImages));
   }
 }
