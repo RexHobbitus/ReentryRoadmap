@@ -16,12 +16,12 @@ import 'package:reentry_roadmap/presentation/pages/popups/upload_photos_popup.da
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_state.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_eligibility_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_features_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_program_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_describe_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_apply_catagories_section.dart';
-import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/amazing_sauce_program/program_service_amazing_sauce_subCatagory_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_eligibility_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_features_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_describe_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_apply_catagories_section.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/program_offer_program/program_service_program_offer_subCatagory_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_catagories_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_eligibility_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/program_service/general_service/program_service_general_service_features_section.dart';
@@ -63,8 +63,6 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         7,
         (index) => OperatingHour(
               day: daysName[index],
-              startTime: DateTime.now(),
-              endTime: DateTime.now(),
             ));
   }
 
@@ -113,7 +111,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   List<List<ServiceCategory>> selectedCategories = [];
   List<ServiceCategory> selectedCategoriesForGeneralService = [];
 
-  List<String> amazingSauceSubCategories = [];
+  List<String> programOfferSubCategories = [];
 
   List<String> generalServiceSubCategories = [];
   List<String> generalServiceProgramFeatures = [];
@@ -151,22 +149,22 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         for (int programIndex = 0;
             programIndex < selectedPrograms.length;
             programIndex++) ...[
-          ProgramServiceAmazingProgramSection(
+          ProgramServiceAboutProgramOfferSection(
             index: programIndex,
           ),
-          ProgramServiceAmazingSauceDescribeSection(
+          ProgramServiceProgramOfferDescribeSection(
             index: programIndex,
           ),
-          ProgramServiceAmazingSauceApplyCatagoriesSection(
+          ProgramServiceProgramOfferApplyCatagoriesSection(
             index: programIndex,
           ),
-          ProgramServiceAmazingSauceSubcatagorySection(
+          ProgramServiceProgramOfferSubcatagorySection(
             index: programIndex,
           ),
-          ProgramServiceAmazingProgramFeaturesSection(
+          ProgramServiceProgramOfferFeaturesSection(
             index: programIndex,
           ),
-          ProgramServiceAmazingProgramEligibilitySection(
+          ProgramServiceProgramOfferEligibilitySection(
             index: programIndex,
           ),
         ],
@@ -190,7 +188,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
-        _sendOnboardingInformation();
+      _sendOnboardingInformation();
       return;
     }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
@@ -211,11 +209,11 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       emit(state.copyWith(loading: true));
 
       ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
+
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
         providerDetails: providerDetailsInfo,
         programs: selectedPrograms,
         generalService: generalServiceInfo,
-        //     programServiceInfo: programServiceInfo,
       );
 
       await providerOnboardingUseCase.execute(providerOnboardingInfo);
@@ -279,25 +277,38 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         return specificProgram.isNotEmpty;
       case 14:
         return true;
+
       case 15:
 
         /// amazing sauce program
         return true;
       case 16:
-
-        /// TODO: WE  HAVE TO APPLY CHECK FOR DESCRIPTION NOT EMPTY
+        for (var program in selectedPrograms) {
+          if (program.description == null || program.description!.isEmpty) {
+            return false;
+          }
+        }
         return true;
+      // return false;
       case 17:
-
-        /// TODO: WE  HAVE TO APPLY CHECK FOR NO CATEGORY SELECTED
+        for (var categories in selectedCategories) {
+          if (categories.isEmpty) {
+            return false;
+          }
+        }
         return true;
+
       case 18:
+        for (var programOfferSubCategories in selectedCategories) {
+          if (programOfferSubCategories.isEmpty) {
+            return false;
+          }
+        }
 
-        /// TODO: WE  HAVE TO APPLY CHECK FOR ALL SUB CATEGORIES SELECTED
         return true;
-      case 19:
 
-        /// TODO: WE  HAVE TO FIX THIS
+      /// TODO: WE  HAVE TO APPLY CHECK FOR ALL SUB CATEGORIES SELECTED
+      case 19:
         return true;
       case 20:
 
@@ -329,7 +340,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       country: locationCountry,
       state: locationState,
       zipCode: locationZipCode,
-      images: [],
+      images: state.providerLocationImages,
       contactPerson: contactPerson,
       officialNumber: officialPhone,
       officialEmail: officialEmail,

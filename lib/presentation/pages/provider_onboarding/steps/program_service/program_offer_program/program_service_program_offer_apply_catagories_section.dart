@@ -12,19 +12,19 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/program_category_card.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingSauceApplyCatagoriesSection extends StatefulWidget {
+class ProgramServiceProgramOfferApplyCatagoriesSection extends StatefulWidget {
   final int index;
 
-  const ProgramServiceAmazingSauceApplyCatagoriesSection(
+  const ProgramServiceProgramOfferApplyCatagoriesSection(
       {super.key, required this.index});
 
   @override
-  _ProgramServiceAmazingSauceApplyCatagoriesSectionState createState() =>
-      _ProgramServiceAmazingSauceApplyCatagoriesSectionState();
+  _ProgramServiceProgramOfferApplyCatagoriesSectionState createState() =>
+      _ProgramServiceProgramOfferApplyCatagoriesSectionState();
 }
 
-class _ProgramServiceAmazingSauceApplyCatagoriesSectionState
-    extends State<ProgramServiceAmazingSauceApplyCatagoriesSection> {
+class _ProgramServiceProgramOfferApplyCatagoriesSectionState
+    extends State<ProgramServiceProgramOfferApplyCatagoriesSection> {
   ProviderOnboardingCubit get cubit => getIt();
 
   List<ServiceCategory> _selectedCategories = [];

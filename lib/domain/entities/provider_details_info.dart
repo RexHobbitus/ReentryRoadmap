@@ -11,7 +11,7 @@ class ProviderDetailsInfo extends Equatable {
   String? country;
   String? state;
   String? zipCode;
-  List<String>? images;
+  List<dynamic>? images;
   String? officialNumber;
   String? officialEmail;
   String? officialFax;

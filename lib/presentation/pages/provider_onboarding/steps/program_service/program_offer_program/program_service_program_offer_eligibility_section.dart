@@ -10,17 +10,17 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingProgramEligibilitySection extends StatefulWidget {
+class ProgramServiceProgramOfferEligibilitySection extends StatefulWidget {
   final int index;
-  ProgramServiceAmazingProgramEligibilitySection({super.key,required this.index});
+  ProgramServiceProgramOfferEligibilitySection({super.key,required this.index});
 
   @override
-  State<ProgramServiceAmazingProgramEligibilitySection> createState() =>
-      _ProgramServiceAmazingProgramEligibilitySectionState();
+  State<ProgramServiceProgramOfferEligibilitySection> createState() =>
+      _ProgramServiceProgramOfferEligibilitySectionState();
 }
 
-class _ProgramServiceAmazingProgramEligibilitySectionState
-    extends State<ProgramServiceAmazingProgramEligibilitySection> {
+class _ProgramServiceProgramOfferEligibilitySectionState
+    extends State<ProgramServiceProgramOfferEligibilitySection> {
   final _controller = TextEditingController();
   bool showAddButton = false; // Track whether the add button should be shown
 

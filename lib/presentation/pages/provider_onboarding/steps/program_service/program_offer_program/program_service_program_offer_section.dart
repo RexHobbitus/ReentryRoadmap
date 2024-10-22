@@ -7,9 +7,9 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../provider_onboarding_cubit.dart';
 
-class ProgramServiceAmazingProgramSection extends StatelessWidget {
+class ProgramServiceAboutProgramOfferSection extends StatelessWidget {
   final int index;
-  const ProgramServiceAmazingProgramSection({super.key,required this.index});
+  const ProgramServiceAboutProgramOfferSection({super.key,required this.index});
 
   ProviderOnboardingCubit get cubit => getIt();
 

@@ -20,9 +20,10 @@ class ProviderOnboardingUseCase {
   });
 
   Future<void> execute(ProviderOnboardingInfo providerOnboardingInfo) async {
-    logger.log("${providerOnboardingInfo.toJson()}");
-    // await providerOnboardingRepository.submitAssessment(provideronboardingInfo);
-    // AppUser? user = await authRepository.getCurrentUser();
-    // userStore.setUser(user!);
+    // logger.log("${providerOnboardingInfo.toJson()}");
+
+    await providerOnboardingRepository.submitAssessment(providerOnboardingInfo);
+    AppUser? user = await authRepository.getCurrentUser();
+    userStore.setUser(user!);
   }
 }

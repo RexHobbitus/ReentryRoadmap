@@ -9,20 +9,19 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingProgramFeaturesSection extends StatefulWidget {
+class ProgramServiceProgramOfferFeaturesSection extends StatefulWidget {
   final int index;
-  ProgramServiceAmazingProgramFeaturesSection({super.key,required this.index});
+  ProgramServiceProgramOfferFeaturesSection({super.key,required this.index});
 
   @override
-  State<ProgramServiceAmazingProgramFeaturesSection> createState() =>
-      _ProgramServiceAmazingProgramFeaturesSectionState();
+  State<ProgramServiceProgramOfferFeaturesSection> createState() =>
+      _ProgramServiceProgramOfferFeaturesSectionState();
 }
 
-class _ProgramServiceAmazingProgramFeaturesSectionState
-    extends State<ProgramServiceAmazingProgramFeaturesSection> {
+class _ProgramServiceProgramOfferFeaturesSectionState
+    extends State<ProgramServiceProgramOfferFeaturesSection> {
   final _controller = TextEditingController();
-  bool showAddButton = false; // Track whether the add button should be shown
-
+  bool showAddButton = false; 
   ProviderOnboardingCubit get cubit => getIt();
   List<String> selectedFeatures=[];
 
@@ -41,7 +40,6 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
           title: "Enter a few features of the program",
         ),
 
-        // Text field for adding a new feature
         TypeAheadField<String>(
           suggestionsCallback: _onSearch,
           controller: _controller,
@@ -86,7 +84,6 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
         ),
         const SizedBox(height: 10),
 
-        // Display selected features
         for (var feature in selectedFeatures)
           Container(
             margin: const EdgeInsets.only(bottom: 10),
@@ -115,7 +112,6 @@ class _ProgramServiceAmazingProgramFeaturesSectionState
               ],
             ),
           ),
-        // Show the "Add Another Feature" button only after selecting a feature
 
         TextButton(
           onPressed: () {

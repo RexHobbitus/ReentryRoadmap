@@ -6,9 +6,9 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceAmazingSauceDescribeSection extends StatelessWidget {
+class ProgramServiceProgramOfferDescribeSection extends StatelessWidget {
   final int index;
-  const ProgramServiceAmazingSauceDescribeSection({
+  const ProgramServiceProgramOfferDescribeSection({
     super.key,
     required this.index,
   });

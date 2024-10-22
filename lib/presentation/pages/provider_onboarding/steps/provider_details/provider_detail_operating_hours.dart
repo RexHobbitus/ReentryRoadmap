@@ -111,7 +111,7 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              cubit.operatingHours[index].startTime?.toTimeAMPM()??"---",
+              cubit.operatingHours[index].startTime?.toTimeAMPM() ?? "---",
               // Show '--' if time is not selected
               style: const TextStyle(fontSize: 16),
             ),
@@ -132,7 +132,8 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(8),
             ),
             child: Text(
-              cubit.operatingHours[index].endTime?.toTimeAMPM()??"---", // Show '--' if time is not selected
+              cubit.operatingHours[index].endTime?.toTimeAMPM() ??
+                  "---", // Show '--' if time is not selected
               style: const TextStyle(fontSize: 16),
             ),
           ),
