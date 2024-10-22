@@ -39,8 +39,9 @@ class ProviderDetailFooter extends StatelessWidget {
                       ProviderDetailButton(
                         title: "Suggest on edit",
                         icon: Icons.edit,
+                        onTap: cubit.suggestEditAction,
                       ),
-                      ProviderDetailButton(
+                      const ProviderDetailButton(
                         title: "Save",
                         icon: Icons.bookmark_border,
                       ),
@@ -48,12 +49,11 @@ class ProviderDetailFooter extends StatelessWidget {
                   ),
                   CustomButton(
                     text: "Contact OpenGate",
-                    onTap: () {},
+                    onTap: cubit.contactAction,
                   ),
                 ],
               ),
             );
     });
   }
-
 }

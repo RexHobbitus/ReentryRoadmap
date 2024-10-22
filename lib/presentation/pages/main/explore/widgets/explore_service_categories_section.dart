@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path/path.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
@@ -30,12 +29,12 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         padding: const EdgeInsets.symmetric(vertical: 20),
-        itemCount: cubit.serviceCategories.length,
+        itemCount: kServiceCategories.length,
         itemBuilder: (context, index) {
           return _serviceCategoryWidget(
             context: context,
-            asset: cubit.serviceCategories[index].icon,
-            title: cubit.serviceCategories[index].title,
+            asset: kServiceCategories[index].icon,
+            title: kServiceCategories[index].title,
           );
         },
       );

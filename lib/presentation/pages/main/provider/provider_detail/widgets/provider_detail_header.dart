@@ -5,12 +5,14 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path/path.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
 class ProviderDetailHeader extends StatelessWidget {
-  ProviderDetailHeader({super.key});
+  final ProviderDetailCubit cubit;
+  ProviderDetailHeader({super.key,required this.cubit});
 
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
@@ -58,7 +60,7 @@ class ProviderDetailHeader extends StatelessWidget {
               visible: deviceSize==DeviceSize.web,
               child: CustomButton(
                 text: "Contact OpenGate",
-                onTap: (){},
+                onTap:cubit.contactAction,
                 width: 450,
               ),
             )

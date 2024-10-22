@@ -4,7 +4,6 @@ import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/our_take/our_take_section.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_menu_bar.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
-import 'package:reentry_roadmap/presentation/widgets/header_logo.dart';
 import 'provider_detail_cubit.dart';
 import 'provider_detail_initial_params.dart';
 import 'provider_detail_state.dart';
@@ -53,7 +52,9 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
               child: Wrap(
                 spacing: 20,
                 children: [
-                  ProviderDetailHeader(),
+                  ProviderDetailHeader(
+                    cubit: cubit,
+                  ),
                   CustomResponsiveBuilder(
                       builder: (context, constraints, deviceSize) {
                     return Container(

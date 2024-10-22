@@ -11,7 +11,7 @@ class ProviderDetailState {
 
   factory ProviderDetailState.initial() => const ProviderDetailState(
         loading: false,
-        selectedMenuIndex: 3,
+        selectedMenuIndex: 0,
       );
 
   ProviderDetailState copyWith({bool? loading, int? selectedMenuIndex}) =>
