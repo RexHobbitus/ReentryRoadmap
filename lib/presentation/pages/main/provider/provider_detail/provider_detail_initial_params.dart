@@ -1,4 +1,7 @@
 class ProviderDetailInitialParams {
+  final String id;
 
-const ProviderDetailInitialParams();
+  const ProviderDetailInitialParams({
+    required this.id,
+  });
 }

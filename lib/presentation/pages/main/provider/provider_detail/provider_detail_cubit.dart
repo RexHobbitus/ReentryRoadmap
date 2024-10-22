@@ -1,5 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
+import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_contact_form/provider_contact_form.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_suggest_edit/provider_suggest_edit_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/write_review/write_review_popup.dart';
@@ -11,17 +14,36 @@ import 'provider_detail_navigator.dart';
 
 class ProviderDetailCubit extends Cubit<ProviderDetailState> {
   ProviderDetailNavigator navigator;
-
+  AppSnackBar snackBar;
+  ProviderRepository providerRepository;
   ProviderDetailCubit({
     required this.navigator,
+    required this.snackBar,
+    required this.providerRepository,
+
   }) : super(ProviderDetailState.initial());
 
   BuildContext get context => navigator.context;
 
-  onInit(ProviderDetailInitialParams initialParams) {}
+  onInit(ProviderDetailInitialParams initialParams) {
+    debugPrint("Provider id: ${initialParams.id}");
+    _getProviderDetail(initialParams.id);
+  }
 
   onMenuTap(int index) {
     emit(state.copyWith(selectedMenuIndex: index));
+  }
+
+  _getProviderDetail(String id) async {
+    try{
+      emit(state.copyWith(loading: true));
+      Provider provider=await providerRepository.getProviderDetail(id: id);
+      emit(state.copyWith(provider: provider));
+    }catch(e){
+      snackBar.show(e.toString());
+    }finally{
+      emit(state.copyWith(loading: false));
+    }
   }
 
   addReviewAction() {

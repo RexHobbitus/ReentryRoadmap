@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_state.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../widgets/service_card.dart';
 import 'explore_services_slider.dart';
@@ -22,54 +25,67 @@ class ExploreServicesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserStore, AppUser>(
       bloc: cubit.userStore,
-      builder: (context, state) {
-        return Column(
-          children: [
-            LayoutBuilder(
-              builder: (context, constraints) {
-                return constraints.maxWidth > 500
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: state.isLoggedIn
-                            ? _loggedInUserHeadings(context: context)
-                            : _loggedInUserHeadings(context: context),
-                      )
-                    : Column(
-                        children: state.isLoggedIn
-                            ? _loggedInUserHeadings(context: context)
-                            : _loggedInUserHeadings(context: context));
-              },
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            LayoutBuilder(
-              builder: (context, constraints) {
-                // Define the item width (you can adjust this value as needed)
-                double itemWidth = 280.0;
-                // Calculate the number of columns based on the screen width
-                int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
-                return crossAxisCount > 1
-                    ? AlignedGridView.count(
-                        crossAxisCount: crossAxisCount,
-                        mainAxisSpacing: 13,
-                        crossAxisSpacing: 13,
-                        shrinkWrap: true,
-                        primary: false,
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        itemCount: 4,
-                        itemBuilder: (context, index) {
-                          return ServiceCard(
-                            onTap: cubit.openProviderDetail,
-                          );
-                        },
-                      )
-                    : ExploreServicesSlider(
-                        cubit: cubit,
-                      );
-              },
-            ),
-          ],
+      builder: (context, user) {
+        return BlocBuilder<ExploreCubit, ExploreState>(
+          bloc: cubit,
+          builder: (context, state) {
+            return Column(
+              children: [
+                LayoutBuilder(
+                  builder: (context, constraints) {
+                    return constraints.maxWidth > 500
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: user.isLoggedIn
+                                ? _loggedInUserHeadings(context: context)
+                                : _loggedInUserHeadings(context: context),
+                          )
+                        : Column(
+                            children: user.isLoggedIn
+                                ? _loggedInUserHeadings(context: context)
+                                : _loggedInUserHeadings(context: context));
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Skeletonizer(
+                  enabled: state.loading,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      // Define the item width (you can adjust this value as needed)
+                      double itemWidth = 280.0;
+                      // Calculate the number of columns based on the screen width
+                      int crossAxisCount =
+                          (constraints.maxWidth / itemWidth).floor();
+                      return crossAxisCount > 1
+                          ? AlignedGridView.count(
+                              crossAxisCount: crossAxisCount,
+                              mainAxisSpacing: 13,
+                              crossAxisSpacing: 13,
+                              shrinkWrap: true,
+                              primary: false,
+                              padding: const EdgeInsets.symmetric(vertical: 20),
+                              itemCount: state.loading?4:state.services.length,
+                              itemBuilder: (context, index) {
+                                Provider provider =state.loading?
+                                Provider.shimmer():
+                                state.services[index];
+                                return ServiceCard(
+                                  onTap: cubit.openProviderDetail,
+                                  provider: provider,
+                                );
+                              },
+                            )
+                          : ExploreServicesSlider(
+                              cubit: cubit,
+                            );
+                    },
+                  ),
+                ),
+              ],
+            );
+          },
         );
       },
     );

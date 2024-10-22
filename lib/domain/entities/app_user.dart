@@ -7,7 +7,6 @@ class AppUser extends Equatable {
   String? createdAt;
   String? updatedAt;
   OnboardingInfo? onboardingInfo;
-
   AppUser(
       {this.userId,
       this.createdAt,

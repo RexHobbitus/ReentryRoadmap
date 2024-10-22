@@ -38,7 +38,7 @@ class _OperatingHoursWidgetState extends State<OperatingHoursWidget> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _dayName(operatingHour.day),
+                _dayName(operatingHour.day!),
                 _timeWidget(value: operatingHour.startTime,onTap: (){
                   _selectTime(context,onPicked: (dateTime){
                     setState(() {

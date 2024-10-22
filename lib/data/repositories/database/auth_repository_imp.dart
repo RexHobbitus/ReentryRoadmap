@@ -55,13 +55,13 @@ class AuthRepositoryImp extends FirebaseCollection implements AuthRepository {
   @override
   Future<AppUser?> getCurrentUser() async {
     try {
+      print("user id: ${auth.currentUser?.uid}");
       if (auth.currentUser?.uid == null) {
         return null;
       }
 
       ///  get user record
       var userDocument = await usersCollection.doc(auth.currentUser?.uid).get();
-
       /// get data of user  => convert to Model class (data layer) => then entity (domain layer) => return;
       return AppUserJson.fromJson(userDocument.data() as Map<String, dynamic>)
           .toDomain();

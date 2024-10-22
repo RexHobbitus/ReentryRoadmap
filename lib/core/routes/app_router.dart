@@ -153,11 +153,13 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: ProviderDetailPage.path,
+        path: "${ProviderDetailPage.path}/:id",
         builder: (context, state) {
           return ProviderDetailPage(
             cubit: getIt(),
-            initialParams: const ProviderDetailInitialParams(),
+            initialParams:  ProviderDetailInitialParams(
+              id: state.pathParameters['id']!
+            ),
           );
         },
       ),

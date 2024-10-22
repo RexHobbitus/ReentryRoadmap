@@ -48,6 +48,7 @@ class AppCubits {
       navigator: getIt(),
       userStore: getIt(),
       snackBar: getIt(),
+      providerRepository: getIt(),
     ));
     getIt.registerSingleton<MoreNavigator>(MoreNavigator(getIt()));
     getIt.registerSingleton<MoreCubit>(MoreCubit(
@@ -101,12 +102,12 @@ class AppCubits {
       signUpUseCase: getIt(),
       snackBar: getIt(),
     ));
-    getIt.registerSingleton<ProviderDetailNavigator>(ProviderDetailNavigator(getIt()));
+    getIt.registerSingleton<ProviderDetailNavigator>(
+        ProviderDetailNavigator(getIt()));
     getIt.registerSingleton<ProviderDetailCubit>(ProviderDetailCubit(
       navigator: getIt(),
+      snackBar: getIt(),
+      providerRepository: getIt(),
     ));
-
-
-
   }
 }

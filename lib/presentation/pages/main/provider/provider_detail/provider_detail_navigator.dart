@@ -15,7 +15,7 @@ class ProviderDetailNavigator {
 
 mixin ProviderDetailRoute {
   openProviderDetail(ProviderDetailInitialParams initialParams) {
-    navigator.push(context, ProviderDetailPage.path, initialParams);
+    navigator.push(context, "${ProviderDetailPage.path}/${initialParams.id}", initialParams);
   }
 
   AppNavigator get navigator;

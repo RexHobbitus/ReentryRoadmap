@@ -7,7 +7,10 @@ import 'about_provider_eligibility_criteria_sub_section.dart';
 import 'about_provider_feature_sub_section.dart';
 
 class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
-  const AboutProviderEligibilityAndFeatureSubSection({super.key});
+  final List<String> eligibility;
+  final List<String> features;
+
+  const AboutProviderEligibilityAndFeatureSubSection({super.key,required this.features,required this.eligibility});
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +50,9 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             width: isWeb?100:null,
           ),
         ),
-        const AboutProviderEligibilityCriteriaSubSection(),
+         AboutProviderEligibilityCriteriaSubSection(
+          eligibilities:eligibility,
+        ),
       ],
     );
   }
@@ -67,7 +72,9 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             width:isWeb?200:null,
           ),
         ),
-        const AboutProviderFeatureSubSection(),
+         AboutProviderFeatureSubSection(
+          features: features,
+        ),
       ],
     );
   }

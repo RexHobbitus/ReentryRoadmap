@@ -5,7 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:path/path.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
@@ -17,6 +19,7 @@ class ProviderDetailHeader extends StatelessWidget {
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
+  ProviderDetailState get state=>cubit.state;
   @override
   Widget build(BuildContext context) {
     return CustomResponsiveBuilder(
@@ -59,7 +62,7 @@ class ProviderDetailHeader extends StatelessWidget {
             Visibility(
               visible: deviceSize==DeviceSize.web,
               child: CustomButton(
-                text: "Contact OpenGate",
+                text: "Contact ${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
                 onTap:cubit.contactAction,
                 width: 450,
               ),
@@ -75,7 +78,7 @@ class ProviderDetailHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          "Opengate Foundation >",
+          "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation} >",
           style: context.textTheme.bodyMedium?.copyWith(
             color: context.colorScheme.secondary,
             decoration: TextDecoration.underline,
@@ -85,7 +88,7 @@ class ProviderDetailHeader extends StatelessWidget {
           height: 10,
         ),
         Text(
-          "OpenGate Hayward",
+          "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
           style: context.textTheme.titleLarge
               ?.copyWith(fontWeight: FontWeight.bold),
         ),
@@ -110,7 +113,7 @@ class ProviderDetailHeader extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    "4.9 (189)",
+                    "${state.provider.avgRating} (${state.provider.totalReviews})",
                     style: context.textTheme.bodySmall
                         ?.copyWith(color: context.colorScheme.onPrimary),
                   ),
@@ -157,17 +160,17 @@ class ProviderDetailHeader extends StatelessWidget {
         ),
         _iconWithText(
             iconPath: Assets.arrow,
-            title: "Reentry Adjacent",
+            title: "${state.provider.onboardingInfo!.providerDetails!.relationReentry}",
             context: context),
         _iconWithText(
-            iconPath: Assets.web, title: "Opengate.com", context: context),
+            iconPath: Assets.web, title: "${state.provider.onboardingInfo!.providerDetails!.orgWebsite}", context: context),
         _iconWithText(
             iconPath: Assets.clock,
             title: "Mon - Sun, 9am - 5am",
             context: context),
         _iconWithText(
             iconPath: Assets.location,
-            title: "630 Cherry Ave Long Beach, CA 90802",
+            title: state.provider.completeAddress,
             context: context),
       ],
     );
@@ -238,8 +241,7 @@ class ProviderDetailHeader extends StatelessWidget {
               CustomCachedImage(
                 width: 80,
                 borderRadius: BorderRadius.circular(10),
-                imgUrl:
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhfZzej8jcEaKL35PlQhX4fY01mI5ubNIR7Q&s",
+                imgUrl: "${state.provider.onboardingInfo?.providerDetails?.images?.first??kPlaceHolderImage}",
               ),
               const SizedBox(
                 width: 10,
@@ -247,7 +249,7 @@ class ProviderDetailHeader extends StatelessWidget {
               SizedBox(
                 width: 70,
                 child: Text(
-                  "OpenGate Foundation",
+                  "${state.provider.onboardingInfo?.providerDetails?.providerNameLocation}",
                   style: context.textTheme.bodySmall
                       ?.copyWith(fontWeight: FontWeight.bold),
                   overflow: TextOverflow.ellipsis,

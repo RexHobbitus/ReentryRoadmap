@@ -5,7 +5,8 @@ import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 
 class AboutProviderFeatureSubSection extends StatelessWidget {
-  const AboutProviderFeatureSubSection({super.key});
+  final List<String> features;
+  const AboutProviderFeatureSubSection({super.key,required this.features});
 
   @override
   Widget build(BuildContext context) {
@@ -17,8 +18,8 @@ class AboutProviderFeatureSubSection extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        _featureTile(context: context,title: "Holistsic Wrap-around Service"),
-        _featureTile(context: context,title: "Formerly Incarcerated Leadership"),
+        for(var data in features)
+        _featureTile(context: context,title: data),
 
       ],
     );

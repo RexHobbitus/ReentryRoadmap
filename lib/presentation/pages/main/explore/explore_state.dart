@@ -1,10 +1,19 @@
-import 'explore_initial_params.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 
 class ExploreState {
-final bool loading;
-const ExploreState({required this.loading});
+  final bool loading;
+  final List<Provider> services;
 
-factory ExploreState.initial() => const ExploreState(loading: false);
+  const ExploreState({required this.loading, required this.services});
 
-ExploreState copyWith({bool? loading}) => ExploreState(loading: loading??this.loading);
+  factory ExploreState.initial() => const ExploreState(
+        loading: false,
+        services: [],
+      );
+
+  ExploreState copyWith({bool? loading, List<Provider>? services}) =>
+      ExploreState(
+        loading: loading ?? this.loading,
+        services: services ?? this.services,
+      );
 }

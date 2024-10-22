@@ -2,21 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 
 import 'service_card_category_chip.dart';
 
 class ServiceCard extends StatelessWidget {
-  final VoidCallback? onTap;
-  const ServiceCard({super.key,this.onTap});
+  final Function(Provider)? onTap;
+  final Provider provider;
 
+  const ServiceCard({super.key, this.onTap, required this.provider});
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap:onTap,
+        onTap: (){
+          onTap?.call(provider);
+        },
         child: Container(
           constraints: const BoxConstraints(
             maxWidth: 400,
@@ -34,12 +39,16 @@ class ServiceCard extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              _serviceTitle(context: context, title: "OpenGate Oakland"),
+              _serviceTitle(
+                  context: context,
+                  title:
+                      "${provider.onboardingInfo?.providerDetails?.providerNameLocation}"),
               const SizedBox(
                 height: 5,
               ),
               _locationWidget(
-                  context: context, location: "5506 Martha Ave, Hayward, CA 99922"),
+                  context: context,
+                  location: provider.completeAddress),
               const SizedBox(
                 height: 20,
               ),
@@ -57,7 +66,8 @@ class ServiceCard extends StatelessWidget {
               ),
               Container(
                 width: double.maxFinite,
-                padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
                 decoration: BoxDecoration(
                     color: context.themeData.primaryColor,
                     borderRadius: BorderRadius.circular(10)),
@@ -88,12 +98,13 @@ class ServiceCard extends StatelessWidget {
   Widget _serviceImage({required BuildContext context}) {
     return Stack(
       children: [
-        const CustomCachedImage(
+        CustomCachedImage(
           radius: 10,
           width: double.maxFinite,
           height: 210,
-          imgUrl:
-              "https://images.ctfassets.net/pdf29us7flmy/35XD3JZO2sBeTtisb5cF7r/7ed42006c51e3fb8552f2c1ac24601f9/-IND-001-038-_How_To_Become_a_Teacher_Final.jpg?w=720&q=100&fm=jpg",
+          imgUrl: provider.onboardingInfo!.providerDetails!.images!.isEmpty
+              ? kPlaceHolderImage
+              : provider.onboardingInfo!.providerDetails!.images!.first,
         ),
         // Gradient overlay
         Positioned.fill(
@@ -121,8 +132,8 @@ class ServiceCard extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5,horizontal: 10),
-              margin: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                 color: context.themeData.colorScheme.primary,
                 borderRadius: BorderRadius.circular(5),
@@ -130,11 +141,19 @@ class ServiceCard extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.star,color: context.themeData.colorScheme.tertiaryContainer,size: 10,),
-                  const SizedBox(width: 5,),
-                  Text("4.9 (189)",style: context.textTheme.bodySmall?.copyWith(
-                    color: context.colorScheme.onPrimary
-                  ),)
+                  Icon(
+                    Icons.star,
+                    color: context.themeData.colorScheme.tertiaryContainer,
+                    size: 10,
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "${provider.avgRating} (${provider.totalReviews})",
+                    style: context.textTheme.bodySmall
+                        ?.copyWith(color: context.colorScheme.onPrimary),
+                  )
                 ],
               ),
             ),
@@ -179,25 +198,24 @@ class ServiceCard extends StatelessWidget {
   }
 
   Widget _serviceCategories({required BuildContext context}) {
+    List<String> categories=provider.onboardingInfo?.generalService?.serviceCategories?.map((category)
+    => category.title.toString()
+    ).toList()??[];
     return Wrap(
       //  mainAxisSize: MainAxisSize.min,
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
+        for(var category in  List.from(categories).take(3).toList())
         ServiceCardCategoryChip(
-          title: "Education",
+          title: category,
         ),
-        ServiceCardCategoryChip(
-          title: "Employment",
-        ),
-        ServiceCardCategoryChip(
-          title: "Housing",
-        ),
+        categories.length>3?
         Text(
-          "+ 5 More",
+          "+ 3 More",
           style: context.textTheme.bodyMedium?.copyWith(
               color: context.themeData.colorScheme.tertiary, fontSize: 10),
-        ),
+        ):SizedBox(),
       ],
     );
   }
@@ -205,7 +223,7 @@ class ServiceCard extends StatelessWidget {
   Widget _serviceTitles({required BuildContext context}) {
     return Column(
       children: [
-        for (var index = 0; index < 2; index++)
+        for (var index = 0; index < provider.onboardingInfo!.programs!.length; index++)
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 3),
             child: Row(
@@ -216,7 +234,7 @@ class ServiceCard extends StatelessWidget {
                   width: 5,
                 ),
                 Text(
-                  "Holistsic Wrap-around Service",
+                  "${provider.onboardingInfo!.programs![index].name}",
                   style: context.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w600,
                       color: context.themeData.colorScheme.onTertiaryContainer),

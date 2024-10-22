@@ -1,12 +1,10 @@
-import 'package:equatable/equatable.dart';
-
-class OperatingHour extends Equatable {
-  final String day;
+class OperatingHour {
+  String? day;
   DateTime? startTime;
   DateTime? endTime;
 
   OperatingHour({
-    required this.day,
+    this.day,
     this.startTime,
     this.endTime,
   });
@@ -27,11 +25,9 @@ class OperatingHour extends Equatable {
     );
   }
 
-  @override
-  // TODO: implement props
-  List<Object?> get props => [
-        day,
-        startTime,
-        endTime,
-      ];
+   OperatingHour.shimmer() {
+    day="Test";
+    startTime=DateTime.now();
+    endTime=DateTime.now();
+  }
 }

@@ -1,13 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/domain/entities/program_category.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_state.dart';
 
 import '../../../../../../widgets/custom_expansion_tile.dart';
 
-class AboutProviderCategoriesSubSection extends StatelessWidget {
-  AboutProviderCategoriesSubSection({super.key});
+class AboutProviderCategoriesSubSection extends StatefulWidget {
+  final ProviderDetailCubit cubit;
 
-  final List<String> _categories = ["Education", "Employment", "Housing"];
+  AboutProviderCategoriesSubSection({
+    super.key,
+    required this.cubit,
+  });
+
+  @override
+  State<AboutProviderCategoriesSubSection> createState() =>
+      _AboutProviderCategoriesSubSectionState();
+}
+
+class _AboutProviderCategoriesSubSectionState
+    extends State<AboutProviderCategoriesSubSection> {
+  ProviderDetailState get state => widget.cubit.state;
+  List<ProgramCategory> _categories = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _categories =
+        state.provider.onboardingInfo?.generalService?.serviceCategories ?? [];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,21 +45,20 @@ class AboutProviderCategoriesSubSection extends StatelessWidget {
         ),
         for (var index = 0; index < _categories.length; index++)
           CustomExpansionTile(
-            title: _categories[index],
+            title: _categories[index].title??"N/A",
             children: [
-              _subCategoryTile(context: context,title: "Sub Category 1"),
-              _subCategoryTile(context: context,title: "Sub Category 2"),
-              _subCategoryTile(context: context,title: "Sub Category 3"),
-              _subCategoryTile(context: context,title: "Sub Category 4",hideDivider: true),
-
-
+              for(var subCategory in _categories[index].subCategories??[])
+              _subCategoryTile(context: context, title:subCategory),
             ],
           ),
       ],
     );
   }
 
-  Widget _subCategoryTile({required BuildContext context, required String title,bool hideDivider=false}) {
+  Widget _subCategoryTile(
+      {required BuildContext context,
+      required String title,
+      bool hideDivider = false}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Column(
@@ -45,11 +68,17 @@ class AboutProviderCategoriesSubSection extends StatelessWidget {
             title,
             style: context.textTheme.bodyMedium,
           ),
-          hideDivider?const SizedBox.shrink(): const SizedBox(height: 5,),
-          hideDivider?const SizedBox.shrink(): const Divider(
-            thickness: 0.5,
-            height: 2,
-          ),
+          hideDivider
+              ? const SizedBox.shrink()
+              : const SizedBox(
+                  height: 5,
+                ),
+          hideDivider
+              ? const SizedBox.shrink()
+              : const Divider(
+                  thickness: 0.5,
+                  height: 2,
+                ),
         ],
       ),
     );

@@ -1,29 +1,41 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_state.dart';
 
+import '../../provider_detail_cubit.dart';
 import '../provider_detail_title.dart';
 import 'about_provider_all_programs.dart';
 import 'about_provider_general_services.dart';
 
 class AboutProviderSection extends StatelessWidget {
-  const AboutProviderSection({super.key});
+  final ProviderDetailCubit cubit;
+
+  const AboutProviderSection({super.key, required this.cubit});
+
+  ProviderDetailState get state => cubit.state;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const ProviderDetailTitle(
-          title: "About OpenGate Foundation",
+        ProviderDetailTitle(
+          title:
+              "About ${state.provider.onboardingInfo?.providerDetails?.providerNameLocation}",
         ),
         Text(
-          "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum.",
+          "${state.provider.onboardingInfo?.providerDetails?.providerLocationDescribe}",
           style: AppStyle.providerDetailBody(context),
         ),
-        const SizedBox(height: 50,),
-        const AboutProviderGeneralServices(),
-         AboutProviderAllPrograms(),
-
+        const SizedBox(
+          height: 50,
+        ),
+        AboutProviderGeneralServices(
+          cubit: cubit,
+        ),
+        AboutProviderAllPrograms(
+          cubit: cubit,
+        ),
       ],
     );
   }

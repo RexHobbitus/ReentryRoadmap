@@ -3,7 +3,8 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 
 class AboutProviderEligibilityCriteriaSubSection extends StatelessWidget {
-  const AboutProviderEligibilityCriteriaSubSection({super.key});
+  final List<String> eligibilities;
+  const AboutProviderEligibilityCriteriaSubSection({super.key,required this.eligibilities});
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +16,8 @@ class AboutProviderEligibilityCriteriaSubSection extends StatelessWidget {
         const SizedBox(
           height: 15,
         ),
-        _eligibleTile(context: context,title: "Women"),
-        _eligibleTile(context: context,title: "Within 5 years of incarceration"),
+        for(var data in eligibilities)
+        _eligibleTile(context: context,title: data),
 
       ],
     );
