@@ -12,6 +12,7 @@ import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/popups/upload_photos_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
@@ -219,6 +220,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       await providerOnboardingUseCase.execute(providerOnboardingInfo);
       snackBar.show("Provider Onboarding submitted successfully",
           snackBarType: SnackBarType.SUCCESS);
+    //  navigator.openExplore(const ExploreInitialParams());
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -283,27 +285,27 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         /// amazing sauce program
         return true;
       case 16:
-        for (var program in selectedPrograms) {
-          if (program.description == null || program.description!.isEmpty) {
-            return false;
-          }
-        }
+        // for (var program in selectedPrograms) {
+        //   if (program.description == null || program.description!.isEmpty) {
+        //     return false;
+        //   }
+        // }
         return true;
       // return false;
       case 17:
-        for (var categories in selectedCategories) {
-          if (categories.isEmpty) {
-            return false;
-          }
-        }
+        // for (var categories in selectedCategories) {
+        //   if (categories.isEmpty) {
+        //     return false;
+        //   }
+        // }
         return true;
 
       case 18:
-        for (var programOfferSubCategories in selectedCategories) {
-          if (programOfferSubCategories.isEmpty) {
-            return false;
-          }
-        }
+        // for (var programOfferSubCategories in selectedCategories) {
+        //   if (programOfferSubCategories.isEmpty) {
+        //     return false;
+        //   }
+        // }
 
         return true;
 
@@ -340,7 +342,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       country: locationCountry,
       state: locationState,
       zipCode: locationZipCode,
-      images: state.providerLocationImages,
+      images: [],
       contactPerson: contactPerson,
       officialNumber: officialPhone,
       officialEmail: officialEmail,

@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'login_cubit.dart';
 import 'login_initial_params.dart';
@@ -73,9 +74,17 @@ class _LoginState extends State<LoginPage> {
                     controller: cubit.txtPassword,
                     label: "Password",
                   ),
+                  CustomCheckBox(
+                    text: "Create account as Provider",
+                    value: cubit.isProvider,
+                    onChange: (val){
+                      cubit.isProvider=val;
+                    },
+                  ),
                   const SizedBox(
                     height: 20,
                   ),
+
                   CustomButton(
                     text: "Login",
                     onTap: cubit.loginAction,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import '../../../../../../core/utils/assets.dart';
 import '../../../../../../core/utils/constants.dart';
@@ -18,7 +19,7 @@ class MobileHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
-      child: BlocBuilder<UserStore, AppUser>(
+      child: BlocBuilder<UserStore, LoginUser>(
         bloc: cubit.userStore,
         builder: (context, state) {
           return state.isLoggedIn

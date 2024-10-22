@@ -1,4 +1,5 @@
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_onboarding_repository.dart';
@@ -23,7 +24,7 @@ class ProviderOnboardingUseCase {
     // logger.log("${providerOnboardingInfo.toJson()}");
 
     await providerOnboardingRepository.submitAssessment(providerOnboardingInfo);
-    AppUser? user = await authRepository.getCurrentUser();
+    LoginUser? user = await authRepository.getCurrentUser();
     userStore.setUser(user!);
   }
 }

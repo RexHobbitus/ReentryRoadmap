@@ -9,5 +9,8 @@ abstract class FirebaseCollection{
 
   /// collections
   final usersCollection=FirebaseFirestore.instance.collection('users');
+  final providersCollection=FirebaseFirestore.instance.collection('providers');
+
+
 
 }

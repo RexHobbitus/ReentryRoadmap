@@ -1,4 +1,5 @@
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 
@@ -20,7 +21,7 @@ class OnboardingUseCase {
   Future<void> execute(OnboardingInfo onboardingInfo) async {
     logger.log("${onboardingInfo.toJson()}");
     await onboardingRepository.submitAssessment(onboardingInfo);
-    AppUser? user = await authRepository.getCurrentUser();
-    userStore.setUser(user!);
+    LoginUser? loginUser = await authRepository.getCurrentUser();
+    userStore.setUser(loginUser!);
   }
 }

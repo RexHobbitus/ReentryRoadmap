@@ -2,7 +2,7 @@ import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 
 import 'operating_hour_json.dart';
 
-class ProviderDetailInfoJson {
+class ProviderDetailsInfoJson {
   String? providerNameLocation;
   String? providerLocationDescribe;
   String? relationReentry;
@@ -19,7 +19,7 @@ class ProviderDetailInfoJson {
   String? orgWebsite;
   List<OperatingHourJson>? operatingHours;
 
-  ProviderDetailInfoJson({
+  ProviderDetailsInfoJson({
     this.providerNameLocation,
     this.providerLocationDescribe,
     this.relationReentry,
@@ -37,7 +37,7 @@ class ProviderDetailInfoJson {
     this.operatingHours,
   });
 
-  ProviderDetailInfoJson.fromJson(Map<String, dynamic> json) {
+  ProviderDetailsInfoJson.fromJson(Map<String, dynamic> json) {
     providerNameLocation = json['providerNameLocation'];
     providerLocationDescribe = json['providerLocationDescribe'];
     relationReentry = json['relationReentry'];
@@ -103,7 +103,7 @@ class ProviderDetailInfoJson {
     );
   }
 
-  ProviderDetailInfoJson copyWith({
+  ProviderDetailsInfoJson copyWith({
     String? providerNameLocation,
     String? providerLocationDescribe,
     String? relationReentry,
@@ -122,7 +122,7 @@ class ProviderDetailInfoJson {
     String? orgWebsite,
     List<OperatingHourJson>? operatingHours,
   }) {
-    return ProviderDetailInfoJson(
+    return ProviderDetailsInfoJson(
       providerNameLocation: providerNameLocation ?? this.providerNameLocation,
       providerLocationDescribe:
           providerLocationDescribe ?? this.providerLocationDescribe,

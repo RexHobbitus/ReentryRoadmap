@@ -1,6 +1,6 @@
 import 'package:reentry_roadmap/domain/entities/program_category.dart';
 
-class GeneralService {
+class GeneralService{
   List<ProgramCategory>? serviceCategories;
   List<String>? features;
   List<String>? eligibilityCriteria;

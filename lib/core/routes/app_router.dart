@@ -40,7 +40,7 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
-    initialLocation: ProviderOnboardingPage.path,
+    initialLocation: SplashPage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,

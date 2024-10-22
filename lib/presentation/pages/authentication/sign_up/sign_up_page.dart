@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_textfield.dart';
 import 'sign_up_cubit.dart';
@@ -77,7 +78,13 @@ class _SignUpState extends State<SignUpPage> {
                     controller: cubit.txtConfirmPassword,
                     label: "Confirm Password",
                   ),
-
+                  CustomCheckBox(
+                    text: "Create account as Provider",
+                    value: cubit.isProvider,
+                    onChange: (val){
+                      cubit.isProvider=val;
+                    },
+                  ),
                   const SizedBox(
                     height: 20,
                   ),

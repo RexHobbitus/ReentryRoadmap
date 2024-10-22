@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;
+  final String? text;
   final Function(bool)? onChange;
 
   const CustomCheckBox({
     super.key,
     this.value = false,
+    this.text,
     this.onChange,
   });
 
@@ -33,6 +35,8 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           width: 35,
           child: Checkbox(
               value: _initialValue,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(4)),
               onChanged: (val) {
                 setState(() {
                   _initialValue = val ?? false;
@@ -40,7 +44,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 });
               }),
         ),
-        const Text("None")
+        Text(widget.text ?? "None")
       ],
     );
   }

@@ -2,7 +2,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/core/extensions/string_extension.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import '../onboarding/onboarding_initial_params.dart';
 import 'sign_up_initial_params.dart';
 import 'sign_up_state.dart';
@@ -27,6 +29,7 @@ class SignUpCubit extends Cubit<SignUpState> {
   final txtPassword = TextEditingController();
   final txtConfirmPassword = TextEditingController();
 
+  bool isProvider=false;
 
   String email = "", password = "",confirmPassword="";
 
@@ -37,8 +40,12 @@ class SignUpCubit extends Cubit<SignUpState> {
       _isValidEmail();
       _isPasswordMatches();
       emit(state.copyWith(loading: true));
-      await signUpUseCase.execute(email: email, password: password);
-      navigator.openOnboarding(const OnboardingInitialParams());
+      LoginUser loginUser=await signUpUseCase.execute(email: email, password: password,role:isProvider?"provider":"user");
+      if(loginUser.role=="user") {
+        navigator.openOnboarding(const OnboardingInitialParams());
+      }else{
+        navigator.openProviderOnboarding(const ProviderOnboardingInitialParams());
+      }
     } catch (e) {
       snackBar.show(e.toString());
     } finally {

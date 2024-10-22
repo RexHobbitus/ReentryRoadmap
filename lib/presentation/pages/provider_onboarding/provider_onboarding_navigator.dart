@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_page.dart';
 import '../../../../../../core/navigation/app_navigator.dart';
 import 'provider_onboarding_initial_params.dart';
 
 
 
-class ProviderOnboardingNavigator {
+class ProviderOnboardingNavigator with ExploreRoute{
 ProviderOnboardingNavigator(this.navigator);
 
 @override

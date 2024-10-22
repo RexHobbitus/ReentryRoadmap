@@ -1,4 +1,6 @@
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 
@@ -15,13 +17,18 @@ class CheckUserSessionUseCase {
 
 
   Future<UserSessionStatus> execute() async{
-    AppUser? appUser=await authRepository.getCurrentUser();
-    if(appUser!=null){
-      userStore.setUser(appUser);
-      if(appUser.onboardingInfo==null){
-        return UserSessionStatus.loggedInWithNoOnboarding;
+    LoginUser? loginUser=await authRepository.getCurrentUser();
+    if(loginUser!=null){
+       userStore.setUser(loginUser);
+      if(loginUser.role=="user"){
+        AppUser user=loginUser.data as AppUser;
+        return user.onboardingInfo==null?
+        UserSessionStatus.userLoggedInWithNoOnboarding:UserSessionStatus.loggedIn;
+      }else{
+        Provider provider=loginUser.data as Provider;
+        return provider.onboardingInfo==null?
+        UserSessionStatus.providerLoggedInWithNoOnboarding:UserSessionStatus.loggedIn;
       }
-      return UserSessionStatus.loggedIn;
     }
     return UserSessionStatus.notLoggedIn;
   }

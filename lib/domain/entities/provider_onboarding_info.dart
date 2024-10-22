@@ -1,14 +1,8 @@
-import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 
-import 'current_needs_info.dart';
-import 'general_service.dart';
-import 'incarceration_info.dart';
-import 'personal_info.dart';
 import 'package:equatable/equatable.dart';
-
+import 'general_service.dart';
 import 'program.dart';
-import 'service_provider_accessed.dart';
 
 class ProviderOnboardingInfo extends Equatable {
   ProviderDetailsInfo? providerDetails;

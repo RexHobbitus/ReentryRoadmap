@@ -1,4 +1,5 @@
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 
 import '../stores/user_store.dart';
@@ -12,14 +13,18 @@ class SignUpUseCase {
     required this.userStore,
   });
 
-  Future<void> execute({
+  Future<LoginUser> execute({
     required String email,
     required String password,
+    required String role,
+
   }) async {
-    AppUser user = await authRepository.createAccount(
+    LoginUser loginUser = await authRepository.createAccount(
       email: email,
       password: password,
+      role:role,
     );
-    userStore.setUser(user);
+    userStore.setUser(loginUser);
+    return loginUser;
   }
 }

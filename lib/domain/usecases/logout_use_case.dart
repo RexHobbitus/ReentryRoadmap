@@ -1,5 +1,6 @@
 import 'package:reentry_roadmap/core/enums/user_session_status.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 
 import '../stores/user_store.dart';
@@ -15,6 +16,6 @@ class LogoutUseCase {
 
   Future<void> execute() async {
     await authRepository.logout();
-    userStore.setUser(AppUser.empty());
+    userStore.setUser(LoginUser.empty());
   }
 }

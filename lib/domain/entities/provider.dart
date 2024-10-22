@@ -1,30 +1,31 @@
-import 'onboarding_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
+
 import 'package:equatable/equatable.dart';
 
-class AppUser extends Equatable {
+class Provider extends Equatable {
   String? userId;
   String? email;
   String? createdAt;
   String? updatedAt;
-  OnboardingInfo? onboardingInfo;
-  AppUser(
+  ProviderOnboardingInfo? onboardingInfo;
+  Provider(
       {this.userId,
-      this.createdAt,
-      this.updatedAt,
-      this.onboardingInfo,
-      this.email});
+        this.createdAt,
+        this.updatedAt,
+        this.onboardingInfo,
+        this.email});
 
-  AppUser.fromJson(Map<String, dynamic> json) {
+  Provider.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     onboardingInfo = json['onboardingInfo'] != null
-        ? new OnboardingInfo.fromJson(json['onboardingInfo'])
+        ? new ProviderOnboardingInfo.fromJson(json['onboardingInfo'])
         : null;
   }
 
-  AppUser.empty() {
+  Provider.empty() {
 
   }
 
@@ -42,14 +43,14 @@ class AppUser extends Equatable {
     return data;
   }
 
-  AppUser copyWith({
+  Provider copyWith({
     String? userId,
     String? email,
     String? createdAt,
     String? updatedAt,
-    OnboardingInfo? onboardingInfo,
+    ProviderOnboardingInfo? onboardingInfo,
   }) {
-    return AppUser(
+    return Provider(
       userId: userId ?? this.userId,
       email: email ?? this.email,
       createdAt: createdAt ?? this.createdAt,
@@ -57,13 +58,13 @@ class AppUser extends Equatable {
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
     );
   }
-    @override
+  @override
   List<Object?> get props => [
-        userId,
-        email,
-        createdAt,
-        updatedAt,
-        onboardingInfo,
-      ];
+    userId,
+    email,
+    createdAt,
+    updatedAt,
+    onboardingInfo,
+  ];
 
 }
