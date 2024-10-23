@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
 import '../../../../../widgets/custom_title_card.dart';
@@ -22,112 +23,122 @@ class _ProviderSuggestEditPopupState extends State<ProviderSuggestEditPopup> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
+    return CustomResponsiveBuilder(
+      builder: (context,constraints,deviceSize) {
+        return SizedBox(
+          width: deviceSize==DeviceSize.web?600:null,
+          child: Stack(
             children: [
-              _header(),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "Is this provider still open?",
-                style: context.textTheme.bodyMedium
-                    ?.copyWith(fontWeight: FontWeight.w600),
-              ),
-              Row(
-                children: [
-                  CustomCheckBox(
-                    key: UniqueKey(),
-                    value: providerStillOpen,
-                    onChange: (val) {
-                      setState(() {
-                        providerStillOpen = !providerStillOpen;
-                      });
-                    },
-                    text: "Yes",
-                  ),
-                  const SizedBox(
-                    width: 20,
-                  ),
-                  CustomCheckBox(
-                    value: !providerStillOpen,
-                    key: UniqueKey(),
-                    onChange: (val) {
-                      setState(() {
-                        providerStillOpen = !providerStillOpen;
-                      });
-                    },
-                    text: "No",
-                  ),
-                ],
-              ),
-              CustomTitleCard(
-                title: "Provider Details",
+              SingleChildScrollView(
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    CustomTextField(
-                      label: "Name of the provider location",
+                    _header(),
+                    const SizedBox(
+                      height: 20,
                     ),
-                    CustomTextField(
-                      label: "Name of the parent location",
+                    Text(
+                      "Is this provider still open?",
+                      style: context.textTheme.bodyMedium
+                          ?.copyWith(fontWeight: FontWeight.w600),
                     ),
-                    CustomTextField(
-                      label: "Relation to reentry",
-                    ),
-                    _label("Location"),
-                    CustomTextField(
-                      label: "Street",
-                    ),
-                    CustomTextField(
-                      label: "City",
-                    ),
-                    CustomTextField(
-                      initialValue: "",
-                      label: "Country",
-                      disable: true,
-                      key: UniqueKey(),
-                      onTap: () {
-                        showCountryPicker(
-                          context: context,
-                          showPhoneCode: false,
-                          onSelect: (Country country) {
-                            setState(() {});
+                    Row(
+                      children: [
+                        CustomCheckBox(
+                          key: UniqueKey(),
+                          value: providerStillOpen,
+                          onChange: (val) {
+                            setState(() {
+                              providerStillOpen = !providerStillOpen;
+                            });
                           },
-                        );
-                      },
+                          text: "Yes",
+                        ),
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        CustomCheckBox(
+                          value: !providerStillOpen,
+                          key: UniqueKey(),
+                          onChange: (val) {
+                            setState(() {
+                              providerStillOpen = !providerStillOpen;
+                            });
+                          },
+                          text: "No",
+                        ),
+                      ],
                     ),
-                    CustomTextField(
-                      label: "Zipcode",
-                    ),
-                    _label("Operating Hours"),
-                    OperatingHoursWidget(),
-                    SizedBox(height: 20,),
-                    CustomTextField(
-                      label: "Organization website",
-                    ),
-                    SizedBox(height: 40,),
+                    CustomTitleCard(
+                      title: "Provider Details",
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextField(
+                            label: "Name of the provider location",
+                          ),
+                          CustomTextField(
+                            label: "Name of the parent location",
+                          ),
+                          CustomTextField(
+                            label: "Relation to reentry",
+                          ),
+                          _label("Location"),
+                          CustomTextField(
+                            label: "Street",
+                          ),
+                          CustomTextField(
+                            label: "City",
+                          ),
+                          CustomTextField(
+                            initialValue: "",
+                            label: "Country",
+                            disable: true,
+                            key: UniqueKey(),
+                            onTap: () {
+                              showCountryPicker(
+                                context: context,
+                                showPhoneCode: false,
+                                onSelect: (Country country) {
+                                  setState(() {});
+                                },
+                              );
+                            },
+                          ),
+                          CustomTextField(
+                            label: "Zipcode",
+                          ),
+                          _label("Operating Hours"),
+                          OperatingHoursWidget(),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          CustomTextField(
+                            label: "Organization website",
+                          ),
+                          SizedBox(
+                            height: 40,
+                          ),
+                        ],
+                      ),
+                    )
                   ],
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                left: 0,
+                right: 0,
+                child: CustomButton(
+                  text: "Suggest Edits",
+                  onTap: () {},
                 ),
               )
             ],
           ),
-        ),
-
-        Positioned(
-          bottom: 0,
-          left: 0,
-          right: 0,
-          child: CustomButton(
-            text: "Suggest Edits",
-            onTap: (){},
-          ),
-        )
-      ],
+        );
+      }
     );
   }
 

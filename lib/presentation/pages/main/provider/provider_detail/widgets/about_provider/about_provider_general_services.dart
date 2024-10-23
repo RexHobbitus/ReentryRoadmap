@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_button.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_title.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
@@ -21,7 +22,15 @@ class AboutProviderGeneralServices extends StatelessWidget {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const ProviderDetailTitle(title: "General Services"),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const ProviderDetailTitle(title: "General Services"),
+              constraints.maxWidth>400?
+              ProviderDetailButton(title: "Suggest on edit", icon: Icons.edit,onTap: cubit.suggestEditAction,):const SizedBox.shrink()
+            ],
+          ),
           CustomSectionContainer(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
