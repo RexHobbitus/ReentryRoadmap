@@ -119,6 +119,8 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   List<String> generalServiceEligibilityCriteria = [];
   final textFieldUpdateListener = StreamController<bool>.broadcast();
 
+  int currentProgramIndex = 0;
+
   notifyTextFieldUpdates() {
     textFieldUpdateListener.add(true);
   }
@@ -147,8 +149,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         ProgramServiceProgramOfferSection(),
 
         // //amazing sausce progra,
-        for (int programIndex = 0;
-            programIndex < selectedPrograms.length;
+        for (int programIndex = 0; programIndex < selectedPrograms.length;
             programIndex++) ...[
           ProgramServiceAboutProgramOfferSection(
             index: programIndex,
@@ -212,8 +213,8 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
 
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
-        //providerDetails: providerDetailsInfo,
-        //  programs: selectedPrograms,
+        providerDetails: providerDetailsInfo,
+        programs: selectedPrograms,
         generalService: generalServiceInfo,
       );
 
@@ -225,7 +226,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       navigator.openExplore(const ExploreInitialParams());
       navigator.navigator.showDialogBox(
           context,
-          InformationPopup(
+          const InformationPopup(
               title: "Thanks for creating a business account!",
               subTitle:
                   "Our team will verify the information and get back to you in 2-3 business days"));
@@ -286,51 +287,33 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       case 13:
         return specificProgram.isNotEmpty;
       case 14:
-        for (int i = 0; i < selectedPrograms.length; i++) {
-          var program = selectedPrograms[i];
-
-          if (program.name == null) {
-            return false;
-          }
-        }
-        return true;
-
+        return selectedPrograms.isNotEmpty;
       case 15:
 
-        /// amazing sauce program
+        /// program introduction/title
         return true;
 
       case 16:
-        // for (var program in selectedPrograms) {
-        //   if (program.description == null || program.description!.isEmpty) {
-        //     return false;
-        //   }
-        // }
         return true;
-      // return false;
+        // return selectedPrograms[currentProgramIndex].description?.isNotEmpty ??
+        //     false;
       case 17:
-        // for (var categories in selectedCategories) {
-        //   if (categories.isEmpty) {
-        //     return false;
-        //   }
-        // }
+        // return selectedPrograms[currentProgramIndex]
+        //         .programCategories
+        //         ?.isNotEmpty ??
+        //     false;
         return true;
 
       case 18:
-        // for (var programOfferSubCategories in selectedCategories) {
-        //   if (programOfferSubCategories.isEmpty) {
-        //     return false;
-        //   }
-        // }
-
         return true;
 
-      /// TODO: WE  HAVE TO APPLY CHECK FOR ALL SUB CATEGORIES SELECTED
       case 19:
+        // return selectedPrograms[currentProgramIndex].features?.isNotEmpty ??
+        //     false;
         return true;
       case 20:
-
-        /// TODO: WE  HAVE TO FIX THIS
+        // return selectedPrograms[currentProgramIndex].eligibilityCriteria?.isNotEmpty ??
+        //     false;
         return true;
       case 21:
         return true;
@@ -364,8 +347,6 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       officialEmail: officialEmail,
       officialFax: faxNumber,
       orgWebsite: orgWebsite,
-      ratings: '0',
-      reviews: [],
       operatingHours: operatingHours,
     );
   }

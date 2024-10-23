@@ -19,8 +19,6 @@ class ProviderDetailsInfo extends Equatable {
   String? officialFax;
   String? contactPerson;
   String? orgWebsite;
-  String? ratings;
-  List<String>? reviews;
   List<OperatingHour>? operatingHours;
 
   ProviderDetailsInfo({
@@ -39,8 +37,6 @@ class ProviderDetailsInfo extends Equatable {
     this.officialFax,
     this.contactPerson,
     this.orgWebsite,
-    this.ratings,
-    this.reviews,
     this.operatingHours,
   });
 
@@ -60,8 +56,6 @@ class ProviderDetailsInfo extends Equatable {
     officialFax = json['officialFax'];
     contactPerson = json['contactPerson'];
     orgWebsite = json['orgWebsite'];
-    ratings = json['ratings'];
-    reviews = json['reviews'] ?? [];
     if (json['operatingHours'] != null) {
       operatingHours = <OperatingHour>[];
       json['operatingHours'].forEach((v) {
@@ -87,8 +81,6 @@ class ProviderDetailsInfo extends Equatable {
     officialFax = "Testing";
     contactPerson = "Testing";
     orgWebsite = "Testing";
-    ratings = "Testing";
-    reviews = List.generate(3, (index) => "Testing");
     operatingHours = List.generate(7, (index) => OperatingHour.shimmer());
   }
 
@@ -109,8 +101,6 @@ class ProviderDetailsInfo extends Equatable {
     data['officialFax'] = officialFax;
     data['contactPerson'] = contactPerson;
     data['orgWebsite'] = orgWebsite;
-    data['ratings'] = ratings;
-    data['reviews'] = reviews;
     if (this.operatingHours != null) {
       data['operatingHours'] =
           this.operatingHours!.map((v) => v.toJson()).toList();
@@ -134,8 +124,6 @@ class ProviderDetailsInfo extends Equatable {
     String? officialFax,
     String? contactPerson,
     String? orgWebsite,
-    String? ratings,
-    List<String>? reviews,
     List<OperatingHour>? operatingHours,
   }) {
     return ProviderDetailsInfo(
@@ -155,8 +143,6 @@ class ProviderDetailsInfo extends Equatable {
       officialFax: officialFax ?? this.officialFax,
       contactPerson: contactPerson ?? this.contactPerson,
       orgWebsite: orgWebsite ?? this.orgWebsite,
-      ratings: ratings ?? this.ratings,
-      reviews: reviews ?? this.reviews,
       operatingHours: operatingHours ?? this.operatingHours,
     );
   }
@@ -178,8 +164,6 @@ class ProviderDetailsInfo extends Equatable {
         officialFax,
         contactPerson,
         orgWebsite,
-        ratings,
-        reviews,
         operatingHours,
       ];
 }

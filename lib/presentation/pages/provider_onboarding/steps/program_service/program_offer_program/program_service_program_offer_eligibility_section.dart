@@ -92,7 +92,9 @@ class _ProgramServiceProgramOfferEligibilitySectionState
                 selectedEligibilityCriteria.add(feature);
                 cubit.selectedPrograms[widget.index].eligibilityCriteria =
                     selectedEligibilityCriteria;
+                cubit.notifyTextFieldUpdates();
                 _controller.clear();
+
                 showAddButton = true;
               });
             }

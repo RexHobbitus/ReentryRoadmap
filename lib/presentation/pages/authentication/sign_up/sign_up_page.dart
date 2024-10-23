@@ -44,56 +44,58 @@ class _SignUpState extends State<SignUpPage> {
         body: BlocBuilder<SignUpCubit, SignUpState>(
           bloc: cubit,
           builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(kScreenHorizontalPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Signup",
-                    style: context.textTheme.titleLarge
-                        ?.copyWith(fontWeight: FontWeight.w900),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Create your account to explore app features in details.",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: context.colorScheme.tertiary),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomTextField(
-                    controller: cubit.txtEmail,
-                    label: "Email",
-                  ),
-                  CustomTextField(
-                    controller: cubit.txtPassword,
-                    label: "Password",
-                  ),
-                  CustomTextField(
-                    controller: cubit.txtConfirmPassword,
-                    label: "Confirm Password",
-                  ),
-                  CustomCheckBox(
-                    text: "Create account as Provider",
-                    value: cubit.isProvider,
-                    onChange: (val){
-                      cubit.isProvider=val;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                    text: "Create account",
-                    onTap: cubit.createAccountAction,
-                    isLoading: state.loading,
-                  )
-                ],
+            return SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(kScreenHorizontalPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Signup",
+                      style: context.textTheme.titleLarge
+                          ?.copyWith(fontWeight: FontWeight.w900),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Create your account to explore app features in details.",
+                      style: context.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: context.colorScheme.tertiary),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: cubit.txtEmail,
+                      label: "Email",
+                    ),
+                    CustomTextField(
+                      controller: cubit.txtPassword,
+                      label: "Password",
+                    ),
+                    CustomTextField(
+                      controller: cubit.txtConfirmPassword,
+                      label: "Confirm Password",
+                    ),
+                    CustomCheckBox(
+                      text: "Create account as Provider",
+                      value: cubit.isProvider,
+                      onChange: (val){
+                        cubit.isProvider=val;
+                      },
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                      text: "Create account",
+                      onTap: cubit.createAccountAction,
+                      isLoading: state.loading,
+                    )
+                  ],
+                ),
               ),
             );
           },

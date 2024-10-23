@@ -15,6 +15,8 @@ class ProgramServiceAboutProgramOfferSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    cubit.currentProgramIndex=index;
+
     return ProviderOnboardingSubprogramIntroWidget(
       title: '${cubit.selectedPrograms[index].name} Program',
       subTitle:

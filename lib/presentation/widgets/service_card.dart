@@ -222,6 +222,7 @@ class ServiceCard extends StatelessWidget {
 
   Widget _serviceTitles({required BuildContext context}) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         for (var index = 0; index < provider.onboardingInfo!.programs!.length; index++)
           Padding(

@@ -91,6 +91,7 @@ class _ProgramServiceProgramOfferFeaturesSectionState
                 cubit.selectedPrograms[widget.index].features=selectedFeatures;
                 _controller.clear();
                 showAddButton = true;
+                cubit.notifyTextFieldUpdates();
               });
             }
           },
@@ -118,6 +119,7 @@ class _ProgramServiceProgramOfferFeaturesSectionState
                           selectedFeatures.remove(feature);
                           cubit.selectedPrograms[widget.index].features=selectedFeatures;
                           cubit.notifyTextFieldUpdates();
+
                         });
                       },
                       icon: SvgPicture.asset(Assets.delete)),

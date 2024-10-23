@@ -46,6 +46,7 @@ class SignUpCubit extends Cubit<SignUpState> {
       }else{
         navigator.openProviderOnboarding(const ProviderOnboardingInitialParams());
       }
+      _resetFields();
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -75,5 +76,12 @@ class SignUpCubit extends Cubit<SignUpState> {
     if (!email.isValidEmail()) {
       throw "Please enter valid email address.";
     }
+  }
+
+  _resetFields(){
+    txtEmail.text="";
+    txtConfirmPassword.text="";
+    txtPassword.text="";
+    isProvider=false;
   }
 }
