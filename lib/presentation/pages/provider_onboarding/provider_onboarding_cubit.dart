@@ -7,7 +7,6 @@ import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/general_service.dart';
 import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
-import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
@@ -190,7 +189,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
       _sendOnboardingInformation();
-      return;
+     return;
     }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
       return;
@@ -213,14 +212,15 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
         providerDetails: providerDetailsInfo,
-        programs: selectedPrograms,
-        generalService: generalServiceInfo,
+        // programs: selectedPrograms,
+        // generalService: generalServiceInfo,
       );
 
-      await providerOnboardingUseCase.execute(providerOnboardingInfo);
+      await providerOnboardingUseCase.execute(
+          providerOnboardingInfo, state.providerLocationImages);
       snackBar.show("Provider Onboarding submitted successfully",
           snackBarType: SnackBarType.SUCCESS);
-    //  navigator.openExplore(const ExploreInitialParams());
+      //  navigator.openExplore(const ExploreInitialParams());
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -334,23 +334,23 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   ProviderDetailsInfo _getProviderDetailsInfo() {
     return ProviderDetailsInfo(
-      providerNameLocation: nameProviderLocation,
-      providerLocationDescribe: describeProviderLocation,
-      relationReentry: relationReentry,
-      street: locationStreet,
-      city: locationCity,
-      country: locationCountry,
-      state: locationState,
-      zipCode: locationZipCode,
+      // providerNameLocation: nameProviderLocation,
+      // providerLocationDescribe: describeProviderLocation,
+      // relationReentry: relationReentry,
+      // street: locationStreet,
+      // city: locationCity,
+      // country: locationCountry,
+      // state: locationState,
+     // zipCode: locationZipCode,
       images: [],
-      contactPerson: contactPerson,
-      officialNumber: officialPhone,
-      officialEmail: officialEmail,
-      officialFax: faxNumber,
-      orgWebsite: orgWebsite,
-      ratings: '0',
-      reviews: [],
-      operatingHours: operatingHours,
+      // contactPerson: contactPerson,
+      // officialNumber: officialPhone,
+      // officialEmail: officialEmail,
+      // officialFax: faxNumber,
+      // orgWebsite: orgWebsite,
+      // ratings: '0',
+      // reviews: [],
+     // operatingHours: operatingHours,
     );
   }
 
