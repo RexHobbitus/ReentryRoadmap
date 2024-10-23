@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
@@ -22,13 +23,22 @@ class ProviderOfficialEmailSection extends StatelessWidget {
         Wrap(
           spacing: 15,
           children: [
-            CustomTextField(
-              initialValue: cubit.officialEmail,
-              onChange: (val) {
-                cubit.officialEmail = val;
-                cubit.notifyTextFieldUpdates();
-              },
-            ),
+            kIsWeb
+                ? CustomTextField(
+                    width: double.infinity,
+                    initialValue: cubit.officialEmail,
+                    onChange: (val) {
+                      cubit.officialEmail = val;
+                      cubit.notifyTextFieldUpdates();
+                    },
+                  )
+                : CustomTextField(
+                    initialValue: cubit.officialEmail,
+                    onChange: (val) {
+                      cubit.officialEmail = val;
+                      cubit.notifyTextFieldUpdates();
+                    },
+                  )
           ],
         )
       ],

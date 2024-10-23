@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
@@ -23,7 +24,22 @@ class ProgramServiceProgramOfferDescribeSection extends StatelessWidget {
         const ProviderOnboardingTitleWidget(
           title: "Describe the program in a few sentences",
         ),
+        kIsWeb?
         Wrap(
+          spacing: 15,
+          children: [
+            CustomTextField(
+              width: double.infinity,
+              isDetail: true,
+              initialValue: cubit.selectedPrograms[index].description,
+              onChange: (val) {
+                cubit.selectedPrograms[index].description = val;
+                cubit.notifyTextFieldUpdates();
+              },
+            ),
+          ],
+        ):
+         Wrap(
           spacing: 15,
           children: [
             CustomTextField(

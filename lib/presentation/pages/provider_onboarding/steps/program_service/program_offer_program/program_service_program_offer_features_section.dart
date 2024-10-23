@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -44,13 +45,25 @@ class _ProgramServiceProgramOfferFeaturesSectionState
           suggestionsCallback: _onSearch,
           controller: _controller,
           builder: (context, controller, focusNode) {
-            return CustomTextField(
+            return 
+            
+            kIsWeb?
+            CustomTextField(
+              width: double.infinity,
+              controller: controller,
+              label: "Enter Program Feature",
+              autoFocus: true,
+              bottomPadding: 10,
+              focusNode: focusNode,
+            ):
+                        CustomTextField(
               controller: controller,
               label: "Enter Program Feature",
               autoFocus: true,
               bottomPadding: 10,
               focusNode: focusNode,
             );
+;
           },
           itemBuilder: (context, feature) {
             return Column(

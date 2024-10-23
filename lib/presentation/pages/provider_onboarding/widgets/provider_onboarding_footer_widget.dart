@@ -195,7 +195,7 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                               builder: (context, data) {
                                 return CustomButton(
                                   text: cubit.isProviderOnboardingCompleted()
-                                      ? "Finish Onboarding"
+                                      ? "Finish Provider Onboarding"
                                       : "Next",
                                   isLoading: state.loading,
                                   width: device == DeviceSize.mobile

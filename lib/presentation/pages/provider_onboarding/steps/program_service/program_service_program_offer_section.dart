@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
@@ -41,13 +42,22 @@ class _ProgramServiceProgramOfferSectionState
         const ProviderOnboardingTitleWidget(
           title: "List the names of the different programs you offer",
         ),
-        CustomTextField(
-          controller: _controller,
-          label: "Enter program name",
-          onSubmit: (value) {
-            _addServiceProvider();
-          },
-        ),
+        kIsWeb
+            ? CustomTextField(
+                width: double.infinity,
+                controller: _controller,
+                label: "Enter program name",
+                onSubmit: (value) {
+                  _addServiceProvider();
+                },
+              )
+            : CustomTextField(
+                controller: _controller,
+                label: "Enter program name",
+                onSubmit: (value) {
+                  _addServiceProvider();
+                },
+              ),
         const SizedBox(height: 10),
         for (var programName in selectedPrograms)
           Container(
@@ -90,7 +100,8 @@ class _ProgramServiceProgramOfferSectionState
   }
 
   _generateSubFields() {
-    cubit.selectedCategories=List.generate(selectedPrograms.length, (index)=>[]);
+    cubit.selectedCategories =
+        List.generate(selectedPrograms.length, (index) => []);
     cubit.selectedPrograms = List.generate(
       selectedPrograms.length,
       (index) => Program(

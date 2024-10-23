@@ -12,6 +12,7 @@ import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/popups/information_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/popups/upload_photos_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
@@ -189,7 +190,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
       _sendOnboardingInformation();
-     return;
+      return;
     }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
       return;
@@ -211,16 +212,23 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
 
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
-        providerDetails: providerDetailsInfo,
-        // programs: selectedPrograms,
-        // generalService: generalServiceInfo,
+        //providerDetails: providerDetailsInfo,
+        //  programs: selectedPrograms,
+        generalService: generalServiceInfo,
       );
 
       await providerOnboardingUseCase.execute(
           providerOnboardingInfo, state.providerLocationImages);
       snackBar.show("Provider Onboarding submitted successfully",
           snackBarType: SnackBarType.SUCCESS);
-      //  navigator.openExplore(const ExploreInitialParams());
+
+      navigator.openExplore(const ExploreInitialParams());
+      navigator.navigator.showDialogBox(
+          context,
+          InformationPopup(
+              title: "Thanks for creating a business account!",
+              subTitle:
+                  "Our team will verify the information and get back to you in 2-3 business days"));
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -278,12 +286,20 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       case 13:
         return specificProgram.isNotEmpty;
       case 14:
+        for (int i = 0; i < selectedPrograms.length; i++) {
+          var program = selectedPrograms[i];
+
+          if (program.name == null) {
+            return false;
+          }
+        }
         return true;
 
       case 15:
 
         /// amazing sauce program
         return true;
+
       case 16:
         // for (var program in selectedPrograms) {
         //   if (program.description == null || program.description!.isEmpty) {
@@ -334,23 +350,23 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   ProviderDetailsInfo _getProviderDetailsInfo() {
     return ProviderDetailsInfo(
-      // providerNameLocation: nameProviderLocation,
-      // providerLocationDescribe: describeProviderLocation,
-      // relationReentry: relationReentry,
-      // street: locationStreet,
-      // city: locationCity,
-      // country: locationCountry,
-      // state: locationState,
-     // zipCode: locationZipCode,
+      providerNameLocation: nameProviderLocation,
+      providerLocationDescribe: describeProviderLocation,
+      relationReentry: relationReentry,
+      street: locationStreet,
+      city: locationCity,
+      country: locationCountry,
+      state: locationState,
+      zipCode: locationZipCode,
       images: [],
-      // contactPerson: contactPerson,
-      // officialNumber: officialPhone,
-      // officialEmail: officialEmail,
-      // officialFax: faxNumber,
-      // orgWebsite: orgWebsite,
-      // ratings: '0',
-      // reviews: [],
-     // operatingHours: operatingHours,
+      contactPerson: contactPerson,
+      officialNumber: officialPhone,
+      officialEmail: officialEmail,
+      officialFax: faxNumber,
+      orgWebsite: orgWebsite,
+      ratings: '0',
+      reviews: [],
+      operatingHours: operatingHours,
     );
   }
 

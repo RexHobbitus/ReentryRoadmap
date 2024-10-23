@@ -41,23 +41,48 @@ class _ProviderOnboardingReenteryRelationSectionState
         const SizedBox(
           height: 10,
         ),
-        Wrap(
-          children: [
-            for (var relation in relations)
-              CustomOptionTile(
-                title: relation,
-                isSelected: selected == relation,
-                onTap: () {
-                  setState(() {
-                    selected = relation;
-                    cubit.relationReentry = relation;
-                    print(cubit.relationReentry);
-                  });
-                  cubit.notifyTextFieldUpdates();
-                },
-              ),
-          ],
-        )
+        LayoutBuilder(builder: (context, constraints) {
+          if (constraints.maxWidth > 600) {
+            return Wrap(
+              direction: Axis.vertical,
+              children: [
+                for (var relation in relations)
+                  SizedBox(
+                    child: CustomOptionTile(
+                      title: relation,
+                      isSelected: selected == relation,
+                      onTap: () {
+                        setState(() {
+                          selected = relation;
+                          cubit.relationReentry = relation;
+                          print(cubit.relationReentry);
+                        });
+                        cubit.notifyTextFieldUpdates();
+                      },
+                    ),
+                  ),
+              ],
+            );
+          } else {
+            return Wrap(
+              children: [
+                for (var relation in relations)
+                  CustomOptionTile(
+                    title: relation,
+                    isSelected: selected == relation,
+                    onTap: () {
+                      setState(() {
+                        selected = relation;
+                        cubit.relationReentry = relation;
+                        print(cubit.relationReentry);
+                      });
+                      cubit.notifyTextFieldUpdates();
+                    },
+                  ),
+              ],
+            );
+          }
+        })
       ],
     );
   }

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
@@ -5,7 +6,6 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
-
 
 class ProviderOfficialPhoneSection extends StatelessWidget {
   const ProviderOfficialPhoneSection({super.key});
@@ -18,18 +18,27 @@ class ProviderOfficialPhoneSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const ProviderOnboardingTitleWidget(
-title: "Please provide your official phone number",        ),
+          title: "Please provide your official phone number",
+        ),
         Wrap(
           spacing: 15,
           children: [
-            CustomTextField(
-              initialValue: cubit.officialPhone,
-              onChange: (val){
-                cubit.officialPhone=val;
-                cubit.notifyTextFieldUpdates();
-              },
-            ),
-            
+            kIsWeb
+                ? CustomTextField(
+                    width: double.infinity,
+                    initialValue: cubit.officialPhone,
+                    onChange: (val) {
+                      cubit.officialPhone = val;
+                      cubit.notifyTextFieldUpdates();
+                    },
+                  )
+                : CustomTextField(
+                    initialValue: cubit.officialPhone,
+                    onChange: (val) {
+                      cubit.officialPhone = val;
+                      cubit.notifyTextFieldUpdates();
+                    },
+                  )
           ],
         )
       ],

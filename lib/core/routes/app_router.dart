@@ -165,13 +165,11 @@ class AppRouter {
         builder: (context, state) {
           return ProviderDetailPage(
             cubit: getIt(),
-            initialParams:  ProviderDetailInitialParams(
-              id: state.pathParameters['id']!
-            ),
+            initialParams:
+                ProviderDetailInitialParams(id: state.pathParameters['id']!),
           );
         },
       ),
-
     ],
   );
 }

@@ -29,47 +29,98 @@ class _ProgramServiceGeneralServiceSubCategoriesSectionState
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        for (int index = 0; index < selectedCategories.length; index++)
-          Column(
-            children: [
-              Text(
-                "Under ${selectedCategories[index].title}, what sub categories applies to your general service?",
-                style: context.textTheme.titleMedium
-                    ?.copyWith(fontWeight: FontWeight.w700),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              for (var subCategory in selectedCategories[index].subCategories)
-                CustomOptionTile(
-                  title: subCategory,
-                  isSelected: cubit.generalServiceInfo.serviceCategories![index]
-                      .subCategories!
-                      .contains(subCategory),
-                  onTap: () {
-                    setState(() {
-                      if (cubit.generalServiceInfo.serviceCategories![index]
-                          .subCategories!
-                          .contains(subCategory)) {
-                        cubit.generalServiceInfo.serviceCategories![index]
-                            .subCategories!
-                            .remove(subCategory);
-                      } else {
-                        cubit.generalServiceInfo.serviceCategories![index]
-                            .subCategories!
-                            .add(subCategory);
-                      }
-                    });
-                  },
-                ),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
-          )
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth > 600) {
+        return Wrap(
+          direction: Axis.vertical,
+          children: [
+            for (int index = 0; index < selectedCategories.length; index++)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Under ${selectedCategories[index].title}, what sub categories applies to your general service?",
+                    style: context.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  for (var subCategory
+                      in selectedCategories[index].subCategories)
+                    CustomOptionTile(
+                      title: subCategory,
+                      isSelected: cubit.generalServiceInfo
+                          .serviceCategories![index].subCategories!
+                          .contains(subCategory),
+                      onTap: () {
+                        setState(() {
+                          if (cubit.generalServiceInfo.serviceCategories![index]
+                              .subCategories!
+                              .contains(subCategory)) {
+                            cubit.generalServiceInfo.serviceCategories![index]
+                                .subCategories!
+                                .remove(subCategory);
+                          } else {
+                            cubit.generalServiceInfo.serviceCategories![index]
+                                .subCategories!
+                                .add(subCategory);
+                          }
+                        });
+                      },
+                    ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
+          ],
+        );
+      } else {
+        return Wrap(
+          children: [
+            for (int index = 0; index < selectedCategories.length; index++)
+              Column(
+                children: [
+                  Text(
+                    "Under ${selectedCategories[index].title}, what sub categories applies to your general service?",
+                    style: context.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  for (var subCategory
+                      in selectedCategories[index].subCategories)
+                    CustomOptionTile(
+                      title: subCategory,
+                      isSelected: cubit.generalServiceInfo
+                          .serviceCategories![index].subCategories!
+                          .contains(subCategory),
+                      onTap: () {
+                        setState(() {
+                          if (cubit.generalServiceInfo.serviceCategories![index]
+                              .subCategories!
+                              .contains(subCategory)) {
+                            cubit.generalServiceInfo.serviceCategories![index]
+                                .subCategories!
+                                .remove(subCategory);
+                          } else {
+                            cubit.generalServiceInfo.serviceCategories![index]
+                                .subCategories!
+                                .add(subCategory);
+                          }
+                        });
+                      },
+                    ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
+          ],
+        );
+      }
+    });
   }
 }

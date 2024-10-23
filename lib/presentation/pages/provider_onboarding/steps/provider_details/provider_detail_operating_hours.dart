@@ -96,7 +96,7 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
               borderRadius: BorderRadius.circular(10)),
           child: Center(
             child: Text(
-              cubit.operatingHours[index].day??"",
+              cubit.operatingHours[index].day ?? "",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),

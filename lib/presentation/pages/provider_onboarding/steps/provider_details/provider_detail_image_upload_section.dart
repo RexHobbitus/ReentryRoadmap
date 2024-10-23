@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
@@ -78,7 +81,7 @@ class _ProviderDetailImageUploadSectionState
               ),
             if (state.providerLocationImages.isNotEmpty)
               AlignedGridView.count(
-                crossAxisCount: 2,
+                crossAxisCount: kIsWeb ? 3 : 2,
                 mainAxisSpacing: 4,
                 crossAxisSpacing: 4,
                 shrinkWrap: true,
@@ -110,6 +113,51 @@ class _ProviderDetailImageUploadSectionState
   }
 }
 
+// class ImageCard extends StatelessWidget {
+//   final dynamic photo;
+//   final Function(dynamic) onRemove;
+
+//   ImageCard({required this.photo, required this.onRemove});
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 150,
+//       child: Stack(
+//         fit: StackFit.expand,
+//         children: [
+//           Card(
+//             child: ClipRRect(
+//               borderRadius: BorderRadius.circular(10),
+//               child: photo is String
+//                   ? Image.network(photo, fit: BoxFit.cover)
+//                   : Image.file(photo, fit: BoxFit.cover),
+//             ),
+//           ),
+//           Positioned(
+//             top: 10,
+//             left: 10,
+//             child: InkWell(
+//               onTap: () {
+//                 onRemove.call(photo);
+//               },
+//               child: CircleAvatar(
+//                 backgroundColor: context.colorScheme.secondary,
+//                 radius: 15,
+//                 child: Icon(
+//                   Icons.delete,
+//                   size: 15,
+//                   color: context.colorScheme.onSecondary,
+//                 ),
+//               ),
+//             ),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 class ImageCard extends StatelessWidget {
   final dynamic photo;
   final Function(dynamic) onRemove;
@@ -120,15 +168,14 @@ class ImageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 150,
+      width: 150,
       child: Stack(
         fit: StackFit.expand,
         children: [
           Card(
             child: ClipRRect(
               borderRadius: BorderRadius.circular(10),
-              child: photo is String
-                  ? Image.network(photo, fit: BoxFit.cover)
-                  : Image.file(photo, fit: BoxFit.cover),
+              child: _buildImage(),
             ),
           ),
           Positioned(
@@ -139,12 +186,12 @@ class ImageCard extends StatelessWidget {
                 onRemove.call(photo);
               },
               child: CircleAvatar(
-                backgroundColor: context.colorScheme.secondary,
+                backgroundColor: Theme.of(context).colorScheme.secondary,
                 radius: 15,
                 child: Icon(
                   Icons.delete,
                   size: 15,
-                  color: context.colorScheme.onSecondary,
+                  color: Theme.of(context).colorScheme.onSecondary,
                 ),
               ),
             ),
@@ -152,5 +199,53 @@ class ImageCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget _buildImage() {
+    if (kIsWeb) {
+      // Web: Handle both Uint8List and network image URL
+      if (photo is Uint8List) {
+        // Handle Uint8List for images selected from file picker on web
+        return Image.memory(
+          photo,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Center(child: Icon(Icons.broken_image, size: 50));
+          },
+        );
+      } else if (photo is String) {
+        // Handle network URL for images
+        return Image.network(
+          photo,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Center(child: Icon(Icons.broken_image, size: 50));
+          },
+        );
+      }
+    } else {
+      // Mobile: Handle both File and network image URL
+      if (photo is String) {
+        return Image.network(
+          photo,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Center(child: Icon(Icons.broken_image, size: 50));
+          },
+        );
+      } else if (photo is File) {
+        return Image.file(
+          photo,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Center(child: Icon(Icons.broken_image, size: 50));
+          },
+        );
+      }
+    }
+
+    return Center(
+        child: Icon(Icons.broken_image,
+            size: 50)); // Fallback for unsupported types
   }
 }

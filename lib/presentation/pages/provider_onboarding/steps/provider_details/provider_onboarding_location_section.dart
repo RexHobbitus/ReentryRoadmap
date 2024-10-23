@@ -43,51 +43,66 @@ class _ProviderOnboardingLocationSectionState
                   ),
                   Row(
                     children: [
-                      CustomTextField(
-                        initialValue: cubit.locationCity,
-                        onChange: (val) {
-                          cubit.locationCity = val;
-                          cubit.notifyTextFieldUpdates();
-                        },
-                        label: "City",
+                      Expanded(
+                        child: CustomTextField(
+                          initialValue: cubit.locationCity,
+                          onChange: (val) {
+                            cubit.locationCity = val;
+                            cubit.notifyTextFieldUpdates();
+                          },
+                          label: "City",
+                        ),
                       ),
-                      CustomTextField(
-                        initialValue: cubit.locationCountry,
-                        onChange: (val) {
-                          cubit.locationCountry = val;
-                          cubit.notifyTextFieldUpdates();
-                        },
-                        label: "Country",
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          initialValue: cubit.locationCountry,
+                          onChange: (val) {
+                            cubit.locationCountry = val;
+                            cubit.notifyTextFieldUpdates();
+                          },
+                          label: "Country",
+                        ),
                       ),
                     ],
                   ),
                   Row(
                     children: [
-                      CustomTextField(
-                        initialValue: cubit.locationState,
-                        label: "State",
-                        disable: true,
-                        key: UniqueKey(),
-                        onTap: () {
-                          showCountryPicker(
-                            context: context,
-                            showPhoneCode: false,
-                            onSelect: (Country country) {
-                              setState(() {
-                                cubit.locationState = country.name;
-                                cubit.notifyTextFieldUpdates();
-                              });
-                            },
-                          );
-                        },
+                      Expanded(
+                        child: CustomTextField(
+                          initialValue: cubit.locationState,
+                          label: "State",
+                          disable: true,
+                          key: UniqueKey(),
+                          onTap: () {
+                            showCountryPicker(
+                              context: context,
+                              showPhoneCode: false,
+                              onSelect: (Country country) {
+                                setState(() {
+                                  cubit.locationState = country.name;
+                                  cubit.notifyTextFieldUpdates();
+                                });
+                              },
+                            );
+                          },
+                        ),
                       ),
-                      CustomTextField(
-                        initialValue: cubit.locationZipCode,
-                        onChange: (val) {
-                          cubit.locationZipCode = val;
-                          cubit.notifyTextFieldUpdates();
-                        },
-                        label: "Zip Code",
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Expanded(
+                        child: CustomTextField(
+                          height: 90,
+                          initialValue: cubit.locationZipCode,
+                          onChange: (val) {
+                            cubit.locationZipCode = val;
+                            cubit.notifyTextFieldUpdates();
+                          },
+                          label: "Zip Code",
+                        ),
                       ),
                     ],
                   ),
