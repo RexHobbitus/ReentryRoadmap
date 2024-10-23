@@ -6,7 +6,6 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-
 class ProviderDetailNameLocationSection extends StatelessWidget {
   const ProviderDetailNameLocationSection({super.key});
 
@@ -19,19 +18,31 @@ class ProviderDetailNameLocationSection extends StatelessWidget {
       children: [
         const ProviderOnboardingTitleWidget(
           title: "What is the name of your provider location?",
-          subTitle: 'This is the location the services are offered at. It could be the main office of the organization or it could have a different name',
+          subTitle:
+              'This is the location the services are offered at. It could be the main office of the organization or it could have a different name',
         ),
         Wrap(
           spacing: 15,
           children: [
-            CustomTextField(
-              initialValue: cubit.nameProviderLocation,
-              onChange: (val){
-                cubit.nameProviderLocation=val;
-                cubit.notifyTextFieldUpdates();
-              },
-            ),
-            
+            LayoutBuilder(builder: (context, constraints) {
+              if (constraints.maxWidth > 600) {
+                return CustomTextField(
+                    width: double.infinity,
+                    initialValue: cubit.nameProviderLocation,
+                    onChange: (val) {
+                      cubit.nameProviderLocation = val;
+                      cubit.notifyTextFieldUpdates();
+                    });
+              } else {
+                return CustomTextField(
+                    width: double.infinity,
+                    initialValue: cubit.nameProviderLocation,
+                    onChange: (val) {
+                      cubit.nameProviderLocation = val;
+                      cubit.notifyTextFieldUpdates();
+                    });
+              }
+            })
           ],
         )
       ],

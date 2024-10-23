@@ -24,17 +24,34 @@ class ProviderDescribeLocationWidget extends StatelessWidget {
         Wrap(
           spacing: 15,
           children: [
-            CustomTextField(
-              isMaxlength: true,
-              isDetail: true,
-              maxLength: 500,
-              initialValue: cubit.describeProviderLocation,
-              onChange: (val) {
-                cubit.describeProviderLocation = val;
-                cubit.notifyTextFieldUpdates();
-              },
-              label: "Describe Provider Location",
-            ),
+            LayoutBuilder(builder: (context, constraints) {
+              if (constraints.maxWidth > 600) {
+                return CustomTextField(
+                  width: double.infinity,
+                  isMaxlength: true,
+                  isDetail: true,
+                  maxLength: 500,
+                  initialValue: cubit.describeProviderLocation,
+                  onChange: (val) {
+                    cubit.describeProviderLocation = val;
+                    cubit.notifyTextFieldUpdates();
+                  },
+                  label: "Describe Provider Location",
+                );
+              } else {
+                return CustomTextField(
+                  isMaxlength: true,
+                  isDetail: true,
+                  maxLength: 500,
+                  initialValue: cubit.describeProviderLocation,
+                  onChange: (val) {
+                    cubit.describeProviderLocation = val;
+                    cubit.notifyTextFieldUpdates();
+                  },
+                  label: "Describe Provider Location",
+                );
+              }
+            })
           ],
         )
       ],

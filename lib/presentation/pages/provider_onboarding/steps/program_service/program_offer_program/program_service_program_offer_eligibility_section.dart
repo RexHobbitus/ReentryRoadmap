@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -12,7 +13,8 @@ import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 class ProgramServiceProgramOfferEligibilitySection extends StatefulWidget {
   final int index;
-  ProgramServiceProgramOfferEligibilitySection({super.key,required this.index});
+  ProgramServiceProgramOfferEligibilitySection(
+      {super.key, required this.index});
 
   @override
   State<ProgramServiceProgramOfferEligibilitySection> createState() =>
@@ -26,11 +28,12 @@ class _ProgramServiceProgramOfferEligibilitySectionState
 
   ProviderOnboardingCubit get cubit => getIt();
 
-  List<String> selectedEligibilityCriteria=[];
+  List<String> selectedEligibilityCriteria = [];
   @override
   void initState() {
     super.initState();
-    selectedEligibilityCriteria=cubit.selectedPrograms[widget.index].eligibilityCriteria??[];
+    selectedEligibilityCriteria =
+        cubit.selectedPrograms[widget.index].eligibilityCriteria ?? [];
   }
 
   @override
@@ -47,13 +50,22 @@ class _ProgramServiceProgramOfferEligibilitySectionState
           suggestionsCallback: _onSearch,
           controller: _controller,
           builder: (context, controller, focusNode) {
-            return CustomTextField(
-              controller: controller,
-              label: "Enter Program Feature",
-              autoFocus: true,
-              bottomPadding: 10,
-              focusNode: focusNode,
-            );
+            return kIsWeb
+                ? CustomTextField(
+                    width: double.infinity,
+                    controller: controller,
+                    label: "Enter Program Feature",
+                    autoFocus: true,
+                    bottomPadding: 10,
+                    focusNode: focusNode,
+                  )
+                : CustomTextField(
+                    controller: controller,
+                    label: "Enter Program Feature",
+                    autoFocus: true,
+                    bottomPadding: 10,
+                    focusNode: focusNode,
+                  );
           },
           itemBuilder: (context, feature) {
             return Column(
@@ -78,7 +90,8 @@ class _ProgramServiceProgramOfferEligibilitySectionState
             if (!selectedEligibilityCriteria.contains(feature)) {
               setState(() {
                 selectedEligibilityCriteria.add(feature);
-                cubit.selectedPrograms[widget.index].eligibilityCriteria=selectedEligibilityCriteria;
+                cubit.selectedPrograms[widget.index].eligibilityCriteria =
+                    selectedEligibilityCriteria;
                 _controller.clear();
                 showAddButton = true;
               });
@@ -107,7 +120,9 @@ class _ProgramServiceProgramOfferEligibilitySectionState
                       onPressed: () {
                         setState(() {
                           selectedEligibilityCriteria.remove(feature);
-                          cubit.selectedPrograms[widget.index].eligibilityCriteria=selectedEligibilityCriteria;
+                          cubit.selectedPrograms[widget.index]
+                                  .eligibilityCriteria =
+                              selectedEligibilityCriteria;
                           cubit.notifyTextFieldUpdates();
                         });
                       },

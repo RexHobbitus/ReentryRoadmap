@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
@@ -38,22 +39,40 @@ class _ProgramServiceSpecificProgramSectionState
         const SizedBox(
           height: 10,
         ),
-        Wrap(
-          children: [
-            for (var val in specificProgram)
-              CustomOptionTile(
-                title: val,
-                isSelected: selected == val,
-                onTap: () {
-                  setState(() {
-                    selected = val;
-                    cubit.specificProgram = val;
-                  });
-                  cubit.notifyTextFieldUpdates();
-                },
-              ),
-          ],
-        )
+        kIsWeb
+            ? Wrap(
+                direction: Axis.vertical,
+                children: [
+                  for (var val in specificProgram)
+                    CustomOptionTile(
+                      title: val,
+                      isSelected: selected == val,
+                      onTap: () {
+                        setState(() {
+                          selected = val;
+                          cubit.specificProgram = val;
+                        });
+                        cubit.notifyTextFieldUpdates();
+                      },
+                    ),
+                ],
+              )
+            : Wrap(
+                children: [
+                  for (var val in specificProgram)
+                    CustomOptionTile(
+                      title: val,
+                      isSelected: selected == val,
+                      onTap: () {
+                        setState(() {
+                          selected = val;
+                          cubit.specificProgram = val;
+                        });
+                        cubit.notifyTextFieldUpdates();
+                      },
+                    ),
+                ],
+              )
       ],
     );
   }
