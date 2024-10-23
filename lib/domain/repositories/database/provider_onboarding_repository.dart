@@ -4,4 +4,5 @@ import '../../entities/onboarding_info.dart';
 
 abstract class ProviderOnboardingRepository {
   Future<void> submitAssessment(ProviderOnboardingInfo providerOnboardingInfo);
+ // Future<void> uploadImages(ProviderOnboardingInfo providerOnboardingInfo);
 }

@@ -25,7 +25,6 @@ import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
-import '../../presentation/widgets/scaffold_with_nav_bar.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 

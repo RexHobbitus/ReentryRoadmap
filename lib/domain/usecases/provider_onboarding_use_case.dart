@@ -24,6 +24,7 @@ class ProviderOnboardingUseCase {
     // logger.log("${providerOnboardingInfo.toJson()}");
 
     await providerOnboardingRepository.submitAssessment(providerOnboardingInfo);
+    
     LoginUser? user = await authRepository.getCurrentUser();
     userStore.setUser(user!);
   }

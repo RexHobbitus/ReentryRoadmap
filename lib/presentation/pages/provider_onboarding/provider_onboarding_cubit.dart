@@ -1,13 +1,13 @@
 import 'dart:async';
+import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
-import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/general_service.dart';
 import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
-import 'package:reentry_roadmap/domain/entities/program_service_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
@@ -42,6 +42,7 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/pro
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_onboarding_location_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_onboarding_reentery_relation_section.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/steps/provider_details/provider_org_web_section.dart';
+import 'package:path/path.dart' as path;
 
 import '../../../domain/entities/program.dart';
 import 'steps/program_service/general_service/program_service_general_service_subcategories_section.dart';
@@ -51,11 +52,11 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   ProviderOnboardingUseCase providerOnboardingUseCase;
   AppSnackBar snackBar;
 
-  ProviderOnboardingCubit(
-      {required this.navigator,
-      required this.providerOnboardingUseCase,
-      required this.snackBar})
-      : super(ProviderOnboardingState.initial());
+  ProviderOnboardingCubit({
+    required this.navigator,
+    required this.providerOnboardingUseCase,
+    required this.snackBar,
+  }) : super(ProviderOnboardingState.initial());
 
   BuildContext get context => navigator.context;
 
@@ -189,15 +190,15 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
-      _sendOnboardingInformation();
-      return;
+    _sendOnboardingInformation();
+    return;
     }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
-      return;
+    return;
     }
 
-    int step = state.providerOnboardingSectionIndex + 1;
-    emit(state.copyWith(providerOnboardingSectionIndex: step));
+      int step = state.providerOnboardingSectionIndex + 1;
+      emit(state.copyWith(providerOnboardingSectionIndex: step));
   }
 
   backAction() {
@@ -208,9 +209,16 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   _sendOnboardingInformation() async {
     try {
       emit(state.copyWith(loading: true));
+      List<String> uploadedImageUrls = [];
 
-      ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
+      if (state.providerLocationImages.isNotEmpty) {
+        uploadedImageUrls =
+            await uploadImagesToFirebase(state.providerLocationImages);
+        debugPrint('Uploaded Image URLs: $uploadedImageUrls'); // DEBUG LINE
+      }
 
+      ProviderDetailsInfo providerDetailsInfo =
+          _getProviderDetailsInfo(uploadedImageUrls);
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
         providerDetails: providerDetailsInfo,
         programs: selectedPrograms,
@@ -219,8 +227,8 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
       await providerOnboardingUseCase.execute(providerOnboardingInfo);
       snackBar.show("Provider Onboarding submitted successfully",
-          snackBarType: SnackBarType.SUCCESS);
-    //  navigator.openExplore(const ExploreInitialParams());
+      snackBarType: SnackBarType.SUCCESS);
+       navigator.openExplore(const ExploreInitialParams());
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -234,6 +242,49 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     }
 
     return false;
+  }
+
+  Future<List<String>> uploadImagesToFirebase(List<dynamic> images) async {
+    List<String> downloadUrls = [];
+
+    try {
+      for (var image in images) {
+        String fileName = _generateFileName(image);
+        Reference storageRef =
+            FirebaseStorage.instance.ref().child('uploads/$fileName');
+
+        if (kIsWeb) {
+          Uint8List webImage = image as Uint8List;
+          UploadTask uploadTask = storageRef.putData(webImage);
+          TaskSnapshot snapshot = await uploadTask;
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+          debugPrint('Download URL (web): $downloadUrl');
+          downloadUrls.add(downloadUrl);
+        } else {
+          File mobileImage = image as File;
+          UploadTask uploadTask = storageRef.putFile(mobileImage);
+          TaskSnapshot snapshot = await uploadTask;
+          String downloadUrl = await snapshot.ref.getDownloadURL();
+          debugPrint('Download URL (mobile): $downloadUrl');
+          downloadUrls.add(downloadUrl);
+        }
+      }
+    } catch (e) {
+      debugPrint('Error uploading image: $e');
+      return [];
+    }
+
+    debugPrint('All Download URLs: $downloadUrls'); 
+    return downloadUrls;
+  }
+// generating the files name
+  String _generateFileName(dynamic image) {
+    if (kIsWeb) {
+      return DateTime.now().millisecondsSinceEpoch.toString() +
+          '.png';
+    } else {
+      return path.basename((image as File).path);
+    }
   }
 
   bool isNextButtonEnabled() {
@@ -332,7 +383,10 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     return true;
   }
 
-  ProviderDetailsInfo _getProviderDetailsInfo() {
+  ProviderDetailsInfo _getProviderDetailsInfo(List<String> imageUrls) {
+    debugPrint(
+        'Image URLs in _getProviderDetailsInfo: $imageUrls'); // Debug line
+
     return ProviderDetailsInfo(
       providerNameLocation: nameProviderLocation,
       providerLocationDescribe: describeProviderLocation,
@@ -342,7 +396,7 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       country: locationCountry,
       state: locationState,
       zipCode: locationZipCode,
-      images: [],
+      images: imageUrls,
       contactPerson: contactPerson,
       officialNumber: officialPhone,
       officialEmail: officialEmail,

@@ -1,20 +1,20 @@
 import 'package:equatable/equatable.dart';
 
-class AmzingSauceProgramInfo extends Equatable {
+class ProgramOfferInfo extends Equatable {
   String? describeProgram;
   List<String>? applyProgramCatagories;
   List<String>? applyProgramSubCatagories;
   List<String>? applyProgramFeatures;
   List<String>? applyProgramEligibilty;
 
-  AmzingSauceProgramInfo(
+  ProgramOfferInfo(
       {this.describeProgram,
       this.applyProgramCatagories,
       this.applyProgramSubCatagories,
       this.applyProgramFeatures,
       this.applyProgramEligibilty});
 
-  AmzingSauceProgramInfo.fromJson(Map<String, dynamic> json) {
+  ProgramOfferInfo.fromJson(Map<String, dynamic> json) {
     describeProgram = json['describeProgram'];
     applyProgramCatagories =
         List<String>.from(json['applyProgramCatagories'] ?? []);
@@ -38,14 +38,14 @@ class AmzingSauceProgramInfo extends Equatable {
     return data;
   }
 
-  AmzingSauceProgramInfo copyWith({
+  ProgramOfferInfo copyWith({
     String? describeProgram,
     List<String>? applyProgramCatagories,
     List<String>? applyProgramSubCatagories,
     List<String>? applyProgramFeatures,
     List<String>? applyProgramEligibilty,
   }) {
-    return AmzingSauceProgramInfo(
+    return ProgramOfferInfo(
       describeProgram: describeProgram ?? this.describeProgram,
       applyProgramCatagories:
           applyProgramCatagories ?? this.applyProgramCatagories,
