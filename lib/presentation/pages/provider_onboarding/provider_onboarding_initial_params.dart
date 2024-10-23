@@ -1,0 +1,4 @@
+class ProviderOnboardingInitialParams {
+
+const ProviderOnboardingInitialParams();
+}

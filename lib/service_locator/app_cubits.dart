@@ -20,6 +20,8 @@ import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 
 import '../presentation/pages/splash/splash_cubit.dart';
 import '../presentation/pages/splash/splash_navigator.dart';
@@ -90,6 +92,13 @@ class AppCubits {
       onboardingUseCase: getIt(),
       snackBar: getIt(),
     ));
+    getIt.registerSingleton<ProviderOnboardingNavigator>(
+        ProviderOnboardingNavigator(getIt()));
+    getIt.registerSingleton<ProviderOnboardingCubit>(ProviderOnboardingCubit(
+        navigator: getIt(),
+        providerOnboardingUseCase: getIt(),
+        snackBar: getIt()));
+
     getIt.registerSingleton<LoginNavigator>(LoginNavigator(getIt()));
     getIt.registerSingleton<LoginCubit>(LoginCubit(
       navigator: getIt(),

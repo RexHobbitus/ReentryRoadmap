@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
@@ -19,7 +20,7 @@ class ExploreBannerSection extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: context.themeData.colorScheme.secondary),
-      child: BlocBuilder<UserStore, AppUser>(
+      child: BlocBuilder<UserStore, LoginUser>(
         bloc: cubit.userStore,
         builder: (context, state) {
           return Wrap(

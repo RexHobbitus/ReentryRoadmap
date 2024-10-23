@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'profile_cubit.dart';
@@ -39,7 +40,7 @@ class _ProfileState extends State<ProfilePage> {
     return Scaffold(
       body: Padding(
         padding:  const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
-        child: BlocBuilder<UserStore, AppUser>(
+        child: BlocBuilder<UserStore, LoginUser>(
           bloc: cubit.userStore,
           builder: (context, user) {
             return BlocBuilder<ProfileCubit, ProfileState>(

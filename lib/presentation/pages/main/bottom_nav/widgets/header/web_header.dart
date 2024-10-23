@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_state.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/widgets/header/web_for_provider_menu.dart';
@@ -30,7 +31,7 @@ class WebHeader extends StatelessWidget {
       child: BlocBuilder<BottomNavCubit, BottomNavState>(
         bloc: getIt(),
         builder: (context, bottomNavState) {
-          return BlocBuilder<UserStore, AppUser>(
+          return BlocBuilder<UserStore, LoginUser>(
             bloc: cubit.userStore,
             builder: (context, userState) {
               return Row(

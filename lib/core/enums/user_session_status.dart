@@ -1,3 +1,3 @@
 enum UserSessionStatus{
-  loggedIn,notLoggedIn,loggedInWithNoOnboarding
+  loggedIn,notLoggedIn,userLoggedInWithNoOnboarding,providerLoggedInWithNoOnboarding
 }

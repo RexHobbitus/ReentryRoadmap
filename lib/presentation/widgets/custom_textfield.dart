@@ -42,6 +42,8 @@ class CustomTextField extends StatelessWidget {
   InputBorder? inputBorder;
   FocusNode? focusNode;
   Widget? suffix;
+  bool isMaxlength;
+  int? maxLength;
 
   CustomTextField({
     Key? key,
@@ -78,7 +80,8 @@ class CustomTextField extends StatelessWidget {
     this.focusNode,
     this.suffixPath,
     this.suffix,
-
+    this.isMaxlength = false,
+    this.maxLength,
   }) : super(key: key);
 
   @override
@@ -107,6 +110,7 @@ class CustomTextField extends StatelessWidget {
           onTap: onTap,
           keyboardType: keyboard ?? TextInputType.text,
           maxLines: isDetail ? null : 1,
+          maxLength: isMaxlength ? maxLength : null,
           readOnly: disable ??
               dealAsDate ??
               dealAsTime ??
@@ -132,7 +136,7 @@ class CustomTextField extends StatelessWidget {
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
             fillColor: context.themeData.cardColor,
-            suffixIcon:suffixPath != null
+            suffixIcon: suffixPath != null
                 ? InkWell(
                     onTap: () {},
                     child: SvgPicture.asset(suffixPath!),

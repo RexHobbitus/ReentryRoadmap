@@ -10,6 +10,7 @@ import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.da
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_state.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../../domain/entities/login_user.dart';
 import '../../../../widgets/service_card.dart';
 import 'explore_services_slider.dart';
 
@@ -23,7 +24,7 @@ class ExploreServicesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserStore, AppUser>(
+    return BlocBuilder<UserStore, LoginUser>(
       bloc: cubit.userStore,
       builder: (context, user) {
         return BlocBuilder<ExploreCubit, ExploreState>(

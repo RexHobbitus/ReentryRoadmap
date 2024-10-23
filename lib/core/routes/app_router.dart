@@ -13,6 +13,8 @@ import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_page.dart';
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
@@ -41,9 +43,7 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: SplashPage.path,
-
     routes: [
-
       GoRoute(
         path: SplashPage.path,
         builder: (context, state) {
@@ -71,7 +71,6 @@ class AppRouter {
           );
         },
       ),
-
 
       /// BOTTOM NAV BAR AND THEIR INNER SCREENS
       ShellRoute(
@@ -149,6 +148,15 @@ class AppRouter {
           return OnboardingPage(
             cubit: getIt(),
             initialParams: const OnboardingInitialParams(),
+          );
+        },
+      ),
+      GoRoute(
+        path: ProviderOnboardingPage.path,
+        builder: (context, state) {
+          return ProviderOnboardingPage(
+            cubit: getIt(),
+            initialParams: const ProviderOnboardingInitialParams(),
           );
         },
       ),
