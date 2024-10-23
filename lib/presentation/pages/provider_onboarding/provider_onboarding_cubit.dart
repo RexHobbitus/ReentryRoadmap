@@ -212,9 +212,9 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       ProviderDetailsInfo providerDetailsInfo = _getProviderDetailsInfo();
 
       ProviderOnboardingInfo providerOnboardingInfo = ProviderOnboardingInfo(
-        providerDetails: providerDetailsInfo,
-        // programs: selectedPrograms,
-        // generalService: generalServiceInfo,
+        //providerDetails: providerDetailsInfo,
+        //  programs: selectedPrograms,
+        generalService: generalServiceInfo,
       );
 
       await providerOnboardingUseCase.execute(
@@ -350,23 +350,23 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   ProviderDetailsInfo _getProviderDetailsInfo() {
     return ProviderDetailsInfo(
-      // providerNameLocation: nameProviderLocation,
-      // providerLocationDescribe: describeProviderLocation,
-      // relationReentry: relationReentry,
-      // street: locationStreet,
-      // city: locationCity,
-      // country: locationCountry,
-      // state: locationState,
-      // zipCode: locationZipCode,
+      providerNameLocation: nameProviderLocation,
+      providerLocationDescribe: describeProviderLocation,
+      relationReentry: relationReentry,
+      street: locationStreet,
+      city: locationCity,
+      country: locationCountry,
+      state: locationState,
+      zipCode: locationZipCode,
       images: [],
-      // contactPerson: contactPerson,
-      // officialNumber: officialPhone,
-      // officialEmail: officialEmail,
-      // officialFax: faxNumber,
-      // orgWebsite: orgWebsite,
-      // ratings: '0',
-      // reviews: [],
-      // operatingHours: operatingHours,
+      contactPerson: contactPerson,
+      officialNumber: officialPhone,
+      officialEmail: officialEmail,
+      officialFax: faxNumber,
+      orgWebsite: orgWebsite,
+      ratings: '0',
+      reviews: [],
+      operatingHours: operatingHours,
     );
   }
 

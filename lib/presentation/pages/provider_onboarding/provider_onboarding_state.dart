@@ -5,7 +5,7 @@ class ProviderOnboardingState {
 
   const ProviderOnboardingState({
     required this.loading,
-    this.providerOnboardingSectionIndex = 21,
+    this.providerOnboardingSectionIndex = 0,
     required this.providerLocationImages,
   });
 
