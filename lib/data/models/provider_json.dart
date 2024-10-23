@@ -11,15 +11,16 @@ class ProviderJson {
   ProviderOnboardingInfoJson? onboardingInfo;
   double? avgRating;
   int? totalReviews;
-  ProviderJson(
-      {this.userId,
-        this.createdAt,
-        this.updatedAt,
-        this.onboardingInfo,
-        this.email,
-        this.avgRating,
-        this.totalReviews,
-      });
+
+  ProviderJson({
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.onboardingInfo,
+    this.email,
+    this.avgRating,
+    this.totalReviews,
+  });
 
   ProviderJson.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -27,12 +28,12 @@ class ProviderJson {
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
     onboardingInfo = json['providerOnboardingInfo'] != null
-        ? new ProviderOnboardingInfoJson.fromJson(json['providerOnboardingInfo'])
+        ? new ProviderOnboardingInfoJson.fromJson(
+            json['providerOnboardingInfo'])
         : null;
-    avgRating=json['avgRating'];
-    totalReviews=json['totalReviews'];
+    avgRating = json['avgRating'];
+    totalReviews = json['totalReviews'];
   }
-
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -48,16 +49,15 @@ class ProviderJson {
     return data;
   }
 
-  Provider toDomain(){
+  Provider toDomain() {
     return Provider(
       userId: userId,
       email: email,
       createdAt: createdAt.toString(),
       updatedAt: updatedAt.toString(),
       onboardingInfo: onboardingInfo?.toDomain(),
-      avgRating: avgRating??0,
-      totalReviews: totalReviews??0,
+      avgRating: avgRating ?? 0,
+      totalReviews: totalReviews ?? 0,
     );
   }
-
 }

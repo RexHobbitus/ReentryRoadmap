@@ -7,12 +7,16 @@ class AppUser extends Equatable {
   String? createdAt;
   String? updatedAt;
   OnboardingInfo? onboardingInfo;
-  AppUser(
-      {this.userId,
-      this.createdAt,
-      this.updatedAt,
-      this.onboardingInfo,
-      this.email});
+  bool? isVerified;
+
+  AppUser({
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
+    this.onboardingInfo,
+    this.email,
+    this.isVerified,
+  });
 
   AppUser.fromJson(Map<String, dynamic> json) {
     userId = json['userId'];
@@ -22,13 +26,14 @@ class AppUser extends Equatable {
     onboardingInfo = json['onboardingInfo'] != null
         ? new OnboardingInfo.fromJson(json['onboardingInfo'])
         : null;
+    isVerified = json['isVerified'];
   }
 
   AppUser.empty() {
 
   }
 
-  bool get isLoggedIn => userId!=null;
+  bool get isLoggedIn => userId != null;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -39,6 +44,7 @@ class AppUser extends Equatable {
     if (this.onboardingInfo != null) {
       data['onboardingInfo'] = this.onboardingInfo!.toJson();
     }
+    data['isVerified'] = isVerified;
     return data;
   }
 
@@ -48,6 +54,7 @@ class AppUser extends Equatable {
     String? createdAt,
     String? updatedAt,
     OnboardingInfo? onboardingInfo,
+    bool? isVerified,
   }) {
     return AppUser(
       userId: userId ?? this.userId,
@@ -55,15 +62,17 @@ class AppUser extends Equatable {
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
+      isVerified: isVerified ?? this.isVerified,
     );
   }
-    @override
+
+  @override
   List<Object?> get props => [
         userId,
         email,
         createdAt,
         updatedAt,
         onboardingInfo,
+        isVerified,
       ];
-
 }

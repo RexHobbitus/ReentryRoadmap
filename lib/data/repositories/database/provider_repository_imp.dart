@@ -1,16 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
+import 'package:reentry_roadmap/data/models/provider_review_json.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
+import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 import '../../../core/utils/constants.dart';
 import '../../../domain/entities/provider_onboarding_info.dart';
 import '../../../domain/repositories/database/provider_repository.dart';
 import 'firebase_collection.dart';
 
 class ProviderRepositoryImp extends FirebaseCollection
-    with FirebaseFunctions implements ProviderRepository  {
-
-
+    with FirebaseFunctions
+    implements ProviderRepository {
   @override
   Future<void> submitAssessment(
       ProviderOnboardingInfo providerOnboardingInfo) async {
@@ -40,7 +41,6 @@ class ProviderRepositoryImp extends FirebaseCollection
     }
   }
 
-
   @override
   Future<List<Provider>> getExplorePageServices() async {
     QuerySnapshot querySnapshot = await providersCollection.get();
@@ -53,11 +53,27 @@ class ProviderRepositoryImp extends FirebaseCollection
 
   @override
   Future<Provider> getProviderDetail({required String id}) async {
-    DocumentSnapshot documentSnapshot=await providersCollection.doc(id).get();
-    return ProviderJson.fromJson(documentSnapshot.data() as Map<String, dynamic>)
+    DocumentSnapshot documentSnapshot = await providersCollection.doc(id).get();
+    return ProviderJson.fromJson(
+            documentSnapshot.data() as Map<String, dynamic>)
         .toDomain();
   }
 
+  @override
+  Future<void> uploadPhotosOfProvider({required String providerId, required List<dynamic> images}) async {
+    List<String> urls=await uploadFiles(images);
+    await providersCollection.doc(providerId).update({
+      "providerOnboardingInfo.providerDetails.photosByOther":FieldValue.arrayUnion(urls),
+    });
+  }
 
-
+  @override
+  Future<List<ProviderReview>> getProviderReviews({required String id}) async {
+    QuerySnapshot querySnapshot = await providersCollection.doc(id).collection('reviews').get();
+    return (querySnapshot.docs)
+        .map((data) =>
+        ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>)
+            .toDomain())
+        .toList();
+  }
 }

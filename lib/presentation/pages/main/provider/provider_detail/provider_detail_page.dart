@@ -97,47 +97,9 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
                             ),
                           );
                         })
-                        // ProviderDetailMenuBar(
-                        //   cubit: cubit,
-                        // ),
-                        // SliverAppBar(
-                        //   elevation: 0.0,
-                        //   pinned: true,
-                        //   primary: false,
-                        //   automaticallyImplyLeading: false,
-                        //   backgroundColor: Theme.of(context).colorScheme.surface,
-                        //   titleSpacing: 0,
-                        //   expandedHeight: 80,
-                        //   title: ProviderDetailMenuBar(
-                        //     cubit: cubit,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
-                  // SliverToBoxAdapter(
-                  //   child: Column(
-                  //     children: [
-                  //       ProviderDetailMenuBar(
-                  //         cubit: cubit,
-                  //       ),
-                  //       BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
-                  //         bloc: cubit,
-                  //         builder: (context, state) {
-                  //           return state.selectedMenuIndex == 0
-                  //               ? AboutProviderSection()
-                  //               : state.selectedMenuIndex == 1
-                  //                   ? ReviewsSection()
-                  //                   : state.selectedMenuIndex == 2
-                  //                       ? OurTakeSection()
-                  //                       : PhotosSection(
-                  //                           cubit: cubit,
-                  //                         );
-                  //         },
-                  //       ),
-                  //     ],
-                  //   ),
-                  // )
                 ],
               ),
             ),

@@ -1,11 +1,14 @@
 import 'dart:io';
 
+import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/navigation/app_navigator.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
@@ -27,68 +30,63 @@ class WriteReviewPopup extends StatefulWidget {
 class _WriteReviewPopupState extends State<WriteReviewPopup> {
   String _review = "";
   double _rating = 0;
-  List<File> _images = [];
+  List<dynamic> _images = [];
   bool postAnonymously = false;
 
   @override
   Widget build(BuildContext context) {
-    return CustomResponsiveBuilder(
-      builder: (context,constraints,deviceSize) {
-        return SizedBox(
-          width: deviceSize==DeviceSize.web?800:null,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _titleWidget(),
-              const SizedBox(
-                height: 30,
-              ),
-              _ratingWidget(),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomTextField(
-                isDetail: true,
-                width:deviceSize==DeviceSize.web?constraints.maxWidth:null,
-                onChange: (val) {
-                  setState(() {
-                    _review = val;
-                  });
-                },
-              ),
-              _selectedImages(),
-              AddPhotosButton(
-                onTap: () {
-                  _pickImages();
-                },
-              ),
-              CustomCheckBox(
-                text: "Post review anonymously",
-                onChange: (val) {
-                  postAnonymously = val;
-                },
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              CustomButton(
-                text: "Post Review",
-                isDisabled: isButtonDisabled,
-                onTap: () {
-                  widget.onPostReview?.call(WriteReviewParameter(
-                    rating: _rating,
-                    review: _review,
-                    images: _images,
-                    postAnonymously: postAnonymously,
-                  ));
-                },
-              )
-            ],
-          ),
-        );
-      }
-    );
+    return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
+      return SizedBox(
+        width: deviceSize == DeviceSize.web ? 800 : null,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _titleWidget(),
+            const SizedBox(
+              height: 30,
+            ),
+            _ratingWidget(),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomTextField(
+              isDetail: true,
+              width: deviceSize == DeviceSize.web ? constraints.maxWidth : null,
+              onChange: (val) {
+                setState(() {
+                  _review = val;
+                });
+              },
+            ),
+            _selectedImages(),
+            AddPhotosButton(onTap: kIsWeb ? _pickWebImages : _pickImages),
+            CustomCheckBox(
+              text: "Post review anonymously",
+              onChange: (val) {
+                postAnonymously = val;
+              },
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            CustomButton(
+              text: "Post Review",
+              isDisabled: isButtonDisabled,
+              onTap: () {
+                Navigator.pop(context);
+                widget.onPostReview?.call(WriteReviewParameter(
+                  rating: _rating,
+                  review: _review,
+                  images: _images,
+                  postAnonymously: postAnonymously,
+                ));
+              },
+            )
+          ],
+        ),
+      );
+    });
   }
 
   bool get isButtonDisabled => _rating <= 0 || _review.isEmpty;
@@ -160,12 +158,19 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(10),
-                          child: Image.file(
-                            img,
-                            height: 80,
-                            width: 80,
-                            fit: BoxFit.cover,
-                          ),
+                          child: kIsWeb
+                              ? Image.memory(
+                                  img,
+                                  height: 80,
+                                  width: 80,
+                                  fit: BoxFit.cover,
+                                )
+                              : Image.file(
+                                  img,
+                                  height: 80,
+                                  width: 80,
+                                  fit: BoxFit.cover,
+                                ),
                         ),
                         InkWell(
                           onTap: () {
@@ -203,5 +208,20 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
       _images.add(File(img.path));
     }
     setState(() {});
+  }
+
+  _pickWebImages() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      allowMultiple: true,
+      type: FileType.custom,
+      allowedExtensions: ['jpg', 'png', 'jpeg'],
+    );
+    if (result != null) {
+      _images.clear();
+      List<Uint8List> files = result.files.map((file) => file.bytes!).toList();
+      setState(() {
+        _images.addAll(files);
+      });
+    }
   }
 }

@@ -3,7 +3,7 @@ import 'dart:io';
 class WriteReviewParameter {
   final double rating;
   final String review;
-  final List<File> images;
+  final List<dynamic> images;
   final bool postAnonymously;
 
   WriteReviewParameter({

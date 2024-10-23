@@ -12,6 +12,7 @@ class ProviderDetailsInfoJson {
   String? state;
   String? zipCode;
   List<String>? images;
+  List<String>? photosByOther;
   String? officialNumber;
   String? officialEmail;
   String? officialFax;
@@ -29,6 +30,7 @@ class ProviderDetailsInfoJson {
     this.state,
     this.zipCode,
     this.images,
+    this.photosByOther,
     this.officialNumber,
     this.officialEmail,
     this.officialFax,
@@ -47,6 +49,7 @@ class ProviderDetailsInfoJson {
     state = json['state'];
     zipCode = json['zipCode'];
     images = json['images']?.cast<String>() ?? [];
+    photosByOther = json['photosByOther']?.cast<String>() ?? [];
     officialNumber = json['officialNumber'];
     officialEmail = json['officialEmail'];
     officialFax = json['officialFax'];
@@ -71,6 +74,7 @@ class ProviderDetailsInfoJson {
     data['state'] = this.state;
     data['zipCode'] = this.zipCode;
     data['images'] = this.images;
+    data['photosByOther'] = this.photosByOther;
     data['officialNumber'] = this.officialNumber;
     data['officialEmail'] = this.officialEmail;
     data['officialFax'] = this.officialFax;
@@ -99,7 +103,9 @@ class ProviderDetailsInfoJson {
       officialFax: officialFax ?? '',
       contactPerson: contactPerson ?? '',
       orgWebsite: orgWebsite ?? '',
-      operatingHours: operatingHours?.map((data)=>data.toDomain()).toList()??[],
+      photosByOther: photosByOther ?? [],
+      operatingHours:
+          operatingHours?.map((data) => data.toDomain()).toList() ?? [],
     );
   }
 

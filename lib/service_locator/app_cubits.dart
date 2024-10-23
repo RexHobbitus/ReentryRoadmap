@@ -117,6 +117,8 @@ class AppCubits {
       navigator: getIt(),
       snackBar: getIt(),
       providerRepository: getIt(),
+      appUserRepository: getIt(),
+      userStore: getIt(),
     ));
   }
 }

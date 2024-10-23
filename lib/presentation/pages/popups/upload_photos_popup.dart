@@ -180,13 +180,6 @@ class _UploadPhotosPopupState extends State<UploadPhotosPopup> {
         _images.addAll(files);
       });
     }
-    // List<Uint8List>? bytesFromPicker =
-    //     await ImagePickerWeb.getMultiImagesAsBytes();
-    // _images.clear();
-    // for (var byte in bytesFromPicker ?? []) {
-    //   _images.add(byte);
-    // }
-    // setState(() {});
   }
 
   Widget _selectedImages() {

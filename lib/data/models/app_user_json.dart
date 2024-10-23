@@ -21,13 +21,15 @@ class AppUserJson {
   Timestamp? createdAt;
   Timestamp? updatedAt;
   OnboardingInfoJson? onboardingInfo;
-
+  bool? isVerified;
   AppUserJson({
     this.userId,
     this.email,
     this.createdAt,
     this.updatedAt,
     this.onboardingInfo,
+    this.isVerified,
+
   });
 
   AppUserJson.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,7 @@ class AppUserJson {
     onboardingInfo = json['onboardingInfo'] != null
         ? OnboardingInfoJson.fromJson(json['onboardingInfo'])
         : null;
+    isVerified = json['isVerified'];
   }
 
   Map<String, dynamic> toJson() {
@@ -49,6 +52,7 @@ class AppUserJson {
     if (this.onboardingInfo != null) {
       data['onboardingInfo'] = this.onboardingInfo!.toJson();
     }
+    data['isVerified'] = this.isVerified;
     return data;
   }
 

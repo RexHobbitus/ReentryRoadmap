@@ -19,6 +19,8 @@ class Provider extends Equatable {
     this.email,
     this.avgRating,
     this.totalReviews,
+
+
   });
 
   Provider.fromJson(Map<String, dynamic> json) {
@@ -41,7 +43,10 @@ class Provider extends Equatable {
   }
 
   bool get isLoggedIn => userId != null;
-  String get completeAddress=> "${onboardingInfo?.providerDetails?.street} ${onboardingInfo?.providerDetails?.city} ${onboardingInfo?.providerDetails?.country}";
+
+  String get completeAddress =>
+      "${onboardingInfo?.providerDetails?.street} ${onboardingInfo
+          ?.providerDetails?.city} ${onboardingInfo?.providerDetails?.country}";
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -74,11 +79,13 @@ class Provider extends Equatable {
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
       avgRating: avgRating ?? this.avgRating,
       totalReviews: totalReviews ?? this.totalReviews,
+
     );
   }
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         userId,
         email,
         createdAt,

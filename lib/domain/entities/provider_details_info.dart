@@ -13,6 +13,7 @@ class ProviderDetailsInfo extends Equatable {
   String? state;
   String? zipCode;
   List<dynamic>? images;
+  List<dynamic>? photosByOther;
   String? officialNumber;
   String? officialEmail;
   String? officialFax;
@@ -32,6 +33,7 @@ class ProviderDetailsInfo extends Equatable {
     this.state,
     this.zipCode,
     this.images,
+    this.photosByOther,
     this.officialNumber,
     this.officialEmail,
     this.officialFax,
@@ -52,6 +54,7 @@ class ProviderDetailsInfo extends Equatable {
     state = json['state'];
     zipCode = json['zipCode'];
     images = List<String>.from(json['images'] ?? []);
+    photosByOther = List<String>.from(json['photosByOther'] ?? []);
     officialNumber = json['officialNumber'];
     officialEmail = json['officialEmail'];
     officialFax = json['officialFax'];
@@ -70,23 +73,24 @@ class ProviderDetailsInfo extends Equatable {
   ProviderDetailsInfo.shimmer() {
     providerNameLocation = "Testing";
     providerLocationDescribe = "Testing";
-    relationReentry ="Testing";
+    relationReentry = "Testing";
     street = "Testing";
-    city ="Testing";
+    city = "Testing";
     country = "Testing";
     state = "Testing";
     zipCode = "Testing";
-    images = List.generate(5, (index)=>kPlaceHolderImage);
+    images = List.generate(5, (index) => kPlaceHolderImage);
+    photosByOther = List.generate(5, (index) => kPlaceHolderImage);
+
     officialNumber = "Testing";
     officialEmail = "Testing";
     officialFax = "Testing";
-    contactPerson ="Testing";
+    contactPerson = "Testing";
     orgWebsite = "Testing";
     ratings = "Testing";
-    reviews =List.generate(3, (index)=>"Testing");
-    operatingHours=List.generate(7, (index)=>OperatingHour.shimmer());
+    reviews = List.generate(3, (index) => "Testing");
+    operatingHours = List.generate(7, (index) => OperatingHour.shimmer());
   }
-
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
@@ -99,6 +103,7 @@ class ProviderDetailsInfo extends Equatable {
     data['state'] = state;
     data['zipCode'] = zipCode;
     data['images'] = images;
+    data['photosByOther'] = photosByOther;
     data['officialNumber'] = officialNumber;
     data['officialEmail'] = officialEmail;
     data['officialFax'] = officialFax;
@@ -123,6 +128,7 @@ class ProviderDetailsInfo extends Equatable {
     String? state,
     String? zipCode,
     List<String>? images,
+    List<String>? photosByOther,
     String? officialNumber,
     String? officialEmail,
     String? officialFax,
@@ -143,6 +149,7 @@ class ProviderDetailsInfo extends Equatable {
       state: state ?? this.state,
       zipCode: zipCode ?? this.zipCode,
       images: images ?? this.images,
+      photosByOther: photosByOther ?? this.photosByOther,
       officialNumber: officialNumber ?? this.officialNumber,
       officialEmail: officialEmail ?? this.officialEmail,
       officialFax: officialFax ?? this.officialFax,
@@ -165,6 +172,7 @@ class ProviderDetailsInfo extends Equatable {
         state,
         zipCode,
         images,
+        photosByOther,
         officialNumber,
         officialEmail,
         officialFax,

@@ -9,74 +9,81 @@ import 'about_provider_feature_sub_section.dart';
 class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
   final List<String> eligibility;
   final List<String> features;
+  final bool isLoggedIn;
 
-  const AboutProviderEligibilityAndFeatureSubSection({super.key,required this.features,required this.eligibility});
+  const AboutProviderEligibilityAndFeatureSubSection({
+    super.key,
+    required this.features,
+    required this.eligibility,
+    this.isLoggedIn=false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return  CustomResponsiveBuilder(
-      builder: (context,constraints,deviceSize){
-        return deviceSize == DeviceSize.web
-            ? Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _eligibilitySection(isWeb: true),
-            _featureSection(isWeb:true),
-          ],
-        )
-            : Column(
-          children: [
-            _eligibilitySection(),
-            _featureSection(),
-          ],
+    return CustomResponsiveBuilder(
+      builder: (context, constraints, deviceSize) {
+        return Padding(
+          padding:  EdgeInsets.symmetric(vertical: isLoggedIn?5:15),
+          child: deviceSize == DeviceSize.web
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _eligibilitySection(isWeb: true),
+                    _featureSection(isWeb: true),
+                  ],
+                )
+              : Column(
+                  children: [
+                    _eligibilitySection(),
+                    _featureSection(),
+                  ],
+                ),
         );
       },
     );
   }
 
-
-  _eligibilitySection({bool isWeb=false}) {
+  _eligibilitySection({bool isWeb = false}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
+        isLoggedIn?Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: CustomButton(
             text: "Eligible!",
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
-            width: isWeb?100:null,
+            width: isWeb ? 100 : null,
           ),
-        ),
-         AboutProviderEligibilityCriteriaSubSection(
-          eligibilities:eligibility,
+        ):const SizedBox.shrink(),
+        AboutProviderEligibilityCriteriaSubSection(
+          eligibilities: eligibility,
         ),
       ],
     );
   }
 
-  _featureSection({bool isWeb=false}) {
+  _featureSection({bool isWeb = false}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
+        isLoggedIn?Padding(
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: CustomButton(
             text: "Recommended for you",
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
-            width:isWeb?200:null,
+            width: isWeb ? 200 : null,
           ),
-        ),
-         AboutProviderFeatureSubSection(
+        ):const SizedBox.shrink(),
+        AboutProviderFeatureSubSection(
           features: features,
         ),
       ],
     );
   }
-
 }
