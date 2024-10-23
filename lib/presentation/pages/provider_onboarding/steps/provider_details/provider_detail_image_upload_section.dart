@@ -37,7 +37,7 @@ class _ProviderDetailImageUploadSectionState
                 text: "Add Photos",
                 iconData: Icons.add,
                 isSecondary: true,
-                isIconLeft: true,
+                iconAlignment: IconAlignment.start,
                 onTap: cubit.openImagePicker,
               ),
             if (state.providerLocationImages.isEmpty)

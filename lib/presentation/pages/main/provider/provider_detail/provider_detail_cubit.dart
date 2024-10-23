@@ -7,7 +7,7 @@ import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_suggest_edit/provider_suggest_edit_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/write_review/write_review_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/popups/information_popup.dart';
-import 'package:reentry_roadmap/presentation/pages/popups/upload_photos/upload_photos_popup.dart';
+import '../../../popups/upload_photos_popup.dart';
 import 'provider_detail_initial_params.dart';
 import 'provider_detail_state.dart';
 import 'provider_detail_navigator.dart';
@@ -58,6 +58,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
     navigator.navigator.showDialogBox(context, UploadPhotosPopup(
       onUpload: (images) {
         // make api call to submit information to database
+        debugPrint("IMAGES ARE : ${images.length}");
       },
     ));
   }

@@ -1,7 +1,12 @@
+import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 
-abstract class ProviderRepository{
-  Future<List<Provider>> getExplorePageServices();
-  Future<Provider> getProviderDetail({required String id});
+import '../../entities/provider_onboarding_info.dart';
 
+abstract class ProviderRepository {
+  Future<void> submitAssessment(ProviderOnboardingInfo providerOnboardingInfo);
+
+  Future<List<Provider>> getExplorePageServices();
+
+  Future<Provider> getProviderDetail({required String id});
 }

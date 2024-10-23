@@ -36,7 +36,6 @@ class GeneralServiceJson {
   }
 
   GeneralService toDomain(){
-    debugPrint("got categoryes from server ${serviceCategories?.length.toString()}");
     return GeneralService(
       serviceCategories: serviceCategories?.map((category)=>category.toDomain()).toList()??[],
       features: features??[],

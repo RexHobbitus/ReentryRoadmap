@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/widgets/program_category_card.dart';
 
 class ExploreServiceCategoriesSection extends StatelessWidget {
   final ExploreCubit cubit;
@@ -31,53 +32,15 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 20),
         itemCount: kServiceCategories.length,
         itemBuilder: (context, index) {
-          return _serviceCategoryWidget(
-            context: context,
-            asset: kServiceCategories[index].icon,
-            title: kServiceCategories[index].title,
+          return ProgramCategoryCard(
+            category: kServiceCategories[index],
+            onTap: (category){
+
+            },
           );
         },
       );
     });
   }
 
-  Widget _serviceCategoryWidget(
-      {required BuildContext context,
-      required String asset,
-      required String title}) {
-    return InkWell(
-      onTap: (){},
-      child: Container(
-        height: 115,
-        padding: const EdgeInsets.symmetric(horizontal: 5),
-        decoration: BoxDecoration(
-          color: context.themeData.cardColor,
-          border: Border.all(color: context.themeData.colorScheme.tertiary),
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SvgPicture.asset(
-                asset,
-                height: 30,
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                title,
-                style: context.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: context.themeData.colorScheme.onTertiary,
-                ),
-                textAlign: TextAlign.center,
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

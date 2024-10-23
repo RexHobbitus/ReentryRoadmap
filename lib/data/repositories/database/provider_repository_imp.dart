@@ -1,11 +1,46 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
+import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
+import '../../../core/utils/constants.dart';
+import '../../../domain/entities/provider_onboarding_info.dart';
 import '../../../domain/repositories/database/provider_repository.dart';
 import 'firebase_collection.dart';
 
 class ProviderRepositoryImp extends FirebaseCollection
-    implements ProviderRepository {
+    with FirebaseFunctions implements ProviderRepository  {
+
+
+  @override
+  Future<void> submitAssessment(
+      ProviderOnboardingInfo providerOnboardingInfo) async {
+    try {
+      final user = auth.currentUser;
+      if (user == null) throw Exception('User not logged in');
+
+      final docRef = providersCollection.doc(user.uid);
+
+      // Getting the current timestamp
+      final timestamp = FieldValue.serverTimestamp();
+
+      // Creating the JSON object to be stored
+      final userData = {
+        'userId': user.uid,
+        'email': user.email,
+        'createdAt': timestamp,
+        'updatedAt': timestamp,
+        'status': kPendingStatus,
+        'providerOnboardingInfo': providerOnboardingInfo.toJson(),
+      };
+
+      await docRef.set(userData,
+          SetOptions(merge: true)); // Using merge to update existing document
+    } catch (e) {
+      throw Exception('Failed to save answers: $e');
+    }
+  }
+
+
   @override
   Future<List<Provider>> getExplorePageServices() async {
     QuerySnapshot querySnapshot = await providersCollection.get();
@@ -22,4 +57,7 @@ class ProviderRepositoryImp extends FirebaseCollection
     return ProviderJson.fromJson(documentSnapshot.data() as Map<String, dynamic>)
         .toDomain();
   }
+
+
+
 }

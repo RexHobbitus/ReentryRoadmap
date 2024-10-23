@@ -2,11 +2,9 @@ import 'package:get_it/get_it.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/onboarding_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/provider_repository_imp.dart';
-import 'package:reentry_roadmap/data/repositories/database/provider_onboarding_repository_imp.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/onboarding_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
-import 'package:reentry_roadmap/domain/repositories/database/provider_onboarding_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/login_use_case.dart';
@@ -41,9 +39,6 @@ class ServiceLocator {
     getIt.registerSingleton<OnboardingRepository>(OnboardingRepositoryImp());
     getIt.registerSingleton<ProviderRepository>(ProviderRepositoryImp());
 
-    getIt.registerSingleton<ProviderOnboardingRepository>(
-        ProviderOnboardingRepositoryImp());
-
     getIt.registerSingleton<UserStore>(UserStore());
 
     /// use cases
@@ -60,7 +55,7 @@ class ServiceLocator {
     getIt
         .registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
       authRepository: getIt(),
-      providerOnboardingRepository: getIt(),
+      providerRepository: getIt(),
       userStore: getIt(),
     ));
 
