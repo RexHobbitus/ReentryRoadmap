@@ -100,6 +100,7 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           initialValue: initialValue,
+
           textAlignVertical: TextAlignVertical.top,
           expands: isDetail,
           onChanged: onChange,
@@ -107,7 +108,7 @@ class CustomTextField extends StatelessWidget {
           onFieldSubmitted: onSubmit,
           autofocus: autoFocus,
           inputFormatters: inputFormatters,
-          style: context.textTheme.bodyMedium,
+          style: AppStyle.textFieldTextStyle(context),
           onTap: onTap,
           keyboardType: keyboard ?? TextInputType.text,
           maxLines: isDetail ? null : 1,
@@ -126,6 +127,7 @@ class CustomTextField extends StatelessWidget {
           },
           decoration: InputDecoration(
             labelText: label,
+            labelStyle: AppStyle.hintStyle(context),
             hintStyle: AppStyle.hintStyle(context),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: hint,

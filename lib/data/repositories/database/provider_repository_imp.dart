@@ -43,7 +43,7 @@ class ProviderRepositoryImp extends FirebaseCollection
 
   @override
   Future<List<Provider>> getExplorePageServices() async {
-    QuerySnapshot querySnapshot = await providersCollection.get();
+    QuerySnapshot querySnapshot = await providersCollection.where('status',isEqualTo: "Approved").get();
     return (querySnapshot.docs)
         .map((data) =>
             ProviderJson.fromJson(data.data() as Map<String, dynamic>)

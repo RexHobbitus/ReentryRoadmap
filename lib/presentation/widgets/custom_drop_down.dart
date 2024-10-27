@@ -1,6 +1,7 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/utils/app_style.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
   final String? label;
@@ -34,6 +35,9 @@ class CustomDropDown<T> extends StatelessWidget {
           initialItem: selectedItem,
           excludeSelected: false,
           maxlines: 1,
+          hintBuilder: (context,value,_){
+            return Text(label??"",style: AppStyle.hintStyle(context),);
+          },
           closedHeaderPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           decoration: CustomDropdownDecoration(

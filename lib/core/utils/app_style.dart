@@ -22,6 +22,10 @@ class AppStyle {
       color: context.colorScheme.tertiary,
     );
   }
+  static TextStyle? textFieldTextStyle(BuildContext context) {
+    return context.textTheme.bodyMedium;
+  }
+
 
 
   static TextStyle? onboardingSubTitle(BuildContext context) {
