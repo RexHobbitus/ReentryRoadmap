@@ -3,12 +3,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
+import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_star_rating.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class CustomerReviewWidget extends StatelessWidget {
   final ProviderReview review;
@@ -68,45 +72,53 @@ class CustomerReviewWidget extends StatelessWidget {
   }
 
   Widget _customerInfo({required BuildContext context}) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const CircleAvatar(
-          child: Icon(Icons.person),
-        ),
-        const SizedBox(
-          width: 10,
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Allen Walker",
-              style: context.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Text(
-              "Sep 13, 2024",
-              style: context.textTheme.bodySmall
-                  ?.copyWith(color: context.colorScheme.tertiary),
-            ),
-          ],
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            SvgPicture.asset(Assets.verified),
-            Text(
-              " Verified User",
-              style: context.textTheme.bodySmall
-                  ?.copyWith(fontWeight: FontWeight.w600),
-            ),
-          ],
-        )
-      ],
+    return review.uploadedBy==null?const SizedBox.shrink():FutureBuilder<AppUser>(
+      future: getIt<AppUserRepository>().getUserFromId(id: review.uploadedBy!),
+      builder: (context, userData) {
+        return Skeletonizer(
+          enabled: !userData.hasData,
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const CircleAvatar(
+                child: Icon(Icons.person),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${userData.data?.onboardingInfo?.personalInfo?.firstName} ${userData.data?.onboardingInfo?.personalInfo?.lastName}",
+                    style: context.textTheme.bodyMedium
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                  Text(
+                    "${review.createdAt}",
+                    style: context.textTheme.bodySmall
+                        ?.copyWith(color: context.colorScheme.tertiary),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                width: 20,
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(Assets.verified),
+                  Text(
+                    " Verified User",
+                    style: context.textTheme.bodySmall
+                        ?.copyWith(fontWeight: FontWeight.w600),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      },
     );
   }
 

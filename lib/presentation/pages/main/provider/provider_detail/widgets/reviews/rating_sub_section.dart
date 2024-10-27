@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'dart:math' as math; // import this
+import 'dart:math' as math;
+
+import 'package:reentry_roadmap/domain/entities/provider.dart'; // import this
 
 class RatingSubSection extends StatelessWidget {
-  const RatingSubSection({super.key});
+  final Provider provider;
+  const RatingSubSection({super.key,required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +19,11 @@ class RatingSubSection extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              _detailRatingInfo(context, title: "5 Stars", value: 4.0),
-              _detailRatingInfo(context, title: "4 Stars", value: 5.0),
-              _detailRatingInfo(context, title: "3 Stars", value: 1.0),
-              _detailRatingInfo(context, title: "2 Stars", value: 2.0),
-              _detailRatingInfo(context, title: "1 Stars", value: 3.0),
+              _detailRatingInfo(context, title: "5 Stars", value: provider.ratingCount?.i5),
+              _detailRatingInfo(context, title: "4 Stars", value: provider.ratingCount?.i4),
+              _detailRatingInfo(context, title: "3 Stars", value: provider.ratingCount?.i3),
+              _detailRatingInfo(context, title: "2 Stars", value: provider.ratingCount?.i2),
+              _detailRatingInfo(context, title: "1 Stars", value:provider.ratingCount?.i1),
 
 
             ],
@@ -43,7 +46,7 @@ class RatingSubSection extends StatelessWidget {
               children: [
                 _dualStar(context: context),
                 Text(
-                  " 4.9 ",
+                  " ${provider.avgRating} ",
                   style: context.textTheme.titleLarge?.copyWith(
                     fontWeight: FontWeight.w700,
                   ),
@@ -55,7 +58,7 @@ class RatingSubSection extends StatelessWidget {
               ],
             ),
             Text(
-              "235 Reviews",
+              "${provider.totalReviews} Reviews",
               style: context.textTheme.bodySmall,
             ),
           ],
@@ -83,7 +86,7 @@ class RatingSubSection extends StatelessWidget {
   }
 
   Widget _detailRatingInfo(BuildContext context,
-      {String? title, double? value}) {
+      {String? title, int? value}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2),
       child: Row(
@@ -97,7 +100,7 @@ class RatingSubSection extends StatelessWidget {
           const SizedBox(width: 10,),
           Expanded(
             child: _CustomLinearProgressBar(
-              value: value ?? 0,
+              value: value?.toDouble()??0,
             ),
           )
         ],

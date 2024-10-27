@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reentry_roadmap/core/utils/app_style.dart';
 import '../../../core/extensions/theme_extension.dart';
 import 'custom_responsive_builder.dart';
 
@@ -125,8 +126,7 @@ class CustomTextField extends StatelessWidget {
           },
           decoration: InputDecoration(
             labelText: label,
-            hintStyle: context.textTheme.bodyMedium
-                ?.copyWith(color: context.themeData.colorScheme.tertiary),
+            hintStyle: AppStyle.hintStyle(context),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: hint,
             hintFadeDuration: const Duration(milliseconds: 500),

@@ -34,9 +34,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         itemBuilder: (context, index) {
           return ProgramCategoryCard(
             category: kServiceCategories[index],
-            onTap: (category){
-
-            },
+            onTap:cubit.categoryAction,
           );
         },
       );

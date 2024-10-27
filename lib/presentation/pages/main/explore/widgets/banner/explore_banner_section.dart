@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
@@ -31,14 +32,9 @@ class ExploreBannerSection extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    state.isLoggedIn
-                        ? "Provide a Check In to get the best matches!"
-                        : "Take our quiz to get personalized results!",
-                    style: context.textTheme.titleLarge?.copyWith(
-                        color: context.themeData.colorScheme.onSecondary,
-                        fontWeight: FontWeight.w600),
-                  ),
+                  state.isLoggedIn
+                      ? _loggedInUserText(context)
+                      : _notLoggedInUserText(context),
                   const SizedBox(
                     height: 10,
                   ),
@@ -68,5 +64,42 @@ class ExploreBannerSection extends StatelessWidget {
         },
       ),
     );
+  }
+
+  Widget _notLoggedInUserText(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+            text: "Take our ",
+            style: context.textTheme.titleLarge?.copyWith(
+                color: context.themeData.colorScheme.onSecondary,
+                fontWeight: FontWeight.w600),
+            children: [
+          TextSpan(
+              text: "Quiz",
+              style: context.textTheme.titleLarge?.copyWith(
+                  color: context.themeData.colorScheme.onSecondary,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline)),
+          const TextSpan(text: " to get personalized results!")
+        ]));
+  }
+
+  Widget _loggedInUserText(BuildContext context) {
+    return RichText(
+        text: TextSpan(
+            text: "Provide a ",
+            style: context.textTheme.titleLarge?.copyWith(
+                color: context.themeData.colorScheme.onSecondary,
+                fontWeight: FontWeight.w600),
+            children: [
+          TextSpan(
+              text: "Check In",
+            recognizer: TapGestureRecognizer()..onTap =cubit.checkInAction,
+              style: context.textTheme.titleLarge?.copyWith(
+                  color: context.themeData.colorScheme.onSecondary,
+                  fontWeight: FontWeight.w600,
+                  decoration: TextDecoration.underline)),
+          const TextSpan(text: " to get the best matches!")
+        ]));
   }
 }

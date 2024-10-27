@@ -1,3 +1,5 @@
+import 'package:reentry_roadmap/domain/entities/personal_info.dart';
+
 import 'onboarding_info.dart';
 import 'package:equatable/equatable.dart';
 
@@ -32,6 +34,13 @@ class AppUser extends Equatable {
   AppUser.empty() {
 
   }
+  AppUser.deletedUser() {
+    email="User Deleted";
+    onboardingInfo=OnboardingInfo(
+      personalInfo: PersonalInfo(firstName: "User",lastName: "Deleted"),
+    );
+  }
+
 
   bool get isLoggedIn => userId != null;
 

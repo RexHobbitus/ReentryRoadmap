@@ -57,7 +57,8 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
   _getProviderReviews(String id) async {
     try {
       emit(state.copyWith(loadingReviews: true));
-      List<ProviderReview> reviews = await providerRepository.getProviderReviews(id:id);
+      List<ProviderReview> reviews =
+          await providerRepository.getProviderReviews(id: id);
       emit(state.copyWith(reviews: reviews));
     } catch (e) {
       snackBar.show(e.toString());
@@ -90,8 +91,10 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
   addPhotosAction() {
     navigator.navigator.showDialogBox(context, UploadPhotosPopup(
       onUpload: (images) {
-        snackBar.show("Uploading images, it will be available soon",snackBarType: SnackBarType.SUCCESS);
-        providerRepository.uploadPhotosOfProvider(providerId: state.provider.userId!, images: images);
+        snackBar.show("Uploading images, it will be available soon",
+            snackBarType: SnackBarType.SUCCESS);
+        providerRepository.uploadPhotosOfProvider(
+            providerId: state.provider.userId!, images: images);
       },
     ));
   }
@@ -107,7 +110,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
         Navigator.pop(context);
         navigator.navigator.showDialogBox(
             context,
-            InformationPopup(
+            const InformationPopup(
               title:
                   "Your contact information has been sent! A representative will get back to you shortly",
               subTitle:

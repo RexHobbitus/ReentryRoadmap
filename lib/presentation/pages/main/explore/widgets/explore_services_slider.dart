@@ -4,9 +4,8 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_state.dart';
+import 'package:reentry_roadmap/presentation/widgets/provider_service_card.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-
-import '../../../../widgets/service_card.dart';
 
 class ExploreServicesSlider extends StatefulWidget {
   final ExploreCubit cubit;
@@ -38,7 +37,7 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
               autoPlay: false,
               enlargeCenterPage: true,
               viewportFraction: 1,
-              aspectRatio: 0.64,
+              aspectRatio: 0.48,
               initialPage: _activeIndex,
               onPageChanged: (index, _) {
                 setState(() {
@@ -47,7 +46,7 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
               }),
           itemBuilder:
               (BuildContext context, int itemIndex, int pageViewIndex) =>
-                  ServiceCard(
+                  ProviderServiceCard(
             onTap: widget.cubit.openProviderDetail,
             provider:
                 state.loading ? Provider.shimmer() : state.services[itemIndex],
@@ -71,7 +70,7 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
                 )),
             AnimatedSmoothIndicator(
               activeIndex: _activeIndex,
-              count: state.loading?4:state.services.length,
+              count: state.loading ? 4 : state.services.length,
               effect: WormEffect(
                   dotHeight: 10,
                   dotWidth: 10,

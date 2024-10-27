@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
@@ -30,20 +31,33 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   openProviderDetail(Provider provider) {
-    navigator.openProviderDetail(ProviderDetailInitialParams(
-      id: provider.userId!
-    ));
+    navigator
+        .openProviderDetail(ProviderDetailInitialParams(id: provider.userId!));
   }
 
   _getServices() async {
     try {
       emit(state.copyWith(loading: state.services.isEmpty));
-      List<Provider> services = await providerRepository.getExplorePageServices();
+      List<Provider> services =
+          await providerRepository.getExplorePageServices();
       emit(state.copyWith(services: services));
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
       emit(state.copyWith(loading: false));
     }
+  }
+
+  checkInAction() {
+    snackBar.show(
+      "TODO: Navigate to Web CheckIn flow",
+      snackBarType: SnackBarType.INFO,
+    );
+  }
+
+  categoryAction(ServiceCategory category) {
+    snackBar.show(
+        "TODO: Navigate to Search screen => ${category.title} results",
+        snackBarType: SnackBarType.INFO);
   }
 }

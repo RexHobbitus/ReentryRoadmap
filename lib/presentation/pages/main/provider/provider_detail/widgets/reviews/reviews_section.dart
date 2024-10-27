@@ -30,7 +30,9 @@ class ReviewsSection extends StatelessWidget {
       builder: (context, user) {
         return Column(
           children: [
-            const RatingSubSection(),
+             RatingSubSection(
+               provider: cubit.state.provider,
+             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

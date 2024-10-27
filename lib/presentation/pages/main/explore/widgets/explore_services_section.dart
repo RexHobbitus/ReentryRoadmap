@@ -1,9 +1,8 @@
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
@@ -11,7 +10,7 @@ import 'package:reentry_roadmap/presentation/pages/main/explore/explore_state.da
 import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../domain/entities/login_user.dart';
-import '../../../../widgets/service_card.dart';
+import '../../../../widgets/provider_service_card.dart';
 import 'explore_services_slider.dart';
 
 class ExploreServicesSection extends StatelessWidget {
@@ -72,7 +71,7 @@ class ExploreServicesSection extends StatelessWidget {
                                 Provider provider =state.loading?
                                 Provider.shimmer():
                                 state.services[index];
-                                return ServiceCard(
+                                return ProviderServiceCard(
                                   onTap: cubit.openProviderDetail,
                                   provider: provider,
                                 );

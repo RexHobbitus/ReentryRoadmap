@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 extension DateTimeExtensions on DateTime? {
 
   String toTimeAMPM() {
@@ -9,5 +11,12 @@ extension DateTimeExtensions on DateTime? {
     final amOrPm = this!.hour < 12 ? 'AM' : 'PM';
     return '$hours:$minutes $amOrPm';
   }
+  String toMonthDateYear() {
+    if(this==null){
+      return "---";
+    }
+    return DateFormat('MMM dd yyyy').format(this!);
+  }
+
 
 }

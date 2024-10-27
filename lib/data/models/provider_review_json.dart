@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:reentry_roadmap/core/extensions/date_time_extension.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 
 class ProviderReviewJson {
@@ -26,7 +27,7 @@ class ProviderReviewJson {
 
   ProviderReviewJson.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    rating = json['rating'];
+    rating = (json['rating'] is int)?json['rating'].toDouble():json['rating'];
     review = json['review'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
@@ -55,8 +56,8 @@ class ProviderReviewJson {
         id: id,
         rating: rating ?? 0,
         review: review ?? "",
-        createdAt: createdAt?.toDate().toString(),
-        updatedAt: createdAt?.toDate().toString(),
+        createdAt: createdAt?.toDate().toMonthDateYear(),
+        updatedAt: createdAt?.toDate().toMonthDateYear(),
         images: images??[],
         likedBy: likedBy,
         uploadedBy: uploadedBy);

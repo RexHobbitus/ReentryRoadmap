@@ -10,7 +10,6 @@ import '../../../domain/repositories/database/auth_repository.dart';
 import 'firebase_collection.dart';
 
 class AuthRepositoryImp extends FirebaseCollection implements AuthRepository {
-
   @override
   Future<LoginUser> loginWithEmailAndPassword(
       {required String email, required String password, required role}) async {
@@ -81,7 +80,7 @@ class AuthRepositoryImp extends FirebaseCollection implements AuthRepository {
   @override
   Future<LoginUser?> getCurrentUser() async {
     try {
-      debugPrint("CURRENT USER ID: ${auth.currentUser?.uid }");
+      debugPrint("CURRENT USER ID: ${auth.currentUser?.uid}");
       if (auth.currentUser?.uid == null) {
         return null;
       }
@@ -97,6 +96,10 @@ class AuthRepositoryImp extends FirebaseCollection implements AuthRepository {
       } else {
         var userDocument =
             await providersCollection.doc(auth.currentUser?.uid).get();
+        if (!userDocument.exists) {
+          await logout();
+          return null;
+        }
         return LoginUser(
             role: "provider",
             data: ProviderJson.fromJson(

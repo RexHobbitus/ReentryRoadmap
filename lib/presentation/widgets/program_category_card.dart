@@ -28,11 +28,12 @@ class ProgramCategoryCard extends StatelessWidget {
           color: isSelected
               ? context
                   .themeData.colorScheme.secondary // Change color when selected
-              : context.themeData.colorScheme.primary.withOpacity(0.0),
+              : context.themeData.cardColor,
           border: Border.all(
             color: isSelected
                 ? context.themeData.colorScheme.primary
-                : context.themeData.colorScheme.tertiary,
+                : context.themeData.colorScheme.tertiaryContainer,
+            width: 2
           ),
           borderRadius: BorderRadius.circular(10),
         ),

@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/search_field/explore_mobile_search_field.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/search_field/explore_web_search_field.dart';
 
 import '../../../../../core/utils/assets.dart';
@@ -62,14 +63,7 @@ class ExploreSearchSection extends StatelessWidget {
             ),
             constraints.maxWidth > kMenuBreakPoint
                 ? const ExploreWebSearchField()
-                : CustomTextField(
-                    controller: TextEditingController(),
-                    hint: "Search",
-                    suffixPath: Assets.search,
-                    bottomPadding: 0,
-                    width:
-                        constraints.maxWidth > 500 ? 500 : constraints.maxWidth,
-                  ),
+                : ExploreMobileSearchField(),
           ],
         );
       }),

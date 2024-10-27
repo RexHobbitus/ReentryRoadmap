@@ -8,11 +8,11 @@ import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 
 import 'service_card_category_chip.dart';
 
-class ServiceCard extends StatelessWidget {
+class ProviderServiceCard extends StatelessWidget {
   final Function(Provider)? onTap;
   final Provider provider;
 
-  const ServiceCard({super.key, this.onTap, required this.provider});
+  const ProviderServiceCard({super.key, this.onTap, required this.provider});
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,13 @@ class ServiceCard extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              _serviceTitles(context: context),
-              const Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: const Divider(
-                  thickness: 1,
-                  height: 0,
-                ),
+              _subSection(context: context, title: "Eligibility Criteria", data: provider.getAllEligibilityCriteria().take(2).toList()),
+              const SizedBox(
+                height: 10,
+              ),
+              _subSection(context: context, title: "Features", data: provider.getAllFeatures().take(2).toList()),
+              const SizedBox(
+                height: 30,
               ),
               Container(
                 width: double.maxFinite,
@@ -198,52 +198,87 @@ class ServiceCard extends StatelessWidget {
   }
 
   Widget _serviceCategories({required BuildContext context}) {
-    List<String> categories=provider.onboardingInfo?.generalService?.serviceCategories?.map((category)
-    => category.title.toString()
-    ).toList()??[];
+    List<String> categories=provider.getAllCategories();
+    int maxLimit=5;
     return Wrap(
       //  mainAxisSize: MainAxisSize.min,
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        for(var category in  List.from(categories).take(3).toList())
+        for(var category in  List.from(categories).take(maxLimit).toList())
         ServiceCardCategoryChip(
           title: category,
         ),
-        categories.length>3?
+        categories.length>maxLimit?
         Text(
-          "+ 3 More",
+          "+ ${categories.length-maxLimit} More",
           style: context.textTheme.bodyMedium?.copyWith(
               color: context.themeData.colorScheme.tertiary, fontSize: 10),
-        ):SizedBox(),
+        ):const SizedBox.shrink(),
       ],
     );
   }
 
-  Widget _serviceTitles({required BuildContext context}) {
-    return Column(
+
+  // Widget _serviceTitles({required BuildContext context}) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       for (var index = 0; index < provider.onboardingInfo!.programs!.length; index++)
+  //         Padding(
+  //           padding: const EdgeInsets.symmetric(vertical: 3),
+  //           child: Row(
+  //             mainAxisSize: MainAxisSize.min,
+  //             children: [
+  //               SvgPicture.asset(Assets.leaf),
+  //               const SizedBox(
+  //                 width: 5,
+  //               ),
+  //               Text(
+  //                 "${provider.onboardingInfo!.programs![index].name}",
+  //                 style: context.textTheme.bodySmall?.copyWith(
+  //                     fontWeight: FontWeight.w600,
+  //                     color: context.themeData.colorScheme.onTertiaryContainer),
+  //               )
+  //             ],
+  //           ),
+  //         )
+  //     ],
+  //   );
+  // }
+
+  Widget _subSection({required BuildContext context,required String title,required List<String> data}){
+    return data.isEmpty?const SizedBox.shrink():Column(
+      mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        for (var index = 0; index < provider.onboardingInfo!.programs!.length; index++)
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 3),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SvgPicture.asset(Assets.leaf),
-                const SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "${provider.onboardingInfo!.programs![index].name}",
-                  style: context.textTheme.bodySmall?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: context.themeData.colorScheme.onTertiaryContainer),
-                )
-              ],
-            ),
-          )
+        Text(title,style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),),
+        const SizedBox(height: 10,),
+        for(var info in data)
+          _featureOrEligibilityTile(context: context,title: info)
+
       ],
     );
   }
+  Widget _featureOrEligibilityTile({required BuildContext context,required String title}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 8,
+            backgroundColor: context.colorScheme.primary,
+            child:  Icon(
+              Icons.check,
+              size: 10,
+              color: context.colorScheme.onPrimary,
+            ),
+          ),
+          const SizedBox(width: 10,),
+          Text(title,style: context.textTheme.bodyMedium,)
+        ],
+      ),
+    );
+  }
+
 }

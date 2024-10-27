@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 
 import 'provider_onboarding_info_json.dart';
+import 'rating_count_json.dart';
 
 class ProviderJson {
   String? userId;
@@ -11,6 +12,7 @@ class ProviderJson {
   ProviderOnboardingInfoJson? onboardingInfo;
   double? avgRating;
   int? totalReviews;
+  RatingCountJson? ratingCount;
 
   ProviderJson({
     this.userId,
@@ -20,6 +22,8 @@ class ProviderJson {
     this.email,
     this.avgRating,
     this.totalReviews,
+    this.ratingCount,
+
   });
 
   ProviderJson.fromJson(Map<String, dynamic> json) {
@@ -33,6 +37,9 @@ class ProviderJson {
         : null;
     avgRating = json['avgRating'];
     totalReviews = json['totalReviews'];
+    ratingCount = json['ratingCount'] != null
+        ? new RatingCountJson.fromJson(json['ratingCount'])
+        : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -46,6 +53,9 @@ class ProviderJson {
     }
     data['avgRating'] = this.avgRating;
     data['totalReviews'] = this.totalReviews;
+    if (this.ratingCount != null) {
+      data['ratingCount'] = this.ratingCount!.toJson();
+    }
     return data;
   }
 
@@ -58,6 +68,7 @@ class ProviderJson {
       onboardingInfo: onboardingInfo?.toDomain(),
       avgRating: avgRating ?? 0,
       totalReviews: totalReviews ?? 0,
+      ratingCount: ratingCount?.toDomain()
     );
   }
 }
