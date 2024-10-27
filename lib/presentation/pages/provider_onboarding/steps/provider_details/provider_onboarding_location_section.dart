@@ -1,8 +1,10 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_drop_down.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
@@ -71,23 +73,16 @@ class _ProviderOnboardingLocationSectionState
                   Row(
                     children: [
                       Expanded(
-                        child: CustomTextField(
-                          initialValue: cubit.locationState,
-                          label: "State",
-                          disable: true,
-                          key: UniqueKey(),
-                          onTap: () {
-                            showCountryPicker(
-                              context: context,
-                              showPhoneCode: false,
-                              onSelect: (Country country) {
-                                setState(() {
-                                  cubit.locationState = country.name;
-                                  cubit.notifyTextFieldUpdates();
-                                });
-                              },
-                            );
+                        child: CustomDropDown<String>(
+                          items: kUSStates,
+                          selectedItem: cubit.locationState.isEmpty
+                              ? null
+                              : cubit.locationState,
+                          onChange: (state) {
+                            cubit.locationState = state ?? "";
+                            cubit.notifyTextFieldUpdates();
                           },
+                          label: "State",
                         ),
                       ),
                       SizedBox(
@@ -136,23 +131,16 @@ class _ProviderOnboardingLocationSectionState
                     },
                     label: "Country",
                   ),
-                  CustomTextField(
-                    initialValue: cubit.locationState,
-                    label: "State",
-                    disable: true,
-                    key: UniqueKey(),
-                    onTap: () {
-                      showCountryPicker(
-                        context: context,
-                        showPhoneCode: false,
-                        onSelect: (Country country) {
-                          setState(() {
-                            cubit.locationState = country.name;
-                            cubit.notifyTextFieldUpdates();
-                          });
-                        },
-                      );
+                  CustomDropDown<String>(
+                    items: kUSStates,
+                    selectedItem: cubit.locationState.isEmpty
+                        ? null
+                        : cubit.locationState,
+                    onChange: (state) {
+                      cubit.locationState = state ?? "";
+                      cubit.notifyTextFieldUpdates();
                     },
+                    label: "State",
                   ),
                   CustomTextField(
                     initialValue: cubit.locationZipCode,
