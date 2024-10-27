@@ -4,6 +4,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/login/login_in
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -42,7 +44,7 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
-    initialLocation: SplashPage.path,
+    initialLocation: CheckInPage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,
@@ -160,6 +162,16 @@ class AppRouter {
           );
         },
       ),
+      GoRoute(
+        path: CheckInPage.path,
+        builder: (context, state) {
+          return CheckInPage(
+            cubit: getIt(),
+            initialParams: const CheckInInitialParams(),
+          );
+        },
+      ),
+
       GoRoute(
         path: "${ProviderDetailPage.path}/:id",
         builder: (context, state) {
