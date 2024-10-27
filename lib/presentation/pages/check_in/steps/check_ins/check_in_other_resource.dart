@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
@@ -19,6 +20,7 @@ class CheckInOtherResource extends StatefulWidget {
 class _CheckInOtherResourceState extends State<CheckInOtherResource> {
 
    CheckInCubit get cubit  => getIt();
+  CheckInState get state => cubit.state;
 
    bool isNone=false;
   String _otherResource="";

@@ -184,7 +184,7 @@ class CheckInFooter extends StatelessWidget {
                           builder: (context, data) {
                             return CustomButton(
                               text: cubit.isOnboardingCompleted()
-                                  ? "Complete Onboarding"
+                                  ? "Complete CheckIn"
                                   : "Next",
                               isLoading: state.loading,
                               width: device == DeviceSize.mobile

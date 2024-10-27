@@ -16,6 +16,9 @@ import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/steps/check_ins/check_in_current_happy_life.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/steps/check_ins/check_in_encountered_legal_challenges.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/steps/check_ins/check_in_happy_dignify.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/steps/check_ins/check_in_service_providers_accessed.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import '../../../../domain/entities/career.dart';
@@ -71,6 +74,10 @@ class CheckInCubit extends Cubit<CheckInState> {
   String expectedSalaryLevel = "";
   String otherResource = "";
   bool isOtherResource = true;
+  List<String> legalChallenges = [];
+  bool isOtherLegalChallenge = false;
+  String howMuchHappyCurrently = '';
+  String experienceWithDignifi = '';
 
   /// service Providers info
   List<Provider> selectedProviders = [];
@@ -98,6 +105,9 @@ class CheckInCubit extends Cubit<CheckInState> {
         const CheckInFutureCareer(),
         const CheckInExpectedSalary(),
         const CheckInOtherResource(),
+        CheckInEncounteredLegalChallenges(),
+        CheckInCurrentHappyLife(),
+        CheckInHappyDignify(),
       ];
 
   disposeControllers() {
@@ -147,13 +157,16 @@ class CheckInCubit extends Cubit<CheckInState> {
       case 13:
         return !isOtherResource || otherResource.isNotEmpty;
       case 14:
+        return legalChallenges.isNotEmpty!;
 
-        /// service provider info
-        return true;
+      /// service provider info
       case 15:
+        return howMuchHappyCurrently.isNotEmpty;
+      case 16:
+        return experienceWithDignifi.isNotEmpty;
 
-        /// service provider info
-        return selectedProviders.isNotEmpty || noServiceProviderAccessedSoFar;
+      /// service provider info
+      //  return selectedProviders.isNotEmpty || noServiceProviderAccessedSoFar;
       default:
         return false;
     }
@@ -195,14 +208,21 @@ class CheckInCubit extends Cubit<CheckInState> {
   _sendCheckInInformation() async {
     try {
       emit(state.copyWith(loading: true));
-      CheckIn checkIn=CheckIn(
-        currentNeedsInfo: state.appUser.onboardingInfo?.currentNeedsInfo?.copyWith(
+      CheckIn checkIn = CheckIn(
+        currentNeedsInfo:
+            state.appUser.onboardingInfo?.currentNeedsInfo?.copyWith(
           /// TODO: FILL ALL VALUES THAT USER IS GOING TO ENTER LIKE I GAVE ONE BELOW
           currentTopPriorities: selectedTopPriorities,
         ),
-        legalChallenges: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
-        howMuchHappyCurrently: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
-        experienceWithDignifi: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
+        legalChallenges: legalChallenges,
+
+        /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
+        howMuchHappyCurrently: howMuchHappyCurrently,
+
+        /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
+        experienceWithDignifi: experienceWithDignifi,
+
+        /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
       );
       await checkInUseCase.execute(checkIn);
       snackBar.show("CheckIn completed successfully",
@@ -238,8 +258,6 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
   }
 
-
-
   FutureOr<List<Provider>?> getMatchingProviders(String query) async {
     if (query.isEmpty) {
       return [];
@@ -247,5 +265,4 @@ class CheckInCubit extends Cubit<CheckInState> {
       return await appUserRepository.getMatchingProviders(input: query);
     }
   }
-
 }

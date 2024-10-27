@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
@@ -10,8 +11,7 @@ class CheckInExpectedSalary extends StatefulWidget {
   const CheckInExpectedSalary({super.key});
 
   @override
-  State<CheckInExpectedSalary> createState() =>
-      _CheckInExpectedSalaryState();
+  State<CheckInExpectedSalary> createState() => _CheckInExpectedSalaryState();
 }
 
 class _CheckInExpectedSalaryState extends State<CheckInExpectedSalary> {
@@ -24,13 +24,14 @@ class _CheckInExpectedSalaryState extends State<CheckInExpectedSalary> {
 
   String selected = "";
 
-   CheckInCubit get cubit  => getIt();
+  CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selected=cubit.expectedSalaryLevel;
+    selected = cubit.expectedSalaryLevel;
   }
 
   @override
@@ -50,8 +51,8 @@ class _CheckInExpectedSalaryState extends State<CheckInExpectedSalary> {
                 onTap: () {
                   setState(() {
                     selected = salary;
-                     cubit.expectedSalaryLevel=salary;
-                     cubit.notifyTextFieldUpdates();
+                    cubit.expectedSalaryLevel = salary;
+                    cubit.notifyTextFieldUpdates();
                   });
                 },
               ),

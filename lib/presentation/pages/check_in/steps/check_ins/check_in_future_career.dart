@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import '../../../../../../domain/entities/career.dart';
 import '../../../../../../service_locator/service_locator.dart';
@@ -40,11 +41,16 @@ class _CheckInFutureCareerState extends State<CheckInFutureCareer> {
   List<Career> selected = [];
 
   CheckInCubit get cubit => getIt();
+    CheckInState get state => cubit.state;
+
   bool isNone = false;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+      //  selected = state.appUser?.onboardingInfo?.currentNeedsInfo.
+      //   "";
+
     selected = cubit.careersToPursue;
   }
 

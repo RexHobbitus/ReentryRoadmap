@@ -118,7 +118,7 @@ class AppUserRepositoryImp extends FirebaseCollection
   }
 
   @override
-  Future<void> submitCheckIn({required CheckIn checkIn}) async {
+  Future<void> submitCheckIn({required CheckIn checkIn, }) async {
     String docId=checkInCollection.doc().id;
     await checkInCollection.doc(docId).set({
       "id":docId,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/domain/entities/career.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import '../../../../../../service_locator/service_locator.dart';
 import '../../widgets/check_in_title_widget.dart';
@@ -9,8 +10,7 @@ class CheckInCurrentCareer extends StatefulWidget {
   const CheckInCurrentCareer({super.key});
 
   @override
-  State<CheckInCurrentCareer> createState() =>
-      _CheckInCurrentCareerState();
+  State<CheckInCurrentCareer> createState() => _CheckInCurrentCareerState();
 }
 
 class _CheckInCurrentCareerState extends State<CheckInCurrentCareer> {
@@ -38,12 +38,18 @@ class _CheckInCurrentCareerState extends State<CheckInCurrentCareer> {
   Career? selected;
 
   CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
+
   bool isNone = false;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // selected =
+    //     (state.appUser.onboardingInfo?.currentNeedsInfo?.currentCareerStatus ??
+    //         "") as Career?;
+
     selected = cubit.currentCareer;
   }
 
@@ -53,8 +59,7 @@ class _CheckInCurrentCareerState extends State<CheckInCurrentCareer> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const CheckInTitleWidget(
-          title: "What kind of career do you currently have?"
-        ),
+            title: "What kind of career do you currently have?"),
         Wrap(
           children: [
             for (var career in careers)

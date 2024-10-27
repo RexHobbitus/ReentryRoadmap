@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/widgets/onboarding_title_widget.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
@@ -10,8 +11,7 @@ class CheckInCareerChange extends StatefulWidget {
   const CheckInCareerChange({super.key});
 
   @override
-  State<CheckInCareerChange> createState() =>
-      _CheckInCareerChangeState();
+  State<CheckInCareerChange> createState() => _CheckInCareerChangeState();
 }
 
 class _CheckInCareerChangeState extends State<CheckInCareerChange> {
@@ -22,13 +22,18 @@ class _CheckInCareerChangeState extends State<CheckInCareerChange> {
 
   String selected = "";
 
-   CheckInCubit get cubit  => getIt();
+  CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     selected=cubit.lookingForCareerChange;
+    selected = state.appUser?.onboardingInfo?.currentNeedsInfo
+            ?.lookingForCareerChange ??
+        "";
+
+    //  selected = cubit.lookingForCareerChange;
   }
 
   @override
@@ -39,7 +44,6 @@ class _CheckInCareerChangeState extends State<CheckInCareerChange> {
         const OnboardingTitleWidget(
           title: "Are you looking for a career change?",
         ),
-
         Wrap(
           children: [
             for (var option in options)
@@ -49,7 +53,7 @@ class _CheckInCareerChangeState extends State<CheckInCareerChange> {
                 onTap: () {
                   setState(() {
                     selected = option;
-                    cubit.lookingForCareerChange=option;
+                    cubit.lookingForCareerChange = option;
                     cubit.notifyTextFieldUpdates();
                   });
                 },

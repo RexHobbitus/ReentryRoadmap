@@ -11,6 +11,7 @@ import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/widgets/check_in_title_widget.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
@@ -33,6 +34,7 @@ class _CheckInServiceProvidersAccessedState
   final _controller = TextEditingController();
 
   CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {

@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
@@ -48,6 +49,8 @@ class _CheckInSkillsToImproveState
   List<SkillToImprove> selected = [];
 
   CheckInCubit get cubit => getIt();
+    CheckInState get state => cubit.state;
+
   bool isNone = false;
 
   TextEditingController txtOther = TextEditingController();

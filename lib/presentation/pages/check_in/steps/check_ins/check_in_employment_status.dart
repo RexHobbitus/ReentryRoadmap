@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import '../../widgets/check_in_title_widget.dart';
 
-
 class CheckInEmploymentStatus extends StatefulWidget {
   const CheckInEmploymentStatus({super.key});
 
   @override
-  State<CheckInEmploymentStatus> createState() => _CheckInEmploymentStatusState();
+  State<CheckInEmploymentStatus> createState() =>
+      _CheckInEmploymentStatusState();
 }
 
 class _CheckInEmploymentStatusState extends State<CheckInEmploymentStatus> {
@@ -23,14 +24,19 @@ class _CheckInEmploymentStatusState extends State<CheckInEmploymentStatus> {
   ];
 
   String selected = "";
-   CheckInCubit get cubit  => getIt();
+  CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-     selected=cubit.selectedEmploymentStatus;
+    selected = state.appUser?.onboardingInfo?.currentNeedsInfo
+            ?.currentEmploymentStatus ??
+        "";
+    //  selected = cubit.selectedEmploymentStatus;
   }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -48,7 +54,7 @@ class _CheckInEmploymentStatusState extends State<CheckInEmploymentStatus> {
                 onTap: () {
                   setState(() {
                     selected = employment;
-                    cubit.selectedEmploymentStatus=employment;
+                    cubit.selectedEmploymentStatus = employment;
                     cubit.notifyTextFieldUpdates();
                   });
                 },

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
@@ -26,12 +27,17 @@ class _CheckInEducationLevelState extends State<CheckInEducationLevel> {
 
   String selected = "";
   CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selected = cubit.highestLevelOfEducation;
+    selected = state.appUser.onboardingInfo?.currentNeedsInfo
+            ?.highestLevelOfEducation ??
+        "";
+
+    // selected = cubit.highestLevelOfEducation;
   }
 
   @override
