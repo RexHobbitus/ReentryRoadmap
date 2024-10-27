@@ -162,21 +162,22 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      TextButton.icon(
-                        iconAlignment: IconAlignment.start,
-                        icon: Icon(
-                          Icons.arrow_back,
-                          size: 15,
-                          color: context.colorScheme.onSurface,
+                      if (_currentStep > 1)
+                        TextButton.icon(
+                          iconAlignment: IconAlignment.start,
+                          icon: Icon(
+                            Icons.arrow_back,
+                            size: 15,
+                            color: context.colorScheme.onSurface,
+                          ),
+                          label: Text(
+                            "Back",
+                            style: context.textTheme.bodyMedium?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                decoration: TextDecoration.underline),
+                          ),
+                          onPressed: cubit.backAction,
                         ),
-                        label: Text(
-                          "Back",
-                          style: context.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              decoration: TextDecoration.underline),
-                        ),
-                        onPressed: cubit.backAction,
-                      ),
                       Row(
                         children: [
                           if (_currentStep == 3 ||
@@ -187,9 +188,10 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                               text: "Skip Question",
                               onTap: cubit.nextStepAction,
                             ),
-                          SizedBox(
-                            width: 20,
-                          ),
+                          if (_currentStep > 1)
+                            SizedBox(
+                              width: 20,
+                            ),
                           StreamBuilder<bool>(
                               stream: cubit.textFieldUpdateListener.stream,
                               builder: (context, data) {

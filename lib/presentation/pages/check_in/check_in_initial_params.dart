@@ -1,0 +1,4 @@
+class CheckInInitialParams {
+
+const CheckInInitialParams();
+}

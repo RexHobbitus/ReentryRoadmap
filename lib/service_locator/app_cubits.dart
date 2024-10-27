@@ -4,6 +4,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onb
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
@@ -120,5 +122,13 @@ class AppCubits {
       appUserRepository: getIt(),
       userStore: getIt(),
     ));
+      getIt.registerSingleton<CheckInNavigator>(CheckInNavigator(getIt()));
+    getIt.registerSingleton<CheckInCubit>(CheckInCubit(
+      navigator: getIt(),
+      onboardingUseCase: getIt(),
+      snackBar: getIt(),
+    ));
+
   }
+  
 }
