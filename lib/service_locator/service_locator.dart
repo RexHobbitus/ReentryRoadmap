@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/domain/repositories/database/app_user_repository
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/domain/usecases/check_in_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/login_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/logout_use_case.dart';
@@ -70,6 +71,11 @@ class ServiceLocator {
     getIt.registerSingleton<LogoutUseCase>(LogoutUseCase(
       authRepository: getIt(),
       userStore: getIt(),
+    ));
+    getIt.registerSingleton<CheckInUseCase>(CheckInUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+      appUserRepository: getIt(),
     ));
 
     await AppServices.initialize();

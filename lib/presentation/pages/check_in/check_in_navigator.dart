@@ -14,8 +14,8 @@ class CheckInNavigator with ExploreRoute {
   late AppNavigator navigator;
 }
 
-mixin OnboardingRoute {
-  openOnboarding(CheckInInitialParams initialParams) {
+mixin CheckInRoute {
+  openCheckIn(CheckInInitialParams initialParams) {
     navigator.push(context, CheckInPage.path, initialParams);
   }
 

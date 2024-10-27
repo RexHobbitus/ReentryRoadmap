@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import '../../../../domain/entities/provider.dart';
 import 'explore_initial_params.dart';
@@ -49,10 +50,7 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   checkInAction() {
-    snackBar.show(
-      "TODO: Navigate to Web CheckIn flow",
-      snackBarType: SnackBarType.INFO,
-    );
+    navigator.openCheckIn(const CheckInInitialParams());
   }
 
   categoryAction(ServiceCategory category) {

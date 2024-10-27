@@ -5,6 +5,7 @@ import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart'
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
 
 import '../../../../../../service_locator/service_locator.dart';
+import '../../check_in_state.dart';
 import '../../widgets/check_in_title_widget.dart';
 
 class CheckInServiceProviderType extends StatefulWidget {
@@ -25,12 +26,14 @@ class _CheckInServiceProviderTypeState
 
   String selected = "";
   CheckInCubit get cubit => getIt();
+  CheckInState get state => cubit.state;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    selected = cubit.selectedServiceProviderSize;
+    selected = state.appUser.onboardingInfo?.currentNeedsInfo?.preferredServiceProviderSize??"";
+    cubit.selectedServiceProviderSize=selected;
   }
 
   @override

@@ -33,13 +33,14 @@ class IncarcerationInfo extends Equatable {
     numberOfTimesIncarcerated = json['numberOfTimesIncarcerated'];
     incarceratedHistory = json['incarceratedHistory'];
     latestOffenceType = json['latestOffenceType'];
-    lengthOfLongestIncarceration = json['lengthOfLongestIncarceration'];
+    lengthOfLongestIncarceration =
+        json['lengthOfLongestIncarceration']?.cast<String>() ?? [];
     lengthOfLatestIncarceration = json['lengthOfLatestIncarceration'];
     firstIncarcerationDate = json['firstIncarcerationDate'];
     latestReleaseDate = json['latestReleaseDate'];
     mostRecentTermServerIn = json['mostRecentTermServerIn'];
     programAttendedWhileIncarcerated =
-        json['programAttendedWhileIncarcerated']?.cast<String>()?? [];
+        json['programAttendedWhileIncarcerated']?.cast<String>() ?? [];
   }
 
   Map<String, dynamic> toJson() {

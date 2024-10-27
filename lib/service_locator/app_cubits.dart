@@ -122,13 +122,13 @@ class AppCubits {
       appUserRepository: getIt(),
       userStore: getIt(),
     ));
-      getIt.registerSingleton<CheckInNavigator>(CheckInNavigator(getIt()));
+    getIt.registerSingleton<CheckInNavigator>(CheckInNavigator(getIt()));
     getIt.registerSingleton<CheckInCubit>(CheckInCubit(
       navigator: getIt(),
-      onboardingUseCase: getIt(),
+      checkInUseCase: getIt(),
       snackBar: getIt(),
+      userStore: getIt(),
+      appUserRepository: getIt(),
     ));
-
   }
-  
 }

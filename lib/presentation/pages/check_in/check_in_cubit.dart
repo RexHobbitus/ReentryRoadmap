@@ -3,11 +3,15 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/check_in.dart';
 import 'package:reentry_roadmap/domain/entities/current_needs_info.dart';
-import 'package:reentry_roadmap/domain/entities/incarceration_info.dart';
 import 'package:reentry_roadmap/domain/entities/onboarding_info.dart';
-import 'package:reentry_roadmap/domain/entities/personal_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/service_provider_accessed.dart';
+import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
+import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/domain/usecases/check_in_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_navigator.dart';
@@ -32,18 +36,23 @@ import 'steps/check_ins/check_in_trade_certifications.dart';
 
 class CheckInCubit extends Cubit<CheckInState> {
   CheckInNavigator navigator;
-  OnboardingUseCase onboardingUseCase;
+  CheckInUseCase checkInUseCase;
   AppSnackBar snackBar;
-
+  UserStore userStore;
+  AppUserRepository appUserRepository;
   CheckInCubit({
     required this.navigator,
-    required this.onboardingUseCase,
+    required this.checkInUseCase,
     required this.snackBar,
+    required this.userStore,
+    required this.appUserRepository,
   }) : super(CheckInState.initial());
 
   BuildContext get context => navigator.context;
 
-  onInit(CheckInInitialParams initialParams) {}
+  onInit(CheckInInitialParams initialParams) {
+    emit(state.copyWith(appUser: userStore.state.data as AppUser));
+  }
 
   List<String> selectedTopPriorities = [];
   String selectedServiceProviderSize = "";
@@ -64,7 +73,7 @@ class CheckInCubit extends Cubit<CheckInState> {
   bool isOtherResource = true;
 
   /// service Providers info
-  List<ServiceProvider> selectedProviders = [];
+  List<Provider> selectedProviders = [];
   bool noServiceProviderAccessedSoFar = false;
 
   final textFieldUpdateListener = StreamController<bool>.broadcast();
@@ -145,9 +154,6 @@ class CheckInCubit extends Cubit<CheckInState> {
 
         /// service provider info
         return selectedProviders.isNotEmpty || noServiceProviderAccessedSoFar;
-      case 16:
-        return selectedProviders
-            .every((provider) => provider.accessedDate != null);
       default:
         return false;
     }
@@ -155,7 +161,7 @@ class CheckInCubit extends Cubit<CheckInState> {
 
   nextStepAction() {
     if (isOnboardingCompleted()) {
-      _sendOnboardingInformation();
+      _sendCheckInInformation();
       return;
     }
     if (state.checkInSectionIndex == onBoardingSteps.length - 1) {
@@ -186,22 +192,24 @@ class CheckInCubit extends Cubit<CheckInState> {
     return false;
   }
 
-  _sendOnboardingInformation() async {
+  _sendCheckInInformation() async {
     try {
       emit(state.copyWith(loading: true));
-      CurrentNeedsInfo currentNeedInfo = _getCurrentNeedInfo();
-      ServiceProviderAccessed serviceProviderAccessed =
-          _getServiceProviderAccessed();
-
-      OnboardingInfo onboardingInfo = OnboardingInfo(
-        currentNeedsInfo: currentNeedInfo,
-        serviceProviderAccessed: serviceProviderAccessed,
+      CheckIn checkIn=CheckIn(
+        currentNeedsInfo: state.appUser.onboardingInfo?.currentNeedsInfo?.copyWith(
+          /// TODO: FILL ALL VALUES THAT USER IS GOING TO ENTER LIKE I GAVE ONE BELOW
+          currentTopPriorities: selectedTopPriorities,
+        ),
+        legalChallenges: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
+        howMuchHappyCurrently: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
+        experienceWithDignifi: null, /// TODO: GET THIS VALUE TOO FROM UI AND PASS THERE
       );
-
-      await onboardingUseCase.execute(onboardingInfo);
-      snackBar.show("Onboarding submitted successfully",
+      await checkInUseCase.execute(checkIn);
+      snackBar.show("CheckIn completed successfully",
           snackBarType: SnackBarType.SUCCESS);
       navigator.openExplore(const ExploreInitialParams());
+
+      /// RESET THIS CUBIT VALUES ALSO FOR NEXT CALL
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -230,7 +238,14 @@ class CheckInCubit extends Cubit<CheckInState> {
     );
   }
 
-  ServiceProviderAccessed _getServiceProviderAccessed() {
-    return ServiceProviderAccessed(serviceProviders: selectedProviders);
+
+
+  FutureOr<List<Provider>?> getMatchingProviders(String query) async {
+    if (query.isEmpty) {
+      return [];
+    } else {
+      return await appUserRepository.getMatchingProviders(input: query);
+    }
   }
+
 }

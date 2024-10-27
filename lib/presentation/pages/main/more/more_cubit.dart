@@ -14,4 +14,6 @@ class MoreCubit extends Cubit<MoreState> {
   BuildContext get context => navigator.context;
 
   onInit(MoreInitialParams initialParams) {}
+
+
 }

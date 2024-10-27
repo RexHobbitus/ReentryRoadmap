@@ -10,6 +10,8 @@ abstract class FirebaseCollection{
   /// collections
   final usersCollection=FirebaseFirestore.instance.collection('users');
   final providersCollection=FirebaseFirestore.instance.collection('providers');
+  final checkInCollection=FirebaseFirestore.instance.collection('checkIns');
+
 
 
 }

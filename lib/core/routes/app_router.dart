@@ -44,7 +44,7 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
-    initialLocation: CheckInPage.path,
+    initialLocation: SplashPage.path,
     routes: [
       GoRoute(
         path: SplashPage.path,

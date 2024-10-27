@@ -6,6 +6,9 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
+import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/widgets/check_in_title_widget.dart';
@@ -16,7 +19,7 @@ import 'package:reentry_roadmap/service_locator/service_locator.dart';
 import '../../../../../../domain/entities/service_provider.dart';
 
 class CheckInServiceProvidersAccessed extends StatefulWidget {
-  CheckInServiceProvidersAccessed({super.key});
+  const CheckInServiceProvidersAccessed({super.key});
 
   @override
   State<CheckInServiceProvidersAccessed> createState() =>
@@ -25,7 +28,7 @@ class CheckInServiceProvidersAccessed extends StatefulWidget {
 
 class _CheckInServiceProvidersAccessedState
     extends State<CheckInServiceProvidersAccessed> {
-  List<ServiceProvider> selectedProviders = [];
+  List<Provider> selectedProviders = [];
 
   final _controller = TextEditingController();
 
@@ -57,17 +60,17 @@ class _CheckInServiceProvidersAccessedState
               leading: CircleAvatar(
                 backgroundColor: context.colorScheme.secondary,
                 radius: 20,
-                child: Text("${selected.name?.substring(0, 2).toUpperCase()}"),
+                child: Text(selected.onboardingInfo!.providerDetails!.providerNameLocation!.substring(0, 2).toUpperCase()),
               ),
               title: Text(
-                selected.name.toString(),
+                selected.onboardingInfo!.providerDetails!.providerNameLocation.toString(),
                 style: context.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
-              subtitle: selected.address == null
+              subtitle: selected.completeAddress==""
                   ? null
                   : Text(
-                      selected.address.toString(),
+                selected.completeAddress.toString(),
                       style: context.textTheme.bodySmall,
                     ),
               trailing: IconButton(
@@ -84,8 +87,8 @@ class _CheckInServiceProvidersAccessedState
         const SizedBox(
           height: 10,
         ),
-        TypeAheadField<ServiceProvider>(
-          suggestionsCallback: _onSearch,
+        TypeAheadField<Provider>(
+          suggestionsCallback: cubit.getMatchingProviders,
           controller: _controller,
           builder: (context, controller, focusNode) {
             return CustomTextField(
@@ -99,8 +102,11 @@ class _CheckInServiceProvidersAccessedState
           emptyBuilder: (context) {
             return InkWell(
               onTap: () {
-                ServiceProvider newProvider =
-                    ServiceProvider(name: _controller.text);
+                Provider newProvider = Provider(onboardingInfo: ProviderOnboardingInfo(
+                  providerDetails: ProviderDetailsInfo(
+                    providerNameLocation: _controller.text,
+                  )
+                ));
                 if (!selectedProviders.contains(newProvider)) {
                   setState(() {
                     _controller.text = "";
@@ -139,20 +145,20 @@ class _CheckInServiceProvidersAccessedState
               ),
             );
           },
-          itemBuilder: (context, service) {
+          itemBuilder: (context, provider) {
             return ListTile(
               leading: CircleAvatar(
                 radius: 20,
                 backgroundColor: context.colorScheme.secondary,
-                child: Text(service.name!.toUpperCase().substring(0, 2)),
+                child: Text("${provider.onboardingInfo!.providerDetails!.providerNameLocation}".toUpperCase().substring(0, 2)),
               ),
               title: Text(
-                service.name.toString(),
+                "${provider.onboardingInfo!.providerDetails!.providerNameLocation}",
                 style: context.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
               subtitle: Text(
-                service.address.toString(),
+                provider.completeAddress,
                 style: context.textTheme.bodySmall,
               ),
             );
@@ -184,32 +190,5 @@ class _CheckInServiceProvidersAccessedState
     );
   }
 
-  List<ServiceProvider> _onSearch(String value) {
-    List<ServiceProvider> serviceProviders = [];
-    for (var serviceProvider in _serviceProviders) {
-      if (serviceProvider.name!.toLowerCase().contains(value.toLowerCase())) {
-        serviceProviders.add(serviceProvider);
-      }
-    }
-    return serviceProviders;
-  }
 
-  final List<ServiceProvider> _serviceProviders = [
-    ServiceProvider(
-      name: "OpenGate Foundation",
-      address: "2786 Marine Blvd, Hayward, California",
-    ),
-    ServiceProvider(
-      name: "OpenHeart Foundation",
-      address: "2786 Marine Blvd, Hayward, California",
-    ),
-    ServiceProvider(
-      name: "OpenSky Foundation",
-      address: "2786 Marine Blvd, Hayward, California",
-    ),
-    ServiceProvider(
-      name: "OpenDoor Foundation",
-      address: "2786 Marine Blvd, Hayward, California",
-    ),
-  ];
 }
