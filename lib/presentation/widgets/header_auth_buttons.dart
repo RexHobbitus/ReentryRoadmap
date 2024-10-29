@@ -19,14 +19,19 @@ class HeaderAuthButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double height = isMobileView ? 28 : 45;
+    double width = isMobileView ? 70 : 100;
+
     return Row(
       children: [
         CustomButton(
           text: "Log In",
           onTap: loginAction,
-          width: 100,
-          height: isMobileView ? 40 : 45,
+          width: width,
+          height: height,
           isSecondary: true,
+          style: context.textTheme.bodySmall,
+          radius: 5,
         ),
         signUpAction == null
             ? const SizedBox.shrink()
@@ -38,8 +43,10 @@ class HeaderAuthButtons extends StatelessWidget {
             : CustomButton(
                 text: "Sign Up",
                 onTap: signUpAction,
-                width: 100,
-                height: isMobileView ? 40 : 45,
+                width: width,
+                height: height,
+                radius: 5,
+                style: context.textTheme.bodySmall,
               ),
       ],
     );

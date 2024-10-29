@@ -3,7 +3,6 @@ import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/banner/explore_banner_section.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/widgets/explore_services_section.dart';
 import '../../../widgets/custom_scroll_view.dart';
-import '../../../widgets/header_logo.dart';
 import 'explore_cubit.dart';
 import 'explore_initial_params.dart';
 import 'widgets/explore_footer_section.dart';
@@ -39,24 +38,31 @@ class _ExploreState extends State<ExplorePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomSingleChildScrollView(
-        child: Padding(
-          padding:
-              const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              ExploreSearchSection(
-                cubit: cubit,
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ExploreSearchSection(
+                    cubit: cubit,
+                  ),
+                  ExploreBannerSection(cubit: cubit),
+                  ExploreServiceCategoriesSection(cubit: cubit),
+                  const SizedBox(
+                    height: 60,
+                  ),
+                  ExploreServicesSection(cubit: cubit),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                ],
               ),
-              ExploreBannerSection(cubit: cubit),
-              ExploreServiceCategoriesSection(cubit: cubit),
-              ExploreServicesSection(cubit: cubit),
-              const SizedBox(
-                height: 20,
-              ),
-              const ExploreFooterSection(),
-            ],
-          ),
+            ),
+            const ExploreFooterSection(),
+          ],
         ),
       ),
     );

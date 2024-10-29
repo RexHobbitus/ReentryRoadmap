@@ -137,7 +137,7 @@ class CustomTextField extends StatelessWidget {
             hoverColor: Colors.transparent,
             contentPadding: EdgeInsets.symmetric(
                 horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
-            fillColor: context.themeData.cardColor,
+            fillColor: context.colorScheme.surfaceDim,
             suffixIcon: suffixPath != null
                 ? InkWell(
                     onTap: () {},

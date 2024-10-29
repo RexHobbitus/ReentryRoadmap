@@ -17,8 +17,7 @@ class AppStyle {
     );
   }
   static TextStyle? hintStyle(BuildContext context) {
-    return context.textTheme.bodyMedium?.copyWith(
-      fontWeight: FontWeight.w600,
+    return context.textTheme.bodyLarge?.copyWith(
       color: context.colorScheme.tertiary,
     );
   }

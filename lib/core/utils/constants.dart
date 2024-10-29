@@ -20,6 +20,12 @@ final kOperatingHours = [
   OperatingHour(day: "Sat"),
 ];
 
+var kPersonalizedServiceCategory=ServiceCategory(
+  icon: Assets.personalizedServices,
+  title: "Personalized Services",
+  subCategories: []
+);
+
 final List<ServiceCategory> kServiceCategories = [
   ServiceCategory(
     icon: Assets.education,

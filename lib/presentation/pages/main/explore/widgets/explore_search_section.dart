@@ -47,23 +47,22 @@ class ExploreSearchSection extends StatelessWidget {
                         state.isLoggedIn
                             ? "Welcome back ${(state.role == "user") ? (state.data as AppUser).onboardingInfo?.personalInfo?.firstName ?? "" : (state.data as Provider).email}"
                             : "Hello There!",
-                        style: context.textTheme.titleLarge
-                            ?.copyWith(fontWeight: FontWeight.w600),
+                        style: context.textTheme.titleMedium,
                       );
                     },
                   ),
                   Text(
                     "What are you looking for today?",
-                    style: context.textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w500,
-                        color: context.themeData.colorScheme.tertiary),
+                    style: context.textTheme.bodyLarge?.copyWith(
+                      color: context.colorScheme.tertiary,
+                    ),
                   ),
                 ],
               ),
             ),
             constraints.maxWidth > kMenuBreakPoint
                 ? const ExploreWebSearchField()
-                : ExploreMobileSearchField(),
+                : const ExploreMobileSearchField(),
           ],
         );
       }),

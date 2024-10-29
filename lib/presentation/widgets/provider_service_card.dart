@@ -11,25 +11,31 @@ import 'service_card_category_chip.dart';
 class ProviderServiceCard extends StatelessWidget {
   final Function(Provider)? onTap;
   final Provider provider;
+  final bool isOnboardedMode;
 
-  const ProviderServiceCard({super.key, this.onTap, required this.provider});
+  const ProviderServiceCard({
+    super.key,
+    this.onTap,
+    required this.provider,
+    this.isOnboardedMode = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           onTap?.call(provider);
         },
         child: Container(
           constraints: const BoxConstraints(
             maxWidth: 400,
           ),
-          padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(vertical: 10),
+          padding: const EdgeInsets.only(left: 20,right: 20, top: 30),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
-            color: context.themeData.cardColor,
+            color: context.colorScheme.surfaceDim,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -47,8 +53,7 @@ class ProviderServiceCard extends StatelessWidget {
                 height: 5,
               ),
               _locationWidget(
-                  context: context,
-                  location: provider.completeAddress),
+                  context: context, location: provider.completeAddress),
               const SizedBox(
                 height: 20,
               ),
@@ -56,38 +61,48 @@ class ProviderServiceCard extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              _subSection(context: context, title: "Eligibility Criteria", data: provider.getAllEligibilityCriteria().take(2).toList()),
-              const SizedBox(
-                height: 10,
-              ),
-              _subSection(context: context, title: "Features", data: provider.getAllFeatures().take(2).toList()),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                width: double.maxFinite,
-                padding:
+              _subSection(
+                  context: context,
+                  title: "Features",
+                  data: provider.getAllFeatures().take(2).toList()),
+              Column(
+                children: [
+                  const SizedBox(
+                    height:20,
+                  ),
+                  // _subSection(
+                  //     context: context,
+                  //     title: "Eligibility Criteria",
+                  //     data: provider.getAllEligibilityCriteria().take(2).toList()),
+                  // const SizedBox(
+                  //   height: 30,
+                  // ),
+                  isOnboardedMode?Container(
+                    width: double.maxFinite,
+                    padding:
                     const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
-                decoration: BoxDecoration(
-                    color: context.themeData.primaryColor,
-                    borderRadius: BorderRadius.circular(10)),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "70% Match",
-                      style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.themeData.colorScheme.onPrimary),
+                    decoration: BoxDecoration(
+                        color: context.themeData.primaryColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          "70% Match",
+                          style: context.textTheme.bodyMedium?.copyWith(
+                              color: context.themeData.colorScheme.onPrimary),
+                        ),
+                        Text(
+                          "You might be eligible",
+                          style: context.textTheme.bodySmall?.copyWith(
+                              color: context.themeData.colorScheme.onPrimary
+                                  .withOpacity(0.5)),
+                        ),
+                      ],
                     ),
-                    Text(
-                      "You might be eligible",
-                      style: context.textTheme.bodySmall?.copyWith(
-                          color: context.themeData.colorScheme.onPrimary
-                              .withOpacity(0.5)),
-                    ),
-                  ],
-                ),
-              ),
+                  ):const SizedBox.shrink(),
+                ],
+              )
             ],
           ),
         ),
@@ -168,14 +183,20 @@ class ProviderServiceCard extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SvgPicture.asset(Assets.location),
+        SvgPicture.asset(
+          Assets.location,
+          width: 8,
+        ),
         const SizedBox(
           width: 5,
         ),
         Text(
           location,
-          style: context.textTheme.bodySmall
-              ?.copyWith(color: context.themeData.colorScheme.secondary),
+          style: context.textTheme.bodyMedium?.copyWith(
+            color: context.colorScheme.secondaryFixed,
+            overflow: TextOverflow.ellipsis,
+          ),
+          maxLines: 1,
         )
       ],
     );
@@ -187,38 +208,40 @@ class ProviderServiceCard extends StatelessWidget {
       children: [
         Text(
           title,
-          style: context.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
+          style: context.textTheme.titleMedium,
         ),
         const SizedBox(width: 10),
-        SvgPicture.asset(Assets.verified),
+        SvgPicture.asset(
+          Assets.verified,
+          width: 12,
+        ),
       ],
     );
   }
 
   Widget _serviceCategories({required BuildContext context}) {
-    List<String> categories=provider.getAllCategories();
-    int maxLimit=5;
+    List<String> categories = provider.getAllCategories();
+    int maxLimit = 5;
     return Wrap(
       //  mainAxisSize: MainAxisSize.min,
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        for(var category in  List.from(categories).take(maxLimit).toList())
-        ServiceCardCategoryChip(
-          title: category,
-        ),
-        categories.length>maxLimit?
-        Text(
-          "+ ${categories.length-maxLimit} More",
-          style: context.textTheme.bodyMedium?.copyWith(
-              color: context.themeData.colorScheme.tertiary, fontSize: 10),
-        ):const SizedBox.shrink(),
+        for (var category in List.from(categories).take(maxLimit).toList())
+          ServiceCardCategoryChip(
+            title: category,
+          ),
+        categories.length > maxLimit
+            ? Text(
+                "+ ${categories.length - maxLimit} More",
+                style: context.textTheme.bodySmall?.copyWith(
+                  color: context.themeData.colorScheme.tertiary,
+                ),
+              )
+            : const SizedBox.shrink(),
       ],
     );
   }
-
 
   // Widget _serviceTitles({required BuildContext context}) {
   //   return Column(
@@ -247,38 +270,53 @@ class ProviderServiceCard extends StatelessWidget {
   //   );
   // }
 
-  Widget _subSection({required BuildContext context,required String title,required List<String> data}){
-    return data.isEmpty?const SizedBox.shrink():Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(title,style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),),
-        const SizedBox(height: 10,),
-        for(var info in data)
-          _featureOrEligibilityTile(context: context,title: info)
-
-      ],
-    );
+  Widget _subSection(
+      {required BuildContext context,
+      required String title,
+      required List<String> data}) {
+    return data.isEmpty
+        ? const SizedBox.shrink()
+        : Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: context.textTheme.bodyLarge,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              for (var info in data)
+                _featureOrEligibilityTile(context: context, title: info)
+            ],
+          );
   }
-  Widget _featureOrEligibilityTile({required BuildContext context,required String title}) {
+
+  Widget _featureOrEligibilityTile(
+      {required BuildContext context, required String title}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 8,
+            radius: 6,
             backgroundColor: context.colorScheme.primary,
-            child:  Icon(
+            child: Icon(
               Icons.check,
               size: 10,
               color: context.colorScheme.onPrimary,
             ),
           ),
-          const SizedBox(width: 10,),
-          Text(title,style: context.textTheme.bodyMedium,)
+          const SizedBox(
+            width: 10,
+          ),
+          Text(
+            title,
+            style: context.textTheme.bodyLarge,
+          )
         ],
       ),
     );
   }
-
 }

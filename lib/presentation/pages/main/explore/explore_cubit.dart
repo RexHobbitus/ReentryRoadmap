@@ -4,6 +4,7 @@ import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import '../../../../domain/entities/provider.dart';
@@ -57,5 +58,9 @@ class ExploreCubit extends Cubit<ExploreState> {
     snackBar.show(
         "TODO: Navigate to Search screen => ${category.title} results",
         snackBarType: SnackBarType.INFO);
+  }
+
+  quizAction(){
+    navigator.openSignUp(const SignUpInitialParams());
   }
 }

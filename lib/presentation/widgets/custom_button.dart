@@ -14,6 +14,8 @@ class CustomButton extends StatelessWidget {
   final String? iconPath;
   final IconAlignment? iconAlignment;
   final double? radius;
+  final TextStyle? style;
+
   const CustomButton({
     super.key,
     this.onTap,
@@ -27,7 +29,7 @@ class CustomButton extends StatelessWidget {
     this.iconPath,
     this.iconAlignment,
     this.radius,
-
+    this.style,
   });
 
   @override
@@ -36,6 +38,7 @@ class CustomButton extends StatelessWidget {
         ? const Center(child:  CircularProgressIndicator())
         : ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(radius??10), // <-- Radius
               ),
@@ -47,13 +50,13 @@ class CustomButton extends StatelessWidget {
               backgroundColor: isDisabled
                   ? context.colorScheme.tertiary
                   : isSecondary
-                      ? context.themeData.colorScheme.secondary
+                      ? context.themeData.colorScheme.secondaryFixed
                       : null,
               // Set the disabled background color
               foregroundColor: isDisabled
                   ? context.colorScheme.surface
                   : isSecondary
-                      ? context.themeData.colorScheme.onSecondary
+                      ? context.themeData.colorScheme.onSecondaryFixed
                       : null, // Set the disabled text color
             ),
             onPressed: isDisabled ? () {} : onTap,
@@ -69,10 +72,11 @@ class CustomButton extends StatelessWidget {
                     color: context.colorScheme.onPrimary,
                     size: 15,
                   ),
-            label: FittedBox(
-              child: Text(
-                text ?? "",
-              ),
+            label: Text(
+              text ?? "",
+              style:style?.copyWith(
+                color: context.colorScheme.onPrimary,
+              )
             ),
           );
   }

@@ -23,6 +23,7 @@ class ProgramCategoryCard extends StatelessWidget {
       },
       child: Container(
         height: 115,
+        width: 115,
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           color: isSelected
@@ -46,16 +47,15 @@ class ProgramCategoryCard extends StatelessWidget {
                 height: 30,
                 color: isSelected
                     ? Colors.white
-                    : context.themeData.colorScheme.secondary,
+                    : context.themeData.colorScheme.onSurface,
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 11),
               Text(
                 category.title,
-                style: context.textTheme.bodySmall?.copyWith(
-                  fontWeight: FontWeight.w600,
+                style: context.textTheme.bodyMedium?.copyWith(
                   color: isSelected
                       ? context.themeData.colorScheme.surfaceBright
-                      : context.themeData.colorScheme.onTertiary,
+                      : context.themeData.colorScheme.onSurface,
                 ),
                 textAlign: TextAlign.center,
               )

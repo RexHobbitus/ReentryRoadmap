@@ -17,7 +17,7 @@ class HeaderLogo extends StatelessWidget {
         children: [
           SvgPicture.asset(Assets.dignifi),
           const SizedBox(
-            width: 20,
+            width: 8,
           ),
           Text(
             "Dignifi",

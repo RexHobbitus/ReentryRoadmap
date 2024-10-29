@@ -16,6 +16,10 @@ const Color _lightOnPrimary = Color(0xFFFFFFFF);
 const Color _lightSecondary = Color(0xFF11404C);
 const Color _lightOnSecondary = Color(0xFFFFFFFF);
 
+const Color _lightSecondaryFixed = Color(0xFF396773);
+const Color _lightOnSecondaryFixed = Color(0xFFFFFFFF);
+
+
 const Color _lightTertiaryColor = Color(0xff89898A);
 const Color _lightOnTertiaryColor = Color(0xFF151517);
 
@@ -68,7 +72,7 @@ final ThemeData LIGHT_THEME = ThemeData(
       fontSize: 12,
     ),
     selectedLabelStyle: TextStyle(
-      fontWeight: FontWeight.w600,
+      fontWeight: FontWeight.w500,
       fontSize: 12,
     ),
   ),
@@ -80,8 +84,11 @@ final ThemeData LIGHT_THEME = ThemeData(
     onPrimary: _lightOnPrimary,
     secondary: _lightSecondary,
     onSecondary: _lightOnSecondary,
+    secondaryFixed: _lightSecondaryFixed,
+    onSecondaryFixed: _lightOnSecondaryFixed,
     tertiary: _lightTertiaryColor,
     onTertiary: _lightOnTertiaryColor,
     tertiaryContainer: _lightTertiaryContainerColor,
+    surfaceDim: Color(0xffF1F6F8)
   ),
 );

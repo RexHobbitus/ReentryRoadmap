@@ -30,10 +30,12 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         padding: const EdgeInsets.symmetric(vertical: 20),
-        itemCount: kServiceCategories.length,
+        itemCount: kServiceCategories.length+1,
         itemBuilder: (context, index) {
           return ProgramCategoryCard(
-            category: kServiceCategories[index],
+            category: index==kServiceCategories.length?
+            kPersonalizedServiceCategory:
+            kServiceCategories[index],
             onTap:cubit.categoryAction,
           );
         },

@@ -38,16 +38,16 @@ class ExploreServicesSection extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: user.isLoggedIn
                                 ? _loggedInUserHeadings(context: context)
-                                : _loggedInUserHeadings(context: context),
+                                : _notLoggedInUserHeadings(context: context),
                           )
                         : Column(
                             children: user.isLoggedIn
                                 ? _loggedInUserHeadings(context: context)
-                                : _loggedInUserHeadings(context: context));
+                                : _notLoggedInUserHeadings(context: context));
                   },
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 Skeletonizer(
                   enabled: state.loading,
@@ -116,13 +116,13 @@ class ExploreServicesSection extends StatelessWidget {
       Text(
         "Popular Services",
         style:
-            context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+            context.textTheme.titleMedium,
       ),
       InkWell(
         onTap: () {},
         child: Text(
           "Get Personalized Recommendations >",
-          style: context.textTheme.titleMedium?.copyWith(
+          style: context.textTheme.bodyLarge?.copyWith(
               color: context.themeData.colorScheme.tertiary,
               decoration: TextDecoration.underline,
               height: 2),

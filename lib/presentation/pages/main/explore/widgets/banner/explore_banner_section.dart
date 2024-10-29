@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/domain/entities/login_user.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
 class ExploreBannerSection extends StatelessWidget {
   final ExploreCubit cubit;
@@ -17,10 +18,11 @@ class ExploreBannerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.maxFinite,
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.only(top: 20, bottom: 30, right: 29, left: 29),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: context.themeData.colorScheme.secondary),
+        borderRadius: BorderRadius.circular(10),
+        color: context.themeData.colorScheme.secondary,
+      ),
       child: BlocBuilder<UserStore, LoginUser>(
         bloc: cubit.userStore,
         builder: (context, state) {
@@ -42,7 +44,7 @@ class ExploreBannerSection extends StatelessWidget {
                     state.isLoggedIn
                         ? "Update us on your reentry journey to help us better understand your needs."
                         : "Share your reentry journey with us to help us better understand your needs.",
-                    style: context.textTheme.bodySmall?.copyWith(
+                    style: context.textTheme.bodyLarge?.copyWith(
                       color: context.themeData.colorScheme.onSecondary,
                     ),
                   ),
@@ -51,11 +53,12 @@ class ExploreBannerSection extends StatelessWidget {
                   ),
                 ],
               ),
-              LayoutBuilder(builder: (context, constraints) {
+              CustomResponsiveBuilder(builder: (context, constraints,deviceSize) {
                 return CustomButton(
                   text: "Learn More",
-                  width:
-                      constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
+                  width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
+                  height: 56,
+                  style: context.textTheme.bodyLarge,
                   onTap: () {},
                 );
               })
@@ -70,15 +73,14 @@ class ExploreBannerSection extends StatelessWidget {
     return RichText(
         text: TextSpan(
             text: "Take our ",
-            style: context.textTheme.titleLarge?.copyWith(
-                color: context.themeData.colorScheme.onSecondary,
-                fontWeight: FontWeight.w600),
+            style: context.textTheme.titleMedium
+                ?.copyWith(color: context.themeData.colorScheme.onSecondary),
             children: [
           TextSpan(
-              text: "Quiz",
-              style: context.textTheme.titleLarge?.copyWith(
+              text: "quiz",
+            recognizer: TapGestureRecognizer()..onTap =cubit.quizAction,
+              style: context.textTheme.titleMedium?.copyWith(
                   color: context.themeData.colorScheme.onSecondary,
-                  fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline)),
           const TextSpan(text: " to get personalized results!")
         ]));
@@ -88,16 +90,14 @@ class ExploreBannerSection extends StatelessWidget {
     return RichText(
         text: TextSpan(
             text: "Provide a ",
-            style: context.textTheme.titleLarge?.copyWith(
-                color: context.themeData.colorScheme.onSecondary,
-                fontWeight: FontWeight.w600),
+            style: context.textTheme.titleMedium
+                ?.copyWith(color: context.themeData.colorScheme.onSecondary),
             children: [
           TextSpan(
               text: "Check In",
-            recognizer: TapGestureRecognizer()..onTap =cubit.checkInAction,
-              style: context.textTheme.titleLarge?.copyWith(
+              recognizer: TapGestureRecognizer()..onTap = cubit.checkInAction,
+              style: context.textTheme.titleMedium?.copyWith(
                   color: context.themeData.colorScheme.onSecondary,
-                  fontWeight: FontWeight.w600,
                   decoration: TextDecoration.underline)),
           const TextSpan(text: " to get the best matches!")
         ]));
