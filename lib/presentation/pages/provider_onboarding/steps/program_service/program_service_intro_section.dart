@@ -1,11 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/provider_onboarding_step_intro_widget.dart';
 
-class ProgramServiceIntroSection extends StatelessWidget {
+import '../../../../../service_locator/service_locator.dart';
+import '../../provider_onboarding_cubit.dart';
+
+class ProgramServiceIntroSection extends StatefulWidget {
   const ProgramServiceIntroSection({super.key});
 
+  @override
+  State<ProgramServiceIntroSection> createState() => _ProgramServiceIntroSectionState();
+}
+
+class _ProgramServiceIntroSectionState extends State<ProgramServiceIntroSection> {
+  ProviderOnboardingCubit get cubit => getIt();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return ProviderOnboardingStepIntroWidget(
@@ -18,5 +35,9 @@ class ProgramServiceIntroSection extends StatelessWidget {
                 color: context.colorScheme.tertiary,
               )),
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    cubit.isNextButtonEnabled.value = true;
   }
 }

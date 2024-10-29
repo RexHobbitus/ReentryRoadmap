@@ -6,11 +6,24 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProviderDescribeLocationWidget extends StatelessWidget {
+class ProviderDescribeLocationWidget extends StatefulWidget {
   const ProviderDescribeLocationWidget({super.key});
 
+  @override
+  State<ProviderDescribeLocationWidget> createState() => _ProviderDescribeLocationWidgetState();
+}
+
+class _ProviderDescribeLocationWidgetState extends State<ProviderDescribeLocationWidget> {
   ProviderOnboardingCubit get cubit => getIt();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -34,7 +47,7 @@ class ProviderDescribeLocationWidget extends StatelessWidget {
                   initialValue: cubit.describeProviderLocation,
                   onChange: (val) {
                     cubit.describeProviderLocation = val;
-                    cubit.notifyTextFieldUpdates();
+                    _checkEnableNextForThisSection();
                   },
                   label: "Describe Provider Location",
                 );
@@ -46,7 +59,7 @@ class ProviderDescribeLocationWidget extends StatelessWidget {
                   initialValue: cubit.describeProviderLocation,
                   onChange: (val) {
                     cubit.describeProviderLocation = val;
-                    cubit.notifyTextFieldUpdates();
+                    _checkEnableNextForThisSection();
                   },
                   label: "Describe Provider Location",
                 );
@@ -56,5 +69,13 @@ class ProviderDescribeLocationWidget extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    if (cubit.describeProviderLocation.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }

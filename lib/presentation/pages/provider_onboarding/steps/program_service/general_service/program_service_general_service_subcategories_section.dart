@@ -25,6 +25,9 @@ class _ProgramServiceGeneralServiceSubCategoriesSectionState
     // TODO: implement initState
     super.initState();
     selectedCategories = cubit.selectedCategoriesForGeneralService;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -122,5 +125,9 @@ class _ProgramServiceGeneralServiceSubCategoriesSectionState
         );
       }
     });
+  }
+
+  void _checkEnableNextForThisSection() {
+    cubit.isNextButtonEnabled.value = true;
   }
 }

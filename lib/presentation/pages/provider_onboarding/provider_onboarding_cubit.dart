@@ -117,13 +117,9 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
   List<String> generalServiceSubCategories = [];
   List<String> generalServiceProgramFeatures = [];
   List<String> generalServiceEligibilityCriteria = [];
-  final textFieldUpdateListener = StreamController<bool>.broadcast();
-
   int currentProgramIndex = 0;
+  ValueNotifier<bool> isNextButtonEnabled = ValueNotifier<bool>(true);
 
-  notifyTextFieldUpdates() {
-    textFieldUpdateListener.add(true);
-  }
 
   List<Widget> get onBoardingSteps => [
         /// 1st part
@@ -146,10 +142,15 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
         //  provider  program service
         const ProgramServiceIntroSection(),
         const ProgramServiceSpecificProgramSection(),
+
+        /// index=13
         ProgramServiceProgramOfferSection(),
 
-        // //amazing sausce progra,
-        for (int programIndex = 0; programIndex < selectedPrograms.length;
+        /// index=14
+
+        // loop through selected programs
+        for (int programIndex = 0;
+            programIndex < selectedPrograms.length;
             programIndex++) ...[
           ProgramServiceAboutProgramOfferSection(
             index: programIndex,
@@ -193,6 +194,12 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
       _sendOnboardingInformation();
       return;
     }
+    if (state.providerOnboardingSectionIndex == 13 && specificProgram == "No") {
+      emit(state.copyWith(
+          providerOnboardingSectionIndex:
+              state.providerOnboardingSectionIndex + 2));
+      return;
+    }
     if (state.providerOnboardingSectionIndex == onBoardingSteps.length - 1) {
       return;
     }
@@ -203,6 +210,9 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
 
   backAction() {
     int step = state.providerOnboardingSectionIndex - 1;
+    if (state.providerOnboardingSectionIndex == 15 && specificProgram == "No") {
+      step = step - 1;
+    }
     emit(state.copyWith(providerOnboardingSectionIndex: step));
   }
 
@@ -245,82 +255,86 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     return false;
   }
 
-  bool isNextButtonEnabled() {
-    switch (state.providerOnboardingSectionIndex) {
-      case 0:
-
-        /// Provider Details Info
-        return true;
-      case 1:
-        return nameProviderLocation.isNotEmpty;
-      case 2:
-        return describeProviderLocation.isNotEmpty;
-      case 3:
-        return relationReentry.isNotEmpty;
-      case 4:
-        return locationCity.isNotEmpty &&
-            locationState.isNotEmpty &&
-            locationCountry.isNotEmpty &&
-            locationZipCode.isNotEmpty;
-      case 5:
-        return _isAllOperatingHoursFilled();
-      // return startTime != null && endTime != null;
-
-      case 6:
-        return state.providerLocationImages.isNotEmpty;
-      case 7:
-        return officialPhone.isNotEmpty;
-      case 8:
-        return officialEmail.isNotEmpty;
-      case 9:
-        return faxNumber.isNotEmpty;
-      case 10:
-        return contactPerson.isNotEmpty;
-      case 11:
-        return orgWebsite.isNotEmpty;
-
-      case 12:
-
-        /// program services
-
-        return true;
-      case 13:
-        return specificProgram.isNotEmpty;
-      case 14:
-        return selectedPrograms.isNotEmpty;
-      case 15:
-
-        /// program introduction/title
-        return true;
-
-      case 16:
-        return true;
-        // return selectedPrograms[currentProgramIndex].description?.isNotEmpty ??
-        //     false;
-      case 17:
-        // return selectedPrograms[currentProgramIndex]
-        //         .programCategories
-        //         ?.isNotEmpty ??
-        //     false;
-        return true;
-
-      case 18:
-        return true;
-
-      case 19:
-        // return selectedPrograms[currentProgramIndex].features?.isNotEmpty ??
-        //     false;
-        return true;
-      case 20:
-        // return selectedPrograms[currentProgramIndex].eligibilityCriteria?.isNotEmpty ??
-        //     false;
-        return true;
-      case 21:
-        return true;
-      default:
-        return true;
-    }
+  moveIndexPosition(int newPosition) {
+    emit(state.copyWith(providerOnboardingSectionIndex: newPosition));
   }
+
+
+  // bool isNextButtonEnabled() {
+  //   switch (state.providerOnboardingSectionIndex) {
+  //     case 0:
+  //
+  //       /// Provider Details Info
+  //       return true;
+  //     case 1:
+  //       return nameProviderLocation.isNotEmpty;
+  //     case 2:
+  //       return describeProviderLocation.isNotEmpty;
+  //     case 3:
+  //       return relationReentry.isNotEmpty;
+  //     case 4:
+  //       return locationCity.isNotEmpty &&
+  //           locationState.isNotEmpty &&
+  //           locationCountry.isNotEmpty &&
+  //           locationZipCode.isNotEmpty;
+  //     case 5:
+  //       return _isAllOperatingHoursFilled();
+  //     // return startTime != null && endTime != null;
+  //
+  //     case 6:
+  //       return state.providerLocationImages.isNotEmpty;
+  //     case 7:
+  //       return officialPhone.isNotEmpty;
+  //     case 8:
+  //       return officialEmail.isNotEmpty;
+  //     case 9:
+  //       return faxNumber.isNotEmpty;
+  //     case 10:
+  //       return contactPerson.isNotEmpty;
+  //     case 11:
+  //       return orgWebsite.isNotEmpty;
+  //
+  //     case 12:
+  //
+  //       /// program services
+  //       return true;
+  //     case 13:
+  //       return specificProgram.isNotEmpty;
+  //     case 14:
+  //       return selectedPrograms.isNotEmpty;
+  //     case 15:
+  //
+  //       /// program introduction/title
+  //       return true;
+  //
+  //     case 16:
+  //       return selectedPrograms[currentProgramIndex].description?.isNotEmpty ??
+  //           false;
+  //     case 17:
+  //       return selectedPrograms[currentProgramIndex]
+  //               .programCategories
+  //               ?.isNotEmpty ??
+  //           false;
+  //       return true;
+  //
+  //     case 18:
+  //
+  //       /// THIS MEANS SUB CATEGORIES COULD BE EMPTY
+  //       return true;
+  //     case 19:
+  //       return selectedPrograms[currentProgramIndex].features?.isNotEmpty ??
+  //           false;
+  //     case 20:
+  //       return selectedPrograms[currentProgramIndex]
+  //               .eligibilityCriteria
+  //               ?.isNotEmpty ??
+  //           false;
+  //     case 21:
+  //       return true;
+  //     default:
+  //       return true;
+  //   }
+  // }
 
   bool _isAllOperatingHoursFilled() {
     for (final operatingHour in operatingHours) {

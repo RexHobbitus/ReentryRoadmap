@@ -24,7 +24,10 @@ class _ProgramServiceSpecificProgramSectionState
   void initState() {
     // TODO: implement initState
     super.initState();
-    selected = cubit.relationReentry;
+    selected = cubit.specificProgram;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -52,7 +55,7 @@ class _ProgramServiceSpecificProgramSectionState
                           selected = val;
                           cubit.specificProgram = val;
                         });
-                        cubit.notifyTextFieldUpdates();
+                        _checkEnableNextForThisSection();
                       },
                     ),
                 ],
@@ -68,7 +71,7 @@ class _ProgramServiceSpecificProgramSectionState
                           selected = val;
                           cubit.specificProgram = val;
                         });
-                        cubit.notifyTextFieldUpdates();
+                        _checkEnableNextForThisSection();
                       },
                     ),
                 ],
@@ -76,4 +79,13 @@ class _ProgramServiceSpecificProgramSectionState
       ],
     );
   }
+
+  void _checkEnableNextForThisSection() {
+    if (selected.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

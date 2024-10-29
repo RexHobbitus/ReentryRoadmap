@@ -30,6 +30,9 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
   void initState() {
     eligibilityCriteria=cubit.generalServiceInfo.eligibilityCriteria??[];
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -79,6 +82,7 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
                 cubit.generalServiceInfo.eligibilityCriteria=eligibilityCriteria;
                 _controller.clear(); 
                 showAddButton = true;
+                _checkEnableNextForThisSection();
               });
             }
           },
@@ -106,7 +110,7 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
                         setState(() {
                           eligibilityCriteria.remove(feature);
                           cubit.generalServiceInfo.eligibilityCriteria=eligibilityCriteria;
-                          cubit.notifyTextFieldUpdates();
+                          _checkEnableNextForThisSection();
                         });
                       },
                       icon: SvgPicture.asset(Assets.delete)),
@@ -146,4 +150,14 @@ class _ProgramServiceGeneralServiceEligibilitySectionState
         .where((feature) => feature.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
+
+
+  void _checkEnableNextForThisSection() {
+    if(eligibilityCriteria.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-final Color _textBlackColor = Color(0xff15151780);
-final TextTheme kTextTheme = TextTheme(
+const Color _textBlackColor = Color(0xff151517);
+const TextTheme kTextTheme = TextTheme(
   bodySmall: TextStyle(
       fontSize: 10, fontWeight: FontWeight.w500, color: _textBlackColor),
   bodyMedium: TextStyle(

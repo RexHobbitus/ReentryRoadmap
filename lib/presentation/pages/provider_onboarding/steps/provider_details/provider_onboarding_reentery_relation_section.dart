@@ -27,6 +27,9 @@ class _ProviderOnboardingReenteryRelationSectionState
     // TODO: implement initState
     super.initState();
     selected = cubit.relationReentry;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -57,7 +60,7 @@ class _ProviderOnboardingReenteryRelationSectionState
                           cubit.relationReentry = relation;
                           print(cubit.relationReentry);
                         });
-                        cubit.notifyTextFieldUpdates();
+                        _checkEnableNextForThisSection();
                       },
                     ),
                   ),
@@ -76,7 +79,7 @@ class _ProviderOnboardingReenteryRelationSectionState
                         cubit.relationReentry = relation;
                         print(cubit.relationReentry);
                       });
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                   ),
               ],
@@ -86,4 +89,13 @@ class _ProviderOnboardingReenteryRelationSectionState
       ],
     );
   }
+
+  void _checkEnableNextForThisSection() {
+    if (selected.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

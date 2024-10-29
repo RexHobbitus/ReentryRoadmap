@@ -22,6 +22,14 @@ class _ProviderDetailImageUploadSectionState
   ProviderOnboardingCubit get cubit => getIt();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
     final double size = MediaQuery.of(context).size.height;
     return BlocBuilder<ProviderOnboardingCubit, ProviderOnboardingState>(
@@ -49,7 +57,7 @@ class _ProviderDetailImageUploadSectionState
                   InkWell(
                     onTap: () {
                       cubit.openImagePicker();
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     child: Container(
                       height: size * 0.5,
@@ -94,69 +102,24 @@ class _ProviderDetailImageUploadSectionState
                   );
                 },
               ),
-            // StaggeredGrid.count(
-            //   crossAxisCount: 2,
-            //   mainAxisSpacing: 4.0,
-            //   crossAxisSpacing: 4.0,
-            //   children: cubit.providerLocationPhotos.map((photo) {
-            //     return StaggeredGridTile.count(
-            //       crossAxisCellCount: 2,
-            //       mainAxisCellCount: 3,
-            //       child: ImageCard(photo: photo),
-            //     );
-            //   }).toList(),
-            // ),
           ],
         );
       },
     );
   }
+
+
+  void _checkEnableNextForThisSection() {
+    // if(cubit.state.providerLocationImages.isNotEmpty){
+    //   cubit.isNextButtonEnabled.value=true;
+    //   return;
+    // }
+    cubit.isNextButtonEnabled.value = true;
+  }
+
+
 }
 
-// class ImageCard extends StatelessWidget {
-//   final dynamic photo;
-//   final Function(dynamic) onRemove;
-
-//   ImageCard({required this.photo, required this.onRemove});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 150,
-//       child: Stack(
-//         fit: StackFit.expand,
-//         children: [
-//           Card(
-//             child: ClipRRect(
-//               borderRadius: BorderRadius.circular(10),
-//               child: photo is String
-//                   ? Image.network(photo, fit: BoxFit.cover)
-//                   : Image.file(photo, fit: BoxFit.cover),
-//             ),
-//           ),
-//           Positioned(
-//             top: 10,
-//             left: 10,
-//             child: InkWell(
-//               onTap: () {
-//                 onRemove.call(photo);
-//               },
-//               child: CircleAvatar(
-//                 backgroundColor: context.colorScheme.secondary,
-//                 radius: 15,
-//                 child: Icon(
-//                   Icons.delete,
-//                   size: 15,
-//                   color: context.colorScheme.onSecondary,
-//                 ),
-//               ),
-//             ),
-//           )
-//         ],
-//       ),
-//     );
-//   }
-// }
 
 class ImageCard extends StatelessWidget {
   final dynamic photo;

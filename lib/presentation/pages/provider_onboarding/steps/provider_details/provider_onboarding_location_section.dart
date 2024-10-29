@@ -21,6 +21,15 @@ class _ProviderOnboardingLocationSectionState
   ProviderOnboardingCubit get cubit => getIt();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -39,7 +48,7 @@ class _ProviderOnboardingLocationSectionState
                     initialValue: cubit.locationStreet,
                     onChange: (val) {
                       cubit.locationStreet = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "Street Address (optional)",
                   ),
@@ -50,7 +59,7 @@ class _ProviderOnboardingLocationSectionState
                           initialValue: cubit.locationCity,
                           onChange: (val) {
                             cubit.locationCity = val;
-                            cubit.notifyTextFieldUpdates();
+                            _checkEnableNextForThisSection();
                           },
                           label: "City",
                         ),
@@ -63,7 +72,7 @@ class _ProviderOnboardingLocationSectionState
                           initialValue: cubit.locationCountry,
                           onChange: (val) {
                             cubit.locationCountry = val;
-                            cubit.notifyTextFieldUpdates();
+                            _checkEnableNextForThisSection();
                           },
                           label: "Country",
                         ),
@@ -80,7 +89,7 @@ class _ProviderOnboardingLocationSectionState
                               : cubit.locationState,
                           onChange: (state) {
                             cubit.locationState = state ?? "";
-                            cubit.notifyTextFieldUpdates();
+                            _checkEnableNextForThisSection();
                           },
                           label: "State",
                         ),
@@ -94,7 +103,7 @@ class _ProviderOnboardingLocationSectionState
                           initialValue: cubit.locationZipCode,
                           onChange: (val) {
                             cubit.locationZipCode = val;
-                            cubit.notifyTextFieldUpdates();
+                            _checkEnableNextForThisSection();
                           },
                           label: "Zip Code",
                         ),
@@ -111,7 +120,7 @@ class _ProviderOnboardingLocationSectionState
                     initialValue: cubit.locationStreet,
                     onChange: (val) {
                       cubit.locationStreet = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "Street Address (optional)",
                   ),
@@ -119,7 +128,7 @@ class _ProviderOnboardingLocationSectionState
                     initialValue: cubit.locationCity,
                     onChange: (val) {
                       cubit.locationCity = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "City",
                   ),
@@ -127,7 +136,7 @@ class _ProviderOnboardingLocationSectionState
                     initialValue: cubit.locationCountry,
                     onChange: (val) {
                       cubit.locationCountry = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "Country",
                   ),
@@ -138,7 +147,7 @@ class _ProviderOnboardingLocationSectionState
                         : cubit.locationState,
                     onChange: (state) {
                       cubit.locationState = state ?? "";
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "State",
                   ),
@@ -146,7 +155,7 @@ class _ProviderOnboardingLocationSectionState
                     initialValue: cubit.locationZipCode,
                     onChange: (val) {
                       cubit.locationZipCode = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                     label: "Zip Code",
                   ),
@@ -157,5 +166,16 @@ class _ProviderOnboardingLocationSectionState
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    if (cubit.locationCity.isNotEmpty &&
+        cubit.locationState.isNotEmpty &&
+        cubit.locationCountry.isNotEmpty &&
+        cubit.locationZipCode.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }

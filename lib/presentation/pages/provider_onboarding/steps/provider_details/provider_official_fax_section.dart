@@ -7,11 +7,24 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProviderOfficialFaxSection extends StatelessWidget {
+class ProviderOfficialFaxSection extends StatefulWidget {
   const ProviderOfficialFaxSection({super.key});
 
+  @override
+  State<ProviderOfficialFaxSection> createState() => _ProviderOfficialFaxSectionState();
+}
+
+class _ProviderOfficialFaxSectionState extends State<ProviderOfficialFaxSection> {
   ProviderOnboardingCubit get cubit => getIt();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -29,19 +42,27 @@ class ProviderOfficialFaxSection extends StatelessWidget {
                     initialValue: cubit.faxNumber,
                     onChange: (val) {
                       cubit.faxNumber = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                   )
                 : CustomTextField(
                     initialValue: cubit.faxNumber,
                     onChange: (val) {
                       cubit.faxNumber = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                   ),
           ],
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    // if (cubit.faxNumber.isNotEmpty) {
+    //   cubit.isNextButtonEnabled.value = true;
+    //   return;
+    // }
+    cubit.isNextButtonEnabled.value = true;
   }
 }

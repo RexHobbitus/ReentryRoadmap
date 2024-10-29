@@ -30,6 +30,9 @@ class _ProgramServiceProgramOfferFeaturesSectionState
   void initState() {
     super.initState();
     selectedFeatures=cubit.selectedPrograms[widget.index].features??[];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -63,7 +66,7 @@ class _ProgramServiceProgramOfferFeaturesSectionState
               bottomPadding: 10,
               focusNode: focusNode,
             );
-;
+
           },
           itemBuilder: (context, feature) {
             return Column(
@@ -91,7 +94,7 @@ class _ProgramServiceProgramOfferFeaturesSectionState
                 cubit.selectedPrograms[widget.index].features=selectedFeatures;
                 _controller.clear();
                 showAddButton = true;
-                cubit.notifyTextFieldUpdates();
+                _checkEnableNextForThisSection();
               });
             }
           },
@@ -118,7 +121,7 @@ class _ProgramServiceProgramOfferFeaturesSectionState
                         setState(() {
                           selectedFeatures.remove(feature);
                           cubit.selectedPrograms[widget.index].features=selectedFeatures;
-                          cubit.notifyTextFieldUpdates();
+                          _checkEnableNextForThisSection();
 
                         });
                       },
@@ -158,4 +161,13 @@ class _ProgramServiceProgramOfferFeaturesSectionState
         .where((feature) => feature.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
+
+  void _checkEnableNextForThisSection() {
+    if(selectedFeatures.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

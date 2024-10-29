@@ -6,11 +6,26 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProviderDetailNameLocationSection extends StatelessWidget {
+class ProviderDetailNameLocationSection extends StatefulWidget {
   const ProviderDetailNameLocationSection({super.key});
 
+  @override
+  State<ProviderDetailNameLocationSection> createState() =>
+      _ProviderDetailNameLocationSectionState();
+}
+
+class _ProviderDetailNameLocationSectionState
+    extends State<ProviderDetailNameLocationSection> {
   ProviderOnboardingCubit get cubit => getIt();
 
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,7 +46,7 @@ class ProviderDetailNameLocationSection extends StatelessWidget {
                     initialValue: cubit.nameProviderLocation,
                     onChange: (val) {
                       cubit.nameProviderLocation = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     });
               } else {
                 return CustomTextField(
@@ -39,7 +54,7 @@ class ProviderDetailNameLocationSection extends StatelessWidget {
                     initialValue: cubit.nameProviderLocation,
                     onChange: (val) {
                       cubit.nameProviderLocation = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     });
               }
             })
@@ -47,5 +62,13 @@ class ProviderDetailNameLocationSection extends StatelessWidget {
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    if (cubit.nameProviderLocation.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }

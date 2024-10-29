@@ -7,18 +7,29 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import '../../../../../../service_locator/service_locator.dart';
 import '../../../provider_onboarding_cubit.dart';
 
-class ProgramServiceAboutProgramOfferSection extends StatelessWidget {
+class ProgramServiceAboutProgramOfferSection extends StatefulWidget {
   final int index;
   const ProgramServiceAboutProgramOfferSection({super.key,required this.index});
 
+  @override
+  State<ProgramServiceAboutProgramOfferSection> createState() => _ProgramServiceAboutProgramOfferSectionState();
+}
+
+class _ProgramServiceAboutProgramOfferSectionState extends State<ProgramServiceAboutProgramOfferSection> {
   ProviderOnboardingCubit get cubit => getIt();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
+  @override
   Widget build(BuildContext context) {
-    cubit.currentProgramIndex=index;
-
     return ProviderOnboardingSubprogramIntroWidget(
-      title: '${cubit.selectedPrograms[index].name} Program',
+      title: '${cubit.selectedPrograms[widget.index].name} Program',
       subTitle:
           Text("Tell us more about your specific programs and general services",
               style: context.textTheme.titleMedium?.copyWith(
@@ -26,5 +37,9 @@ class ProgramServiceAboutProgramOfferSection extends StatelessWidget {
                 color: context.colorScheme.tertiary,
               )),
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    cubit.isNextButtonEnabled.value = true;
   }
 }

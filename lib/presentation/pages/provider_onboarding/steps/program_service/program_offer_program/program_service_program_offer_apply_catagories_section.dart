@@ -34,6 +34,9 @@ class _ProgramServiceProgramOfferApplyCatagoriesSectionState
     // TODO: implement initState
     super.initState();
     _selectedCategories = cubit.selectedCategories[widget.index];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -62,7 +65,8 @@ class _ProgramServiceProgramOfferApplyCatagoriesSectionState
               return ProgramCategoryCard(
                 category: kServiceCategories[index],
                 onTap: _onTapCategory,
-                isSelected: _selectedCategories.contains(kServiceCategories[index]),
+                isSelected:
+                    _selectedCategories.contains(kServiceCategories[index]),
               );
             },
           );
@@ -85,6 +89,14 @@ class _ProgramServiceProgramOfferApplyCatagoriesSectionState
               subCategories: [],
             ))
         .toList();
-    cubit.notifyTextFieldUpdates();
+    _checkEnableNextForThisSection();
+  }
+
+  void _checkEnableNextForThisSection() {
+    if (_selectedCategories.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }

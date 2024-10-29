@@ -13,6 +13,7 @@ class ProviderOnboardingPage extends StatefulWidget {
   final ProviderOnboardingInitialParams initialParams;
 
   static const path = '/ProviderOnboardingPage';
+
   const ProviderOnboardingPage({
     Key? key,
     required this.cubit,

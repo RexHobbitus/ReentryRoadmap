@@ -7,15 +7,28 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProgramServiceProgramOfferDescribeSection extends StatelessWidget {
+class ProgramServiceProgramOfferDescribeSection extends StatefulWidget {
   final int index;
   const ProgramServiceProgramOfferDescribeSection({
     super.key,
     required this.index,
   });
 
+  @override
+  State<ProgramServiceProgramOfferDescribeSection> createState() => _ProgramServiceProgramOfferDescribeSectionState();
+}
+
+class _ProgramServiceProgramOfferDescribeSectionState extends State<ProgramServiceProgramOfferDescribeSection> {
   ProviderOnboardingCubit get cubit => getIt();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -31,10 +44,10 @@ class ProgramServiceProgramOfferDescribeSection extends StatelessWidget {
             CustomTextField(
               width: double.infinity,
               isDetail: true,
-              initialValue: cubit.selectedPrograms[index].description,
+              initialValue: cubit.selectedPrograms[widget.index].description,
               onChange: (val) {
-                cubit.selectedPrograms[index].description = val;
-                cubit.notifyTextFieldUpdates();
+                cubit.selectedPrograms[widget.index].description = val;
+                _checkEnableNextForThisSection();
               },
             ),
           ],
@@ -44,15 +57,23 @@ class ProgramServiceProgramOfferDescribeSection extends StatelessWidget {
           children: [
             CustomTextField(
               isDetail: true,
-              initialValue: cubit.selectedPrograms[index].description,
+              initialValue: cubit.selectedPrograms[widget.index].description,
               onChange: (val) {
-                cubit.selectedPrograms[index].description = val;
-                cubit.notifyTextFieldUpdates();
+                cubit.selectedPrograms[widget.index].description = val;
+                _checkEnableNextForThisSection();
               },
             ),
           ],
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    if( cubit.selectedPrograms[widget.index].description?.isNotEmpty??false){
+      cubit.isNextButtonEnabled.value = true;
+      return ;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }

@@ -19,7 +19,7 @@ class ProviderOnboardingUseCase {
 
   Future<void> execute(ProviderOnboardingInfo providerOnboardingInfo,
       List<dynamic> images) async {
-    // logger.log("${providerOnboardingInfo.toJson()}");
+     logger.log("${providerOnboardingInfo.toJson()}");
     providerOnboardingInfo.providerDetails!.images =
         await providerRepository.uploadFiles(images);
     await providerRepository.submitAssessment(providerOnboardingInfo);

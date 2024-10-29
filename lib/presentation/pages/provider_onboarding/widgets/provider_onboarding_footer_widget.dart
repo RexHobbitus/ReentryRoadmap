@@ -162,7 +162,7 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      if (_currentStep > 1)
+                      _currentStep>1?
                         TextButton.icon(
                           iconAlignment: IconAlignment.start,
                           icon: Icon(
@@ -177,7 +177,7 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                                 decoration: TextDecoration.underline),
                           ),
                           onPressed: cubit.backAction,
-                        ),
+                        ):const SizedBox.shrink(),
                       Row(
                         children: [
                           if (_currentStep == 3 ||
@@ -192,30 +192,31 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                             SizedBox(
                               width: 20,
                             ),
-                          StreamBuilder<bool>(
-                              stream: cubit.textFieldUpdateListener.stream,
-                              builder: (context, data) {
-                                return CustomButton(
-                                  text: cubit.isProviderOnboardingCompleted()
-                                      ? "Finish Provider Onboarding"
-                                      : "Next",
-                                  isLoading: state.loading,
-                                  width: device == DeviceSize.mobile
-                                      ? cubit.isProviderOnboardingCompleted()
-                                          ? 200
-                                          : 90
-                                      : cubit.isProviderOnboardingCompleted()
-                                          ? 300
-                                          : 120,
-                                  height: device == DeviceSize.mobile ? 35 : 55,
-                                  iconData:
-                                      cubit.isProviderOnboardingCompleted()
-                                          ? null
-                                          : Icons.arrow_forward,
-                                  isDisabled: !cubit.isNextButtonEnabled(),
-                                  onTap: cubit.nextStepAction,
-                                );
-                              }),
+                          ValueListenableBuilder(
+                            valueListenable:cubit.isNextButtonEnabled,
+                            builder: (context,value,child) {
+                              return CustomButton(
+                                text: cubit.isProviderOnboardingCompleted()
+                                    ? "Finish Provider Onboarding"
+                                    : "Next",
+                                isLoading: state.loading,
+                                width: device == DeviceSize.mobile
+                                    ? cubit.isProviderOnboardingCompleted()
+                                        ? 200
+                                        : 90
+                                    : cubit.isProviderOnboardingCompleted()
+                                        ? 300
+                                        : 120,
+                                height: device == DeviceSize.mobile ? 35 : 55,
+                                iconData:
+                                    cubit.isProviderOnboardingCompleted()
+                                        ? null
+                                        : Icons.arrow_forward,
+                                isDisabled: !value,
+                                onTap: cubit.nextStepAction,
+                              );
+                            }
+                          ),
                         ],
                       )
                     ],

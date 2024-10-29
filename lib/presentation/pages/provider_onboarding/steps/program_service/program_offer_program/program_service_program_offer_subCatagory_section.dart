@@ -25,123 +25,123 @@ class ProgramServiceProgramOfferSubcatagorySection extends StatefulWidget {
 class _ProgramServiceProgramOfferSubcatagorySectionState
     extends State<ProgramServiceProgramOfferSubcatagorySection> {
   List<ServiceCategory> selectedCategories = [];
+
   ProviderOnboardingCubit get cubit => getIt();
   List<Program> selectedPrograms = [];
+
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     selectedCategories = cubit.selectedCategories[widget.index];
     selectedPrograms = cubit.selectedPrograms;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const OnboardingTitleWidget(
-          title: "Under education, what subcategories apply to the program?",
-          subTitle: "Select all that apply",
-        ),
-        LayoutBuilder(builder: (context, constraints) {
-          if (constraints.maxWidth > 600) {
-            return Wrap(
-              direction: Axis.vertical,
-              children: [
-                for (int index = 0; index < selectedCategories.length; index++)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Under ${selectedCategories[index].title}, what sub categories applies to program",
-                        style: context.textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      for (var subCategory
-                          in selectedCategories[index].subCategories)
-                        CustomOptionTile(
-                          title: subCategory,
-                          isSelected: selectedPrograms[widget.index]
-                              .programCategories![index]
-                              .subCategories!
-                              .contains(subCategory),
-                          onTap: () {
-                            setState(() {
-                              selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .contains(subCategory)
-                                  ? selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .remove(subCategory)
-                                  : selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .add(subCategory);
-                            });
-                          },
-                        ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  )
-              ],
-            );
-          } else {
-            return Wrap(
-              children: [
-                for (int index = 0; index < selectedCategories.length; index++)
-                  Column(
-                    children: [
-                      Text(
-                        "Under ${selectedCategories[index].title}, what sub categories applies to program",
-                        style: context.textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w700),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      for (var subCategory
-                          in selectedCategories[index].subCategories)
-                        CustomOptionTile(
-                          title: subCategory,
-                          isSelected: selectedPrograms[widget.index]
-                              .programCategories![index]
-                              .subCategories!
-                              .contains(subCategory),
-                          onTap: () {
-                            setState(() {
-                              selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .contains(subCategory)
-                                  ? selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .remove(subCategory)
-                                  : selectedPrograms[widget.index]
-                                      .programCategories![index]
-                                      .subCategories!
-                                      .add(subCategory);
-                            });
-                          },
-                        ),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                    ],
-                  )
-              ],
-            );
-          }
-        })
-      ],
-    );
+    return LayoutBuilder(builder: (context, constraints) {
+      if (constraints.maxWidth > 600) {
+        return Wrap(
+          direction: Axis.vertical,
+          children: [
+            for (int index = 0; index < selectedCategories.length; index++)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Under ${selectedCategories[index].title}, what sub categories applies to program",
+                    style: context.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  for (var subCategory
+                      in selectedCategories[index].subCategories)
+                    CustomOptionTile(
+                      title: subCategory,
+                      isSelected: selectedPrograms[widget.index]
+                          .programCategories![index]
+                          .subCategories!
+                          .contains(subCategory),
+                      onTap: () {
+                        setState(() {
+                          selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .contains(subCategory)
+                              ? selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .remove(subCategory)
+                              : selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .add(subCategory);
+                        });
+                      },
+                    ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
+          ],
+        );
+      } else {
+        return Wrap(
+          children: [
+            for (int index = 0; index < selectedCategories.length; index++)
+              Column(
+                children: [
+                  Text(
+                    "Under ${selectedCategories[index].title}, what sub categories applies to program",
+                    style: context.textTheme.titleMedium
+                        ?.copyWith(fontWeight: FontWeight.w700),
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  for (var subCategory
+                      in selectedCategories[index].subCategories)
+                    CustomOptionTile(
+                      title: subCategory,
+                      isSelected: selectedPrograms[widget.index]
+                          .programCategories![index]
+                          .subCategories!
+                          .contains(subCategory),
+                      onTap: () {
+                        setState(() {
+                          selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .contains(subCategory)
+                              ? selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .remove(subCategory)
+                              : selectedPrograms[widget.index]
+                                  .programCategories![index]
+                                  .subCategories!
+                                  .add(subCategory);
+                        });
+                      },
+                    ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                ],
+              )
+          ],
+        );
+      }
+    });
+  }
+
+  void _checkEnableNextForThisSection() {
+    cubit.isNextButtonEnabled.value = true;
   }
 }

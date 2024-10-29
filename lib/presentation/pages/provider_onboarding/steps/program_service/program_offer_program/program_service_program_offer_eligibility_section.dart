@@ -34,10 +34,14 @@ class _ProgramServiceProgramOfferEligibilitySectionState
     super.initState();
     selectedEligibilityCriteria =
         cubit.selectedPrograms[widget.index].eligibilityCriteria ?? [];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
+    cubit.currentProgramIndex=widget.index;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,7 +96,7 @@ class _ProgramServiceProgramOfferEligibilitySectionState
                 selectedEligibilityCriteria.add(feature);
                 cubit.selectedPrograms[widget.index].eligibilityCriteria =
                     selectedEligibilityCriteria;
-                cubit.notifyTextFieldUpdates();
+                _checkEnableNextForThisSection();
                 _controller.clear();
 
                 showAddButton = true;
@@ -125,7 +129,7 @@ class _ProgramServiceProgramOfferEligibilitySectionState
                           cubit.selectedPrograms[widget.index]
                                   .eligibilityCriteria =
                               selectedEligibilityCriteria;
-                          cubit.notifyTextFieldUpdates();
+                          _checkEnableNextForThisSection();
                         });
                       },
                       icon: SvgPicture.asset(Assets.delete)),
@@ -165,4 +169,14 @@ class _ProgramServiceProgramOfferEligibilitySectionState
         .where((feature) => feature.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
+
+  void _checkEnableNextForThisSection() {
+    if(selectedEligibilityCriteria.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
+
 }

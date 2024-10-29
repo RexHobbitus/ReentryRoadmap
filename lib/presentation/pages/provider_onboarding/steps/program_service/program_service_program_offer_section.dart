@@ -32,6 +32,9 @@ class _ProgramServiceProgramOfferSectionState
     selectedPrograms = cubit.selectedPrograms
         .map((program) => program.name.toString())
         .toList();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -86,7 +89,7 @@ class _ProgramServiceProgramOfferSectionState
         selectedPrograms.add(_controller.text.trim());
         _controller.clear();
         _generateSubFields();
-        cubit.notifyTextFieldUpdates();
+        _checkEnableNextForThisSection();
       });
     }
   }
@@ -95,7 +98,7 @@ class _ProgramServiceProgramOfferSectionState
     setState(() {
       selectedPrograms.remove(provider);
       _generateSubFields();
-      cubit.notifyTextFieldUpdates();
+      _checkEnableNextForThisSection();
     });
   }
 
@@ -112,4 +115,13 @@ class _ProgramServiceProgramOfferSectionState
           eligibilityCriteria: []),
     );
   }
+
+  void _checkEnableNextForThisSection() {
+    if(selectedPrograms.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

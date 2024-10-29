@@ -31,6 +31,9 @@ class _ProgramServiceGeneralServiceCatagoriesSectionState
     // TODO: implement initState
     super.initState();
     selectedCategories = cubit.selectedCategoriesForGeneralService;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -68,6 +71,7 @@ class _ProgramServiceGeneralServiceCatagoriesSectionState
                       selectedCategories.add(category);
                     }
                     _setGeneralService();
+                    _checkEnableNextForThisSection();
                   });
                 },
               );
@@ -86,4 +90,13 @@ class _ProgramServiceGeneralServiceCatagoriesSectionState
             ))
         .toList();
   }
+
+  void _checkEnableNextForThisSection() {
+    if(selectedCategories.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
 }

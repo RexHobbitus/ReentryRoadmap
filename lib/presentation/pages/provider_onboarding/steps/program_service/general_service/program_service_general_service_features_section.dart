@@ -31,6 +31,9 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
   void initState() {
     super.initState();
     features=cubit.generalServiceInfo.features??[];
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
   }
 
   @override
@@ -81,6 +84,7 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
                 cubit.generalServiceInfo.features=features;
                 _controller.clear();
                 showAddButton = true;
+                _checkEnableNextForThisSection();
               });
             }
           },
@@ -107,7 +111,7 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
                         setState(() {
                           features.remove(feature);
                           cubit.generalServiceInfo.features=features;
-                          cubit.notifyTextFieldUpdates();
+                          _checkEnableNextForThisSection();
                         });
                       },
                       icon: SvgPicture.asset(Assets.delete)),
@@ -146,4 +150,15 @@ class _ProgramServiceGeneralServiceFeaturesSectionState
         .where((feature) => feature.toLowerCase().contains(value.toLowerCase()))
         .toList();
   }
+
+
+  void _checkEnableNextForThisSection() {
+    if(features.isNotEmpty){
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
+  }
+
+
 }

@@ -16,6 +16,14 @@ class ProviderOperatingHours extends StatefulWidget {
 class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
   ProviderOnboardingCubit get cubit => getIt();
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
   Future<void> _selectTime(
       BuildContext context, bool isStart, int dayIndex) async {
     final TimeOfDay? picked = await showTimePicker(
@@ -29,7 +37,7 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
         } else {
           cubit.operatingHours[dayIndex].endTime = picked.toDateTime();
         }
-        cubit.notifyTextFieldUpdates();
+        _checkEnableNextForThisSection();
       });
     }
   }
@@ -141,4 +149,9 @@ class _ProviderOperatingHoursState extends State<ProviderOperatingHours> {
       ],
     );
   }
+
+  void _checkEnableNextForThisSection() {
+    cubit.isNextButtonEnabled.value = true;
+  }
+
 }

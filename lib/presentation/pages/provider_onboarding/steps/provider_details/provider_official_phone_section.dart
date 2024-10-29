@@ -7,10 +7,26 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/widgets/p
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
-class ProviderOfficialPhoneSection extends StatelessWidget {
+class ProviderOfficialPhoneSection extends StatefulWidget {
   const ProviderOfficialPhoneSection({super.key});
 
+  @override
+  State<ProviderOfficialPhoneSection> createState() =>
+      _ProviderOfficialPhoneSectionState();
+}
+
+class _ProviderOfficialPhoneSectionState
+    extends State<ProviderOfficialPhoneSection> {
   ProviderOnboardingCubit get cubit => getIt();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _checkEnableNextForThisSection();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,19 +45,27 @@ class ProviderOfficialPhoneSection extends StatelessWidget {
                     initialValue: cubit.officialPhone,
                     onChange: (val) {
                       cubit.officialPhone = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                   )
                 : CustomTextField(
                     initialValue: cubit.officialPhone,
                     onChange: (val) {
                       cubit.officialPhone = val;
-                      cubit.notifyTextFieldUpdates();
+                      _checkEnableNextForThisSection();
                     },
                   )
           ],
         )
       ],
     );
+  }
+
+  void _checkEnableNextForThisSection() {
+    if (cubit.officialPhone.isNotEmpty) {
+      cubit.isNextButtonEnabled.value = true;
+      return;
+    }
+    cubit.isNextButtonEnabled.value = false;
   }
 }
