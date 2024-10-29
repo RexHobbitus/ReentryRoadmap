@@ -47,7 +47,7 @@ class ProgramCategoryCard extends StatelessWidget {
                 height: 30,
                 color: isSelected
                     ? Colors.white
-                    : context.themeData.colorScheme.onSurface,
+                    : null,
               ),
               const SizedBox(height: 11),
               Text(

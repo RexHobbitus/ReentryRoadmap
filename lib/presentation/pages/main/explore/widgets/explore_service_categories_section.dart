@@ -18,11 +18,10 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       // Define the item width (you can adjust this value as needed)
-      double itemWidth = constraints.maxWidth>kMenuBreakPoint?130:100.0;
+      double itemWidth = constraints.maxWidth > kMenuBreakPoint ? 130 : 100.0;
 
       // Calculate the number of columns based on the screen width
       int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
-
       return AlignedGridView.count(
         crossAxisCount: crossAxisCount,
         mainAxisSpacing: 13,
@@ -30,17 +29,16 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         padding: const EdgeInsets.symmetric(vertical: 20),
-        itemCount: kServiceCategories.length+1,
+        itemCount: kServiceCategories.length + 1,
         itemBuilder: (context, index) {
           return ProgramCategoryCard(
-            category: index==kServiceCategories.length?
-            kPersonalizedServiceCategory:
-            kServiceCategories[index],
-            onTap:cubit.categoryAction,
+            category: index == kServiceCategories.length
+                ? kPersonalizedServiceCategory
+                : kServiceCategories[index],
+            onTap: cubit.categoryAction,
           );
         },
       );
     });
   }
-
 }

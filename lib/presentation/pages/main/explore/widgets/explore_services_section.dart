@@ -95,14 +95,13 @@ class ExploreServicesSection extends StatelessWidget {
     return [
       Text(
         "Recommended Services for you",
-        style:
-            context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        style: context.textTheme.titleMedium,
       ),
       InkWell(
         onTap: () {},
         child: Text(
           "View All >",
-          style: context.textTheme.titleMedium?.copyWith(
+          style: context.textTheme.bodyLarge?.copyWith(
               color: context.themeData.colorScheme.tertiary,
               decoration: TextDecoration.underline,
               height: 2),
@@ -115,8 +114,7 @@ class ExploreServicesSection extends StatelessWidget {
     return [
       Text(
         "Popular Services",
-        style:
-            context.textTheme.titleMedium,
+        style: context.textTheme.titleMedium,
       ),
       InkWell(
         onTap: () {},

@@ -45,7 +45,7 @@ class ExploreBannerSection extends StatelessWidget {
                         ? "Update us on your reentry journey to help us better understand your needs."
                         : "Share your reentry journey with us to help us better understand your needs.",
                     style: context.textTheme.bodyLarge?.copyWith(
-                      color: context.themeData.colorScheme.onSecondary,
+                      color: context.themeData.colorScheme.tertiaryContainer,
                     ),
                   ),
                   const SizedBox(
