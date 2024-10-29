@@ -19,8 +19,9 @@ class CheckInUseCase {
   });
 
   Future<void> execute(CheckIn checkIn) async {
-    await appUserRepository.submitCheckIn(checkIn: checkIn);
-    LoginUser? loginUser = await authRepository.getCurrentUser();
-    userStore.setUser(loginUser!);
+    logger.log(checkIn.toJson().toString());
+    // await appUserRepository.submitCheckIn(checkIn: checkIn);
+    // LoginUser? loginUser = await authRepository.getCurrentUser();
+    // userStore.setUser(loginUser!);
   }
 }

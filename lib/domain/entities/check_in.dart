@@ -30,10 +30,10 @@ class CheckIn {
     if (this.currentNeedsInfo != null) {
       data['currentNeedsInfo'] = this.currentNeedsInfo!.toJson();
     }
-    legalChallenges = legalChallenges;
-    otherLegalChallenge = otherLegalChallenge;
-    howMuchHappyCurrently = howMuchHappyCurrently;
-    experienceWithDignifi = experienceWithDignifi;
+    data['legalChallenges'] = legalChallenges;
+    data['otherLegalChallenge']= otherLegalChallenge;
+    data['howMuchHappyCurrently'] = howMuchHappyCurrently;
+    data['experienceWithDignifi'] = experienceWithDignifi;
 
     return data;
   }

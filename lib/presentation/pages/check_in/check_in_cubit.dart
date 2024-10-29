@@ -43,6 +43,7 @@ class CheckInCubit extends Cubit<CheckInState> {
   AppSnackBar snackBar;
   UserStore userStore;
   AppUserRepository appUserRepository;
+
   CheckInCubit({
     required this.navigator,
     required this.checkInUseCase,
@@ -209,8 +210,7 @@ class CheckInCubit extends Cubit<CheckInState> {
     try {
       emit(state.copyWith(loading: true));
       CheckIn checkIn = CheckIn(
-        currentNeedsInfo:
-            state.appUser.onboardingInfo?.currentNeedsInfo?.copyWith(
+        currentNeedsInfo: state.appUser.onboardingInfo?.currentNeedsInfo?.copyWith(
           /// TODO: FILL ALL VALUES THAT USER IS GOING TO ENTER LIKE I GAVE ONE BELOW
           currentTopPriorities: selectedTopPriorities,
         ),
@@ -227,7 +227,7 @@ class CheckInCubit extends Cubit<CheckInState> {
       await checkInUseCase.execute(checkIn);
       snackBar.show("CheckIn completed successfully",
           snackBarType: SnackBarType.SUCCESS);
-      navigator.openExplore(const ExploreInitialParams());
+    //  navigator.openExplore(const ExploreInitialParams());
 
       /// RESET THIS CUBIT VALUES ALSO FOR NEXT CALL
     } catch (e) {
