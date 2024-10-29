@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:reentry_roadmap/core/theme/text_sizes.dart';
 
 import '../routes/custom_page_transition_builder.dart';
 
@@ -27,11 +28,7 @@ final ThemeData LIGHT_THEME = ThemeData(
   useMaterial3: false,
   scaffoldBackgroundColor: _lightScaffold,
   fontFamily: GoogleFonts.poppins().fontFamily,
-  textTheme: const TextTheme(
-    displayLarge: TextStyle(color: Colors.black),
-    displaySmall: TextStyle(color: Colors.black),
-    displayMedium: TextStyle(color: Colors.black),
-  ),
+  textTheme: kTextTheme,
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       backgroundColor: _lightPrimary,
