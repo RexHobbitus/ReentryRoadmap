@@ -13,7 +13,6 @@ class ServiceProvidersAccessDates extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -25,14 +24,15 @@ class ServiceProvidersAccessDates extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                   CircleAvatar(
+                  CircleAvatar(
                     radius: 20,
                     backgroundColor: context.colorScheme.secondary,
-                    child: Text(cubit.selectedProviders[index].name!.substring(0,2).toUpperCase()),
+                    child: Text(cubit.selectedProviders[index].name!
+                        .substring(0, 2)
+                        .toUpperCase()),
                   ),
                   const SizedBox(
                     width: 10,
@@ -48,9 +48,9 @@ class ServiceProvidersAccessDates extends StatelessWidget {
                 height: 15,
               ),
               CustomDatePickerField(
-                initialValue:cubit.selectedProviders[index].accessedDate,
-                onChange: (date){
-                  cubit.selectedProviders[index].accessedDate=date;
+                initialValue: cubit.selectedProviders[index].accessedDate,
+                onChange: (date) {
+                  cubit.selectedProviders[index].accessedDate = date;
                   cubit.notifyTextFieldUpdates();
                 },
               )

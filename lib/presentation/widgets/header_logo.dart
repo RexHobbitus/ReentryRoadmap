@@ -11,7 +11,7 @@ class HeaderLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
+      padding: const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -22,8 +22,8 @@ class HeaderLogo extends StatelessWidget {
           Text(
             "Dignifi",
             style: context.textTheme.bodyLarge?.copyWith(
-              fontWeight: FontWeight.w600
-            ),
+                color: context.colorScheme.onSurface,
+                fontWeight: FontWeight.w600),
           ),
         ],
       ),

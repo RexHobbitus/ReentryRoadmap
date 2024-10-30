@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/header_auth_buttons.dart';
@@ -48,10 +50,11 @@ class _OnboardingState extends State<OnboardingPage> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvokedWithResult: (val,data){
+      onPopInvokedWithResult: (val, data) {
         cubit.backAction();
       },
       child: Scaffold(
+        backgroundColor: context.colorScheme.surface,
         appBar: AppBar(
           leadingWidth: double.maxFinite,
           leading: LayoutBuilder(builder: (context, constraints) {

@@ -10,14 +10,16 @@ import 'package:reentry_roadmap/service_locator/service_locator.dart';
 import '../../onboarding_cubit.dart';
 
 class PersonalDetailsLocationSection extends StatefulWidget {
-   PersonalDetailsLocationSection({super.key});
+  PersonalDetailsLocationSection({super.key});
 
   @override
-  State<PersonalDetailsLocationSection> createState() => _PersonalDetailsLocationSectionState();
+  State<PersonalDetailsLocationSection> createState() =>
+      _PersonalDetailsLocationSectionState();
 }
 
-class _PersonalDetailsLocationSectionState extends State<PersonalDetailsLocationSection> {
-   OnboardingCubit get cubit => getIt();
+class _PersonalDetailsLocationSectionState
+    extends State<PersonalDetailsLocationSection> {
+  OnboardingCubit get cubit => getIt();
 
   @override
   Widget build(BuildContext context) {
@@ -32,25 +34,27 @@ class _PersonalDetailsLocationSectionState extends State<PersonalDetailsLocation
           children: [
             CustomTextField(
               initialValue: cubit.locationStreet,
-              onChange: (val){
-                cubit.locationStreet=val;
+              onChange: (val) {
+                cubit.locationStreet = val;
                 cubit.notifyTextFieldUpdates();
               },
               label: "Street Address (optional)",
             ),
             CustomTextField(
               initialValue: cubit.locationCity,
-              onChange: (val){
-                cubit.locationCity=val;
+              onChange: (val) {
+                cubit.locationCity = val;
                 cubit.notifyTextFieldUpdates();
               },
               label: "City",
             ),
             CustomDropDown<String>(
               items: kUSStates,
-              selectedItem:cubit.locationState.isEmpty?null:cubit.locationState,
-              onChange: (state){
-                cubit.locationState=state??"";
+              selectedItem: cubit.locationState.isEmpty
+                  ? "California"
+                  : cubit.locationState,
+              onChange: (state) {
+                cubit.locationState = state ?? "";
                 cubit.notifyTextFieldUpdates();
               },
               label: "State",

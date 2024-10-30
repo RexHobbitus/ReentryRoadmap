@@ -35,17 +35,17 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Center(child:  CircularProgressIndicator())
+        ? const Center(child: CircularProgressIndicator())
         : ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(radius??10), // <-- Radius
+                borderRadius: BorderRadius.circular(radius ?? 10), // <-- Radius
               ),
               minimumSize: Size(width ?? context.sw, height ?? 50),
               maximumSize: Size(width ?? context.sw, height ?? 57),
               textStyle: context.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
               ),
               backgroundColor: isDisabled
                   ? context.colorScheme.tertiary
@@ -60,9 +60,9 @@ class CustomButton extends StatelessWidget {
                       : null, // Set the disabled text color
             ),
             onPressed: isDisabled ? () {} : onTap,
-            iconAlignment: iconPath != null?
-            IconAlignment.start:
-            iconAlignment??IconAlignment.end,
+            iconAlignment: iconPath != null
+                ? IconAlignment.start
+                : iconAlignment ?? IconAlignment.end,
             icon: iconData == null
                 ? iconPath != null
                     ? SvgPicture.asset(iconPath!)

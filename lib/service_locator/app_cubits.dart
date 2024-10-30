@@ -93,6 +93,7 @@ class AppCubits {
       navigator: getIt(),
       onboardingUseCase: getIt(),
       snackBar: getIt(),
+      appUserRepository: getIt(),
     ));
     getIt.registerSingleton<ProviderOnboardingNavigator>(
         ProviderOnboardingNavigator(getIt()));

@@ -24,28 +24,11 @@ class PersonalDetailsNameSection extends StatelessWidget {
           children: [
             CustomTextField(
               initialValue: cubit.firstName,
-              onChange: (val){
-                cubit.firstName=val;
+              onChange: (val) {
+                cubit.firstName = val;
                 cubit.notifyTextFieldUpdates();
               },
               label: "First Name",
-            ),
-            CustomTextField(
-              initialValue: cubit.middleName,
-              label: "Middle Name (optional)",
-              onChange: (val){
-                cubit.middleName=val;
-                cubit.notifyTextFieldUpdates();
-              },
-            ),
-            CustomTextField(
-              initialValue: cubit.lastName,
-              label: "Last Name",
-              onChange: (val){
-                cubit.lastName=val;
-                cubit.notifyTextFieldUpdates();
-                debugPrint("value");
-              },
             ),
           ],
         )

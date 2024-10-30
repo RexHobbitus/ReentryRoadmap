@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
+import 'package:reentry_roadmap/presentation/widgets/header_logo.dart';
 import '../../../widgets/custom_button.dart';
 import '../../../widgets/custom_textfield.dart';
 import 'sign_up_cubit.dart';
@@ -38,9 +39,22 @@ class _SignUpState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Create new account"),
-      ),
+        appBar: AppBar(
+          leadingWidth: double.maxFinite,
+          leading: LayoutBuilder(builder: (context, constraints) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                IconButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    icon: const Icon(Icons.arrow_back)),
+                const HeaderLogo(),
+              ],
+            );
+          }),
+        ),
         body: BlocBuilder<SignUpCubit, SignUpState>(
           bloc: cubit,
           builder: (context, state) {
@@ -51,17 +65,18 @@ class _SignUpState extends State<SignUpPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Signup",
-                      style: context.textTheme.titleLarge
-                          ?.copyWith(fontWeight: FontWeight.w900),
+                      "Sign Up",
+                      style: context.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w500,
+                          color: context.colorScheme.onSurface),
                     ),
                     const SizedBox(
                       height: 10,
                     ),
                     Text(
-                      "Create your account to explore app features in details.",
+                      "Please sign up to gain full access and personalized assistance.",
                       style: context.textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w900,
+                          fontWeight: FontWeight.w500,
                           color: context.colorScheme.tertiary),
                     ),
                     const SizedBox(
@@ -82,8 +97,8 @@ class _SignUpState extends State<SignUpPage> {
                     CustomCheckBox(
                       text: "Create account as Provider",
                       value: cubit.isProvider,
-                      onChange: (val){
-                        cubit.isProvider=val;
+                      onChange: (val) {
+                        cubit.isProvider = val;
                       },
                     ),
                     const SizedBox(
@@ -99,7 +114,6 @@ class _SignUpState extends State<SignUpPage> {
               ),
             );
           },
-        )
-    );
+        ));
   }
 }

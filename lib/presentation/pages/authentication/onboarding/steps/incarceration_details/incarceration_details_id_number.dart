@@ -50,6 +50,7 @@ class _IncarcerationDetailsIdNumberState
               cubit.notifyTextFieldUpdates();
             });
           },
+          label: "Select ID Type",
         ),
         _selectedIdType.toLowerCase() == "other institutional id"
             ? CustomTextField(
@@ -61,16 +62,16 @@ class _IncarcerationDetailsIdNumberState
                 },
               )
             : const SizedBox.shrink(),
-        _selectedIdType != ""
-            ? CustomTextField(
-                initialValue: cubit.idNumber,
-                label: "ID Number",
-                onChange: (val) {
-                  cubit.idNumber = val.toString();
-                  cubit.notifyTextFieldUpdates();
-                },
-              )
-            : const SizedBox.shrink(),
+        if (_selectedIdType.isNotEmpty)
+          CustomTextField(
+            initialValue: cubit.idNumber,
+            label: "ID Number",
+            onChange: (val) {
+              cubit.idNumber = val.toString();
+              cubit.notifyTextFieldUpdates();
+            },
+          )
+        // : const SizedBox.shrink(),
       ],
     );
   }

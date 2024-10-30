@@ -16,14 +16,14 @@ class PersonalDetailsIntro extends StatelessWidget {
           text: TextSpan(
               text: "This helps us",
               style: context.textTheme.titleMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w500,
                 color: context.colorScheme.tertiary,
               ),
               children: [
             TextSpan(
               text: " build your profile",
               style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   color: context.colorScheme.primary),
             ),
             const TextSpan(
@@ -32,7 +32,7 @@ class PersonalDetailsIntro extends StatelessWidget {
             TextSpan(
               text: " find services you are eligible for",
               style: context.textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w500,
                   color: context.colorScheme.primary),
             ),
           ])),

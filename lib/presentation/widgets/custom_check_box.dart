@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 
 class CustomCheckBox extends StatefulWidget {
   final bool value;
@@ -44,7 +45,12 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 });
               }),
         ),
-        Text(widget.text ?? "None")
+        Text(
+          widget.text ?? "None",
+          style: context.textTheme.bodyMedium?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: context.colorScheme.onSurface),
+        )
       ],
     );
   }

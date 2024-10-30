@@ -9,27 +9,27 @@ class ServiceProvidersIntro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  OnboardingStepIntroWidget(
+    return OnboardingStepIntroWidget(
       part: "4",
       title: "Your Service Providers",
-      subTitle: RichText(text: TextSpan(
-          text: "This helps us",
-          style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600,
-            color: context.colorScheme.tertiary,
-          ),
-          children: [
+      subTitle: RichText(
+          text: TextSpan(
+              text: "This helps us",
+              style: context.textTheme.titleMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: context.colorScheme.tertiary,
+              ),
+              children: [
             TextSpan(
               text: " keep track of your providers",
-              style: context.textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600,
-                  color: context.colorScheme.primary
-              ),
+              style: context.textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.w500,
+                  color: context.colorScheme.primary),
             ),
             const TextSpan(
               text: " in our system",
             ),
-
-          ]
-      )),
+          ])),
     );
   }
 }

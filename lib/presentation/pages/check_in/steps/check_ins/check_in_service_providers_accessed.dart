@@ -34,7 +34,7 @@ class _CheckInServiceProvidersAccessedState
   final _controller = TextEditingController();
 
   CheckInCubit get cubit => getIt();
-  CheckInState get state => cubit.state;
+  //CheckInState get state => cubit.state;
 
   @override
   void initState() {
@@ -62,17 +62,21 @@ class _CheckInServiceProvidersAccessedState
               leading: CircleAvatar(
                 backgroundColor: context.colorScheme.secondary,
                 radius: 20,
-                child: Text(selected.onboardingInfo!.providerDetails!.providerNameLocation!.substring(0, 2).toUpperCase()),
+                child: Text(selected
+                    .onboardingInfo!.providerDetails!.providerNameLocation!
+                    .substring(0, 2)
+                    .toUpperCase()),
               ),
               title: Text(
-                selected.onboardingInfo!.providerDetails!.providerNameLocation.toString(),
+                selected.onboardingInfo!.providerDetails!.providerNameLocation
+                    .toString(),
                 style: context.textTheme.bodyMedium
                     ?.copyWith(fontWeight: FontWeight.w600),
               ),
-              subtitle: selected.completeAddress==""
+              subtitle: selected.completeAddress == ""
                   ? null
                   : Text(
-                selected.completeAddress.toString(),
+                      selected.completeAddress.toString(),
                       style: context.textTheme.bodySmall,
                     ),
               trailing: IconButton(
@@ -104,11 +108,11 @@ class _CheckInServiceProvidersAccessedState
           emptyBuilder: (context) {
             return InkWell(
               onTap: () {
-                Provider newProvider = Provider(onboardingInfo: ProviderOnboardingInfo(
-                  providerDetails: ProviderDetailsInfo(
-                    providerNameLocation: _controller.text,
-                  )
-                ));
+                Provider newProvider = Provider(
+                    onboardingInfo: ProviderOnboardingInfo(
+                        providerDetails: ProviderDetailsInfo(
+                  providerNameLocation: _controller.text,
+                )));
                 if (!selectedProviders.contains(newProvider)) {
                   setState(() {
                     _controller.text = "";
@@ -152,7 +156,10 @@ class _CheckInServiceProvidersAccessedState
               leading: CircleAvatar(
                 radius: 20,
                 backgroundColor: context.colorScheme.secondary,
-                child: Text("${provider.onboardingInfo!.providerDetails!.providerNameLocation}".toUpperCase().substring(0, 2)),
+                child: Text(
+                    "${provider.onboardingInfo!.providerDetails!.providerNameLocation}"
+                        .toUpperCase()
+                        .substring(0, 2)),
               ),
               title: Text(
                 "${provider.onboardingInfo!.providerDetails!.providerNameLocation}",
@@ -191,6 +198,4 @@ class _CheckInServiceProvidersAccessedState
       ],
     );
   }
-
-
 }

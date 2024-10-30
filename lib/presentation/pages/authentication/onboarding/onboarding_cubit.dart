@@ -7,7 +7,9 @@ import 'package:reentry_roadmap/domain/entities/current_needs_info.dart';
 import 'package:reentry_roadmap/domain/entities/incarceration_info.dart';
 import 'package:reentry_roadmap/domain/entities/onboarding_info.dart';
 import 'package:reentry_roadmap/domain/entities/personal_info.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/service_provider_accessed.dart';
+import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/steps/personal_details/personal_details_dob_section.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/steps/personal_details/personal_details_intro.dart';
@@ -56,11 +58,14 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingNavigator navigator;
   OnboardingUseCase onboardingUseCase;
   AppSnackBar snackBar;
+    AppUserRepository appUserRepository;
+
 
   OnboardingCubit({
     required this.navigator,
     required this.onboardingUseCase,
     required this.snackBar,
+    required this.appUserRepository,
   }) : super(OnboardingState.initial());
 
   BuildContext get context => navigator.context;
@@ -192,7 +197,7 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         /// Personal Info
         return true;
       case 1:
-        return firstName.isNotEmpty && lastName.isNotEmpty;
+        return firstName.isNotEmpty;
       case 2:
         return selectedDob != null;
       case 3:
@@ -280,13 +285,16 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       case 32:
         return !isOtherResource || otherResource.isNotEmpty;
       case 33:
+
         /// service provider info
         return true;
       case 34:
+
         /// service provider info
         return selectedProviders.isNotEmpty || noServiceProviderAccessedSoFar;
       case 35:
-        return selectedProviders.every((provider)=>provider.accessedDate!=null);
+        return selectedProviders
+            .every((provider) => provider.accessedDate != null);
       default:
         return false;
     }
@@ -295,6 +303,14 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   nextStepAction() {
     if (isOnboardingCompleted()) {
       _sendOnboardingInformation();
+      return;
+    }
+
+    if (state.onboardingSectionIndex == 26 &&
+            selectedEmploymentStatus == "No, not employed" ||
+        state.onboardingSectionIndex == 29 && lookingForCareerChange == "No") {
+      emit(state.copyWith(
+          onboardingSectionIndex: state.onboardingSectionIndex + 2));
       return;
     }
     if (state.onboardingSectionIndex == onBoardingSteps.length - 1) {
@@ -310,6 +326,12 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       return;
     }
     int step = state.onboardingSectionIndex - 1;
+    if (state.onboardingSectionIndex == 28 &&
+            selectedEmploymentStatus == "No, not employed" ||
+        state.onboardingSectionIndex == 31 && lookingForCareerChange == "No") {
+      step = step - 1;
+    }
+
     emit(state.copyWith(onboardingSectionIndex: step));
   }
 
@@ -342,7 +364,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       );
 
       await onboardingUseCase.execute(onboardingInfo);
-      snackBar.show("Onboarding submitted successfully", snackBarType: SnackBarType.SUCCESS);
+      snackBar.show("Onboarding submitted successfully",
+          snackBarType: SnackBarType.SUCCESS);
       navigator.openExplore(const ExploreInitialParams());
     } catch (e) {
       snackBar.show(e.toString());
@@ -390,7 +413,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
       needOfImmediateHousing: needOfImmediateHousing,
       highestLevelOfEducation: highestLevelOfEducation,
       tradeCertifications: tradeCertifications,
-      skillsToImproveOn: skillsToImprove.map((skill) => skill.value.toString()).toList(),
+      skillsToImproveOn:
+          skillsToImprove.map((skill) => skill.value.toString()).toList(),
       currentEmploymentStatus: selectedEmploymentStatus,
       currentCareerStatus: currentCareer?.title.toString(),
       currentSalaryStatus: currentSalaryLevel,
@@ -405,4 +429,12 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   ServiceProviderAccessed _getServiceProviderAccessed() {
     return ServiceProviderAccessed(serviceProviders: selectedProviders);
   }
+  FutureOr<List<Provider>?> getMatchingProviders(String query) async {
+    if (query.isEmpty) {
+      return [];
+    } else {
+      return await appUserRepository.getMatchingProviders(input: query);
+    }
+  }
+
 }

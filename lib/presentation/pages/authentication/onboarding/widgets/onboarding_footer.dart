@@ -66,8 +66,11 @@ class OnboardingFooter extends StatelessWidget {
                       //// starting from step 19
                       StepProgressIndicator(
                         totalSteps: 14,
-                        currentStep:
-                            _currentStep - 19 < 0 ? 0 : (_currentStep - 19)>14?14:(_currentStep - 19),
+                        currentStep: _currentStep - 19 < 0
+                            ? 0
+                            : (_currentStep - 19) > 14
+                                ? 14
+                                : (_currentStep - 19),
                         selectedColor: context.colorScheme.secondary,
                         unselectedColor: context.colorScheme.tertiaryContainer,
                         size: 5,
@@ -78,7 +81,8 @@ class OnboardingFooter extends StatelessWidget {
                       ),
                       StepProgressIndicator(
                         totalSteps: 3,
-                        currentStep: _currentStep-33<0?0:_currentStep-33,
+                        currentStep:
+                            _currentStep - 33 < 0 ? 0 : _currentStep - 33,
                         selectedColor: context.colorScheme.secondary,
                         unselectedColor: context.colorScheme.tertiaryContainer,
                         size: 5,
@@ -106,7 +110,8 @@ class OnboardingFooter extends StatelessWidget {
                         label: Text(
                           "Back",
                           style: context.textTheme.bodyMedium?.copyWith(
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w500,
+                              color: context.colorScheme.onSurface,
                               decoration: TextDecoration.underline),
                         ),
                         onPressed: cubit.backAction,
@@ -115,15 +120,21 @@ class OnboardingFooter extends StatelessWidget {
                           stream: cubit.textFieldUpdateListener.stream,
                           builder: (context, data) {
                             return CustomButton(
-                              text: cubit.isOnboardingCompleted()?
-                              "Complete Onboarding":
-                              "Next",
+                              text: cubit.isOnboardingCompleted()
+                                  ? "Complete Onboarding"
+                                  : "Next",
                               isLoading: state.loading,
-                              width: device == DeviceSize.mobile ?
-                              cubit.isOnboardingCompleted()?
-                              200:90 :     cubit.isOnboardingCompleted()?300:120,
+                              width: device == DeviceSize.mobile
+                                  ? cubit.isOnboardingCompleted()
+                                      ? 200
+                                      : 80
+                                  : cubit.isOnboardingCompleted()
+                                      ? 300
+                                      : 120,
                               height: device == DeviceSize.mobile ? 35 : 55,
-                              iconData:     cubit.isOnboardingCompleted()?null:Icons.arrow_forward,
+                              iconData: cubit.isOnboardingCompleted()
+                                  ? null
+                                  : Icons.arrow_forward,
                               isDisabled: !cubit.isNextButtonEnabled(),
                               onTap: cubit.nextStepAction,
                             );

@@ -1,7 +1,6 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/core/utils/app_style.dart';
 
 class CustomDropDown<T> extends StatelessWidget {
   final String? label;
@@ -28,19 +27,31 @@ class CustomDropDown<T> extends StatelessWidget {
       width: width,
       height: height,
       child: Padding(
-        padding:  EdgeInsets.only(bottom: bottomPadding??16),
+        padding: EdgeInsets.only(bottom: bottomPadding ?? 16),
         child: CustomDropdown<T>(
-          hintText: '--Select--',
+          hintText: '--State--',
           items: items,
           initialItem: selectedItem,
           excludeSelected: false,
           maxlines: 1,
-          hintBuilder: (context,value,_){
-            return Text(label??"",style: AppStyle.hintStyle(context),);
+          hintBuilder: (context, value, _) {
+            return Text(
+              label ?? "",
+              style: context.textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.w500,
+                color: context.colorScheme.onSurface,
+              ),
+            );
           },
-          closedHeaderPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
-          expandedHeaderPadding: const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          closedHeaderPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          expandedHeaderPadding:
+              const EdgeInsets.symmetric(vertical: 15, horizontal: 15),
           decoration: CustomDropdownDecoration(
+            listItemStyle: context.textTheme.bodyLarge?.copyWith(
+              fontWeight: FontWeight.w500,
+              color: context.colorScheme.onSurface,
+            ),
             closedFillColor: Colors.transparent,
             expandedFillColor: Theme.of(context).colorScheme.background,
             closedBorder: Border.all(

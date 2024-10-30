@@ -12,20 +12,24 @@ class AppStyle {
   }
 
   static TextStyle? onboardingTitle(BuildContext context) {
-    return context.textTheme.titleLarge?.copyWith(
+    return context.textTheme.titleMedium?.copyWith(
+      color: context.colorScheme.onSurface,
       fontWeight: FontWeight.w600,
     );
   }
+
   static TextStyle? hintStyle(BuildContext context) {
     return context.textTheme.bodyLarge?.copyWith(
       color: context.colorScheme.tertiary,
     );
   }
+
   static TextStyle? textFieldTextStyle(BuildContext context) {
-    return context.textTheme.bodyMedium;
+    return context.textTheme.bodyLarge?.copyWith(
+      fontWeight: FontWeight.w500,
+      color: context.colorScheme.onSurface,
+    );
   }
-
-
 
   static TextStyle? onboardingSubTitle(BuildContext context) {
     return context.textTheme.bodySmall?.copyWith(
@@ -33,17 +37,17 @@ class AppStyle {
       color: context.colorScheme.tertiary,
     );
   }
+
   static TextStyle? providerDetailTitle(BuildContext context) {
     return context.textTheme.titleMedium?.copyWith(
       fontWeight: FontWeight.w600,
       color: context.colorScheme.onSurface,
     );
   }
+
   static TextStyle? providerDetailUnderlinedSubTitle(BuildContext context) {
     return context.textTheme.bodyMedium?.copyWith(
-        decoration: TextDecoration.underline,
-        fontWeight: FontWeight.w600
-    );
+        decoration: TextDecoration.underline, fontWeight: FontWeight.w600);
   }
 
   static TextStyle? providerDetailBody(BuildContext context) {
@@ -52,8 +56,6 @@ class AppStyle {
       color: context.colorScheme.onSurface,
     );
   }
-
-
 
   static InputDecoration textFieldDecoration(
     BuildContext context, {
@@ -74,7 +76,7 @@ class AppStyle {
       hoverColor: Colors.transparent,
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       fillColor: context.themeData.cardColor,
-      suffixIcon:suffix,
+      suffixIcon: suffix,
       suffixIconConstraints: const BoxConstraints(
         maxHeight: 30,
       ),
@@ -83,7 +85,10 @@ class AppStyle {
     );
   }
 
-  static _borderStyle(BuildContext context,{TextFieldMode textFieldMode = TextFieldMode.normal,}) {
+  static _borderStyle(
+    BuildContext context, {
+    TextFieldMode textFieldMode = TextFieldMode.normal,
+  }) {
     return OutlineInputBorder(
       borderRadius: BorderRadius.circular(
           textFieldMode == TextFieldMode.normal ? 10 : 30),

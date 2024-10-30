@@ -98,6 +98,7 @@ class CustomTextField extends StatelessWidget {
         height: isDetail ? 150 : null,
         margin: EdgeInsets.only(bottom: bottomPadding ?? 16),
         child: TextFormField(
+          
           controller: controller,
           initialValue: initialValue,
 
@@ -126,6 +127,7 @@ class CustomTextField extends StatelessWidget {
             FocusManager.instance.primaryFocus?.unfocus();
           },
           decoration: InputDecoration(
+            
             labelText: label,
             labelStyle: AppStyle.hintStyle(context),
             hintStyle: AppStyle.hintStyle(context),
