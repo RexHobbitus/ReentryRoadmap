@@ -16,6 +16,13 @@ const TextTheme kTextTheme = TextTheme(
       fontSize: 24, fontWeight: FontWeight.w500, color: _textBlackColor),
  displaySmall: TextStyle(
       fontSize: 30, fontWeight: FontWeight.w500, color: _textBlackColor),
+  displayMedium: TextStyle(
+      fontSize: 40, fontWeight: FontWeight.w500, color: _textBlackColor),
+  displayLarge: TextStyle(
+      fontSize: 60, fontWeight: FontWeight.w500, color: _textBlackColor),
+
+
+
 
 
 

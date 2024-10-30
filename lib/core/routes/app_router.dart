@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
@@ -45,6 +46,10 @@ class AppRouter {
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: SplashPage.path,
+    redirect: (BuildContext context, GoRouterState state) async {
+      await getIt<CheckUserSessionUseCase>().execute();
+      return null; // No redirection needed
+    },
     routes: [
       GoRoute(
         path: SplashPage.path,
@@ -72,6 +77,7 @@ class AppRouter {
             initialParams: const SignUpInitialParams(),
           );
         },
+
       ),
 
       /// BOTTOM NAV BAR AND THEIR INNER SCREENS

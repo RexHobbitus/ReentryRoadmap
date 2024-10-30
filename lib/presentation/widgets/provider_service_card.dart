@@ -31,8 +31,9 @@ class ProviderServiceCard extends StatelessWidget {
         child: Container(
           constraints: const BoxConstraints(
             maxWidth: 400,
+            maxHeight: 600
           ),
-          padding: const EdgeInsets.only(left: 20,right: 20, top: 30),
+          padding: const EdgeInsets.only(left: 20,right: 20, top: 30,bottom: 20),
           margin: const EdgeInsets.symmetric(horizontal: 10),
           decoration: BoxDecoration(
             color: context.colorScheme.surfaceDim,
@@ -55,53 +56,59 @@ class ProviderServiceCard extends StatelessWidget {
               _locationWidget(
                   context: context, location: provider.completeAddress),
               const SizedBox(
-                height: 20,
+                height: 15,
               ),
               _serviceCategories(context: context),
               const SizedBox(
-                height: 20,
+                height: 15,
               ),
               _subSection(
                   context: context,
                   title: "Features",
                   data: provider.getAllFeatures().take(2).toList()),
-              Column(
-                children: [
-                  const SizedBox(
-                    height:20,
-                  ),
-                  // _subSection(
-                  //     context: context,
-                  //     title: "Eligibility Criteria",
-                  //     data: provider.getAllEligibilityCriteria().take(2).toList()),
-                  // const SizedBox(
-                  //   height: 30,
-                  // ),
-                  isOnboardedMode?Container(
-                    width: double.maxFinite,
-                    padding:
-                    const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
-                    decoration: BoxDecoration(
-                        color: context.themeData.primaryColor,
-                        borderRadius: BorderRadius.circular(10)),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "70% Match",
-                          style: context.textTheme.bodyMedium?.copyWith(
-                              color: context.themeData.colorScheme.onPrimary),
-                        ),
-                        Text(
-                          "You might be eligible",
-                          style: context.textTheme.bodySmall?.copyWith(
-                              color: context.themeData.colorScheme.onPrimary
-                                  .withOpacity(0.5)),
-                        ),
-                      ],
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    const SizedBox(
+                      height:20,
                     ),
-                  ):const SizedBox.shrink(),
-                ],
+                    // _subSection(
+                    //     context: context,
+                    //     title: "Eligibility Criteria",
+                    //     data: provider.getAllEligibilityCriteria().take(2).toList()),
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
+                
+                    isOnboardedMode?Container(
+                      width: double.maxFinite,
+                      padding:
+                      const EdgeInsets.symmetric(vertical: 17, horizontal: 14),
+                      decoration: BoxDecoration(
+                          color: context.themeData.primaryColor,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          SvgPicture.asset(Assets.starCheck),
+                          const SizedBox(width: 10,),
+                          Text(
+                            "Eligible!",
+                            style: context.textTheme.bodyLarge?.copyWith(
+                                color: context.themeData.colorScheme.onPrimary),
+                          ),
+                          const Expanded(child: SizedBox()),
+                          Text(
+                            "for 4 programs",
+                            style: context.textTheme.bodyMedium?.copyWith(
+                                color: context.themeData.colorScheme.onPrimary
+                                    .withOpacity(0.5)),
+                          ),
+                        ],
+                      ),
+                    ):const SizedBox.shrink(),
+                  ],
+                ),
               )
             ],
           ),
@@ -190,13 +197,15 @@ class ProviderServiceCard extends StatelessWidget {
         const SizedBox(
           width: 5,
         ),
-        Text(
-          location,
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: context.colorScheme.secondaryFixed,
-            overflow: TextOverflow.ellipsis,
+        Expanded(
+          child: Text(
+            location,
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.secondaryFixed,
+              overflow: TextOverflow.ellipsis,
+            ),
+            maxLines: 1,
           ),
-          maxLines: 1,
         )
       ],
     );
@@ -206,9 +215,14 @@ class ProviderServiceCard extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          title,
-          style: context.textTheme.titleMedium,
+        Expanded(
+          child: Text(
+            title,
+            style: context.textTheme.titleMedium?.copyWith(
+              overflow: TextOverflow.ellipsis
+            ),
+            maxLines: 1,
+          ),
         ),
         const SizedBox(width: 10),
         SvgPicture.asset(
@@ -221,7 +235,7 @@ class ProviderServiceCard extends StatelessWidget {
 
   Widget _serviceCategories({required BuildContext context}) {
     List<String> categories = provider.getAllCategories();
-    int maxLimit = 5;
+    int maxLimit = 2;
     return Wrap(
       //  mainAxisSize: MainAxisSize.min,
       runSpacing: 10,
@@ -242,33 +256,6 @@ class ProviderServiceCard extends StatelessWidget {
       ],
     );
   }
-
-  // Widget _serviceTitles({required BuildContext context}) {
-  //   return Column(
-  //     crossAxisAlignment: CrossAxisAlignment.start,
-  //     children: [
-  //       for (var index = 0; index < provider.onboardingInfo!.programs!.length; index++)
-  //         Padding(
-  //           padding: const EdgeInsets.symmetric(vertical: 3),
-  //           child: Row(
-  //             mainAxisSize: MainAxisSize.min,
-  //             children: [
-  //               SvgPicture.asset(Assets.leaf),
-  //               const SizedBox(
-  //                 width: 5,
-  //               ),
-  //               Text(
-  //                 "${provider.onboardingInfo!.programs![index].name}",
-  //                 style: context.textTheme.bodySmall?.copyWith(
-  //                     fontWeight: FontWeight.w600,
-  //                     color: context.themeData.colorScheme.onTertiaryContainer),
-  //               )
-  //             ],
-  //           ),
-  //         )
-  //     ],
-  //   );
-  // }
 
   Widget _subSection(
       {required BuildContext context,
@@ -311,9 +298,14 @@ class ProviderServiceCard extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            title,
-            style: context.textTheme.bodyLarge,
+          Expanded(
+            child: Text(
+              title,
+              style: context.textTheme.bodyLarge?.copyWith(
+                overflow: TextOverflow.ellipsis
+              ),
+              maxLines: 1,
+            ),
           )
         ],
       ),

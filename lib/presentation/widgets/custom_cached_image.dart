@@ -9,12 +9,13 @@ class CustomCachedImage extends StatelessWidget {
   final double height;
   final double? radius;
   final BorderRadius? borderRadius;
-
+  final BoxFit? fit;
   const CustomCachedImage({
     super.key,
     this.imgUrl="",
     this.width=100,
     this.height=100,
+    this.fit,
     this.radius,
     this.borderRadius});
 
@@ -31,7 +32,7 @@ class CustomCachedImage extends StatelessWidget {
         imageUrl: imgUrl??kPlaceHolderImage,
         height: height,
         width: width,
-        fit: BoxFit.cover,
+        fit: fit??BoxFit.cover,
         progressIndicatorBuilder: (child, url,downloadProgress) =>Icon(Icons.image_outlined,size: height,),
         errorWidget: (child, url,obj) => Icon(Icons.error_outline,size: height,),
       ),

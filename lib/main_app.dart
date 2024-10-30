@@ -13,9 +13,11 @@ class MainApp extends StatelessWidget {
       routerConfig: AppRouter.router,
       builder: (BuildContext context, Widget? child) {
         ErrorWidget.builder = (errorDetails) => const SomethingWentWrong();
+        final mediaQuery = MediaQuery.of(context);
+        final isWebVersion = mediaQuery.size.width > 500;
         return MediaQuery(
-          data: MediaQuery.of(context).copyWith(
-            textScaler: TextScaler.noScaling,
+          data: mediaQuery.copyWith(
+            textScaler:  TextScaler.linear(isWebVersion?1.2:1),
           ),
           child: child!,
         );

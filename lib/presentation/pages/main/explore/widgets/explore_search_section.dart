@@ -48,6 +48,8 @@ class ExploreSearchSection extends StatelessWidget {
                             ? "Welcome back ${(state.role == "user") ? (state.data as AppUser).onboardingInfo?.personalInfo?.firstName ?? "" : (state.data as Provider).email}"
                             : "Hello There!",
                         style: context.textTheme.titleMedium,
+                        //style: context.textTheme.displaySmall,
+
                       );
                     },
                   ),

@@ -11,10 +11,10 @@ class ExploreWebSearchField extends StatelessWidget {
     return LayoutBuilder(
       builder: (context,constraints) {
         return Container(
-          padding: EdgeInsets.symmetric(vertical: 10),
+          //padding: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(30),
-            color: context.themeData.cardColor,
+            color: context.colorScheme.surfaceDim,
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,

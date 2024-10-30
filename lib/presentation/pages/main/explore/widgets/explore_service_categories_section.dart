@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 import 'package:reentry_roadmap/presentation/widgets/program_category_card.dart';
 
 class ExploreServiceCategoriesSection extends StatelessWidget {
@@ -16,9 +17,11 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) {
+    return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
       // Define the item width (you can adjust this value as needed)
-      double itemWidth = constraints.maxWidth > kMenuBreakPoint ? 130 : 100.0;
+      double itemWidth = deviceSize==DeviceSize.web
+          ? 150
+          : 130;
 
       // Calculate the number of columns based on the screen width
       int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
@@ -36,6 +39,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
                 ? kPersonalizedServiceCategory
                 : kServiceCategories[index],
             onTap: cubit.categoryAction,
+            isWebMode: deviceSize == DeviceSize.web,
           );
         },
       );

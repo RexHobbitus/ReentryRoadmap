@@ -74,6 +74,7 @@ class ExploreServicesSection extends StatelessWidget {
                                 return ProviderServiceCard(
                                   onTap: cubit.openProviderDetail,
                                   provider: provider,
+                                  isOnboardedMode:user.isLoggedIn,
                                 );
                               },
                             )

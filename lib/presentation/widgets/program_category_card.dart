@@ -7,12 +7,14 @@ class ProgramCategoryCard extends StatelessWidget {
   final ServiceCategory category;
   final Function(ServiceCategory) onTap;
   final bool isSelected;
-
+  final bool isWebMode;
   const ProgramCategoryCard({
     super.key,
     required this.category,
     required this.onTap,
     this.isSelected = false,
+    this.isWebMode = false,
+
   });
 
   @override
@@ -22,8 +24,8 @@ class ProgramCategoryCard extends StatelessWidget {
         onTap.call(category);
       },
       child: Container(
-        height: 115,
-        width: 115,
+        height: isWebMode?150:115,
+        width: isWebMode?150:115,
         padding: const EdgeInsets.symmetric(horizontal: 5),
         decoration: BoxDecoration(
           color: isSelected

@@ -31,7 +31,7 @@ class HeaderAuthButtons extends StatelessWidget {
           height: height,
           isSecondary: true,
           style: context.textTheme.bodySmall,
-          radius: 5,
+          radius: isMobileView?5:10,
         ),
         signUpAction == null
             ? const SizedBox.shrink()
@@ -45,7 +45,7 @@ class HeaderAuthButtons extends StatelessWidget {
                 onTap: signUpAction,
                 width: width,
                 height: height,
-                radius: 5,
+                radius: isMobileView?5:10,
                 style: context.textTheme.bodySmall,
               ),
       ],

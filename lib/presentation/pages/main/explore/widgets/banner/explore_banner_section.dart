@@ -33,6 +33,7 @@ class ExploreBannerSection extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   state.isLoggedIn
                       ? _loggedInUserText(context)
@@ -57,7 +58,7 @@ class ExploreBannerSection extends StatelessWidget {
                 return CustomButton(
                   text: "Learn More",
                   width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
-                  height: 56,
+                  height:deviceSize==DeviceSize.web?80:56,
                   style: context.textTheme.bodyLarge,
                   onTap: () {},
                 );

@@ -138,7 +138,7 @@ class CustomTextField extends StatelessWidget {
             filled: textFieldMode == TextFieldMode.normal ? false : true,
             hoverColor: Colors.transparent,
             contentPadding: EdgeInsets.symmetric(
-                horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
+                horizontal: 20, vertical: device == DeviceSize.web ? 18 : 15),
             fillColor: context.colorScheme.surfaceDim,
             suffixIcon: suffixPath != null
                 ? InkWell(
@@ -146,8 +146,9 @@ class CustomTextField extends StatelessWidget {
                     child: SvgPicture.asset(suffixPath!),
                   )
                 : suffix,
-            suffixIconConstraints: const BoxConstraints(
-              maxHeight: 30,
+            suffixIconConstraints:  BoxConstraints(
+              maxHeight: device == DeviceSize.web?40:30,
+              minWidth: device == DeviceSize.web?60:20,
             ),
             enabledBorder: inputBorder ?? borderStyle(context),
             focusedBorder: inputBorder ?? borderStyle(context, isActive: true),
