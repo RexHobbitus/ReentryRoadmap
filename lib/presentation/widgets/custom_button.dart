@@ -72,6 +72,7 @@ class CustomButton extends StatelessWidget {
             label: FittedBox(
               child: Text(
                 text ?? "",
+
               ),
             ),
           );
