@@ -21,7 +21,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
       // Define the item width (you can adjust this value as needed)
       double itemWidth = deviceSize==DeviceSize.web
           ? 150
-          : 130;
+          : 100;
 
       // Calculate the number of columns based on the screen width
       int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
