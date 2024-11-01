@@ -38,22 +38,16 @@ class AppStyle {
   }
 
   static TextStyle? providerDetailTitle(BuildContext context) {
-    return context.textTheme.titleMedium?.copyWith(
-      fontWeight: FontWeight.w600,
-      color: context.colorScheme.onSurface,
-    );
+    return context.textTheme.titleMedium;
   }
 
   static TextStyle? providerDetailUnderlinedSubTitle(BuildContext context) {
-    return context.textTheme.bodyMedium?.copyWith(
-        decoration: TextDecoration.underline, fontWeight: FontWeight.w600);
+    return context.textTheme.bodyLarge?.copyWith(
+        decoration: TextDecoration.underline);
   }
 
   static TextStyle? providerDetailBody(BuildContext context) {
-    return context.textTheme.bodyMedium?.copyWith(
-      fontWeight: FontWeight.w500,
-      color: context.colorScheme.onSurface,
-    );
+    return context.textTheme.bodyLarge;
   }
 
   static InputDecoration textFieldDecoration(

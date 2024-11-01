@@ -8,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/navigation/app_navigator.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
@@ -19,9 +20,10 @@ import 'add_photos_button.dart';
 import 'write_review_parameter.dart';
 
 class WriteReviewPopup extends StatefulWidget {
+  final Provider provider;
   Function(WriteReviewParameter)? onPostReview;
 
-  WriteReviewPopup({super.key, this.onPostReview});
+  WriteReviewPopup({super.key, this.onPostReview,required this.provider});
 
   @override
   State<WriteReviewPopup> createState() => _WriteReviewPopupState();
@@ -43,6 +45,7 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _titleWidget(),
+            const Divider(thickness: 1,),
             const SizedBox(
               height: 30,
             ),
@@ -98,9 +101,8 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
         Row(
           children: [
             Text(
-              "Opengate Hayward",
-              style: context.textTheme.titleMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              "${widget.provider.onboardingInfo?.providerDetails?.providerNameLocation}",
+              style: context.textTheme.titleMedium,
             ),
             const SizedBox(
               width: 20,
@@ -127,8 +129,7 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
       children: [
         Text(
           "Select a Rating",
-          style: context.textTheme.bodyMedium
-              ?.copyWith(fontWeight: FontWeight.w600),
+          style: context.textTheme.bodyLarge,
         ),
         CustomStarRating(
           disableTap: false,
@@ -183,7 +184,7 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
                             child: CircleAvatar(
                               radius: 15,
                               backgroundColor: context.colorScheme.surface,
-                              child: Icon(
+                              child: const Icon(
                                 Icons.delete,
                                 color: Colors.red,
                                 size: 15,

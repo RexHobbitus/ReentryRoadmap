@@ -35,7 +35,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
   onInit(ProviderDetailInitialParams initialParams) {
     debugPrint("Provider id: ${initialParams.id}");
     _getProviderDetail(initialParams.id);
-    _getProviderReviews(initialParams.id);
+   _getProviderReviews(initialParams.id);
   }
 
   onMenuTap(int index) {
@@ -45,6 +45,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
   _getProviderDetail(String id) async {
     try {
       emit(state.copyWith(loading: true));
+     // Provider provider=Provider.shimmer();
       Provider provider = await providerRepository.getProviderDetail(id: id);
       emit(state.copyWith(provider: provider));
     } catch (e) {
@@ -69,6 +70,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
 
   addReviewAction() {
     navigator.navigator.showDialogBox(context, WriteReviewPopup(
+      provider: state.provider,
       onPostReview: (parameter) {
         snackBar.show("Thanks for review, it will be uploaded shortly",
             snackBarType: SnackBarType.SUCCESS);

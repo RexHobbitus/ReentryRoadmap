@@ -72,12 +72,13 @@ class CustomButton extends StatelessWidget {
                     color: context.colorScheme.onPrimary,
                     size: 15,
                   ),
-            label: Text(
-              text ?? "",
-              style:style?.copyWith(
-                color: context.colorScheme.onPrimary,
-              )
-            ),
+            label: Text(text ?? "",
+                style: style?.copyWith(
+                      color: context.colorScheme.onPrimary,
+                    ) ??
+                    context.textTheme.bodyLarge?.copyWith(
+                      color: context.colorScheme.onPrimary,
+                    )),
           );
   }
 }

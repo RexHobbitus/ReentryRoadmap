@@ -91,12 +91,11 @@ class CustomerReviewWidget extends StatelessWidget {
                 children: [
                   Text(
                     "${userData.data?.onboardingInfo?.personalInfo?.firstName} ${userData.data?.onboardingInfo?.personalInfo?.lastName}",
-                    style: context.textTheme.bodyMedium
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    style: context.textTheme.bodyLarge,
                   ),
                   Text(
                     "${review.createdAt}",
-                    style: context.textTheme.bodySmall
+                    style: context.textTheme.bodyMedium
                         ?.copyWith(color: context.colorScheme.tertiary),
                   ),
                 ],
@@ -109,9 +108,10 @@ class CustomerReviewWidget extends StatelessWidget {
                 children: [
                   SvgPicture.asset(Assets.verified),
                   Text(
-                    " Verified User",
-                    style: context.textTheme.bodySmall
-                        ?.copyWith(fontWeight: FontWeight.w600),
+                    "  Verified User",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.colorScheme.secondaryFixed
+                    ),
                   ),
                 ],
               )
@@ -131,10 +131,9 @@ class CustomerReviewWidget extends StatelessWidget {
             initialValue: review.rating,
           ),
           Text(
-            "(${review.rating})",
-            style: context.textTheme.bodySmall?.copyWith(
-                color: context.colorScheme.secondary,
-                fontWeight: FontWeight.w600),
+            " (${review.rating})",
+            style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.secondary),
           )
         ],
       ),

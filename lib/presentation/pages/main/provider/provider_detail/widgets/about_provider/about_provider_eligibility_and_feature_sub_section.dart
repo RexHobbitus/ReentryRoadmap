@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
@@ -28,14 +29,15 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _eligibilitySection(isWeb: true),
-                    _featureSection(isWeb: true),
+                    _eligibilitySection(isWeb: true,context: context),
+                    _featureSection(isWeb: true,context: context),
                   ],
                 )
               : Column(
                   children: [
-                    _eligibilitySection(),
-                    _featureSection(),
+                    _eligibilitySection(context: context),
+                    const SizedBox(height: 20,),
+                    _featureSection(context: context),
                   ],
                 ),
         );
@@ -43,7 +45,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     );
   }
 
-  _eligibilitySection({bool isWeb = false}) {
+  _eligibilitySection({bool isWeb = false,required BuildContext context}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -55,7 +57,10 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
-            width: isWeb ? 100 : null,
+            style: context.textTheme.bodyLarge?.copyWith(
+                color: context.colorScheme.onSecondary
+            ),
+            width: isWeb ? 120 : null,
           ),
         ):const SizedBox.shrink(),
         AboutProviderEligibilityCriteriaSubSection(
@@ -65,7 +70,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     );
   }
 
-  _featureSection({bool isWeb = false}) {
+  _featureSection({bool isWeb = false,required BuildContext context}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -77,6 +82,9 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: context.colorScheme.onSecondary
+            ),
             width: isWeb ? 200 : null,
           ),
         ):const SizedBox.shrink(),

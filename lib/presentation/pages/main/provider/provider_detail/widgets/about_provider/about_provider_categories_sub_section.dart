@@ -66,7 +66,7 @@ class _AboutProviderCategoriesSubSectionState
         children: [
           Text(
             title,
-            style: context.textTheme.bodyMedium,
+            style: context.textTheme.bodySmall,
           ),
           hideDivider
               ? const SizedBox.shrink()

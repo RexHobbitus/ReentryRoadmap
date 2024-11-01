@@ -47,9 +47,8 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
         ),
         Text(
           widget.text ?? "None",
-          style: context.textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w500,
-              color: context.colorScheme.onSurface),
+          style: context.textTheme.bodyLarge?.copyWith(
+              color: context.colorScheme.tertiary),
         )
       ],
     );

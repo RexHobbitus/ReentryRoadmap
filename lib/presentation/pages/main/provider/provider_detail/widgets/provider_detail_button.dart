@@ -20,8 +20,8 @@ class ProviderDetailButton extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-        margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 5),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
         decoration: BoxDecoration(
             color:isPrimary?context.colorScheme.primary:context.colorScheme.secondary,
             borderRadius: BorderRadius.circular(5)),
@@ -38,7 +38,7 @@ class ProviderDetailButton extends StatelessWidget {
             ),
             Text(
               title,
-              style: context.textTheme.bodySmall?.copyWith(
+              style: context.textTheme.bodyMedium?.copyWith(
                 color: context.colorScheme.onSecondary,
               ),
             ),

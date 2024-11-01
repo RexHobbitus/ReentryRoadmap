@@ -8,8 +8,9 @@ import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 import '../../../../../widgets/custom_switch_button.dart';
 
 class ProviderContactForm extends StatefulWidget {
-  final VoidCallback?  onSendMessage;
-  const ProviderContactForm({super.key,this.onSendMessage});
+  final VoidCallback? onSendMessage;
+
+  const ProviderContactForm({super.key, this.onSendMessage});
 
   @override
   State<ProviderContactForm> createState() => _ProviderContactFormState();
@@ -21,7 +22,7 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
     "Supernova program",
     "Management Program",
   ];
-  List<String> selectedProgram =[];
+  List<String> selectedProgram = [];
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +47,9 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
                     isSelected: selectedProgram.contains(programs[index]),
                     onTap: () {
                       setState(() {
-                        selectedProgram.contains(programs[index])?
-                        selectedProgram.remove(programs[index]):
-                        selectedProgram.add(programs[index]);
+                        selectedProgram.contains(programs[index])
+                            ? selectedProgram.remove(programs[index])
+                            : selectedProgram.add(programs[index]);
                       });
                     },
                   );
@@ -64,8 +65,24 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
               ),
               _label(
                   "Would you like to share your profile with OpenGate Hayward?"),
+              RichText(
+                  text: TextSpan(
+                      text: "Configure what you share in your ",
+                      style: context.textTheme.bodyMedium
+                          ?.copyWith(color: context.colorScheme.secondaryFixed),
+                      children: [
+                    TextSpan(
+                        text: "Account Settings",
+                        style: context.textTheme.bodyMedium?.copyWith(
+                          color: context.colorScheme.secondaryFixed,
+                          decoration: TextDecoration.underline,
+                        ))
+                  ])),
+              const SizedBox(height: 20,),
               const CustomSwitchButton(),
-              const SizedBox(height: 100,),
+              const SizedBox(
+                height: 100,
+              ),
             ],
           ),
         ),
@@ -75,7 +92,7 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
             left: 0,
             child: CustomButton(
               text: "Send Message",
-              onTap:widget.onSendMessage,
+              onTap: widget.onSendMessage,
             ))
       ],
     );
@@ -86,8 +103,7 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
       padding: const EdgeInsets.only(bottom: 15),
       child: Text(
         title,
-        style:
-            context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+        style: context.textTheme.bodyLarge,
       ),
     );
   }

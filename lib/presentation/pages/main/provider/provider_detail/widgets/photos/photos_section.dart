@@ -31,35 +31,38 @@ class PhotosSection extends StatelessWidget {
       builder: (context, user) {
         return Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "All Photos",
-                  style: AppStyle.providerDetailTitle(context),
-                ),
-                Row(
-                  children: [
-                    user.isLoggedIn ? ProviderDetailButton(
-                        title: "Add Photo",
-                        icon: Icons.image_outlined,
-                        onTap: cubit.addPhotosAction) : const SizedBox.shrink(),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    ProviderDetailDropdown<String>(
-                      items: const [
-                        "All Photos",
-                        "Photos by owner",
-                        "Photos by others"
-                      ],
-                      selectedItem: "All Photos",
-                      width: 165,
-                      onChanged: (val) {},
-                    ),
-                  ],
-                ),
-              ],
+            FittedBox(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "All Photos",
+                    style: AppStyle.providerDetailTitle(context),
+                  ),
+                  const SizedBox(width: 20,),
+                  Row(
+                    children: [
+                      user.isLoggedIn ? ProviderDetailButton(
+                          title: "Add Photo",
+                          icon: Icons.image_outlined,
+                          onTap: cubit.addPhotosAction) : const SizedBox.shrink(),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      ProviderDetailDropdown<String>(
+                        items: const [
+                          "All Photos",
+                          "Photos by owner",
+                          "Photos by others"
+                        ],
+                        selectedItem: "All Photos",
+                        width: 165,
+                        onChanged: (val) {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             CustomResponsiveBuilder(
                 builder: (context, constraints, deviceSize) {

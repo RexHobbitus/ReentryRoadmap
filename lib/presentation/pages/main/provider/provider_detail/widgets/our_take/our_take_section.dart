@@ -58,7 +58,7 @@ class OurTakeSection extends StatelessWidget {
           ),
           Text(
             " 4.2",
-            style: context.textTheme.bodySmall
+            style: context.textTheme.bodyMedium
                 ?.copyWith(color: context.colorScheme.onSecondary),
           )
         ],
@@ -83,12 +83,13 @@ class OurTakeSection extends StatelessWidget {
           children: [
             Text(
               "Danny Yoon",
-              style: context.textTheme.bodyMedium
-                  ?.copyWith(fontWeight: FontWeight.w600),
+              style: context.textTheme.bodyLarge,
             ),
             Text(
               "CEO of Dignifi",
-              style: context.textTheme.bodyMedium?.copyWith(),
+              style: context.textTheme.bodyMedium?.copyWith(
+                color: context.colorScheme.secondaryFixed
+              ),
             ),
           ],
         )
@@ -101,13 +102,11 @@ class OurTakeSection extends StatelessWidget {
       width: context.sw,
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
       decoration: BoxDecoration(
-          color: context.colorScheme.tertiaryContainer,
+          color: context.colorScheme.surfaceDim,
           borderRadius: BorderRadius.circular(10)),
       child: Text(
         _disclaimerText,
-        style: context.textTheme.bodySmall?.copyWith(
-            color: context.colorScheme.onTertiaryContainer,
-            fontWeight: FontWeight.w500),
+        style: context.textTheme.bodyMedium,
       ),
     );
   }

@@ -11,7 +11,7 @@ class AddPhotosButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: context.sw,
-        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+        padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 20),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
           color: context.themeData.cardColor,

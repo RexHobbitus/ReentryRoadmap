@@ -58,6 +58,7 @@ class ProviderDetailFooter extends StatelessWidget {
             CustomButton(
               text: "Contact OpenGate",
               onTap: cubit.contactAction,
+              style: context.textTheme.titleMedium,
             ),
           ],
         ),

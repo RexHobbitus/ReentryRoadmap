@@ -14,63 +14,65 @@ import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.d
 
 class ProviderDetailHeader extends StatelessWidget {
   final ProviderDetailCubit cubit;
-  ProviderDetailHeader({super.key,required this.cubit});
+
+  ProviderDetailHeader({super.key, required this.cubit});
 
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
-  ProviderDetailState get state=>cubit.state;
+  ProviderDetailState get state => cubit.state;
+
   @override
   Widget build(BuildContext context) {
-    return CustomResponsiveBuilder(
-      builder: (context,constraints,deviceSize) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: deviceSize==DeviceSize.web?450:null,
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                  color: context.themeData.cardColor,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _headerTopSection(context),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    height: 0,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _headerMiddleSection(context),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _headerMapSection(context),
-                ],
-              ),
+    return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: deviceSize == DeviceSize.web ? 450 : null,
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+                color: context.colorScheme.surfaceDim,
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                _headerTopSection(context),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Divider(
+                  thickness: 1,
+                  height: 0,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                _headerMiddleSection(context),
+                const SizedBox(
+                  height: 10,
+                ),
+                _headerMapSection(context),
+              ],
             ),
-            Visibility(
-              visible: deviceSize==DeviceSize.web,
-              child: CustomButton(
-                text: "Contact ${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
-                onTap:cubit.contactAction,
-                width: 450,
-              ),
-            )
-          ],
-        );
-      }
-    );
+          ),
+          Visibility(
+            visible: deviceSize == DeviceSize.web,
+            child: CustomButton(
+              text:
+                  "Contact ${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
+              onTap: cubit.contactAction,
+              width: 450,
+              height: 70,
+            ),
+          )
+        ],
+      );
+    });
   }
 
   Widget _headerTopSection(BuildContext context) {
@@ -79,8 +81,8 @@ class ProviderDetailHeader extends StatelessWidget {
       children: [
         Text(
           "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation} >",
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: context.colorScheme.secondary,
+          style: context.textTheme.bodyLarge?.copyWith(
+            color: context.colorScheme.secondaryFixed,
             decoration: TextDecoration.underline,
           ),
         ),
@@ -89,8 +91,7 @@ class ProviderDetailHeader extends StatelessWidget {
         ),
         Text(
           "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
-          style: context.textTheme.titleLarge
-              ?.copyWith(fontWeight: FontWeight.bold),
+          style: context.textTheme.titleMedium,
         ),
         Row(
           children: [
@@ -114,27 +115,27 @@ class ProviderDetailHeader extends StatelessWidget {
                   ),
                   Text(
                     "${state.provider.avgRating} (${state.provider.totalReviews})",
-                    style: context.textTheme.bodySmall
+                    style: context.textTheme.bodyMedium
                         ?.copyWith(color: context.colorScheme.onPrimary),
                   ),
                 ],
               ),
             ),
             const SizedBox(
-              width: 20,
+              width: 15,
             ),
             SvgPicture.asset(
               Assets.verified,
-              height: 20,
+              height: 15,
+              width: 15,
             ),
             const SizedBox(
               width: 5,
             ),
             Text(
               "Claimed",
-              style: context.textTheme.titleMedium?.copyWith(
-                color: context.colorScheme.secondary,
-                fontWeight: FontWeight.w500,
+              style: context.textTheme.bodyLarge?.copyWith(
+                color: context.colorScheme.secondaryFixed,
               ),
             ),
           ],
@@ -160,10 +161,14 @@ class ProviderDetailHeader extends StatelessWidget {
         ),
         _iconWithText(
             iconPath: Assets.arrow,
-            title: "${state.provider.onboardingInfo!.providerDetails!.relationReentry}",
+            title:
+                "${state.provider.onboardingInfo!.providerDetails!.relationReentry}",
             context: context),
         _iconWithText(
-            iconPath: Assets.web, title: "${state.provider.onboardingInfo!.providerDetails!.orgWebsite}", context: context),
+            iconPath: Assets.web,
+            title:
+                "${state.provider.onboardingInfo!.providerDetails!.orgWebsite}",
+            context: context),
         _iconWithText(
             iconPath: Assets.clock,
             title: "Mon - Sun, 9am - 5am",
@@ -182,7 +187,7 @@ class ProviderDetailHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: context.colorScheme.secondary,
+        color: context.colorScheme.secondaryFixed,
       ),
       child: Text(
         title,
@@ -194,7 +199,7 @@ class ProviderDetailHeader extends StatelessWidget {
 
   Widget _headerMapSection(BuildContext context) {
     return SizedBox(
-      height: 200,
+      height: 255,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Stack(
@@ -241,7 +246,8 @@ class ProviderDetailHeader extends StatelessWidget {
               CustomCachedImage(
                 width: 80,
                 borderRadius: BorderRadius.circular(10),
-                imgUrl: "${state.provider.onboardingInfo?.providerDetails?.images?.first??kPlaceHolderImage}",
+                imgUrl:
+                    "${state.provider.onboardingInfo?.providerDetails?.images?.first ?? kPlaceHolderImage}",
               ),
               const SizedBox(
                 width: 10,
@@ -272,16 +278,17 @@ class ProviderDetailHeader extends StatelessWidget {
         children: [
           SvgPicture.asset(
             iconPath,
-            height: 18,
+            height: 15,
+            width: 15,
           ),
           const SizedBox(
             width: 10,
           ),
           Text(
             title,
-            style: context.textTheme.bodySmall?.copyWith(
-                fontWeight: FontWeight.bold,
-                color: context.colorScheme.secondary),
+            style: context.textTheme.bodyLarge?.copyWith(
+              color: context.colorScheme.secondaryFixed,
+            ),
           )
         ],
       ),

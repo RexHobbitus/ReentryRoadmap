@@ -35,7 +35,9 @@ class RatingSubSection extends StatelessWidget {
 
   Widget _overAllRatingInfo({required BuildContext context}) {
     return Container(
-      decoration: BoxDecoration(color: context.themeData.cardColor),
+      decoration: BoxDecoration(color: context.colorScheme.surfaceDim,
+      borderRadius: BorderRadius.circular(10)
+      ),
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
       height:120,
       child: Center(
@@ -47,9 +49,7 @@ class RatingSubSection extends StatelessWidget {
                 _dualStar(context: context),
                 Text(
                   " ${provider.avgRating} ",
-                  style: context.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w700,
-                  ),
+                  style: context.textTheme.titleMedium,
                 ),
                 Transform(
                     alignment: Alignment.center,
@@ -59,7 +59,9 @@ class RatingSubSection extends StatelessWidget {
             ),
             Text(
               "${provider.totalReviews} Reviews",
-              style: context.textTheme.bodySmall,
+              style: context.textTheme.bodySmall?.copyWith(
+                color: context.colorScheme.secondaryFixed
+              ),
             ),
           ],
         ),
@@ -94,10 +96,10 @@ class RatingSubSection extends StatelessWidget {
         children: [
           Text(
             title.toString(),
-            style: context.textTheme.bodySmall
+            style: context.textTheme.bodyMedium
                 ?.copyWith(color: context.colorScheme.tertiary),
           ),
-          const SizedBox(width: 10,),
+          const SizedBox(width: 30,),
           Expanded(
             child: _CustomLinearProgressBar(
               value: value?.toDouble()??0,
@@ -116,12 +118,15 @@ class _CustomLinearProgressBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LinearProgressIndicator(
-      value: value / 5, // Normalize value to 0.0 - 1.0
-      backgroundColor:
-          context.colorScheme.tertiaryContainer.withOpacity(0.2),
-      color: context.colorScheme.secondary,
-      minHeight: 6.0, // Adjust height as needed
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: LinearProgressIndicator(
+        value: value / 5, // Normalize value to 0.0 - 1.0
+        backgroundColor:
+            context.colorScheme.tertiaryContainer.withOpacity(0.2),
+        color: context.colorScheme.secondary,
+        minHeight: 8.0, // Adjust height as needed
+      ),
     );
   }
 }

@@ -20,9 +20,7 @@ class CustomExpansionTile extends StatelessWidget {
             expandedAlignment: Alignment.topLeft,
             title: Text(
               title,
-              style: context.textTheme.bodyMedium?.copyWith(
-                fontWeight: FontWeight.w600
-              ),
+              style: context.textTheme.bodyMedium,
             ),
             children: children),
         const Divider(
