@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
@@ -33,8 +34,11 @@ class ProfileBannerSection extends StatelessWidget {
                     children: [
                       TextSpan(
                         text: 'Check-In',
-                        style: context.textTheme.titleLarge
-                            ?.copyWith(color: context.themeData.colorScheme.onSecondary, fontWeight: FontWeight.w600),
+                        style: context.textTheme.titleLarge?.copyWith(
+                            color: context.themeData.colorScheme.onSecondary,
+                            fontWeight: FontWeight.w600,
+                            decoration: TextDecoration.underline),
+                        recognizer: TapGestureRecognizer()..onTap = () {},
                       ),
                     ]),
               ),

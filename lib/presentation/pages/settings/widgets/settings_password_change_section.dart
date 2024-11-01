@@ -29,16 +29,19 @@ class SettingsPasswordChangeSection extends StatelessWidget {
           controller: TextEditingController(),
           label: "Enter Current Password",
           suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+          width: double.maxFinite,
         ),
         CustomTextField(
           controller: TextEditingController(),
           label: "Enter New Password",
           suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+          width: double.maxFinite,
         ),
         CustomTextField(
           controller: TextEditingController(),
           label: "Confirm New Password",
           suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+          width: double.maxFinite,
         ),
         TextButton(
           onPressed: () {},
@@ -49,6 +52,9 @@ class SettingsPasswordChangeSection extends StatelessWidget {
               color: context.colorScheme.secondary,
             ),
           ),
+        ),
+        const SizedBox(
+          height: 8,
         ),
         CustomButton(
           text: "Change Password",

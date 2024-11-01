@@ -44,6 +44,7 @@ class ProfileViewTextField extends StatelessWidget {
           ),
         ),
         CustomTextField(
+          width: double.maxFinite,
           controller: controller,
           hint: hint,
           onChange: onChange,

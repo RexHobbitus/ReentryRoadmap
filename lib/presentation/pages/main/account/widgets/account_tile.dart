@@ -15,28 +15,25 @@ class AccountTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      child: ListTile(
-        title: Text(
-          text,
-          style: context.textTheme.titleSmall?.copyWith(
-            fontWeight: FontWeight.w500,
-            fontSize: 20,
-          ),
+    return ListTile(
+      title: Text(
+        text,
+        style: context.textTheme.titleSmall?.copyWith(
+          fontWeight: FontWeight.w500,
+          fontSize: 20,
         ),
-        minLeadingWidth: -5,
-        tileColor: context.themeData.cardColor,
-        leading: SvgPicture.asset(
-          iconPath,
-          height: 18,
-          // ignore: deprecated_member_use
-          color: context.themeData.iconTheme.color,
-        ),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        onTap: onTap,
-        titleAlignment: ListTileTitleAlignment.center,
       ),
+      minLeadingWidth: -5,
+      tileColor: context.themeData.cardColor,
+      leading: SvgPicture.asset(
+        iconPath,
+        height: 18,
+        // ignore: deprecated_member_use
+        color: context.themeData.iconTheme.color,
+      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      onTap: onTap,
+      titleAlignment: ListTileTitleAlignment.center,
     );
   }
 }

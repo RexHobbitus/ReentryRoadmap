@@ -44,9 +44,9 @@ class _SettingsPageState extends State<SettingsPage> {
             children: [
               SetttingsAppbarWidget(),
               SettingsPasswordChangeSection(),
-              SizedBox(height: 8),
+              SizedBox(height: 16),
               SettingsNotificationTile(),
-              SizedBox(height: 8),
+              SizedBox(height: 6),
               SettingsDataSharingSection(),
               SizedBox(height: 16),
             ],

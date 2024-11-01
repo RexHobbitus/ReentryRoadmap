@@ -24,12 +24,15 @@ class ProfileCurrentNeeds extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Education',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Employement',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Housing',
                   ),
                 ],
@@ -52,12 +55,15 @@ class ProfileCurrentNeeds extends StatelessWidget {
               widget: Column(
                 children: [
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'OSHA',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Forklift Operator',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'CDL',
                   ),
                 ],
@@ -69,12 +75,15 @@ class ProfileCurrentNeeds extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Digital Skills',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Financial Skills',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     isDetail: true,
                     hint:
                         'Whatever the user entered for ‘other’ would go here. In publishing and graphic design, Lorem ipsum is a placeholder text.',
@@ -100,12 +109,15 @@ class ProfileCurrentNeeds extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Administrative/Office Support',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Labor/ Manufacturing',
                   ),
                   CustomTextField(
+                    width: double.maxFinite,
                     hint: 'Housing',
                   ),
                 ],
@@ -118,6 +130,7 @@ class ProfileCurrentNeeds extends StatelessWidget {
             ProfileTile(
                 title: 'Other Resources Wanted',
                 widget: CustomTextField(
+                  width: double.maxFinite,
                   isDetail: true,
                   hint:
                       'In publishing and graphic design, Lorem Ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.',
