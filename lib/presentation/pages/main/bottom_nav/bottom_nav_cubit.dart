@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/account/Account_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -31,7 +32,6 @@ class BottomNavCubit extends Cubit<BottomNavState> {
     required this.navigator,
     required this.userStore,
     required this.snackBar,
-
   }) : super(BottomNavState.initial());
 
   BuildContext get context => navigator.context;
@@ -42,10 +42,10 @@ class BottomNavCubit extends Cubit<BottomNavState> {
     navigator.openLogin(const LoginInitialParams());
   }
 
-
-  void setActiveIndex(int index){
+  void setActiveIndex(int index) {
     emit(state.copyWith(currentIndex: index));
   }
+
   void onMenuTapped(int index, BuildContext context) {
     emit(state.copyWith(currentIndex: index));
     switch (index) {
@@ -54,7 +54,7 @@ class BottomNavCubit extends Cubit<BottomNavState> {
       case 1:
         GoRouter.of(context).go(MyServicesPage.path);
       case 2:
-        GoRouter.of(context).go(ProfilePage.path);
+        GoRouter.of(context).go(AccountPage.path);
       case 3:
         GoRouter.of(context).go(ReviewPage.path);
       case 4:
@@ -62,12 +62,11 @@ class BottomNavCubit extends Cubit<BottomNavState> {
     }
   }
 
-
-  notificationAction(){
+  notificationAction() {
     navigator.openNotification(const NotificationInitialParams());
   }
 
-  signUpAction(){
+  signUpAction() {
     navigator.openSignUp(const SignUpInitialParams());
   }
 }

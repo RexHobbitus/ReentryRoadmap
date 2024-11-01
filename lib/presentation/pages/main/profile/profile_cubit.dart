@@ -18,12 +18,9 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   BuildContext get context => navigator.context;
 
-  onInit(ProfileInitialParams initialParams) {
-
-  }
+  onInit(ProfileInitialParams initialParams) {}
 
   logoutAction() async {
     await logoutUseCase.execute();
-
   }
 }

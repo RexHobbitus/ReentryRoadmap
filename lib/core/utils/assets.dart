@@ -11,12 +11,10 @@ class Assets {
   static const String location = "assets/icons/location.svg";
   static const String leaf = "assets/icons/leaf.svg";
   static const String openGate = "assets/icons/open_gate.svg";
-  static const String notificationBullet =
-      "assets/icons/notification_bullet.svg";
+  static const String notificationBullet = "assets/icons/notification_bullet.svg";
 
   static const String addBusiness = "assets/icons/add_business.svg";
-  static const String claimYourBusiness =
-      "assets/icons/claim_your_business.svg";
+  static const String claimYourBusiness = "assets/icons/claim_your_business.svg";
   static const String login = "assets/icons/login.svg";
   static const String exploreLandmark = "assets/icons/explore_landmark.svg";
   static const String delete = "assets/icons/delete.svg";
@@ -28,6 +26,14 @@ class Assets {
   static const String sadVector = "assets/icons/sadVectorIcon.png";
   static const String starCheck = "assets/icons/star_check.svg";
   static const String happyVector = "assets/icons/happyVectorIcon.png";
+  static const String logout = "assets/icons/logout.svg";
+  static const String eye = "assets/icons/eye.svg";
+  static const String messages = "assets/icons/messages.svg";
+  static const String settings = "assets/icons/settings.svg";
+  static const String edit = "assets/icons/edit.svg";
+  static const String email = "assets/icons/email.svg";
+  static const String phone = "assets/icons/phone.svg";
+  static const String profilePhoto = "assets/icons/profile_photo.png";
 
   //services
   static const String education = "assets/icons/services/education.svg";
@@ -36,26 +42,19 @@ class Assets {
   static const String lifeSkills = "assets/icons/services/life_skills.svg";
   static const String finance = "assets/icons/services/finance.svg";
   static const String legal = "assets/icons/services/legal.svg";
-  static const String transportation =
-      "assets/icons/services/transportation.svg";
+  static const String transportation = "assets/icons/services/transportation.svg";
   static const String community = "assets/icons/services/community.svg";
   static const String health = "assets/icons/services/health.svg";
-  static const String friendsAndFamily =
-      "assets/icons/services/friends_and_family.svg";
+  static const String friendsAndFamily = "assets/icons/services/friends_and_family.svg";
   static const String spirituality = "assets/icons/services/spirituality.svg";
   static const String mentalHealth = "assets/icons/services/mental_health.svg";
   static const String firstSteps = "assets/icons/services/first_steps.svg";
-  static const String personalizedServices =
-      "assets/icons/services/personalized_services.svg";
+  static const String personalizedServices = "assets/icons/services/personalized_services.svg";
 
   /// Service Providers
   ///
-  static const String serviceProviderOpenDoor =
-      "assets/icons/service_providers/opendoor.png";
-  static const String serviceProviderOpenGate =
-      "assets/icons/service_providers/opengate.png";
-  static const String serviceProviderOpenHeart =
-      "assets/icons/service_providers/openheart.png";
-  static const String serviceProviderOpenSky =
-      "assets/icons/service_providers/opensky.png";
+  static const String serviceProviderOpenDoor = "assets/icons/service_providers/opendoor.png";
+  static const String serviceProviderOpenGate = "assets/icons/service_providers/opengate.png";
+  static const String serviceProviderOpenHeart = "assets/icons/service_providers/openheart.png";
+  static const String serviceProviderOpenSky = "assets/icons/service_providers/opensky.png";
 }

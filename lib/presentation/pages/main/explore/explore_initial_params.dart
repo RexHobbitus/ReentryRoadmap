@@ -1,4 +1,3 @@
 class ExploreInitialParams {
-
-const ExploreInitialParams();
+  const ExploreInitialParams();
 }

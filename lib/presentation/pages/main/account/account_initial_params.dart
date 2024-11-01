@@ -1,0 +1,3 @@
+class AccountInitialParams {
+  const AccountInitialParams();
+}

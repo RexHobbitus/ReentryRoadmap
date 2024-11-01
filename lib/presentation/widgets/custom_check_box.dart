@@ -21,7 +21,6 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _initialValue = widget.value;
   }
@@ -30,13 +29,13 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
   Widget build(BuildContext context) {
     return Row(
       mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
         SizedBox(
           width: 35,
           child: Checkbox(
               value: _initialValue,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(4)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
               onChanged: (val) {
                 setState(() {
                   _initialValue = val ?? false;

@@ -100,7 +100,6 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           initialValue: initialValue,
-
           textAlignVertical: TextAlignVertical.top,
           expands: isDetail,
           onChanged: onChange,
@@ -113,13 +112,7 @@ class CustomTextField extends StatelessWidget {
           keyboardType: keyboard ?? TextInputType.text,
           maxLines: isDetail ? null : 1,
           maxLength: isMaxlength ? maxLength : null,
-          readOnly: disable ??
-              dealAsDate ??
-              dealAsTime ??
-              countryPicker ??
-              genderPicker ??
-              readOnly ??
-              false,
+          readOnly: disable ?? dealAsDate ?? dealAsTime ?? countryPicker ?? genderPicker ?? readOnly ?? false,
           obscureText: hide ?? false,
           cursorColor: context.themeData.primaryColor,
           onTapOutside: (event) {
@@ -135,8 +128,7 @@ class CustomTextField extends StatelessWidget {
             isDense: true,
             filled: textFieldMode == TextFieldMode.normal ? false : true,
             hoverColor: Colors.transparent,
-            contentPadding: EdgeInsets.symmetric(
-                horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
+            contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
             fillColor: context.themeData.cardColor,
             suffixIcon: suffixPath != null
                 ? InkWell(
@@ -157,12 +149,9 @@ class CustomTextField extends StatelessWidget {
 
   borderStyle(BuildContext context, {bool isActive = false}) {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(
-          textFieldMode == TextFieldMode.normal ? 10 : 30),
+      borderRadius: BorderRadius.circular(textFieldMode == TextFieldMode.normal ? 10 : 30),
       borderSide: BorderSide(
-        color: textFieldMode == TextFieldMode.normal
-            ? context.colorScheme.tertiaryContainer
-            : Colors.transparent,
+        color: textFieldMode == TextFieldMode.normal ? context.colorScheme.tertiaryContainer : Colors.transparent,
         width: 1.5,
       ),
     );

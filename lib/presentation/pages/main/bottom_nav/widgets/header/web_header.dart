@@ -94,10 +94,7 @@ class WebHeader extends StatelessWidget {
   }
 
   Widget _webMenu(
-      {required BuildContext context,
-      required String title,
-      bool isSelected = false,
-      VoidCallback? onTap}) {
+      {required BuildContext context, required String title, bool isSelected = false, VoidCallback? onTap}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: TextButton(
@@ -109,10 +106,8 @@ class WebHeader extends StatelessWidget {
     );
   }
 
-  final CustomPopupMenuController _notificationPopUpController =
-      CustomPopupMenuController();
-  final CustomPopupMenuController _providerDropdownController =
-      CustomPopupMenuController();
+  final CustomPopupMenuController _notificationPopUpController = CustomPopupMenuController();
+  final CustomPopupMenuController _providerDropdownController = CustomPopupMenuController();
 
   Widget _notificationPopup(BuildContext context) {
     return CustomPopupMenu(

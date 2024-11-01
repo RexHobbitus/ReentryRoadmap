@@ -6,6 +6,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_u
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
+import 'package:reentry_roadmap/presentation/pages/main/account/account_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/settings/settings_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -20,6 +22,8 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
+import '../../presentation/pages/main/account/account_page.dart';
+import '../../presentation/pages/settings/settings_initial_params.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
@@ -29,12 +33,10 @@ import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
-import '../../presentation/widgets/scaffold_with_nav_bar.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
   static initialize() {
@@ -70,6 +72,15 @@ class AppRouter {
           return SignUpPage(
             cubit: getIt(),
             initialParams: const SignUpInitialParams(),
+          );
+        },
+      ),
+      GoRoute(
+        path: SplashPage.path,
+        builder: (context, state) {
+          return SplashPage(
+            cubit: getIt(),
+            initialParams: const SplashInitialParams(),
           );
         },
       ),
@@ -130,6 +141,24 @@ class AppRouter {
                 );
               },
             ),
+            GoRoute(
+              path: AccountPage.path,
+              builder: (context, state) {
+                return AccountPage(
+                  cubit: getIt(),
+                  initialParams: const AccountInitialParams(),
+                );
+              },
+            ),
+            GoRoute(
+              path: SettingsPage.path,
+              builder: (context, state) {
+                return SettingsPage(
+                  cubit: getIt(),
+                  initialParams: const SettingsInitialParams(),
+                );
+              },
+            ),
           ]),
 
       /// BOTTOM NAV BAR ENDS HERE
@@ -177,8 +206,7 @@ class AppRouter {
         builder: (context, state) {
           return ProviderDetailPage(
             cubit: getIt(),
-            initialParams:
-                ProviderDetailInitialParams(id: state.pathParameters['id']!),
+            initialParams: ProviderDetailInitialParams(id: state.pathParameters['id']!),
           );
         },
       ),
