@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.dart';
 
 class ServiceCategoriesView extends StatelessWidget {
@@ -32,7 +33,7 @@ class ServiceCategoriesView extends StatelessWidget {
                 "+ ${categories.length - maxLimit} More",
                 style: context.textTheme.bodyMedium?.copyWith(
                     color: context.themeData.colorScheme.tertiary,
-                    fontSize: 10),
+                    fontSize: Responsive.getResponsiveValueDouble(context, 10, 12, 12)),
               )
             : const SizedBox.shrink(),
       ],

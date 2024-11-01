@@ -3,13 +3,11 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/double_extension.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
-import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
-import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_categories_view.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
-import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.dart';
 
 class ServicesTile extends StatelessWidget {
   final Function(MyService)? onTap;
@@ -29,10 +27,10 @@ class ServicesTile extends StatelessWidget {
           constraints: const BoxConstraints(
             maxWidth: 400,
           ),
-          padding: const EdgeInsets.all(15  ),
+          padding: const EdgeInsets.all(15),
           margin: const EdgeInsets.symmetric(vertical: 10),
           decoration: BoxDecoration(
-            color: context.themeData.cardColor,
+            color: const Color(0xffF1F6F8),
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -42,10 +40,7 @@ class ServicesTile extends StatelessWidget {
               const SizedBox(
                 height: 24,
               ),
-              _serviceTitle(
-                  context: context,
-                  title:
-                  "${myService.name}"),
+              _serviceTitle(context: context, title: "${myService.name}"),
               const SizedBox(
                 height: 5,
               ),
@@ -58,28 +53,38 @@ class ServicesTile extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ...List.generate(2, (index) =>
-                  _offering(context: context,
-                      title: "Holistic Wrap-around Service"),),
-
-              Divider(height: 30,),
-
-              ...List.generate(2, (index) {
-                if(index==0){
-                  return  _offering(
-                      context: context,leadingIcon: const Icon(Icons.email_outlined,size: 18,), title: "Avg Response time - 3 days");
-                }
-                return _offering(
-                      context: context, title: "You may be eligible for 4 programs");
-              },),
-
+              ...List.generate(
+                2,
+                (index) => _offering(
+                    context: context, title: "Holistic Wrap-around Service"),
+              ),
+              Divider(
+                height: 30,
+              ),
+              ...List.generate(
+                2,
+                (index) {
+                  if (index == 0) {
+                    return _offering(
+                        context: context,
+                        leadingIcon: const Icon(
+                          Icons.email_outlined,
+                          size: 18,
+                        ),
+                        title: "Avg Response time - 3 days");
+                  }
+                  return _offering(
+                      context: context,
+                      title: "You may be eligible for 4 programs");
+                },
+              ),
               20.verticalSpace,
-              CustomButton(height:55,onTap:() {
-
-              },text: "Contact Provider",),
-
+              CustomButton(
+                height: 55,
+                onTap: () {},
+                text: "Contact Provider",
+              ),
               14.verticalSpace,
-
             ],
           ),
         ),
@@ -93,8 +98,9 @@ class ServicesTile extends StatelessWidget {
         CustomCachedImage(
           radius: 10,
           width: double.maxFinite,
-          height: 210,
-          imgUrl: "https://plus.unsplash.com/premium_photo-1673292293042-cafd9c8a3ab3?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+          height:  Responsive.getResponsiveValueDouble(context, 210.flexibleWidth, 130.flexibleWidth, 60.flexibleWidth,largeTablet: 80.flexibleWidth),
+          imgUrl:
+              "https://plus.unsplash.com/premium_photo-1673292293042-cafd9c8a3ab3?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
         ),
         // Gradient overlay
         Positioned.fill(
@@ -122,7 +128,6 @@ class ServicesTile extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
@@ -140,10 +145,17 @@ class ServicesTile extends StatelessWidget {
                   const SizedBox(
                     width: 5,
                   ),
-                  Text(
-                    "${4.9} (${123})",
-                    style: context.textTheme.bodySmall
-                        ?.copyWith(color: context.colorScheme.onPrimary),
+                  RichText(
+                     text: TextSpan(children: [
+                       TextSpan(text: "4.9",
+                         style: context.textTheme.bodyMedium
+                             ?.copyWith(color: context.colorScheme.onPrimary),),
+                       TextSpan(text: " (100)",
+                         style: context.textTheme.bodySmall
+                             ?.copyWith(color: context.colorScheme.onPrimary),),
+
+                     ]),
+
                   )
                 ],
               ),
@@ -237,26 +249,32 @@ class ServicesTile extends StatelessWidget {
   // }
 
   Widget _offering(
-      { required BuildContext context, Widget? leadingIcon, required String title}) {
+      {required BuildContext context,
+      Widget? leadingIcon,
+      required String title}) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          leadingIcon != null ? leadingIcon: CircleAvatar(
-            radius: 8,
-            backgroundColor: context.colorScheme.primary,
-            child: Icon(
-              Icons.check,
-              size: 10,
-              color: context.colorScheme.onPrimary,
+          leadingIcon ?? CircleAvatar(
+                  radius: 8,
+                  backgroundColor: context.colorScheme.primary,
+                  child: Icon(
+                    Icons.check,
+                    size: 10,
+                    color: context.colorScheme.onPrimary,
+                  ),
+                ),
+          10.horizontalSpace,
+          Flexible(
+            child: Text(
+              title,
+              style: context.textTheme.bodyMedium?.copyWith(
+                  fontSize: Responsive.getResponsiveValueDouble(
+                      context, 14, 14, 16),
+                  fontWeight: FontWeight.w500,
+                  ),
             ),
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          Text(
-            title,
-            style: context.textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600,letterSpacing: 0.5),
           )
         ],
       ),

@@ -45,6 +45,7 @@ class _DesktopTabBarState extends State<DesktopTabBar> {
           kMyServicesTabBarItemsDesktop.length,
           (index) {
             return Tab(
+              height: 60,
               child: Container(
                 width: double.maxFinite,
                 height: double.maxFinite,
@@ -58,10 +59,12 @@ class _DesktopTabBarState extends State<DesktopTabBar> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                 child: Center(
-                  child: Text(
-                      kMyServicesTabBarItemsDesktop[index],
-                    style:context.textTheme.bodyLarge?.copyWith(color:widget.tabController.index == index? context.themeData.colorScheme.onSecondary:context.themeData.colorScheme.onSurface )
-                  ),
+                  child: Text(kMyServicesTabBarItemsDesktop[index],
+                      style: context.textTheme.bodyLarge?.copyWith(
+                        fontWeight: FontWeight.w500,
+                          color: widget.tabController.index == index
+                              ? context.themeData.colorScheme.onSecondary
+                              : context.themeData.colorScheme.onSurface)),
                 ),
               ),
             );

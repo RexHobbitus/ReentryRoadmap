@@ -26,8 +26,10 @@ final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,
   useMaterial3: false,
   scaffoldBackgroundColor: _lightScaffold,
-  fontFamily: GoogleFonts.poppins().fontFamily,
+  fontFamily: "Poppins",
+  //GoogleFonts.poppins().fontFamily,
   textTheme: const TextTheme(
+
     displayLarge: TextStyle(color: Colors.black),
     displaySmall: TextStyle(color: Colors.black),
     displayMedium: TextStyle(color: Colors.black),
@@ -76,6 +78,8 @@ final ThemeData LIGHT_THEME = ThemeData(
     ),
   ),
   cardColor: _lightCardColor,
+
+
   colorScheme: const ColorScheme.light(
     surface: _lightSurface,
     onSurface: _lightOnSurface,
@@ -86,5 +90,6 @@ final ThemeData LIGHT_THEME = ThemeData(
     tertiary: _lightTertiaryColor,
     onTertiary: _lightOnTertiaryColor,
     tertiaryContainer: _lightTertiaryContainerColor,
+
   ),
 );

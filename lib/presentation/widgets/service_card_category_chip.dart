@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/utils/resposive.dart';
 
 class ServiceCardCategoryChip extends StatelessWidget {
   final String title;
@@ -20,7 +21,7 @@ class ServiceCardCategoryChip extends StatelessWidget {
           child: Center(child: Text(title,style: context.textTheme.bodySmall?.copyWith(
             color: context.themeData.colorScheme.onTertiaryContainer,
             fontWeight: FontWeight.w600,
-            fontSize: 10
+            fontSize: Responsive.getResponsiveValueDouble(context, 10, 12, 12)
           ),),),
         ),
       ],

@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/desktop_tab_bar.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/no_services_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/services_tile.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
@@ -51,50 +52,48 @@ class _MyServicesState extends State<MyServicesPage>
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
+    return
+
+      Padding(
+      padding:  EdgeInsets.symmetric(horizontal:Responsive.isDesktop(context)?80: 24),
       child: Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(146),
+            preferredSize:  Size.fromHeight(Responsive.isDesktop(context)?210:150),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                14.verticalSpace,
+                Responsive.isDesktop(context)?30.verticalSpace: 14.verticalSpace,
                 Text(
                   "My Services",
                   style: context.textTheme.titleLarge
-                      ?.copyWith(fontWeight: FontWeight.w600),
+                      ?.copyWith(fontWeight: FontWeight.w500,fontSize: Responsive.isDesktop(context)?30:20),
                 ),
-                14.verticalSpace,
-                CustomResponsiveBuilder(
-                  builder: (p0, p1, deviceType) {
-                    return deviceType == DeviceSize.web
-                        ? DesktopTabBar(
-                            tabController: tabController,
-                          )
-                        : TabBar(
-                            controller: tabController,
-                            indicator: null,
-                            isScrollable: true,
-                            labelColor: context.colorScheme.primary,
-                            labelStyle: context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                            unselectedLabelColor: context.colorScheme.onSurface,
-                            indicatorColor: Colors.transparent,
-                            unselectedLabelStyle:
-                                context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                            tabs: kMyServicesTabBarItems
-                                .map((title) => Tab(
-                                      text: title,
-                                    ))
-                                .toList(),
-                          );
-                  },
+                Responsive.isDesktop(context)?30.verticalSpace: 14.verticalSpace,
+                Responsive.isDesktop(context)?DesktopTabBar(
+                  tabController: tabController,
+                ):TabBar(
+                  controller: tabController,
+                  indicator: null,
+                  isScrollable: Responsive.isMobile(context) ,
+                  labelColor: context.colorScheme.primary,
+                  labelStyle: context.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+
+                  ),
+                  unselectedLabelColor: context.colorScheme.onSurface,
+                  indicatorColor: Colors.transparent,
+                  unselectedLabelStyle:
+                  context.textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                  ),
+                  tabs: kMyServicesTabBarItems
+                      .map((title) => Tab(
+                    text: title,
+                  ))
+                      .toList(),
                 ),
-                  Responsive.isLessThanDesktop(context)  ? Column(
+
+                  Responsive.isMobile(context)  ? Column(
                     children: [
                       Divider(
                       height: 20,
@@ -104,40 +103,42 @@ class _MyServicesState extends State<MyServicesPage>
                                       ),
                       20.verticalSpace,
                     ],
-                  ):SizedBox()
+                  ):40.verticalSpace,
               ],
             )),
-        body: TabBarView(
+        body: NoServicesView()
 
-          controller: tabController,
-          children: kMyServicesTabBarItems.map((title) {
-            return CustomResponsiveBuilder(
-              builder: (context, constraints, deviseSize) {
-                return AlignedGridView.count(
-                  crossAxisCount: deviseSize == DeviceSize.web ? 4 : 1,
-                  mainAxisSpacing: 13,
-                  crossAxisSpacing: 13,
-                  shrinkWrap: true,
-                  primary: false,
-
-                  itemCount: 4,
-                  itemBuilder: (context, index) {
-                    // Provider provider =state.loading?
-                    // Provider.shimmer():
-                    //  state.services[index];
-                    return ServicesTile(
-                      onTap: (p0) {},
-                      myService: MyService(
-                          name: "OpenGate OakLand",
-                          address: "5506 Martha Ave, abc",
-                          imgUrl: kPlaceHolderImage),
-                    );
-                  },
-                );
-              },
-            );
-          }).toList(),
-        ),
+        // TabBarView(
+        //   physics: Responsive.isDesktop(context)? NeverScrollableScrollPhysics():BouncingScrollPhysics(),
+        //   controller: tabController,
+        //   children: kMyServicesTabBarItems.map((title) {
+        //     return CustomResponsiveBuilder(
+        //       builder: (context, constraints, deviseSize) {
+        //         return AlignedGridView.count(
+        //           crossAxisCount: Responsive.getResponsiveValue(context, 1, 2, 4,largeTablet: 3),
+        //           mainAxisSpacing: 13,
+        //           crossAxisSpacing: 13,
+        //           shrinkWrap: true,
+        //           primary: false,
+        //
+        //           itemCount: 4,
+        //           itemBuilder: (context, index) {
+        //             // Provider provider =state.loading?
+        //             // Provider.shimmer():
+        //             //  state.services[index];
+        //             return ServicesTile(
+        //               onTap: (p0) {},
+        //               myService: MyService(
+        //                   name: "OpenGate OakLand",
+        //                   address: "5506 Martha Ave, abc",
+        //                   imgUrl: kPlaceHolderImage),
+        //             );
+        //           },
+        //         );
+        //       },
+        //     );
+        //   }).toList(),
+        // ),
       ),
     );
   }
