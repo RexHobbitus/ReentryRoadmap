@@ -36,19 +36,19 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: CustomSingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(kScreenHorizontalPadding),
+          padding: const EdgeInsets.all(kScreenHorizontalPadding),
           child: Column(
             children: [
-              SetttingsAppbarWidget(),
-              SettingsPasswordChangeSection(),
-              SizedBox(height: 16),
-              SettingsNotificationTile(),
-              SizedBox(height: 6),
-              SettingsDataSharingSection(),
-              SizedBox(height: 16),
+              const SetttingsAppbarWidget(),
+              SettingsPasswordChangeSection(cubit: cubit),
+              const SizedBox(height: 16),
+              const SettingsNotificationTile(),
+              const SizedBox(height: 6),
+              const SettingsDataSharingSection(),
+              const SizedBox(height: 16),
             ],
           ),
         ),

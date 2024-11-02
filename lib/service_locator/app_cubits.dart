@@ -140,6 +140,7 @@ class AppCubits {
       navigator: getIt(),
       userStore: getIt(),
       snackBar: getIt(),
+      changePasswordUseCase: getIt(),
     ));
   }
 }

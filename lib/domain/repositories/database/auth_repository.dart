@@ -9,10 +9,11 @@ abstract class AuthRepository {
     required String role,
   });
 
-  Future<LoginUser> createAccount(
-      {required String email, required String password, required String role});
+  Future<LoginUser> createAccount({required String email, required String password, required String role});
 
   Future<bool> forgetPassword({required String email});
+
+  Future<LoginUser?> changePassword({required String currentPassword, required String newPassword});
 
   Future<void> logout();
 }

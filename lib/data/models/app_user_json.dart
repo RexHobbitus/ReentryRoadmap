@@ -10,7 +10,6 @@ var appUserJson => AppUserJson.fromJson(userData); => Convert server json data t
 var appUser=appUserJson.toDomain() => Then convert server response data model class to entity class=> This entity model will be used by UI
  */
 
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/onboarding_info_json.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
@@ -29,7 +28,6 @@ class AppUserJson {
     this.updatedAt,
     this.onboardingInfo,
     this.isVerified,
-
   });
 
   AppUserJson.fromJson(Map<String, dynamic> json) {
@@ -37,9 +35,7 @@ class AppUserJson {
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    onboardingInfo = json['onboardingInfo'] != null
-        ? OnboardingInfoJson.fromJson(json['onboardingInfo'])
-        : null;
+    onboardingInfo = json['onboardingInfo'] != null ? OnboardingInfoJson.fromJson(json['onboardingInfo']) : null;
     isVerified = json['isVerified'];
   }
 

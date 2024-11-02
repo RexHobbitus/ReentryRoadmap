@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/domain/repositories/database/app_user_repository
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:reentry_roadmap/domain/usecases/change_password_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/check_in_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/login_use_case.dart';
@@ -30,9 +31,7 @@ class ServiceLocator {
     getIt.registerSingleton<AppNavigator>(AppNavigator());
 
     /// local storage
-    getIt
-        .registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository())
-        .initialize();
+    getIt.registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository()).initialize();
 
     /// http request repository
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));
@@ -53,8 +52,7 @@ class ServiceLocator {
       appUserRepository: getIt(),
       userStore: getIt(),
     ));
-    getIt
-        .registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
+    getIt.registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
       authRepository: getIt(),
       providerRepository: getIt(),
       userStore: getIt(),
@@ -76,6 +74,10 @@ class ServiceLocator {
       authRepository: getIt(),
       userStore: getIt(),
       appUserRepository: getIt(),
+    ));
+    getIt.registerSingleton<ChangePasswordUseCase>(ChangePasswordUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
     ));
 
     await AppServices.initialize();

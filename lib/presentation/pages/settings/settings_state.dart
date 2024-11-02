@@ -1,10 +1,10 @@
-part of 'settings_cubit.dart';
+import 'settings_initial_params.dart';
 
-sealed class SettingsState extends Equatable {
-  const SettingsState();
+class SettingsState {
+  final bool loading;
+  const SettingsState({required this.loading});
 
-  @override
-  List<Object> get props => [];
+  factory SettingsState.initial() => const SettingsState(loading: false);
+
+  SettingsState copyWith({bool? loading}) => SettingsState(loading: loading ?? this.loading);
 }
-
-final class SettingsInitial extends SettingsState {}
