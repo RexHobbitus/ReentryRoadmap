@@ -27,6 +27,9 @@ import '../../presentation/pages/main/my_services/my_services_page.dart';
 import '../../presentation/pages/main/notification/notification_page.dart';
 import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
+
+import '../../presentation/pages/main/user_reviews/user_reviews_page.dart';
+import '../../presentation/pages/main/user_reviews/user_reviews_initial.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
 import '../../presentation/widgets/scaffold_with_nav_bar.dart';
@@ -121,6 +124,16 @@ class AppRouter {
                 );
               },
             ),
+            GoRoute(
+              path: UserReviews.path,
+              builder: (context, state) {
+                return UserReviews(
+                  initialParams: const UserReviewsInitialParams(),
+                  cubit: getIt(),
+                );
+              },
+            ),
+
             GoRoute(
               path: MorePage.path,
               builder: (context, state) {

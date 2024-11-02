@@ -6,6 +6,7 @@ class WriteReviewParameter {
   final List<dynamic> images;
   final bool postAnonymously;
 
+
   WriteReviewParameter({
     required this.rating,
     required,

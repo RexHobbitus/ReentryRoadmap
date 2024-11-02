@@ -10,6 +10,7 @@ class ProviderReview {
   String? updatedAt;
   List<dynamic>? images;
   List<String>? likedBy;
+  Map<String, int>? ratings;
 
   bool? isAnonymousUser;
   String? uploadedBy;
@@ -24,6 +25,7 @@ class ProviderReview {
     this.isAnonymousUser,
     this.uploadedBy,
     this.likedBy,
+    this.ratings
   });
 
   ProviderReview.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class ProviderReview {
     isAnonymousUser = json['isAnonymousUser'];
     uploadedBy = json['uploadedBy'];
     likedBy = json['likedBy'].cast<String>();
+    ratings = json['ratings']?.cast<String, int>() ?? {};
   }
 
   ProviderReview.shimmer() {
@@ -46,6 +49,8 @@ class ProviderReview {
     images =List.generate(2, (index)=>kPlaceHolderImage);
     isAnonymousUser = false;
     likedBy=[];
+    uploadedBy = "dummy";
+    ratings = {};
   }
 
 
@@ -74,6 +79,7 @@ class ProviderReview {
     data['isAnonymousUser'] = this.isAnonymousUser;
     data['uploadedBy'] = this.uploadedBy;
     data['likedBy'] = this.likedBy;
+    data['ratings'] = this.ratings;
     return data;
   }
 }

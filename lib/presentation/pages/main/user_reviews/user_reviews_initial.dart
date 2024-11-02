@@ -1,0 +1,4 @@
+class UserReviewsInitialParams {
+
+  const UserReviewsInitialParams();
+}

@@ -3,27 +3,22 @@ import '../../../../core/navigation/app_navigator.dart';
 import 'review_page.dart';
 import 'review_initial_params.dart';
 
-
-
 class ReviewNavigator {
-ReviewNavigator(this.navigator);
+  ReviewNavigator(this.navigator);
 
-@override
-late BuildContext context;
+  @override
+  late BuildContext context;
 
-@override
-late AppNavigator navigator;
-
+  @override
+  late AppNavigator navigator;
 }
 
 mixin ReviewRoute {
-openReview(ReviewInitialParams initialParams) {
+  openReview(ReviewInitialParams initialParams) {
+    navigator.push(context, ReviewPage.path, initialParams);
+  }
 
- navigator.push(context, ReviewPage.path, initialParams);
+  AppNavigator get navigator;
 
-}
-
-AppNavigator get navigator;
-
-BuildContext get context;
+  BuildContext get context;
 }

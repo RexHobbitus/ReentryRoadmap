@@ -16,6 +16,7 @@ import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
 import '../core/alert/app_snack_bar.dart';
 import '../core/navigation/app_navigator.dart';
 import '../data/repositories/database/hive_database_repository.dart';
+import '../data/repositories/database/services_provider_accessed_imp.dart';
 import '../domain/repositories/database/local_database_repository.dart';
 import '../network/dio/dio_network_repository.dart';
 import '../network/network_repository.dart';
@@ -39,6 +40,7 @@ class ServiceLocator {
     getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
     getIt.registerSingleton<AppUserRepository>(AppUserRepositoryImp());
     getIt.registerSingleton<ProviderRepository>(ProviderRepositoryImp());
+    getIt.registerSingleton<ServiceProviderRepository>(ServiceProviderRepository());
 
     getIt.registerSingleton<UserStore>(UserStore());
 

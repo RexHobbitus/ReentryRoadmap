@@ -25,6 +25,9 @@ import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 
+
+import '../presentation/pages/main/user_reviews/user_reviews_cubit.dart';
+import '../presentation/pages/main/user_reviews/user_reviews_navigator.dart';
 import '../presentation/pages/splash/splash_cubit.dart';
 import '../presentation/pages/splash/splash_navigator.dart';
 import 'service_locator.dart';
@@ -64,6 +67,13 @@ class AppCubits {
     ));
     getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));
     getIt.registerSingleton<ReviewCubit>(ReviewCubit(
+      navigator: getIt(),
+      repository: getIt(),
+
+    ));
+
+    getIt.registerSingleton<UserReviewsNavigator>(UserReviewsNavigator(getIt()));
+    getIt.registerSingleton<UserReviewsCubit>(UserReviewsCubit(
       navigator: getIt(),
     ));
     getIt.registerSingleton<ProfileNavigator>(ProfileNavigator(getIt()));

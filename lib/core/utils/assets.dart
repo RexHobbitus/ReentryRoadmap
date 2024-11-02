@@ -14,6 +14,8 @@ class Assets {
   static const String notificationBullet =
       "assets/icons/notification_bullet.svg";
 
+  static const String loginLogo = "assets/icons/login_logo.png";
+
   static const String addBusiness = "assets/icons/add_business.svg";
   static const String claimYourBusiness =
       "assets/icons/claim_your_business.svg";
