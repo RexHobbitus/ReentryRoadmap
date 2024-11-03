@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/Dev_Hire/Utils/Customs/Widgets/custom_tabbar.dart';
+import 'package:reentry_roadmap/main.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
@@ -18,6 +20,10 @@ import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_pa
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_page.dart';
 import 'package:url_strategy/url_strategy.dart';
+import '../../Dev_Hire/Screens/provider_details_bloc.dart';
+import '../../Dev_Hire/Screens/provider_details_page.dart';
+import '../../Dev_Hire/Utils/Customs/Widgets/provider_contact_details.dart';
+import '../../Dev_Hire/Utils/Customs/Widgets/provider_personal_info.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
@@ -46,6 +52,24 @@ class AppRouter {
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: SplashPage.path,
     routes: [
+      GoRoute(
+        path: ProviderDetailsPage.path, // Define the path for ProviderDetailsPage
+        builder: (context, state) {
+          return const ProviderDetailsPage(); // Your provider details page
+        },
+      ),
+      GoRoute(
+        path: ProviderContactDetails.path,
+        builder: (context, state) {
+          return ProviderContactDetails();
+        },
+      ),
+      GoRoute(
+        path: ProviderPersonalInfo.path,
+        builder: (context, state) {
+          return ProviderPersonalInfo();
+        },
+      ),
       GoRoute(
         path: SplashPage.path,
         builder: (context, state) {

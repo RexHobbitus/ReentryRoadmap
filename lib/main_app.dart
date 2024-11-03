@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/Dev_Hire/Screens/provider_details_page.dart';
 import 'core/routes/app_router.dart';
 import 'core/theme/light_theme.dart';
 import 'core/utils/constants.dart';
@@ -17,7 +18,7 @@ class MainApp extends StatelessWidget {
           data: MediaQuery.of(context).copyWith(
             textScaler: TextScaler.noScaling,
           ),
-          child: child!,
+          child: ProviderDetailsPage(),
         );
       },
       title: kAppName,
