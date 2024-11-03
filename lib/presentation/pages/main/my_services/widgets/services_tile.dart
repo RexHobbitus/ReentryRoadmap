@@ -1,28 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:reentry_roadmap/core/enums/my_services_status.dart';
 import 'package:reentry_roadmap/core/extensions/double_extension.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/cubits/my_services_tile_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_categories_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 
-class ServicesTile extends StatelessWidget {
+class ServicesTile extends StatefulWidget {
   final Function(MyService)? onTap;
   final MyService myService;
 
-  const ServicesTile({super.key, this.onTap, required this.myService});
+   const ServicesTile({super.key, this.onTap, required this.myService});
+
+  @override
+  State<ServicesTile> createState() => _ServicesTileState();
+}
+
+class _ServicesTileState extends State<ServicesTile> {
+
+  String btnText="Contact Provider";
+
+
+
 
   @override
   Widget build(BuildContext context) {
+    final tileCubit=context.read<MyServicesTileCubit>();
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
         onTap: () {
-          onTap?.call(myService);
+          widget.onTap?.call(widget.myService);
         },
         child: Container(
           constraints: const BoxConstraints(
@@ -63,7 +78,7 @@ class ServicesTile extends StatelessWidget {
                     width: 5,
                   ),
                   Text(
-                    myService.provider?.completeAddress ?? "N/A",
+                    widget.myService.provider?.completeAddress ?? "N/A",
                     style: context.textTheme.bodySmall
                         ?.copyWith(color: context.themeData.colorScheme.secondary),
                   )
@@ -100,9 +115,10 @@ class ServicesTile extends StatelessWidget {
               ),
               20.verticalSpace,
               CustomButton(
+                isSecondary:  widget.myService.serviceStatus! == MyServicesStatus.contactedServices,
                 height: 55,
                 onTap: () {},
-                text: "Contact Provider",
+                text: tileCubit.getBtnText(widget.myService.serviceStatus!),
               ),
               14.verticalSpace,
             ],
@@ -112,58 +128,7 @@ class ServicesTile extends StatelessWidget {
     );
   }
 
-
-
-
-
   // Widget _serviceCategories({required BuildContext context}) {
-  //   List<String> categories = provider.getAllCategories();
-  //   int maxLimit = 5;
-  //   return Wrap(
-  //     //  mainAxisSize: MainAxisSize.min,
-  //     runSpacing: 10,
-  //     crossAxisAlignment: WrapCrossAlignment.center,
-  //     children: [
-  //       for (var category in List.from(categories).take(maxLimit).toList())
-  //         ServiceCardCategoryChip(
-  //           title: category,
-  //         ),
-  //       categories.length > maxLimit
-  //           ? Text(
-  //               "+ ${categories.length - maxLimit} More",
-  //               style: context.textTheme.bodyMedium?.copyWith(
-  //                   color: context.themeData.colorScheme.tertiary,
-  //                   fontSize: 10),
-  //             )
-  //           : const SizedBox.shrink(),
-  //     ],
-  //   );
-  // }
-
-  // Widget _subSection(
-  //     {required BuildContext context,
-  //     required String title,
-  //     required List<String> data}) {
-  //   return data.isEmpty
-  //       ? const SizedBox.shrink()
-  //       : Column(
-  //           mainAxisSize: MainAxisSize.min,
-  //           crossAxisAlignment: CrossAxisAlignment.start,
-  //           children: [
-  //             Text(
-  //               title,
-  //               style: context.textTheme.bodyMedium
-  //                   ?.copyWith(fontWeight: FontWeight.w600),
-  //             ),
-  //             const SizedBox(
-  //               height: 10,
-  //             ),
-  //             for (var info in data)
-  //               _featureOrEligibilityTile(context: context, title: info)
-  //           ],
-  //         );
-  // }
-
   Widget _offering(
       {required BuildContext context,
       Widget? leadingIcon,
