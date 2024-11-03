@@ -35,7 +35,7 @@ class NoServicesView extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: Responsive.isDesktop(context) ? 20 : 15),
           ),
-          50.responsiveVerticalSpace,
+          50.verticalSpace,
         ],
       ),
     );

@@ -26,8 +26,10 @@ final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,
   useMaterial3: false,
   scaffoldBackgroundColor: _lightScaffold,
-  fontFamily: "Poppins",
-  //GoogleFonts.poppins().fontFamily,
+  fontFamily:"Poppins",
+ // GoogleFonts.poppins().fontFamily,
+
+
   textTheme: const TextTheme(
 
     displayLarge: TextStyle(color: Colors.black),

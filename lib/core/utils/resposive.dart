@@ -12,7 +12,7 @@ class Responsive {
 
   // Static getter to check if the screen is mobile-sized
   static bool isMobile(BuildContext context) =>
-      ScreenUtil().screenWidth < tabletBreakpoint;
+      MediaQuery.of(context).size.width < tabletBreakpoint;
 
   // // Static getter to check if the screen is less than desktop-sized
   // static bool isLessThanDesktop(BuildContext context) =>
@@ -24,16 +24,16 @@ class Responsive {
 
   // Static getter to check if the screen is tablet-sized
   static bool isTablet(BuildContext context) =>
-      ScreenUtil().screenWidth > mobileBreakpoint &&
-      ScreenUtil().screenWidth < largeTabletBreakpoint;
+      MediaQuery.of(context).size.width > mobileBreakpoint &&
+      MediaQuery.of(context).size.width < largeTabletBreakpoint;
 
   static bool isLargeTablet(BuildContext context) =>
-      ScreenUtil().screenWidth > tabletBreakpoint &&
-      ScreenUtil().screenWidth < desktopBreakpoint;
+      MediaQuery.of(context).size.width > tabletBreakpoint &&
+      MediaQuery.of(context).size.width < desktopBreakpoint;
 
   // Static getter to check if the screen is desktop-sized
   static bool isDesktop(BuildContext context) {
-    return ScreenUtil().screenWidth >= desktopBreakpoint;
+    return MediaQuery.of(context).size.width >= desktopBreakpoint;
   }
 
   static int getResponsiveValue(context, int mobile, int tablet, int desktop,

@@ -11,28 +11,22 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      enableScaleText: () => true,
-      ensureScreenSize: true,
-      splitScreenMode: true,
-      enableScaleWH: () => true,
-      child: MaterialApp.router(
+    return MaterialApp.router(
 
-        routerConfig: AppRouter.router,
-        builder: (BuildContext context, Widget? child) {
-          ErrorWidget.builder = (errorDetails) => const SomethingWentWrong();
-          return MediaQuery(
-            data: MediaQuery.of(context).copyWith(
-              textScaler: TextScaler.noScaling,
-            ),
-            child: child!,
-          );
-        },
-        title: kAppName,
-        debugShowCheckedModeBanner: false,
-        theme: LIGHT_THEME,
-        //darkTheme: DARK_THEME,
-      ),
+      routerConfig: AppRouter.router,
+      builder: (BuildContext context, Widget? child) {
+        ErrorWidget.builder = (errorDetails) => const SomethingWentWrong();
+        return MediaQuery(
+          data: MediaQuery.of(context).copyWith(
+            textScaler: TextScaler.noScaling,
+          ),
+          child: child!,
+        );
+      },
+      title: kAppName,
+      debugShowCheckedModeBanner: false,
+      theme: LIGHT_THEME,
+      //darkTheme: DARK_THEME,
     );
   }
 }

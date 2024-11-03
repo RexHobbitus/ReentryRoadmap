@@ -1,17 +1,30 @@
-import 'package:flutter/foundation.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
-part 'my_service.g.dart';
-part 'my_service.freezed.dart';
+import 'package:equatable/equatable.dart';
+import 'package:reentry_roadmap/core/enums/my_services_status.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 
-@Freezed()
-class MyService with _$MyService {
-  factory MyService({
-     String? name,
-     String? address,
-     String? imgUrl,
-  }) = _MyService;
+class MyService extends Equatable {
+  Provider? provider;
+  List<String>? statusUpdates;
+  MyServicesStatus? serviceStatus;
 
+  MyService({this.provider, this.serviceStatus, this.statusUpdates});
 
-  factory MyService.fromJson(Map<String, dynamic> json) => _$MyServiceFromJson(json);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['provider'] = provider?.toJson();
+    data['statusUpdates'] = statusUpdates;
+    data['serviceStatus'] = serviceStatus?.name;
 
+    return data;
+  }
+
+  MyService.fromJson(Map<String, dynamic> json) {
+    provider =
+        json['provider'] != null ? Provider.fromJson(json['provider']) : null;
+    statusUpdates = json['statusUpdates'];
+    serviceStatus = MyServicesStatus.values.firstWhere(json["serviceStatus"]);
+  }
+
+  @override
+  List<Object?> get props => [provider, statusUpdates, serviceStatus];
 }

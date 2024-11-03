@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_categories_view.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 
@@ -25,10 +26,10 @@ class ServicesTile extends StatelessWidget {
         },
         child: Container(
           constraints: const BoxConstraints(
-            maxWidth: 400,
+            maxWidth: 370,
           ),
           padding: const EdgeInsets.all(15),
-          margin: const EdgeInsets.symmetric(vertical: 10),
+          margin: const EdgeInsets.symmetric(vertical: 0),
           decoration: BoxDecoration(
             color: const Color(0xffF1F6F8),
             borderRadius: BorderRadius.circular(10),
@@ -36,23 +37,42 @@ class ServicesTile extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              _serviceImage(context: context),
-              const SizedBox(
-                height: 24,
+              ServiceImageView(),
+              24.verticalSpace,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+            "OpenGate Oakland",
+                  style: context.textTheme.titleLarge?.copyWith(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                10.horizontalSpace,
+                SvgPicture.asset(Assets.verified),
+              ],
+            ),
+
+              5.verticalSpace,
+
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  SvgPicture.asset(Assets.location),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    myService.provider?.completeAddress ?? "N/A",
+                    style: context.textTheme.bodySmall
+                        ?.copyWith(color: context.themeData.colorScheme.secondary),
+                  )
+                ],
               ),
-              _serviceTitle(context: context, title: "${myService.name}"),
-              const SizedBox(
-                height: 5,
-              ),
-              _locationWidget(
-                  context: context, location: myService.address ?? "N/A"),
-              const SizedBox(
-                height: 20,
-              ),
+               20.verticalSpace,
               const ServiceCategoriesView(),
-              const SizedBox(
-                height: 20,
-              ),
+              20.verticalSpace,
+
               ...List.generate(
                 2,
                 (index) => _offering(
@@ -92,113 +112,9 @@ class ServicesTile extends StatelessWidget {
     );
   }
 
-  Widget _serviceImage({required BuildContext context}) {
-    return Stack(
-      children: [
-        CustomCachedImage(
-          radius: 10,
-          width: double.maxFinite,
-          height:  Responsive.getResponsiveValueDouble(context, 210.flexibleWidth, 130.flexibleWidth, 60.flexibleWidth,largeTablet: 80.flexibleWidth),
-          imgUrl:
-              "https://plus.unsplash.com/premium_photo-1673292293042-cafd9c8a3ab3?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        ),
-        // Gradient overlay
-        Positioned.fill(
-          child: Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              gradient: LinearGradient(
-                begin: Alignment.bottomCenter, // Bottom
-                end: Alignment.topCenter, // Top
-                colors: [
-                  Colors.black.withOpacity(0.8),
-                  // Start with black at the bottom
-                  Colors.black.withOpacity(0.0),
-                  // Gradually become transparent at the top
-                ],
-                stops: const [
-                  0.0068,
-                  0.3274
-                ], // Corresponding to 0.68% and 32.74%
-              ),
-            ),
-          ),
-        ),
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              decoration: BoxDecoration(
-                color: context.themeData.colorScheme.primary,
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(
-                    Icons.star,
-                    color: context.themeData.colorScheme.tertiaryContainer,
-                    size: 14,
-                  ),
-                  const SizedBox(
-                    width: 5,
-                  ),
-                  RichText(
-                     text: TextSpan(children: [
-                       TextSpan(text: "4.9",
-                         style: context.textTheme.bodyMedium
-                             ?.copyWith(color: context.colorScheme.onPrimary),),
-                       TextSpan(text: " (100)",
-                         style: context.textTheme.bodySmall
-                             ?.copyWith(color: context.colorScheme.onPrimary),),
 
-                     ]),
 
-                  )
-                ],
-              ),
-            ),
-          ),
-        )
-      ],
-    );
-  }
 
-  Widget _locationWidget(
-      {required String location, required BuildContext context}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SvgPicture.asset(Assets.location),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(
-          location,
-          style: context.textTheme.bodySmall
-              ?.copyWith(color: context.themeData.colorScheme.secondary),
-        )
-      ],
-    );
-  }
-
-  Widget _serviceTitle({required String title, required BuildContext context}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: context.textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.w600,
-          ),
-        ),
-        const SizedBox(width: 10),
-        SvgPicture.asset(Assets.verified),
-      ],
-    );
-  }
 
   // Widget _serviceCategories({required BuildContext context}) {
   //   List<String> categories = provider.getAllCategories();

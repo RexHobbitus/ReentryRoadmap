@@ -1,20 +1,71 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
-import 'my_services_initial_params.dart';
-import 'my_services_state.dart';
-import 'my_services_navigator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/my_service.dart';
+import 'package:reentry_roadmap/domain/repositories/database/my_services_repository.dart';
 
+import 'my_services_initial_params.dart';
+import 'my_services_navigator.dart';
+import 'my_services_state.dart';
 
 class MyServicesCubit extends Cubit<MyServicesState> {
-MyServicesNavigator navigator;
-MyServicesCubit({required this.navigator}) : super(MyServicesState.initial());
+  MyServicesNavigator navigator;
+  MyServicesRepository myServicesRepository;
+  AppSnackBar snackBar;
+  List<MyService> services = [];
 
-BuildContext get context => navigator.context;
+  MyServicesCubit(
+      {required this.navigator,
+      required this.myServicesRepository,
+      required this.snackBar})
+      : super(MyServicesState.initial());
 
+  BuildContext get context => navigator.context;
 
+  onInit(MyServicesInitialParams initialParams) {}
 
- onInit(MyServicesInitialParams initialParams){
+  getMyServices(String id) async {
+    try {
+      emit(state.copyWith(loading: true));
+      services = await myServicesRepository.getMyServices(userId: id);
 
+      final filteredMyServices = services
+          .where((element) =>
+              removeServices(element.serviceStatus!.name) ==
+              kMyServicesTabBarItems[0].toLowerCase())
+          .toList();
+      emit(state.copyWith(myServices: filteredMyServices));
+    } catch (e) {
+      snackBar.show(e.toString());
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
   }
 
+  updateServices(String selectedServiceType) {
+    try {
+      emit(state.copyWith(loading: true));
+      final filteredMyServices = services
+          .where((element) =>
+              removeServices(element.serviceStatus!.name) ==
+              selectedServiceType.toLowerCase())
+          .toList();
+      emit(state.copyWith(myServices: filteredMyServices));
+    } catch (e) {
+      snackBar.show(e.toString());
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  String removeServices(String text) {
+    // Define the regex pattern to match 'services' anywhere in the string
+    RegExp regExp = RegExp(r'services', caseSensitive: false);
+
+    // Remove the keyword "services"
+    String filteredText = text.replaceAll(regExp, '').trim();
+
+    return filteredText;
+  }
 }
