@@ -45,6 +45,7 @@ class CustomTextField extends StatelessWidget {
   Widget? suffix;
   bool isMaxlength;
   int? maxLength;
+  TextAlign textAlign;
 
   CustomTextField({
     Key? key,
@@ -83,6 +84,7 @@ class CustomTextField extends StatelessWidget {
     this.suffix,
     this.isMaxlength = false,
     this.maxLength,
+    this.textAlign = TextAlign.start,
   }) : super(key: key);
 
   @override
@@ -100,7 +102,7 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           initialValue: initialValue,
-
+          textAlign: textAlign,
           textAlignVertical: TextAlignVertical.top,
           expands: isDetail,
           onChanged: onChange,

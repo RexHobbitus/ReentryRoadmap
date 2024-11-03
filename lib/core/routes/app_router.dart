@@ -15,9 +15,12 @@ import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_page.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_page.dart';
 import 'package:url_strategy/url_strategy.dart';
+
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
@@ -29,7 +32,6 @@ import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
-import '../../presentation/widgets/scaffold_with_nav_bar.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 
@@ -91,6 +93,15 @@ class AppRouter {
                 return ExplorePage(
                   cubit: getIt(),
                   initialParams: const ExploreInitialParams(),
+                );
+              },
+            ),
+            GoRoute(
+              path: SearchPage.path,
+              builder: (context, state) {
+                return SearchPage(
+                  cubit: getIt(),
+                  initialParams: const SearchInitialParams(),
                 );
               },
             ),

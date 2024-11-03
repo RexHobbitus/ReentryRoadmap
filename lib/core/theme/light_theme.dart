@@ -12,6 +12,8 @@ const Color _lightOnSurface = Color(0xFF151517);
 const Color _lightPrimary = Color(0xFF807ED5);
 const Color _lightOnPrimary = Color(0xFFFFFFFF);
 
+const Color _lightPrimaryContainer = Color(0xFFCDC9F4);
+
 const Color _lightSecondary = Color(0xFF11404C);
 const Color _lightOnSecondary = Color(0xFFFFFFFF);
 
@@ -19,6 +21,9 @@ const Color _lightTertiaryColor = Color(0xff89898A);
 const Color _lightOnTertiaryColor = Color(0xFF151517);
 
 const Color _lightTertiaryContainerColor = Color(0xFFBFD4D9);
+const Color _lightSurfaceContainerColor = Color(0xFFF1F6F8);
+
+const Color _lightSecondaryContainerColor = Color(0xFF396773);
 
 const Color _lightCardColor = Color(0xFFF6F9FA);
 
@@ -80,11 +85,14 @@ final ThemeData LIGHT_THEME = ThemeData(
     surface: _lightSurface,
     onSurface: _lightOnSurface,
     primary: _lightPrimary,
+    primaryContainer: _lightPrimaryContainer,
     onPrimary: _lightOnPrimary,
     secondary: _lightSecondary,
+    secondaryContainer: _lightSecondaryContainerColor,
     onSecondary: _lightOnSecondary,
     tertiary: _lightTertiaryColor,
     onTertiary: _lightOnTertiaryColor,
     tertiaryContainer: _lightTertiaryContainerColor,
+    surfaceContainer: _lightSurfaceContainerColor,
   ),
 );

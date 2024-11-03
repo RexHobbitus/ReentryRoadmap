@@ -22,6 +22,8 @@ import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 
@@ -62,6 +64,11 @@ class AppCubits {
     getIt.registerSingleton<MyServicesCubit>(MyServicesCubit(
       navigator: getIt(),
     ));
+    getIt.registerSingleton<SearchNavigator>(SearchNavigator(getIt()));
+    getIt.registerSingleton<SearchCubit>(SearchCubit(
+      navigator: getIt(),
+      userStore: getIt(),
+    ));
     getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));
     getIt.registerSingleton<ReviewCubit>(ReviewCubit(
       navigator: getIt(),
@@ -80,8 +87,7 @@ class AppCubits {
       snackBar: getIt(),
     ));
 
-    getIt.registerSingleton<NotificationNavigator>(
-        NotificationNavigator(getIt()));
+    getIt.registerSingleton<NotificationNavigator>(NotificationNavigator(getIt()));
     getIt.registerSingleton<NotificationCubit>(NotificationCubit(
       navigator: getIt(),
       userStore: getIt(),
@@ -94,12 +100,9 @@ class AppCubits {
       onboardingUseCase: getIt(),
       snackBar: getIt(),
     ));
-    getIt.registerSingleton<ProviderOnboardingNavigator>(
-        ProviderOnboardingNavigator(getIt()));
-    getIt.registerSingleton<ProviderOnboardingCubit>(ProviderOnboardingCubit(
-        navigator: getIt(),
-        providerOnboardingUseCase: getIt(),
-        snackBar: getIt()));
+    getIt.registerSingleton<ProviderOnboardingNavigator>(ProviderOnboardingNavigator(getIt()));
+    getIt.registerSingleton<ProviderOnboardingCubit>(
+        ProviderOnboardingCubit(navigator: getIt(), providerOnboardingUseCase: getIt(), snackBar: getIt()));
 
     getIt.registerSingleton<LoginNavigator>(LoginNavigator(getIt()));
     getIt.registerSingleton<LoginCubit>(LoginCubit(
@@ -113,8 +116,7 @@ class AppCubits {
       signUpUseCase: getIt(),
       snackBar: getIt(),
     ));
-    getIt.registerSingleton<ProviderDetailNavigator>(
-        ProviderDetailNavigator(getIt()));
+    getIt.registerSingleton<ProviderDetailNavigator>(ProviderDetailNavigator(getIt()));
     getIt.registerSingleton<ProviderDetailCubit>(ProviderDetailCubit(
       navigator: getIt(),
       snackBar: getIt(),

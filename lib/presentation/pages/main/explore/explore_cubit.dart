@@ -1,15 +1,17 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_initial_params.dart';
+
 import '../../../../domain/entities/provider.dart';
 import 'explore_initial_params.dart';
-import 'explore_state.dart';
 import 'explore_navigator.dart';
+import 'explore_state.dart';
 
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreNavigator navigator;
@@ -54,8 +56,6 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   categoryAction(ServiceCategory category) {
-    snackBar.show(
-        "TODO: Navigate to Search screen => ${category.title} results",
-        snackBarType: SnackBarType.INFO);
+    navigator.openSearch(const SearchInitialParams());
   }
 }
