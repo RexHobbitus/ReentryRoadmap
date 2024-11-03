@@ -257,7 +257,7 @@ class _MyServicesState extends State<MyServicesPage>
                 body: BlocBuilder<MyServicesCubit, MyServicesState>(
                   builder: (context, state) {
                     if (state.loading) {
-                      return const CircularProgressIndicator();
+                      return const Center(child: CircularProgressIndicator());
                     } else {
                       return TabBarView(
 

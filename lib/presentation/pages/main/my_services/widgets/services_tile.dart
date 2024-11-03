@@ -93,7 +93,7 @@ class _ServicesTileState extends State<ServicesTile> {
                 (index) => _offering(
                     context: context, title: "Holistic Wrap-around Service"),
               ),
-              Divider(
+              const Divider(
                 height: 30,
               ),
               ...List.generate(
