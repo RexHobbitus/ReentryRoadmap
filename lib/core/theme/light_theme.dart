@@ -21,6 +21,8 @@ const Color _lightOnTertiaryColor = Color(0xFF151517);
 const Color _lightTertiaryContainerColor = Color(0xFFBFD4D9);
 
 const Color _lightCardColor = Color(0xFFF6F9FA);
+const Color lightBlueColor = Color(0xFFF1F6F8);
+const Color lightGreenColor = Color(0xFF396773);
 
 final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,

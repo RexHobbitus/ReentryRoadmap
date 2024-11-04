@@ -12,6 +12,9 @@ import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
+import '../../../../../../core/navigation/app_navigator.dart';
+import '../../../organization/organization_detail/organization_detail_page.dart';
+
 class ProviderDetailHeader extends StatelessWidget {
   final ProviderDetailCubit cubit;
   ProviderDetailHeader({super.key,required this.cubit});
@@ -77,11 +80,15 @@ class ProviderDetailHeader extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation} >",
-          style: context.textTheme.bodyMedium?.copyWith(
-            color: context.colorScheme.secondary,
-            decoration: TextDecoration.underline,
+        GestureDetector(
+          onTap: () =>
+              AppNavigator().push(context, OrganizationDetailPage.path, null),
+          child: Text(
+            "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation} >",
+            style: context.textTheme.bodyMedium?.copyWith(
+              color: context.colorScheme.secondary,
+              decoration: TextDecoration.underline,
+            ),
           ),
         ),
         const SizedBox(

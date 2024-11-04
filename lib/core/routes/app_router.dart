@@ -25,6 +25,7 @@ import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
 import '../../presentation/pages/main/my_services/my_services_page.dart';
 import '../../presentation/pages/main/notification/notification_page.dart';
+import '../../presentation/pages/main/organization/organization_detail/organization_detail_page.dart';
 import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
@@ -179,6 +180,14 @@ class AppRouter {
             cubit: getIt(),
             initialParams:
                 ProviderDetailInitialParams(id: state.pathParameters['id']!),
+          );
+        },
+      ),
+      GoRoute(
+        path: OrganizationDetailPage.path,
+        builder: (context, state) {
+          return OrganizationDetailPage(
+            cubit: getIt(),
           );
         },
       ),

@@ -3,7 +3,10 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 
 class ServiceCardCategoryChip extends StatelessWidget {
   final String title;
-  const ServiceCardCategoryChip({super.key,required this.title,});
+  final Color? bgColor;
+  final Color? textColor;
+
+  const ServiceCardCategoryChip({super.key,required this.title, this.bgColor, this.textColor});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +18,10 @@ class ServiceCardCategoryChip extends StatelessWidget {
           margin: const EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(5),
-            color: context.themeData.colorScheme.tertiaryContainer,
+            color: bgColor ?? context.themeData.colorScheme.tertiaryContainer,
           ),
           child: Center(child: Text(title,style: context.textTheme.bodySmall?.copyWith(
-            color: context.themeData.colorScheme.onTertiaryContainer,
+            color: textColor ?? context.themeData.colorScheme.onTertiaryContainer,
             fontWeight: FontWeight.w600,
             fontSize: 10
           ),),),

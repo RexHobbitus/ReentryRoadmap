@@ -4,9 +4,10 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 class CustomExpansionTile extends StatelessWidget {
   final String title;
   final List<Widget> children;
+  final bool showLine;
 
   const CustomExpansionTile(
-      {super.key, required this.title, required this.children});
+      {super.key, required this.title, required this.children,this.showLine = true});
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +26,7 @@ class CustomExpansionTile extends StatelessWidget {
               ),
             ),
             children: children),
-        const Divider(
-          height: 2,
-        )
+        if (showLine) const Divider(height: 2)
       ],
     );
   }

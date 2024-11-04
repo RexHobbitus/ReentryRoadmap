@@ -25,6 +25,7 @@ import 'package:reentry_roadmap/presentation/pages/main/review/review_navigator.
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_navigator.dart';
 
+import '../presentation/pages/main/organization/organization_detail/organization_detail_cubit.dart';
 import '../presentation/pages/splash/splash_cubit.dart';
 import '../presentation/pages/splash/splash_navigator.dart';
 import 'service_locator.dart';
@@ -129,6 +130,10 @@ class AppCubits {
       snackBar: getIt(),
       userStore: getIt(),
       appUserRepository: getIt(),
+    ));
+
+    getIt.registerSingleton<OrganizationDetailCubit>(OrganizationDetailCubit(
+      userStore: getIt(),
     ));
   }
 }
