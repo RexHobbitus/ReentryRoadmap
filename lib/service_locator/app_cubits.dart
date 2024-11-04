@@ -4,6 +4,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onb
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cubit.dart';
@@ -112,6 +114,11 @@ class AppCubits {
 
     getIt.registerSingleton<InboxNavigator>(InboxNavigator(getIt()));
     getIt.registerSingleton<InboxCubit>(InboxCubit(
+      navigator: getIt(),
+    ));
+
+    getIt.registerSingleton<ChatNavigator>(ChatNavigator(getIt()));
+    getIt.registerSingleton<ChatCubit>(ChatCubit(
       navigator: getIt(),
     ));
 

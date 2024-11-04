@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_initial_params.dart';
 import '../../../data/models/inbox_messages_model.dart';
 import 'inbox_initial_params.dart';
 import 'inbox_state.dart';
@@ -27,6 +28,16 @@ class InboxCubit extends Cubit<InboxState> {
     }
 
     emit(state.copyWith(selectedIndex: index, messageFilter: filteredMessages));
+  }
+
+  navigatetoChatScreen() async {
+    try {
+      emit(state.copyWith(loading: true));
+      navigator.openChatScreen(const ChatInitialParams());
+    } catch (e) {
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
   }
 
   onInit(InboxInitialParams initialParams) {}

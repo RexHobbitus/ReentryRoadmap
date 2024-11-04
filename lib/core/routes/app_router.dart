@@ -4,6 +4,8 @@ import 'package:reentry_roadmap/presentation/pages/authentication/login/login_in
 import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onboarding_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_page.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
 import 'package:reentry_roadmap/presentation/pages/inbox/inbox_page.dart';
@@ -190,6 +192,16 @@ class AppRouter {
           return InboxPage(
             cubit: getIt(),
             initialParams: const InboxInitialParams(),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: ChatPage.path,
+        builder: (context, state) {
+          return ChatPage(
+            cubit: getIt(),
+            initialParams: const ChatInitialParams(),
           );
         },
       ),

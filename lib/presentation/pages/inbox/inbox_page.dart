@@ -63,7 +63,7 @@ class _InboxState extends State<InboxPage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    MessageHeader(title: "Messages"),
+                    const MessageHeader(title: "Messages"),
                     const SizedBox(height: 20),
                     const InboxSearchField(),
                     const SizedBox(height: 15),
@@ -78,7 +78,7 @@ class _InboxState extends State<InboxPage> {
                         );
                       },
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     Expanded(
@@ -86,14 +86,18 @@ class _InboxState extends State<InboxPage> {
                         bloc: cubit,
                         builder: (context, state) {
                           return state.messages.isEmpty
-                              ? InboxEmptyState()
+                              ? const InboxEmptyState()
                               : ListView.builder(
                                   shrinkWrap: true,
                                   itemCount: state.messages.length,
                                   itemBuilder: (context, index) {
                                     final message = state.messages[index];
 
-                                    return MessageItem(message: message);
+                                    return GestureDetector(
+                                        onTap: () {
+                                          cubit.navigatetoChatScreen();
+                                        },
+                                        child: MessageItem(message: message));
                                   },
                                 );
                         },
@@ -111,7 +115,7 @@ class _InboxState extends State<InboxPage> {
                     Expanded(
                       child: Row(
                         children: [
-                          Container(
+                          SizedBox(
                             width: 420,
                             child: Column(
                               children: [
@@ -139,7 +143,7 @@ class _InboxState extends State<InboxPage> {
                                     bloc: cubit,
                                     builder: (context, state) {
                                       return state.messages.isEmpty
-                                          ? InboxEmptyState()
+                                          ? const InboxEmptyState()
                                           : ListView.builder(
                                               shrinkWrap: true,
                                               itemCount: state.messages.length,
@@ -162,26 +166,22 @@ class _InboxState extends State<InboxPage> {
                             color: Theme.of(context).disabledColor,
                           ),
                           Expanded(
-                            child: Container(
-                              child: Center(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      "Select a message to read it",
-                                      style: context.textTheme.titleLarge
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w600),
-                                    ),
-                                    Text(
-                                      "You have 3 unread messages",
-                                      style: context.textTheme.titleSmall
-                                          ?.copyWith(
-                                              fontWeight: FontWeight.w400),
-                                    )
-                                  ],
-                                ),
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Select a message to read it",
+                                    style: context.textTheme.titleLarge
+                                        ?.copyWith(fontWeight: FontWeight.w600),
+                                  ),
+                                  Text(
+                                    "You have 3 unread messages",
+                                    style: context.textTheme.titleSmall
+                                        ?.copyWith(fontWeight: FontWeight.w400),
+                                  )
+                                ],
                               ),
                             ),
                           )

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_navigator.dart';
 import '../../../../core/navigation/app_navigator.dart';
+import '../chat_Screen/chat_navigator.dart';
 import 'inbox_page.dart';
 import 'inbox_initial_params.dart';
 
-class InboxNavigator with ExploreRoute, InboxRoute {
+class InboxNavigator with ExploreRoute, InboxRoute, ChatScreenRoute {
   InboxNavigator(this.navigator);
 
   @override
