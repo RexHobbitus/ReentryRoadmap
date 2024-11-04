@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:reentry_roadmap/Dev_Hire/Screens/photos_screen.dart';
 import 'package:reentry_roadmap/Dev_Hire/Utils/Customs/Widgets/provider_personal_info.dart';
 import 'package:reentry_roadmap/Dev_Hire/Utils/Customs/custom_appbar.dart';
 import '../Utils/Customs/Widgets/custom_profile.dart';
@@ -86,10 +87,7 @@ class ProviderDetailsView extends StatelessWidget {
           child: const Center(child: Text('Program Details Content')),
         );
       case 2:
-        return Container(
-          color: Colors.blue[100],
-          child: const Center(child: Text('Photos Content')),
-        );
+        return PhotosScreen();
       case 3:
         return Container(
           color: Colors.orange[100],
@@ -100,6 +98,8 @@ class ProviderDetailsView extends StatelessWidget {
     }
   }
 }
+
+
 
 
 

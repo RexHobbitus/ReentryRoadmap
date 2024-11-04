@@ -109,6 +109,7 @@ dependencies:
   git: ^2.3.0
   #for gap or spaces between section and items
   gap: ^3.0.1
+  dotted_border: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -121,7 +122,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^4.0.0
-  image_picker: ^1.1.2
   file_picker: ^8.1.2
 
 # For information on the generic Dart part of this file, see the

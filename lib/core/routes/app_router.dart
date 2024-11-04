@@ -52,12 +52,12 @@ class AppRouter {
     navigatorKey: AppNavigator.navigatorKey,
     initialLocation: SplashPage.path,
     routes: [
-      GoRoute(
-        path: ProviderDetailsPage.path, // Define the path for ProviderDetailsPage
-        builder: (context, state) {
-          return const ProviderDetailsPage(); // Your provider details page
-        },
-      ),
+      // GoRoute(
+      //   path: ProviderDetailsPage.path, // Define the path for ProviderDetailsPage
+      //   builder: (context, state) {
+      //     return const ProviderDetailsPage(); // Your provider details page
+      //   },
+      // ),
       GoRoute(
         path: ProviderContactDetails.path,
         builder: (context, state) {
