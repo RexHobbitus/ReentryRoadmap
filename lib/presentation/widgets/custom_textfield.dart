@@ -100,7 +100,6 @@ class CustomTextField extends StatelessWidget {
         child: TextFormField(
           controller: controller,
           initialValue: initialValue,
-
           textAlignVertical: TextAlignVertical.top,
           expands: isDetail,
           onChanged: onChange,
@@ -145,7 +144,7 @@ class CustomTextField extends StatelessWidget {
                   )
                 : suffix,
             suffixIconConstraints: const BoxConstraints(
-              maxHeight: 30,
+              maxHeight: 32,
             ),
             enabledBorder: inputBorder ?? borderStyle(context),
             focusedBorder: inputBorder ?? borderStyle(context, isActive: true),

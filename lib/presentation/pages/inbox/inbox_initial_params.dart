@@ -1,0 +1,4 @@
+class InboxInitialParams {
+
+const InboxInitialParams();
+}

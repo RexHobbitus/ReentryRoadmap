@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_u
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
+import 'package:reentry_roadmap/presentation/pages/inbox/inbox_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
@@ -20,6 +21,7 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
+import '../../presentation/pages/inbox/inbox_initial_params.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
@@ -179,6 +181,15 @@ class AppRouter {
             cubit: getIt(),
             initialParams:
                 ProviderDetailInitialParams(id: state.pathParameters['id']!),
+          );
+        },
+      ),
+      GoRoute(
+        path: InboxPage.path,
+        builder: (context, state) {
+          return InboxPage(
+            cubit: getIt(),
+            initialParams: const InboxInitialParams(),
           );
         },
       ),

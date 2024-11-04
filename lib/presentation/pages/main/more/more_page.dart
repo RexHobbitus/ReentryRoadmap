@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
+import 'package:reentry_roadmap/presentation/pages/inbox/inbox_page.dart';
+import 'package:reentry_roadmap/presentation/pages/main/explore/explore_page.dart';
 import 'more_cubit.dart';
 import 'more_initial_params.dart';
 import 'more_state.dart';
@@ -32,8 +35,10 @@ class _MoreState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body:  Center(child: Text("More page"),),
+    return Scaffold(
+      body: Center(
+        child: Text("More page"),
+      ),
     );
   }
 }

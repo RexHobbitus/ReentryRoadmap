@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:go_router/go_router.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
@@ -11,6 +11,7 @@ import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../../domain/entities/login_user.dart';
 import '../../../../widgets/provider_service_card.dart';
+import '../../../inbox/inbox_page.dart';
 import 'explore_services_slider.dart';
 
 class ExploreServicesSection extends StatelessWidget {
@@ -66,11 +67,12 @@ class ExploreServicesSection extends StatelessWidget {
                               shrinkWrap: true,
                               primary: false,
                               padding: const EdgeInsets.symmetric(vertical: 20),
-                              itemCount: state.loading?4:state.services.length,
+                              itemCount:
+                                  state.loading ? 4 : state.services.length,
                               itemBuilder: (context, index) {
-                                Provider provider =state.loading?
-                                Provider.shimmer():
-                                state.services[index];
+                                Provider provider = state.loading
+                                    ? Provider.shimmer()
+                                    : state.services[index];
                                 return ProviderServiceCard(
                                   onTap: cubit.openProviderDetail,
                                   provider: provider,
@@ -99,7 +101,9 @@ class ExploreServicesSection extends StatelessWidget {
             context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
       ),
       InkWell(
-        onTap: () {},
+        onTap: () {
+          cubit.navigateInboxRoute();
+        },
         child: Text(
           "View All >",
           style: context.textTheme.titleMedium?.copyWith(

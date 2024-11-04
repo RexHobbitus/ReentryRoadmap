@@ -77,14 +77,13 @@ class _LoginState extends State<LoginPage> {
                   CustomCheckBox(
                     text: "Create account as Provider",
                     value: cubit.isProvider,
-                    onChange: (val){
-                      cubit.isProvider=val;
+                    onChange: (val) {
+                      cubit.isProvider = val;
                     },
                   ),
                   const SizedBox(
                     height: 20,
                   ),
-
                   CustomButton(
                     text: "Login",
                     onTap: cubit.loginAction,

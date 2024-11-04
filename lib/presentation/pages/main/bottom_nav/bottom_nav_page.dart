@@ -30,7 +30,6 @@ class BottomNavPage extends StatefulWidget {
     required this.cubit,
     required this.initialParams,
     required this.child,
-
   }) : super(key: key);
 
   @override
@@ -89,50 +88,52 @@ class _BottomNavState extends State<BottomNavPage> {
             // body: cubit.pages[state.currentIndex],
             body: widget.child,
             bottomNavigationBar: LayoutBuilder(builder: (context, constraints) {
-              return constraints.maxWidth>kMenuBreakPoint?const SizedBox.shrink():
-              BottomNavigationBar(
-                currentIndex: _calculateSelectedIndex(context),
-                onTap: (int idx) => cubit.onMenuTapped(idx, context),
-                items: [
-                  _customBottomNavIcon(
-                    label: "Explore",
-                    assetPath: Assets.explore,
-                    isSelected: state.currentIndex == 0,
-                  ),
-                  _customBottomNavIcon(
-                    label: "My Services",
-                    assetPath: Assets.myServices,
-                    isSelected: state.currentIndex == 1,
-                  ),
-                  _customBottomNavIcon(
-                    label: cubit.userStore.state.isLoggedIn ? "Me" : "Sign Up",
-                    assetPath: Assets.signup,
-                    child: cubit.userStore.state.isLoggedIn
-                        ? const CircleAvatar(
-                            radius: 10,
-                            backgroundImage: CachedNetworkImageProvider(
-                                "https://deadline.com/wp-content/uploads/2023/03/Keanu-Reeves-john-wick-4.jpg"),
-                          )
-                        : null,
-                    isSelected: state.currentIndex == 2,
-                  ),
-                  _customBottomNavIcon(
-                    label: "Review",
-                    assetPath: Assets.review,
-                    isSelected: state.currentIndex == 3,
-                  ),
-                  _customBottomNavIcon(
-                    label: "More",
-                    assetPath: Assets.more,
-                    isSelected: state.currentIndex == 4,
-                  ),
-                ],
-              );
+              return constraints.maxWidth > kMenuBreakPoint
+                  ? const SizedBox.shrink()
+                  : BottomNavigationBar(
+                      currentIndex: _calculateSelectedIndex(context),
+                      onTap: (int idx) => cubit.onMenuTapped(idx, context),
+                      items: [
+                        _customBottomNavIcon(
+                          label: "Explore",
+                          assetPath: Assets.explore,
+                          isSelected: state.currentIndex == 0,
+                        ),
+                        _customBottomNavIcon(
+                          label: "My Services",
+                          assetPath: Assets.myServices,
+                          isSelected: state.currentIndex == 1,
+                        ),
+                        _customBottomNavIcon(
+                          label: cubit.userStore.state.isLoggedIn
+                              ? "Me"
+                              : "Sign Up",
+                          assetPath: Assets.signup,
+                          child: cubit.userStore.state.isLoggedIn
+                              ? const CircleAvatar(
+                                  radius: 10,
+                                  backgroundImage: CachedNetworkImageProvider(
+                                      "https://deadline.com/wp-content/uploads/2023/03/Keanu-Reeves-john-wick-4.jpg"),
+                                )
+                              : null,
+                          isSelected: state.currentIndex == 2,
+                        ),
+                        _customBottomNavIcon(
+                          label: "Review",
+                          assetPath: Assets.review,
+                          isSelected: state.currentIndex == 3,
+                        ),
+                        _customBottomNavIcon(
+                          label: "More",
+                          assetPath: Assets.more,
+                          isSelected: state.currentIndex == 4,
+                        ),
+                      ],
+                    );
             }),
           );
         });
   }
-
 
   static int _calculateSelectedIndex(BuildContext context) {
     final String location = GoRouterState.of(context).uri.path;
@@ -153,10 +154,6 @@ class _BottomNavState extends State<BottomNavPage> {
     }
     return 0;
   }
-
-
-
-
 
   BottomNavigationBarItem _customBottomNavIcon(
       {required String label,

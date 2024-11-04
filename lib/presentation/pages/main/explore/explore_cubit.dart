@@ -5,14 +5,17 @@ import 'package:reentry_roadmap/domain/entities/service_category.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/inbox/inbox_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import '../../../../domain/entities/provider.dart';
+import '../../inbox/inbox_initial_params.dart';
 import 'explore_initial_params.dart';
 import 'explore_state.dart';
 import 'explore_navigator.dart';
 
 class ExploreCubit extends Cubit<ExploreState> {
   ExploreNavigator navigator;
+
   UserStore userStore;
   AppSnackBar snackBar;
   ProviderRepository providerRepository;
@@ -44,6 +47,16 @@ class ExploreCubit extends Cubit<ExploreState> {
       emit(state.copyWith(services: services));
     } catch (e) {
       snackBar.show(e.toString());
+    } finally {
+      emit(state.copyWith(loading: false));
+    }
+  }
+
+  navigateInboxRoute() async {
+    try {
+      emit(state.copyWith(loading: true));
+      navigator.openInbox(const InboxInitialParams());
+    } catch (e) {
     } finally {
       emit(state.copyWith(loading: false));
     }

@@ -64,6 +64,7 @@ class ServiceLocator {
       authRepository: getIt(),
       userStore: getIt(),
     ));
+
     getIt.registerSingleton<SignUpUseCase>(SignUpUseCase(
       authRepository: getIt(),
       userStore: getIt(),

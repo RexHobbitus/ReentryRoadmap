@@ -15,7 +15,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     super.key,
     required this.features,
     required this.eligibility,
-    this.isLoggedIn=false,
+    this.isLoggedIn = false,
   });
 
   @override
@@ -23,7 +23,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     return CustomResponsiveBuilder(
       builder: (context, constraints, deviceSize) {
         return Padding(
-          padding:  EdgeInsets.symmetric(vertical: isLoggedIn?5:15),
+          padding: EdgeInsets.symmetric(vertical: isLoggedIn ? 5 : 15),
           child: deviceSize == DeviceSize.web
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -48,16 +48,18 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        isLoggedIn?Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: CustomButton(
-            text: "Eligible!",
-            iconPath: Assets.starCheck,
-            onTap: () {},
-            isSecondary: true,
-            width: isWeb ? 100 : null,
-          ),
-        ):const SizedBox.shrink(),
+        isLoggedIn
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: CustomButton(
+                  text: "Eligible!",
+                  iconPath: Assets.starCheck,
+                  onTap: () {},
+                  isSecondary: true,
+                  width: isWeb ? 100 : null,
+                ),
+              )
+            : const SizedBox.shrink(),
         AboutProviderEligibilityCriteriaSubSection(
           eligibilities: eligibility,
         ),
@@ -70,16 +72,18 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        isLoggedIn?Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: CustomButton(
-            text: "Recommended for you",
-            iconPath: Assets.starCheck,
-            onTap: () {},
-            isSecondary: true,
-            width: isWeb ? 200 : null,
-          ),
-        ):const SizedBox.shrink(),
+        isLoggedIn
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: CustomButton(
+                  text: "Recommended for you",
+                  iconPath: Assets.starCheck,
+                  onTap: () {},
+                  isSecondary: true,
+                  width: isWeb ? 200 : null,
+                ),
+              )
+            : const SizedBox.shrink(),
         AboutProviderFeatureSubSection(
           features: features,
         ),
