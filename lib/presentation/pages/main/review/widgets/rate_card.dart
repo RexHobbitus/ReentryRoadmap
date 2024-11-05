@@ -46,7 +46,7 @@ class _RateCardState extends State<RateCard> {
       return SizedBox(
         width: deviceSize == DeviceSize.web ? 1000 : null,
         height: deviceSize == DeviceSize.web
-            ? 520
+            ? 540
             : MediaQuery.of(context).size.height * 0.8,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -90,7 +90,10 @@ class _RateCardState extends State<RateCard> {
               const SizedBox(height: 10),
               const Text(
                 "Reflecting on your experience with this provider, how much would you agree with the following statements? Rank your experience on a scale of 1-5 where 1 represents 'disagree' and 5 represents 'completely agree'.",
-                style: TextStyle(fontSize: 12.0),
+                style: TextStyle(fontSize: 14.0,
+                color:Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 20),
               constraints.maxWidth < kMenuBreakPoint
@@ -132,11 +135,8 @@ class _RateCardState extends State<RateCard> {
                                           color: isSelected
                                               ? context.themeData.colorScheme
                                                   .secondary
-                                              : Colors.transparent,
-                                          border: Border.all(
-                                            color: context.themeData.colorScheme
-                                                .secondary,
-                                          ),
+                                              : context.themeData.colorScheme.secondaryContainer,
+
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
@@ -204,11 +204,8 @@ class _RateCardState extends State<RateCard> {
                                         color: isSelected
                                             ? context.themeData.colorScheme
                                             .secondary
-                                            : Colors.transparent,
-                                        border: Border.all(
-                                          color: context.themeData.colorScheme
-                                              .secondary,
-                                        ),
+                                            : context.themeData.colorScheme.secondaryContainer,
+
                                         borderRadius:
                                         BorderRadius.circular(10),
                                       ),
@@ -274,11 +271,8 @@ class _RateCardState extends State<RateCard> {
                                         color: isSelected
                                             ? context.themeData.colorScheme
                                             .secondary
-                                            : Colors.transparent,
-                                        border: Border.all(
-                                          color: context.themeData.colorScheme
-                                              .secondary,
-                                        ),
+                                            : context.themeData.colorScheme.secondaryContainer,
+
                                         borderRadius:
                                         BorderRadius.circular(10),
                                       ),

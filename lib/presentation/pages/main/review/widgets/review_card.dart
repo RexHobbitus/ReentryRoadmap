@@ -50,8 +50,13 @@ class _ReviewCardState extends State<ReviewCard> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _titleWidget(title: widget.title),
-            const SizedBox(height: 30),
-            _ratingWidget(),
+
+            Divider(
+              height: 30,
+              color: context.colorScheme.onSurface.withOpacity(0.3),
+            ),
+            SizedBox(height: 20),
+            deviceSize == DeviceSize.web ? _ratingWidgetWeb() :_ratingWidget(),
             const SizedBox(height: 20),
             CustomTextField(
               isDetail: true,
@@ -64,6 +69,7 @@ class _ReviewCardState extends State<ReviewCard> {
             ),
             _selectedImages(),
             AddPhotosButton(onTap: kIsWeb ? _pickWebImages : _pickImages),
+            const SizedBox(height: 20),
             deviceSize == DeviceSize.web ? _PostReviewButtonWeb(constraints,kMenuBreakPoint) : _PostReviewButtonMobile(constraints,kMenuBreakPoint),
           ],
         ),
@@ -284,6 +290,35 @@ class _ReviewCardState extends State<ReviewCard> {
           },
         ),
       ]
+    );
+  }
+
+  Widget _ratingWidgetWeb(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Write a Review",
+          style: context.textTheme.bodyMedium
+              ?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        Spacer(),
+        Text(
+          "Select a Rating",
+          style: context.textTheme.bodyMedium
+              ?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        SizedBox(width: 10),
+        CustomStarRating(
+          disableTap: false,
+          initialValue: _rating,
+          onChange: (val) {
+            setState(() {
+              _rating = val;
+            });
+          },
+        ),
+      ],
     );
   }
 
