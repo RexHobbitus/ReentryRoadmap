@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/double_extension.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/theme/light_theme.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
 
 class NoServicesView extends StatelessWidget {
-  const NoServicesView({super.key});
-
+  const NoServicesView({super.key,required this.title,required this.desc});
+  final String title;
+  final String desc;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,8 +22,8 @@ class NoServicesView extends StatelessWidget {
             height: 200,
           ),
           Text(
+title,
 
-            "You haven’t saved any service provider yet",
             textAlign: TextAlign.center,
             style: context.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w500,
@@ -29,11 +31,14 @@ class NoServicesView extends StatelessWidget {
           ),
           20.verticalSpace,
           Text(
-            "Service providers you save will appear here",
+           desc,
+
             textAlign: TextAlign.center,
             style: context.textTheme.titleLarge?.copyWith(
                 fontWeight: FontWeight.w500,
-                fontSize: Responsive.isDesktop(context) ? 20 : 15),
+                fontSize: Responsive.isDesktop(context) ? 20 : 15,color: lightSurfaceContainerColor
+
+            ),
           ),
           50.verticalSpace,
         ],

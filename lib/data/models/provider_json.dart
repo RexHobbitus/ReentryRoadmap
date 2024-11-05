@@ -31,9 +31,9 @@ class ProviderJson {
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    onboardingInfo = json['providerOnboardingInfo'] != null
+    onboardingInfo = json['onboardingInfo'] != null
         ? new ProviderOnboardingInfoJson.fromJson(
-            json['providerOnboardingInfo'])
+            json['onboardingInfo'])
         : null;
     avgRating = json['avgRating'];
     totalReviews = json['totalReviews'];

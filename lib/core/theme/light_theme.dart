@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../routes/custom_page_transition_builder.dart';
 
@@ -19,6 +18,8 @@ const Color _lightTertiaryColor = Color(0xff89898A);
 const Color _lightOnTertiaryColor = Color(0xFF151517);
 
 const Color _lightTertiaryContainerColor = Color(0xFFBFD4D9);
+const Color lightOnTertiaryContainerColor = Color(0xffF1F6F8);
+const Color lightSurfaceContainerColor = Color(0xff396773);
 
 const Color _lightCardColor = Color(0xFFF6F9FA);
 
@@ -26,12 +27,10 @@ final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,
   useMaterial3: false,
   scaffoldBackgroundColor: _lightScaffold,
-  fontFamily:"Poppins",
- // GoogleFonts.poppins().fontFamily,
-
+  fontFamily: "Poppins",
+  // GoogleFonts.poppins().fontFamily,
 
   textTheme: const TextTheme(
-
     displayLarge: TextStyle(color: Colors.black),
     displaySmall: TextStyle(color: Colors.black),
     displayMedium: TextStyle(color: Colors.black),
@@ -55,6 +54,7 @@ final ThemeData LIGHT_THEME = ThemeData(
         fontWeight: FontWeight.w600,
       ),
       iconTheme: IconThemeData(color: Colors.black)),
+
   pageTransitionsTheme: PageTransitionsTheme(
     builders: {
       TargetPlatform.android: CustomPageTransitionsBuilder(),
@@ -81,17 +81,17 @@ final ThemeData LIGHT_THEME = ThemeData(
   ),
   cardColor: _lightCardColor,
 
-
   colorScheme: const ColorScheme.light(
-    surface: _lightSurface,
-    onSurface: _lightOnSurface,
-    primary: _lightPrimary,
-    onPrimary: _lightOnPrimary,
-    secondary: _lightSecondary,
-    onSecondary: _lightOnSecondary,
-    tertiary: _lightTertiaryColor,
-    onTertiary: _lightOnTertiaryColor,
-    tertiaryContainer: _lightTertiaryContainerColor,
-
+      surface: _lightSurface,
+      onSurface: _lightOnSurface,
+      primary: _lightPrimary,
+      onPrimary: _lightOnPrimary,
+      secondary: _lightSecondary,
+      onSecondary: _lightOnSecondary,
+      tertiary: _lightTertiaryColor,
+      onTertiary: _lightOnTertiaryColor,
+      tertiaryContainer: _lightTertiaryContainerColor,
+      //onTertiaryContainer: _lightOnTertiaryContainerColor,
+     // surfaceContainer: _lightSurfaceContainerColor
   ),
 );

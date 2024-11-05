@@ -3,8 +3,8 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 
 class DesktopTabBar extends StatefulWidget {
-  const DesktopTabBar({super.key, required this.tabController});
-
+  const DesktopTabBar({super.key, required this.tabController, this.onTap});
+final Function( int index)? onTap;
   final TabController tabController;
 
   @override
@@ -30,6 +30,10 @@ class _DesktopTabBarState extends State<DesktopTabBar> {
   @override
   Widget build(BuildContext context) {
     return TabBar(
+      splashFactory: NoSplash.splashFactory,
+      overlayColor: WidgetStatePropertyAll(Colors.transparent),
+     indicatorPadding:EdgeInsets.only(right: 16),
+      onTap: widget.onTap,
         controller: widget.tabController,
         labelColor: Colors.white,
         unselectedLabelColor: Colors.black,
@@ -38,7 +42,7 @@ class _DesktopTabBarState extends State<DesktopTabBar> {
           // Background color of selected tab
           borderRadius: BorderRadius.circular(10), // Rounded corners
         ),
-        labelPadding: const EdgeInsets.symmetric(horizontal: 12.0),
+       labelPadding:  EdgeInsets.only(right: 16),
         unselectedLabelStyle: const TextStyle(color: Colors.black),
         isScrollable: false,
         tabs: List.generate(
@@ -49,8 +53,8 @@ class _DesktopTabBarState extends State<DesktopTabBar> {
               child: Container(
                 width: double.maxFinite,
                 height: double.maxFinite,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              //  margin:
+                //    const EdgeInsets.only(right: 10),
                 decoration: widget.tabController.index == index
                     ? null
                     : BoxDecoration(

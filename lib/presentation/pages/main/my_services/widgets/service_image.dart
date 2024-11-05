@@ -19,8 +19,9 @@ class ServiceImageView extends StatelessWidget {
           radius: 10,
           width: double.maxFinite,
           height:  210,
-          imgUrl:"https://plus.unsplash.com/premium_photo-1673292293042-cafd9c8a3ab3?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-          //tileCubit.myService.provider?.onboardingInfo?.providerDetails?.images?[0],
+          imgUrl:
+          tileCubit.myService.provider?.onboardingInfo?.providerDetails?.images?[0],
+          //"https://plus.unsplash.com/premium_photo-1673292293042-cafd9c8a3ab3?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         ),
         // Gradient overlay
         Positioned.fill(
@@ -48,7 +49,7 @@ class ServiceImageView extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 6),
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                 color: context.themeData.colorScheme.primary,

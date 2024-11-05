@@ -14,6 +14,7 @@ class MyServicesCubit extends Cubit<MyServicesState> {
   MyServicesRepository myServicesRepository;
   AppSnackBar snackBar;
   List<MyService> services = [];
+  List<MyService> filteredServices = [];
 
   MyServicesCubit(
       {required this.navigator,
@@ -35,6 +36,7 @@ class MyServicesCubit extends Cubit<MyServicesState> {
               removeServices(element.serviceStatus!.name) ==
               kMyServicesTabBarItems[0].toLowerCase())
           .toList();
+      filteredServices=filteredMyServices;
       emit(state.copyWith(myServices: filteredMyServices));
     } catch (e) {
       snackBar.show(e.toString());
@@ -51,6 +53,7 @@ class MyServicesCubit extends Cubit<MyServicesState> {
               removeServices(element.serviceStatus!.name) ==
               selectedServiceType.toLowerCase())
           .toList();
+      filteredServices=filteredMyServices;
       emit(state.copyWith(myServices: filteredMyServices));
     } catch (e) {
       snackBar.show(e.toString());
@@ -68,4 +71,5 @@ class MyServicesCubit extends Cubit<MyServicesState> {
 
     return filteredText;
   }
+  
 }

@@ -8,14 +8,14 @@ import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.
 class ServiceCategoriesView extends StatelessWidget {
   const ServiceCategoriesView({super.key});
 
-  final List<String> categories = const [
-    "Education",
-    "Employment",
-    "Housing",
-    "Education",
-    "Employment",
-    "Housing"
-  ];
+  // final List<String> categories = const [
+  //   "Education",
+  //   "Employment",
+  //   "Housing",
+  //   "Education",
+  //   "Employment",
+  //   "Housing"
+  // ];
 
   final int maxLimit = 5;
 
@@ -27,13 +27,13 @@ class ServiceCategoriesView extends StatelessWidget {
       runSpacing: 10,
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        for (var category in List.from(categories).take(maxLimit).toList())
+        for (var category in List.from(tileCubit.myService.provider?.getAllCategories()??[]).take(maxLimit).toList())
           ServiceCardCategoryChip(
             title: category,
           ),
-        categories.length > maxLimit
+        tileCubit.myService.provider!.getAllCategories().length > maxLimit
             ? Text(
-                "+ ${categories.length - maxLimit} More",
+                "+ ${tileCubit.myService.provider!.getAllCategories().length - maxLimit} More",
                 style: context.textTheme.bodyMedium?.copyWith(
                     color: context.themeData.colorScheme.tertiary,
                     fontSize: Responsive.getResponsiveValueDouble(

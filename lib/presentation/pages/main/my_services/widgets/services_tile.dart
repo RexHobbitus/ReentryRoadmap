@@ -4,35 +4,34 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/enums/my_services_status.dart';
 import 'package:reentry_roadmap/core/extensions/double_extension.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/theme/light_theme.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/cubits/my_services_tile_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/features_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_categories_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
-import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 
 class ServicesTile extends StatefulWidget {
   final Function(MyService)? onTap;
+  final VoidCallback? onBtnTap;
   final MyService myService;
 
-   const ServicesTile({super.key, this.onTap, required this.myService});
+  const ServicesTile(
+      {super.key, this.onTap, required this.myService, this.onBtnTap});
 
   @override
   State<ServicesTile> createState() => _ServicesTileState();
 }
 
 class _ServicesTileState extends State<ServicesTile> {
-
-  String btnText="Contact Provider";
-
-
-
+  String btnText = "Contact Provider";
 
   @override
   Widget build(BuildContext context) {
-    final tileCubit=context.read<MyServicesTileCubit>();
+    final tileCubit = context.read<MyServicesTileCubit>();
     return MouseRegion(
       cursor: SystemMouseCursors.click,
       child: GestureDetector(
@@ -46,7 +45,7 @@ class _ServicesTileState extends State<ServicesTile> {
           padding: const EdgeInsets.all(15),
           margin: const EdgeInsets.symmetric(vertical: 0),
           decoration: BoxDecoration(
-            color: const Color(0xffF1F6F8),
+            color: lightOnTertiaryContainerColor,
             borderRadius: BorderRadius.circular(10),
           ),
           child: Column(
@@ -54,22 +53,22 @@ class _ServicesTileState extends State<ServicesTile> {
             children: [
               ServiceImageView(),
               24.verticalSpace,
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-            "OpenGate Oakland",
-                  style: context.textTheme.titleLarge?.copyWith(
-                    fontWeight: FontWeight.w600,
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    widget.myService.provider?.onboardingInfo?.providerDetails
+                            ?.providerNameLocation ??
+                        "N/A",
+                    style: context.textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                10.horizontalSpace,
-                SvgPicture.asset(Assets.verified),
-              ],
-            ),
-
+                  10.horizontalSpace,
+                  SvgPicture.asset(Assets.verified),
+                ],
+              ),
               5.verticalSpace,
-
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -79,20 +78,15 @@ class _ServicesTileState extends State<ServicesTile> {
                   ),
                   Text(
                     widget.myService.provider?.completeAddress ?? "N/A",
-                    style: context.textTheme.bodySmall
-                        ?.copyWith(color: context.themeData.colorScheme.secondary),
+                    style: context.textTheme.bodySmall?.copyWith(
+                        color: context.themeData.colorScheme.secondary),
                   )
                 ],
               ),
-               20.verticalSpace,
+              20.verticalSpace,
               const ServiceCategoriesView(),
               20.verticalSpace,
-
-              ...List.generate(
-                2,
-                (index) => _offering(
-                    context: context, title: "Holistic Wrap-around Service"),
-              ),
+              const FeaturesView(),
               const Divider(
                 height: 30,
               ),
@@ -115,9 +109,10 @@ class _ServicesTileState extends State<ServicesTile> {
               ),
               20.verticalSpace,
               CustomButton(
-                isSecondary:  widget.myService.serviceStatus! == MyServicesStatus.contactedServices,
+                isSecondary: widget.myService.serviceStatus! ==
+                    MyServicesStatus.contactedServices,
                 height: 55,
-                onTap: () {},
+                onTap: widget.onBtnTap,
                 text: tileCubit.getBtnText(widget.myService.serviceStatus!),
               ),
               14.verticalSpace,
@@ -137,24 +132,25 @@ class _ServicesTileState extends State<ServicesTile> {
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
         children: [
-          leadingIcon ?? CircleAvatar(
-                  radius: 8,
-                  backgroundColor: context.colorScheme.primary,
-                  child: Icon(
-                    Icons.check,
-                    size: 10,
-                    color: context.colorScheme.onPrimary,
-                  ),
+          leadingIcon ??
+              CircleAvatar(
+                radius: 8,
+                backgroundColor: context.colorScheme.primary,
+                child: Icon(
+                  Icons.check,
+                  size: 10,
+                  color: context.colorScheme.onPrimary,
                 ),
+              ),
           10.horizontalSpace,
           Flexible(
             child: Text(
               title,
               style: context.textTheme.bodyMedium?.copyWith(
-                  fontSize: Responsive.getResponsiveValueDouble(
-                      context, 14, 14, 16),
-                  fontWeight: FontWeight.w500,
-                  ),
+                fontSize:
+                    Responsive.getResponsiveValueDouble(context, 14, 14, 16),
+                fontWeight: FontWeight.w500,
+              ),
             ),
           )
         ],
