@@ -27,7 +27,7 @@ class TabItem extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          if (isSelected)
+          if (isSelected && title == 'New Messages')
             Container(
               height: 6,
               width: 6,

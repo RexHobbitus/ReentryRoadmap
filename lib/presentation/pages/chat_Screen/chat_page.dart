@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/presentation/pages/chat_Screen/chat_state.dart';
+import 'package:reentry_roadmap/presentation/pages/chat_Screen/widget/reply_widget.dart';
 import '../../../core/utils/constants.dart';
 import '../../widgets/header_logo.dart';
 import 'chat_cubit.dart';
 import 'chat_initial_params.dart';
 import 'widget/action_bar.dart';
+import 'widget/reply_input_widget.dart';
 
 class ChatPage extends StatefulWidget {
   final ChatCubit cubit;
@@ -50,7 +52,6 @@ class _ChatScreenState extends State<ChatPage> {
         ),
         body: Column(
           children: [
-            // ActionBar at the top, fixed in place
             ActionBar(
               onBackPressed: () {
                 Navigator.of(context).pop();
@@ -60,8 +61,6 @@ class _ChatScreenState extends State<ChatPage> {
               onMarkAsUnreadPressed: () {},
             ),
             const SizedBox(height: 10),
-
-            // Padding and title text
             Padding(
               padding: const EdgeInsets.all(kScreenHorizontalPadding),
               child: Column(
@@ -76,8 +75,6 @@ class _ChatScreenState extends State<ChatPage> {
                 ],
               ),
             ),
-
-            // Expanded ListView.builder that scrolls independently
             Expanded(
               child: BlocBuilder<ChatCubit, ChatState>(
                 bloc: cubit,
@@ -88,116 +85,14 @@ class _ChatScreenState extends State<ChatPage> {
                       itemCount: state.replies.length,
                       itemBuilder: (BuildContext context, int index) {
                         final reply = state.replies[index];
-                        return Column(
-                          children: [
-                            SizedBox(
-                              width: double.infinity,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        height: 48,
-                                        width: 48,
-                                        decoration: const BoxDecoration(
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: Image.asset(
-                                          reply.iconPath,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 10),
-                                      Expanded(
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              reply.name,
-                                              style: context
-                                                  .textTheme.titleMedium
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            Text(
-                                              "View Provider >",
-                                              style: context
-                                                  .textTheme.titleMedium
-                                                  ?.copyWith(
-                                                fontWeight: FontWeight.w500,
-                                                fontSize: 12,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15),
-                                  Text(
-                                    reply.description,
-                                    style:
-                                        context.textTheme.titleSmall?.copyWith(
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                    textAlign: TextAlign.justify,
-                                  ),
-                                  const SizedBox(height: 15),
-                                  state.isReplying == true
-                                      ? const SizedBox.shrink()
-                                      : GestureDetector(
-                                          onTap: () {
-                                            cubit.toggleReplying(true);
-                                          },
-                                          child: Container(
-                                            height: 48,
-                                            width: 88,
-                                            decoration: BoxDecoration(
-                                              color: context.themeData
-                                                  .colorScheme.secondary,
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.spaceEvenly,
-                                              children: [
-                                                const Icon(
-                                                  CupertinoIcons.reply,
-                                                  size: 20,
-                                                  color: Colors.white,
-                                                ),
-                                                Text(
-                                                  "Reply",
-                                                  style: context
-                                                      .textTheme.titleSmall
-                                                      ?.copyWith(
-                                                    color: Colors.white,
-                                                    fontWeight: FontWeight.w500,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                ],
-                              ),
-                            ),
-                            if (index < 1)
-                              const Divider(
-                                height: 1,
-                                thickness: 1,
-                              ),
-                          ],
+                        return ReplyWidget(
+                          cubit: cubit,
+                          reply: reply,
+                          isLastReply: index == state.replies.length - 1,
+                          isReplying: state.isReplying,
+                          onReplyToggle: () {
+                            cubit.toggleReplying(true);
+                          },
                         );
                       },
                     ),

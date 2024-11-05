@@ -6,8 +6,14 @@ import '../../../../data/models/inbox_messages_model.dart';
 
 class MessageItem extends StatelessWidget {
   final InboxMessagesModel message;
-
-  const MessageItem({Key? key, required this.message}) : super(key: key);
+  final bool isWeb;
+  final bool isSelected;
+  const MessageItem(
+      {Key? key,
+      required this.message,
+      this.isWeb = false,
+      this.isSelected = false})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,9 @@ class MessageItem extends StatelessWidget {
         height: 82,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: context.themeData.cardColor,
+          color: isWeb && isSelected
+              ? context.themeData.colorScheme.secondary
+              : context.themeData.cardColor,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,20 +56,29 @@ class MessageItem extends StatelessWidget {
                       Text(
                         message.title ?? "",
                         style: context.textTheme.titleMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                        ),
+                            fontWeight: FontWeight.w600,
+                            color: isWeb && isSelected
+                                ? Colors.white
+                                : Colors.black),
                       ),
                       Text(
-                        InboxUtils.timeAgo(message.timestamp ?? DateTime.now()),
+                        InboxUtils.timeAgo(
+                          message.timestamp ?? DateTime.now(),
+                        ),
+                        style: TextStyle(
+                            color: isWeb && isSelected
+                                ? Colors.white
+                                : Colors.black),
                       ),
                     ],
                   ),
                   Text(
                     message.detail ?? "",
                     style: context.textTheme.titleSmall?.copyWith(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 12,
-                    ),
+                        fontWeight: FontWeight.w500,
+                        fontSize: 12,
+                        color:
+                            isWeb && isSelected ? Colors.white : Colors.black),
                   ),
                 ],
               ),

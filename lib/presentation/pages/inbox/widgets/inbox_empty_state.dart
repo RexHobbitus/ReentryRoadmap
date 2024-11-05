@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 
 class InboxEmptyState extends StatelessWidget {
@@ -13,7 +14,11 @@ class InboxEmptyState extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset("assets/icons/service_providers/opendoor.png"),
+          SvgPicture.asset(
+            "assets/icons/emptyInbox.svg",
+            width: 60,
+            height: 60,
+          ),
           SizedBox(
             height: 10,
           ),

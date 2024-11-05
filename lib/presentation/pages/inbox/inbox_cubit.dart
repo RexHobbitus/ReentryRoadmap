@@ -27,7 +27,11 @@ class InboxCubit extends Cubit<InboxState> {
       filteredMessages = InboxUtils.messages;
     }
 
-    emit(state.copyWith(selectedIndex: index, messageFilter: filteredMessages));
+    emit(state.copyWith(selectedIndex: index, messages: filteredMessages));
+  }
+
+  void selectedMessageIndex(int? index) {
+    emit(state.copyWith(messageListIndex: index));
   }
 
   navigatetoChatScreen() async {
