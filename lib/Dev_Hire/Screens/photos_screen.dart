@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/foundation.dart'; // for kIsWeb
 
@@ -14,7 +16,7 @@ class PhotosScreen extends StatefulWidget {
 
 class _PhotosScreenState extends State<PhotosScreen> {
   String? _coverPhotoUrl; // Use a URL for the cover photo to support web
-  List<String> otherPhotos = [
+  List<String?> otherPhotos = [
     'https://buffer.com/cdn-cgi/image/w=1000,fit=contain,q=90,f=auto/library/content/images/size/w1200/2023/10/free-images.jpg',
     'https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg',
     'https://burst.shopifycdn.com/photos/photo-of-a-cityscape-with-a-ferris-wheel.jpg?width=1000&format=pjpg&exif=0&iptc=0',
@@ -26,6 +28,8 @@ class _PhotosScreenState extends State<PhotosScreen> {
     'https://iso.500px.com/wp-content/uploads/2016/11/stock-photo-159533631.jpg',
   ];
   final ImagePicker _picker = ImagePicker();
+  final List<double> itemHeights = [200, 300, 230, 250, 400, 240, 250, 200, 300, 200];
+  final List<double> itemWidths = [350, 300, 200, 280, 400, 210, 250, 260, 300, 230];
 
   // Function to pick a single image from the gallery and set it as the cover photo
   Future<void> _pickCoverPhoto() async {
@@ -49,7 +53,7 @@ class _PhotosScreenState extends State<PhotosScreen> {
 
   @override
   Widget build(BuildContext context) {
-     if(otherPhotos.isEmpty){
+     if(otherPhotos!.isEmpty){
        return Center(
          child: Column(
            mainAxisAlignment: MainAxisAlignment.center,
@@ -154,52 +158,62 @@ class _PhotosScreenState extends State<PhotosScreen> {
          ),
 
          // Wrapping GridView.builder in a SizedBox to give it a defined height
-         GridView.builder(
-           shrinkWrap: true,
+         MasonryGridView.count(
            physics: NeverScrollableScrollPhysics(),
-           padding: const EdgeInsets.all(8.0),
-           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-             crossAxisCount: 3,
-             crossAxisSpacing: 8,
-             mainAxisSpacing: 8,
-           ),
+           shrinkWrap: true,
+           crossAxisCount: 4,
+           mainAxisSpacing: 4,
+           crossAxisSpacing: 4,
            itemCount: otherPhotos.length,
            itemBuilder: (context, index) {
              return GestureDetector(
                onTap: () {
                  print("Photo $index tapped");
                },
-               child: Stack(
-                 children: [
-                   Container(
-                     width: double.infinity,
-                     height: double.infinity,
-                     child: Image.network(
-                       otherPhotos[index],
-                       fit: BoxFit.cover,
-                     ),
-                   ),
-                   Positioned(
-                     top: 5,
-                     right: 5,
-                     child: Container(
-                       decoration: BoxDecoration(
-                           color: Colors.white,
-                           borderRadius: BorderRadius.circular(100)
-                       ),
-                       child: IconButton(
-                         icon: Icon(Icons.more_vert, color: Colors.black),
-                         onPressed: () {
-                           print("Options for Photo $index");
+               child: Container(
+                 height: itemHeights[index % itemHeights.length], // Using modulo to avoid index out of range
+                 width: itemWidths[index % itemWidths.length], // Using modulo to avoid index out of range
+                 decoration: BoxDecoration(
+                   color: Colors.grey.shade200, // Background color for layout
+                 ),
+                 child: Stack(
+                   fit: StackFit.expand, // Ensure the stack expands to fill the container
+                   children: [
+                     ClipRRect(
+                       child: Image.network(
+                         otherPhotos[index]!,
+                         fit: BoxFit.cover,
+                         errorBuilder: (context, error, stackTrace) {
+                           return Container(
+                             color: Colors.grey, // Placeholder color for loading errors
+                             child: Center(child: Icon(Icons.error)), // Error icon
+                           );
                          },
                        ),
                      ),
-                   ),
-                 ],
+                     Positioned(
+                       top: 5,
+                       right: 5,
+                       child: Container(
+                         decoration: BoxDecoration(
+                           color: Colors.white,
+                           borderRadius: BorderRadius.circular(100),
+                         ),
+                         child: IconButton(
+                           icon: Icon(Icons.more_vert, color: Colors.black),
+                           onPressed: () {
+                             print("Options for Photo $index");
+                           },
+                         ),
+                       ),
+                     ),
+                   ],
+                 ),
                ),
              );
            },
          ),
+         SizedBox(height: 20,),
          SizedBox(
            height: 50,
            width: MediaQuery.of(context).size.width,
