@@ -43,71 +43,63 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
         bloc: cubit,
         builder: (context, state) {
           return Skeletonizer(
             enabled: state.loading,
             ignorePointers: state.loading,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: kScreenHorizontalPadding),
-              child: CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: Wrap(
-                      spacing: 20,
-                      children: [
-                        ProviderDetailHeader(
-                          cubit: cubit,
-                        ),
-                        CustomResponsiveBuilder(
-                            builder: (context, constraints, deviceSize) {
-                          return Container(
-                            width: deviceSize == DeviceSize.web
-                                ? constraints.maxWidth - 500
-                                : constraints.maxWidth,
-                            margin: const EdgeInsets.symmetric(vertical: 20),
-                            child: Column(
-                              children: [
-                                ProviderDetailMenuBar(
-                                  cubit: cubit,
-                                ),
-                                BlocBuilder<ProviderDetailCubit,
-                                    ProviderDetailState>(
-                                  bloc: cubit,
-                                  builder: (context, state) {
-                                    return state.selectedMenuIndex == 0
-                                        ? AboutProviderSection(
-                                            cubit: cubit,
-                                          )
-                                        : state.selectedMenuIndex == 1
-                                            ? ReviewsSection(
-                                                cubit: cubit,
-                                              )
-                                            : state.selectedMenuIndex == 2
-                                                ? OurTakeSection()
-                                                : PhotosSection(
-                                                    cubit: cubit,
-                                                  );
-                                  },
-                                ),
-                              ],
-                            ),
-                          );
-                        })
-                      ],
-                    ),
+            child: CustomScrollView(
+              slivers: [
+                SliverToBoxAdapter(
+                  child: Wrap(
+                    spacing: 20,
+                    children: [
+                      ProviderDetailHeader(
+                        cubit: cubit,
+                      ),
+                      CustomResponsiveBuilder(
+                          builder: (context, constraints, deviceSize) {
+                        return Container(
+                          width: deviceSize == DeviceSize.web
+                              ? constraints.maxWidth - 500
+                              : constraints.maxWidth,
+                          margin: const EdgeInsets.symmetric(vertical: 20),
+                          child: Column(
+                            children: [
+                              ProviderDetailMenuBar(
+                                cubit: cubit,
+                              ),
+                              BlocBuilder<ProviderDetailCubit,
+                                  ProviderDetailState>(
+                                bloc: cubit,
+                                builder: (context, state) {
+                                  return state.selectedMenuIndex == 0
+                                      ? AboutProviderSection(
+                                          cubit: cubit,
+                                        )
+                                      : state.selectedMenuIndex == 1
+                                          ? ReviewsSection(
+                                              cubit: cubit,
+                                            )
+                                          : state.selectedMenuIndex == 2
+                                              ? const OurTakeSection()
+                                              : PhotosSection(
+                                                  cubit: cubit,
+                                                );
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      })
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         },
-      ),
-      bottomNavigationBar: ProviderDetailFooter(
-        cubit: cubit,
       ),
     );
   }

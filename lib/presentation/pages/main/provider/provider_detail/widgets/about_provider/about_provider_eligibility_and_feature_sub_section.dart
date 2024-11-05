@@ -57,6 +57,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
+            color: context.colorScheme.secondary,
             style: context.textTheme.bodyLarge?.copyWith(
                 color: context.colorScheme.onSecondary
             ),
@@ -82,6 +83,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
             iconPath: Assets.starCheck,
             onTap: () {},
             isSecondary: true,
+            color: context.colorScheme.secondary,
             style: context.textTheme.bodyLarge?.copyWith(
               color: context.colorScheme.onSecondary
             ),

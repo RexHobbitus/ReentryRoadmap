@@ -12,6 +12,8 @@ import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
+import 'provider_detail_footer.dart';
+
 class ProviderDetailHeader extends StatelessWidget {
   final ProviderDetailCubit cubit;
 
@@ -31,10 +33,9 @@ class ProviderDetailHeader extends StatelessWidget {
           Container(
             width: deviceSize == DeviceSize.web ? 450 : null,
             padding: const EdgeInsets.all(15),
-            margin: const EdgeInsets.symmetric(vertical: 20),
             decoration: BoxDecoration(
-                color: context.colorScheme.surfaceDim,
-                borderRadius: BorderRadius.circular(10)),
+              color: context.colorScheme.surfaceDim,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -43,7 +44,7 @@ class ProviderDetailHeader extends StatelessWidget {
                 ),
                 _headerTopSection(context),
                 const SizedBox(
-                  height: 10,
+                  height: 20,
                 ),
                 const Divider(
                   thickness: 1,
@@ -57,6 +58,12 @@ class ProviderDetailHeader extends StatelessWidget {
                   height: 10,
                 ),
                 _headerMapSection(context),
+                const SizedBox(
+                  height: 22,
+                ),
+                ProviderDetailFooter(
+                  cubit: cubit,
+                ),
               ],
             ),
           ),
@@ -93,11 +100,11 @@ class ProviderDetailHeader extends StatelessWidget {
           "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
           style: context.textTheme.titleMedium,
         ),
+        const SizedBox(height: 10,),
         Row(
           children: [
             Container(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                 color: context.themeData.colorScheme.primary,
                 borderRadius: BorderRadius.circular(5),

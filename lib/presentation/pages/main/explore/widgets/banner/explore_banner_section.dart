@@ -60,7 +60,7 @@ class ExploreBannerSection extends StatelessWidget {
                   width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
                   height:deviceSize==DeviceSize.web?80:56,
                   style: context.textTheme.bodyLarge,
-                  onTap: () {},
+                  onTap:cubit.learnMoreAction,
                 );
               })
             ],
@@ -79,7 +79,7 @@ class ExploreBannerSection extends StatelessWidget {
             children: [
           TextSpan(
               text: "quiz",
-            recognizer: TapGestureRecognizer()..onTap =cubit.quizAction,
+           // recognizer: TapGestureRecognizer()..onTap =cubit.quizAction,
               style: context.textTheme.titleMedium?.copyWith(
                   color: context.themeData.colorScheme.onSecondary,
                   decoration: TextDecoration.underline)),
@@ -96,7 +96,7 @@ class ExploreBannerSection extends StatelessWidget {
             children: [
           TextSpan(
               text: "Check In",
-              recognizer: TapGestureRecognizer()..onTap = cubit.checkInAction,
+             // recognizer: TapGestureRecognizer()..onTap = cubit.checkInAction,
               style: context.textTheme.titleMedium?.copyWith(
                   color: context.themeData.colorScheme.onSecondary,
                   decoration: TextDecoration.underline)),

@@ -9,6 +9,8 @@ import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_par
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/learn_more/learn_more_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/learn_more/learn_more_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/notification/notification_initial_params.dart';
@@ -30,7 +32,6 @@ import '../../presentation/pages/main/profile/profile_page.dart';
 import '../../presentation/pages/main/review/review_page.dart';
 import '../../presentation/pages/splash/splash_initial_params.dart';
 import '../../presentation/pages/splash/splash_page.dart';
-import '../../presentation/widgets/scaffold_with_nav_bar.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 
@@ -77,7 +78,6 @@ class AppRouter {
             initialParams: const SignUpInitialParams(),
           );
         },
-
       ),
 
       /// BOTTOM NAV BAR AND THEIR INNER SCREENS
@@ -136,6 +136,17 @@ class AppRouter {
                 );
               },
             ),
+            GoRoute(
+              path: "${ProviderDetailPage.path}/:id",
+              builder: (context, state) {
+                return ProviderDetailPage(
+                  cubit: getIt(),
+                  initialParams:
+                  ProviderDetailInitialParams(id: state.pathParameters['id']!),
+                );
+              },
+            ),
+
           ]),
 
       /// BOTTOM NAV BAR ENDS HERE
@@ -179,12 +190,11 @@ class AppRouter {
       ),
 
       GoRoute(
-        path: "${ProviderDetailPage.path}/:id",
+        path: LearnMorePage.path,
         builder: (context, state) {
-          return ProviderDetailPage(
+          return LearnMorePage(
             cubit: getIt(),
-            initialParams:
-                ProviderDetailInitialParams(id: state.pathParameters['id']!),
+            initialParams: const LearnMoreInitialParams(),
           );
         },
       ),

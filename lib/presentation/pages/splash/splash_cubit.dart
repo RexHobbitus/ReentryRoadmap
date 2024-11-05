@@ -31,8 +31,7 @@ class SplashCubit extends Cubit<SplashState> {
         navigator.openOnboarding(const OnboardingInitialParams());
       }
       if (status == UserSessionStatus.providerLoggedInWithNoOnboarding) {
-        navigator
-            .openProviderOnboarding(const ProviderOnboardingInitialParams());
+        navigator.openProviderOnboarding(const ProviderOnboardingInitialParams());
       } else {
         navigator.openExplore(const ExploreInitialParams());
       }

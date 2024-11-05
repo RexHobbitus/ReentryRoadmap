@@ -85,6 +85,7 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
                       dotHeight: 10,
                       dotWidth: 10,
                       spacing: 20,
+                      dotColor:context.colorScheme.tertiaryContainer,
                       activeDotColor: context.colorScheme.secondary),
                 ),
                 IconButton(

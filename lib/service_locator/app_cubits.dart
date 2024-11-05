@@ -10,6 +10,8 @@ import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_cu
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_navigator.dart';
+import 'package:reentry_roadmap/presentation/pages/main/learn_more/learn_more_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/learn_more/learn_more_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/more/more_navigator.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_cubit.dart';
@@ -131,5 +133,10 @@ class AppCubits {
       userStore: getIt(),
       appUserRepository: getIt(),
     ));
+    getIt.registerSingleton<LearnMoreNavigator>(LearnMoreNavigator(getIt()));
+    getIt.registerFactory(() => LearnMoreCubit(
+      navigator: getIt(),
+    ));
+
   }
 }

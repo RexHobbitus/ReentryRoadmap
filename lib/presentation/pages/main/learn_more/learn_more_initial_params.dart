@@ -1,0 +1,4 @@
+class LearnMoreInitialParams {
+
+const LearnMoreInitialParams();
+}

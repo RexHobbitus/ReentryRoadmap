@@ -118,7 +118,7 @@ class ExploreServicesSection extends StatelessWidget {
         style: context.textTheme.titleMedium,
       ),
       InkWell(
-        onTap: () {},
+        onTap: cubit.learnMoreAction,
         child: Text(
           "Get Personalized Recommendations >",
           style: context.textTheme.bodyLarge?.copyWith(

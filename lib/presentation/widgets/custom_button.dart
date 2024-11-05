@@ -15,7 +15,7 @@ class CustomButton extends StatelessWidget {
   final IconAlignment? iconAlignment;
   final double? radius;
   final TextStyle? style;
-
+  final Color? color;
   const CustomButton({
     super.key,
     this.onTap,
@@ -30,6 +30,8 @@ class CustomButton extends StatelessWidget {
     this.iconAlignment,
     this.radius,
     this.style,
+    this.color,
+
   });
 
   @override
@@ -47,11 +49,11 @@ class CustomButton extends StatelessWidget {
               textStyle: context.textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.w500,
               ),
-              backgroundColor: isDisabled
+              backgroundColor:color ?? (isDisabled
                   ? context.colorScheme.tertiary
                   : isSecondary
                       ? context.themeData.colorScheme.secondaryFixed
-                      : null,
+                      : null),
               // Set the disabled background color
               foregroundColor: isDisabled
                   ? context.colorScheme.surface

@@ -21,48 +21,59 @@ class ProviderDetailFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
+    return  CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
       return deviceSize == DeviceSize.web
           ? const SizedBox.shrink()
           : Container(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        decoration: BoxDecoration(
-          color: context.themeData.cardColor,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            BlocBuilder<UserStore, LoginUser>(
-              bloc: cubit.userStore,
-              builder: (context, user) {
-                return user.isLoggedIn?Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    ProviderDetailButton(
-                        title: "Add Review",
-                        icon: Icons.add,
-                        onTap: cubit.addReviewAction),
-                    ProviderDetailButton(
-                      title: "Suggest on edit",
-                      icon: Icons.edit,
-                      onTap: cubit.suggestEditAction,
-                    ),
-                    const ProviderDetailButton(
-                      title: "Save",
-                      icon: Icons.bookmark_border,
-                    ),
-                  ],
-                ):SizedBox();
-              },
-            ),
-            CustomButton(
-              text: "Contact OpenGate",
-              onTap: cubit.contactAction,
-              style: context.textTheme.titleMedium,
-            ),
-          ],
-        ),
-      );
+              //  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: context.themeData.cardColor,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  BlocBuilder<UserStore, LoginUser>(
+                    bloc: cubit.userStore,
+                    builder: (context, user) {
+                      return user.isLoggedIn
+                          ? Row(
+                              children: [
+                                Expanded(
+                                  flex:4,
+                                  child: ProviderDetailButton(
+                                      title: "Add Review",
+                                      icon: Icons.add,
+                                      onTap: cubit.addReviewAction),
+                                ),
+                                Expanded(
+                                  flex:5,
+                                  child: ProviderDetailButton(
+                                    title: "Suggest on edit",
+                                    icon: Icons.edit,
+                                    onTap: cubit.suggestEditAction,
+                                  ),
+                                ),
+                                 const Expanded(
+                                   flex:3,
+                                  child: ProviderDetailButton(
+                                    title: "Save",
+                                    icon: Icons.bookmark_border,
+                                  ),
+                                ),
+                              ],
+                            )
+                          : SizedBox();
+                    },
+                  ),
+                  const SizedBox(height: 10,),
+                  CustomButton(
+                    text: "Contact OpenGate",
+                    onTap: cubit.contactAction,
+                    style: context.textTheme.titleMedium,
+                  ),
+                ],
+              ),
+            );
     });
   }
 }

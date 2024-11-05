@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/domain/repositories/database/provider_repository
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/learn_more/learn_more_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import '../../../../domain/entities/provider.dart';
 import 'explore_initial_params.dart';
@@ -62,5 +63,9 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   quizAction(){
     navigator.openSignUp(const SignUpInitialParams());
+  }
+
+  learnMoreAction(){
+    navigator.openLearnMore(const LearnMoreInitialParams());
   }
 }
