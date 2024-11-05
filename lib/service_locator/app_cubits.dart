@@ -68,6 +68,9 @@ class AppCubits {
     getIt.registerSingleton<SearchCubit>(SearchCubit(
       navigator: getIt(),
       userStore: getIt(),
+      snackBar: getIt(),
+      providerRepository: getIt(),
+      roadmapSettingsRepository: getIt(),
     ));
     getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));
     getIt.registerSingleton<ReviewCubit>(ReviewCubit(

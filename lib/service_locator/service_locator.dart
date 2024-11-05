@@ -2,9 +2,11 @@ import 'package:get_it/get_it.dart';
 import 'package:reentry_roadmap/data/repositories/database/app_user_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/provider_repository_imp.dart';
+import 'package:reentry_roadmap/data/repositories/database/roadmap_settings_repository_impl.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/roadmap_settings_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/domain/usecases/check_in_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/check_user_session_use_case.dart';
@@ -13,6 +15,7 @@ import 'package:reentry_roadmap/domain/usecases/logout_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
+
 import '../core/alert/app_snack_bar.dart';
 import '../core/navigation/app_navigator.dart';
 import '../data/repositories/database/hive_database_repository.dart';
@@ -30,15 +33,14 @@ class ServiceLocator {
     getIt.registerSingleton<AppNavigator>(AppNavigator());
 
     /// local storage
-    getIt
-        .registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository())
-        .initialize();
+    getIt.registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository()).initialize();
 
     /// http request repository
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));
     getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
     getIt.registerSingleton<AppUserRepository>(AppUserRepositoryImp());
     getIt.registerSingleton<ProviderRepository>(ProviderRepositoryImp());
+    getIt.registerSingleton<RoadmapSettingsRepository>(RoadmapSettingsRepositoryImpl());
 
     getIt.registerSingleton<UserStore>(UserStore());
 
@@ -53,8 +55,7 @@ class ServiceLocator {
       appUserRepository: getIt(),
       userStore: getIt(),
     ));
-    getIt
-        .registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
+    getIt.registerSingleton<ProviderOnboardingUseCase>(ProviderOnboardingUseCase(
       authRepository: getIt(),
       providerRepository: getIt(),
       userStore: getIt(),

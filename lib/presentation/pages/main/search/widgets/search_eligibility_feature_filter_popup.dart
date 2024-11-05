@@ -1,33 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/data/models/categories_json.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/search_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
-class SearchFilterCategoryPopup extends StatefulWidget {
-  final List<CategoryData> list;
+class SearchEligibilityFeatureFilterPopup extends StatefulWidget {
+  final String title;
+  final List<String> list;
+  final List<String> selectedList;
   final SearchCubit cubit;
-  final void Function(List<CategoryData> result) onResult;
+  final void Function(List<String> result) onResult;
 
-  const SearchFilterCategoryPopup({
+  const SearchEligibilityFeatureFilterPopup({
     super.key,
+    required this.title,
     required this.list,
-    required this.cubit,
-    required this.onResult,
+    required this.selectedList, required this.cubit,required this.onResult
   });
 
   @override
-  State<SearchFilterCategoryPopup> createState() => _SearchFilterCategoryPopupState();
+  State<SearchEligibilityFeatureFilterPopup> createState() => _SearchEligibilityFeatureFilterPopupState();
 }
 
-class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
-  ValueNotifier<List<CategoryData>> localSelectedList = ValueNotifier([]);
-
+class _SearchEligibilityFeatureFilterPopupState extends State<SearchEligibilityFeatureFilterPopup> {
+   ValueNotifier<List<String>> localSelectedList =ValueNotifier([]);
   @override
   void initState() {
+
     super.initState();
-    localSelectedList.value = widget.list.where((element) => element.isSelected ?? false).toList();
+    localSelectedList.value = widget.selectedList;
   }
 
   @override
@@ -44,7 +45,7 @@ class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Category",
+                    widget.title,
                     style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                   ),
                   CloseButton(
@@ -58,8 +59,8 @@ class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
               const SizedBox(height: 10),
               Flexible(
                 child: ValueListenableBuilder(
-                  valueListenable: localSelectedList,
-                  builder: (context, selectedValue, child) => GridView.builder(
+                   valueListenable: localSelectedList,
+                  builder:(context, selectedValue, child) =>  GridView.builder(
                     shrinkWrap: true,
                     itemCount: widget.list.length,
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -76,12 +77,10 @@ class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
                               visualDensity: const VisualDensity(horizontal: -4, vertical: -4),
                               value: localSelectedList.value.contains(widget.list[index]),
                               onChanged: (value) {
-                                if (selectedValue.contains(widget.list[index])) {
-                                  localSelectedList.value = [...localSelectedList.value]..removeWhere(
-                                      (element) => element == widget.list[index],
-                                    );
-                                } else {
-                                  localSelectedList.value = [...localSelectedList.value, widget.list[index]];
+                                if(selectedValue.contains(widget.list[index])){
+                                  localSelectedList.value =[...localSelectedList.value]..removeWhere((element) => element==widget.list[index],);
+                                }else{
+                                  localSelectedList.value = [...localSelectedList.value,widget.list[index]];
                                 }
                               },
                               checkColor: Colors.transparent,
@@ -93,7 +92,7 @@ class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
-                              widget.list[index].title ?? "",
+                              widget.list[index],
                               style: context.textTheme.labelMedium?.copyWith(
                                 color: context.colorScheme.onSurface.withOpacity(0.5),
                                 fontWeight: FontWeight.w600,
@@ -112,7 +111,7 @@ class _SearchFilterCategoryPopupState extends State<SearchFilterCategoryPopup> {
               CustomButton(
                 height: 60,
                 width: double.infinity,
-                text: "Select Category}",
+                text: "Select ${widget.title}",
                 onTap: () {
                   widget.onResult.call(localSelectedList.value);
 

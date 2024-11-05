@@ -1,24 +1,23 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.dart';
 
 class SearchProviderTileMobile extends StatelessWidget {
-  const SearchProviderTileMobile({super.key});
+  final Provider service;
+
+  const SearchProviderTileMobile({
+    super.key,
+    required this.service,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final chipList = [
-      "categories",
-      "categories",
-      "categories",
-      "categories",
-      "categories",
-      "categories",
-      "categories",
-    ];
+    final chipList = service.getAllCategories();
     return Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
@@ -34,11 +33,10 @@ class SearchProviderTileMobile extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               child: Stack(
                 children: [
-                  CachedNetworkImage(
-                    imageUrl: "https://images.shiksha.com/mediadata/shikshaOnline/mailers/2021/naukri-learning/oct/27oct-v2/What-is-Networking.jpg",
+                  CustomCachedImage(
+                    imgUrl: service.onboardingInfo?.providerDetails?.images?.firstOrNull ?? kPlaceHolderImage,
                     height: 210,
                     width: double.infinity,
-                    fit: BoxFit.cover,
                   ),
                   Container(
                     height: 210,
@@ -77,7 +75,7 @@ class SearchProviderTileMobile extends StatelessWidget {
                             width: 5,
                           ),
                           Text(
-                            "4.0 (4)",
+                            "${service.avgRating?.toDouble()} (${service.totalReviews ?? 0})",
                             style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onPrimary),
                           )
                         ],
@@ -112,17 +110,20 @@ class SearchProviderTileMobile extends StatelessWidget {
                   ],
                 ),
                 Text(
-                  "OpenGate Hayward",
+                  service.onboardingInfo?.providerDetails?.providerNameLocation ?? "",
                   style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 4),
                 Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SvgPicture.asset(Assets.location),
                     const SizedBox(width: 6),
-                    Text(
-                      "5506 Martha Ave, Hayward, CA 99922",
-                      style: context.textTheme.labelMedium?.copyWith(),
+                    Expanded(
+                      child: Text(
+                        service.completeAddress,
+                        style: context.textTheme.labelMedium?.copyWith(),
+                      ),
                     ),
                   ],
                 ),
@@ -146,22 +147,14 @@ class SearchProviderTileMobile extends StatelessWidget {
                   style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
-                for (var info in [
-                  "Woman",
-                  "Within 5 years of incarceration",
-                ])
-                  _FeatureOrEligibilityTile(title: info),
+                for (var info in service.getAllEligibilityCriteria().take(2).toList()) _FeatureOrEligibilityTile(title: info),
                 const SizedBox(height: 20),
                 Text(
                   "Features",
                   style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 8),
-                for (var info in [
-                  "Holistsic Wrap-around Service",
-                  "Formerly Incarcerated Leadership",
-                ])
-                  _FeatureOrEligibilityTile(title: info),
+                for (var info in service.getAllFeatures().take(2).toList()) _FeatureOrEligibilityTile(title: info),
                 const SizedBox(height: 10),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
@@ -231,6 +224,7 @@ class _FeatureOrEligibilityTile extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CircleAvatar(
             radius: 8,
@@ -244,9 +238,11 @@ class _FeatureOrEligibilityTile extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            title,
-            style: context.textTheme.labelMedium,
+          Expanded(
+            child: Text(
+              title,
+              style: context.textTheme.labelMedium,
+            ),
           )
         ],
       ),

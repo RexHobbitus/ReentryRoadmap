@@ -48,7 +48,7 @@ class _SearchState extends State<SearchPage> {
             const SizedBox(height: 20),
             SearchTextFieldSection(cubit: cubit),
             SizedBox(height: isBigScreen ? 40 : 8),
-            const SearchCategoriesMenu(),
+            SearchCategoriesMenu(cubit: cubit),
             SizedBox(height: isBigScreen ? 15 : 8),
             Divider(height: 1, color: context.colorScheme.tertiaryContainer),
             Expanded(

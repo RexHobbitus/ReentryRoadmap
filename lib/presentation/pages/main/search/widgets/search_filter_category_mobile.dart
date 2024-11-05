@@ -5,12 +5,14 @@ class SearchFilterCategoryMobile extends StatelessWidget {
   final String title;
   final List<String> list;
   final List<String> selectedList;
+  final Function(String value) onSelect;
 
   const SearchFilterCategoryMobile({
     super.key,
     required this.title,
     required this.list,
     required this.selectedList,
+    required this.onSelect,
   });
 
   @override
@@ -32,7 +34,8 @@ class SearchFilterCategoryMobile extends StatelessWidget {
             for (var category in List.from(list).toList())
               _CategoryChip(
                 title: category,
-                isSelected: false,
+                isSelected: selectedList.contains(category),
+                onSelect: onSelect,
               ),
           ],
         ),
@@ -44,35 +47,33 @@ class SearchFilterCategoryMobile extends StatelessWidget {
 class _CategoryChip extends StatelessWidget {
   final String title;
   final bool isSelected;
+  final Function(String value) onSelect;
 
   const _CategoryChip({
     super.key,
     required this.title,
     required this.isSelected,
+    required this.onSelect,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          height: 30,
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 13),
-          margin: const EdgeInsets.only(right: 10),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: isSelected ? context.colorScheme.secondary : context.colorScheme.surfaceContainer,
-          ),
-          child: Center(
-            child: Text(
-              title,
-              style: context.textTheme.bodySmall?.copyWith(
-                  color: isSelected ? context.colorScheme.onSecondary : context.colorScheme.onSurface, fontWeight: FontWeight.w600, fontSize: 10),
-            ),
-          ),
+    return InkWell(
+      onTap: () => onSelect.call(title),
+      borderRadius: BorderRadius.circular(5),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 7, horizontal: 13),
+        margin: const EdgeInsets.only(right: 10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: isSelected ? context.colorScheme.secondary : context.colorScheme.surfaceContainer,
         ),
-      ],
+        child: Text(
+          title,
+          style: context.textTheme.bodySmall?.copyWith(
+              color: isSelected ? context.colorScheme.onSecondary : context.colorScheme.onSurface, fontWeight: FontWeight.w600, fontSize: 10),
+        ),
+      ),
     );
   }
 }

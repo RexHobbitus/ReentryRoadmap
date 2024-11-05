@@ -1,6 +1,5 @@
-import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
-
 import 'package:equatable/equatable.dart';
+import 'package:reentry_roadmap/domain/entities/provider_onboarding_info.dart';
 
 import 'rating_count.dart';
 
@@ -13,6 +12,7 @@ class Provider extends Equatable {
   double? avgRating;
   int? totalReviews;
   RatingCount? ratingCount;
+
   Provider({
     this.userId,
     this.createdAt,
@@ -29,14 +29,10 @@ class Provider extends Equatable {
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
-    onboardingInfo = json['onboardingInfo'] != null
-        ? new ProviderOnboardingInfo.fromJson(json['onboardingInfo'])
-        : null;
+    onboardingInfo = json['onboardingInfo'] != null ? new ProviderOnboardingInfo.fromJson(json['onboardingInfo']) : null;
     avgRating = json['avgRating'];
     totalReviews = json['totalReviews'];
-    ratingCount = json['ratingCount'] != null
-        ? new RatingCount.fromJson(json['ratingCount'])
-        : null;
+    ratingCount = json['ratingCount'] != null ? new RatingCount.fromJson(json['ratingCount']) : null;
   }
 
   Provider.shimmer() {
@@ -44,26 +40,25 @@ class Provider extends Equatable {
     onboardingInfo = ProviderOnboardingInfo.shimmer();
     avgRating = 5.0;
     totalReviews = 10;
-    ratingCount=RatingCount.shimmer();
+    ratingCount = RatingCount.shimmer();
   }
 
   bool get isLoggedIn => userId != null;
 
   String get completeAddress =>
-      "${onboardingInfo?.providerDetails?.street} ${onboardingInfo
-          ?.providerDetails?.city} ${onboardingInfo?.providerDetails?.country}";
+      "${onboardingInfo?.providerDetails?.street} ${onboardingInfo?.providerDetails?.city} ${onboardingInfo?.providerDetails?.country}";
 
   List<String> getAllCategories() {
     // Get category titles from generalService
-    List<String> generalCategoryTitles =onboardingInfo?.generalService?.serviceCategories
-        ?.map((category) => category.title.toString())
-        .toList() ?? [];
+    List<String> generalCategoryTitles =
+        onboardingInfo?.generalService?.serviceCategories?.map((category) => category.title.toString()).toList() ?? [];
 
     // Get category titles from each program
     List<String> programCategoryTitles = onboardingInfo?.programs
-        ?.expand((program) => program.programCategories!.map((category) => category.title.toString()))
-        .cast<String>()
-        .toList() ?? [];
+            ?.expand((program) => program.programCategories!.map((category) => category.title.toString()))
+            .cast<String>()
+            .toList() ??
+        [];
 
     // Combine both lists
     List<String> allCategoryTitles = [...generalCategoryTitles, ...programCategoryTitles];
@@ -73,15 +68,11 @@ class Provider extends Equatable {
 
   List<String> getAllFeatures() {
     // Get category titles from generalService
-    List<String> generalFeatures =onboardingInfo?.generalService?.features
-        ?.map((value) => value.toString())
-        .toList() ?? [];
+    List<String> generalFeatures = onboardingInfo?.generalService?.features?.map((value) => value.toString()).toList() ?? [];
 
     // Get category titles from each program
-    List<String> programFeatures = onboardingInfo?.programs
-        ?.expand((program) => program.features!.map((feature) => feature.toString()))
-        .cast<String>()
-        .toList() ?? [];
+    List<String> programFeatures =
+        onboardingInfo?.programs?.expand((program) => program.features!.map((feature) => feature.toString())).cast<String>().toList() ?? [];
 
     // Combine both lists
     List<String> allFeatures = [...generalFeatures, ...programFeatures];
@@ -91,22 +82,17 @@ class Provider extends Equatable {
 
   List<String> getAllEligibilityCriteria() {
     // Get category titles from generalService
-    List<String> generalCriteria =onboardingInfo?.generalService?.eligibilityCriteria
-        ?.map((value) => value.toString())
-        .toList() ?? [];
+    List<String> generalCriteria = onboardingInfo?.generalService?.eligibilityCriteria?.map((value) => value.toString()).toList() ?? [];
 
     // Get category titles from each program
-    List<String> programCriteria = onboardingInfo?.programs
-        ?.expand((program) => program.eligibilityCriteria!.map((value) => value.toString()))
-        .cast<String>()
-        .toList() ?? [];
+    List<String> programCriteria =
+        onboardingInfo?.programs?.expand((program) => program.eligibilityCriteria!.map((value) => value.toString())).cast<String>().toList() ?? [];
 
     // Combine both lists
     List<String> allCriteria = [...generalCriteria, ...programCriteria];
 
     return allCriteria.toSet().toList();
   }
-
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
@@ -139,13 +125,11 @@ class Provider extends Equatable {
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
       avgRating: avgRating ?? this.avgRating,
       totalReviews: totalReviews ?? this.totalReviews,
-
     );
   }
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         userId,
         email,
         createdAt,
@@ -153,5 +137,6 @@ class Provider extends Equatable {
         onboardingInfo,
         avgRating,
         totalReviews,
+        ratingCount,
       ];
 }

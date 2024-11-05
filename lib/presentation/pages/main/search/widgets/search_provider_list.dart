@@ -1,12 +1,18 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/search_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_state.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_mobile_filter_categories.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_provider_tile_mobile.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_provider_tile_web.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchProviderList extends StatelessWidget {
   final SearchCubit cubit;
@@ -20,76 +26,91 @@ class SearchProviderList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const SizedBox(height: 15),
-        if (isBigScreen) ...[
-          SearchTopResultWeb(cubit: cubit),
-        ] else ...[
-          SearchTopResultMobile(cubit: cubit),
-        ],
-        const SizedBox(height: 20),
-        if (isBigScreen) ...[
-          const LearnMoreWeb(),
-        ] else ...[
-          const LearnMoreMobile(),
-        ],
-        const SizedBox(height: 30),
-        ListView.separated(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 10,
-          itemBuilder: (context, index) {
-            if (isBigScreen) {
-              return const SearchProviderTileWeb();
-            }
-            return const SearchProviderTileMobile();
-          },
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
-        ),
-        const SizedBox(height: 30),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Icon(
-              Icons.arrow_back_ios_new_rounded,
-              size: 14,
-            ),
-            ...List.generate(
-              5,
-              (index) {
-                if (index == 2) {
-                  return Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 10),
-                      padding: const EdgeInsets.all(6),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: context.colorScheme.surfaceContainer,
-                        border: Border.all(color: context.colorScheme.tertiaryContainer),
+    return BlocBuilder<SearchCubit, SearchState>(
+        bloc: cubit,
+        builder: (context, state) {
+          return Skeletonizer(
+            enabled: state.listLoading,
+            child: Column(
+              children: [
+                const SizedBox(height: 15),
+                if (isBigScreen) ...[
+                  SearchTopResultWeb(cubit: cubit),
+                ] else ...[
+                  SearchTopResultMobile(cubit: cubit),
+                ],
+                const SizedBox(height: 20),
+                if (isBigScreen) ...[
+                  const LearnMoreWeb(),
+                ] else ...[
+                  const LearnMoreMobile(),
+                ],
+                const SizedBox(height: 30),
+                if (!state.listLoading && state.services.isEmpty) ...[
+                  Image.asset(
+                    Assets.noDataFound,
+                    width: min(MediaQuery.sizeOf(context).width * 0.8, MediaQuery.sizeOf(context).width * 0.4),
+                  )
+                ] else ...[
+                  ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.listLoading ? 3 : state.services.length,
+                    itemBuilder: (context, index) {
+                      Provider service = state.listLoading ? Provider.shimmer() : state.services[index];
+                      if (isBigScreen) {
+                        return SearchProviderTileWeb(service: service);
+                      }
+                      return SearchProviderTileMobile(service: service);
+                    },
+                    separatorBuilder: (context, index) => const SizedBox(height: 16),
+                  ),
+                  const SizedBox(height: 30),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.arrow_back_ios_new_rounded,
+                        size: 14,
                       ),
-                      child: Text(" ${index + 1} "));
-                }
-                return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(" ${index + 1} "),
-                );
-              },
+                      ...List.generate(
+                        5,
+                        (index) {
+                          if (index == 2) {
+                            return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 10),
+                                padding: const EdgeInsets.all(6),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  color: context.colorScheme.surfaceContainer,
+                                  border: Border.all(color: context.colorScheme.tertiaryContainer),
+                                ),
+                                child: Text(" ${index + 1} "));
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text(" ${index + 1} "),
+                          );
+                        },
+                      ),
+                      const Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 14,
+                      ),
+                    ],
+                  ),
+                ],
+                const SizedBox(height: 30),
+                if (isBigScreen) ...[
+                  const _AddProviderWeb(),
+                ] else ...[
+                  const _AddProviderMobile(),
+                ],
+                const SizedBox(height: 30),
+              ],
             ),
-            const Icon(
-              Icons.arrow_forward_ios_rounded,
-              size: 14,
-            ),
-          ],
-        ),
-        const SizedBox(height: 30),
-        if (isBigScreen) ...[
-          const _AddProviderWeb(),
-        ] else ...[
-          const _AddProviderMobile(),
-        ],
-        const SizedBox(height: 30),
-      ],
-    );
+          );
+        });
   }
 }
 
@@ -234,22 +255,27 @@ class SearchTopResultWeb extends StatelessWidget {
           ),
         ),
         const SizedBox(width: 10),
-        Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              "Show eligible providers only",
-              style: context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
-            ),
-            Transform.scale(
-              scale: 0.75,
-              child: CupertinoSwitch(
-                value: true,
-                onChanged: (value) {},
-                activeColor: context.colorScheme.secondary,
-              ),
-            )
-          ],
+        BlocBuilder<SearchCubit, SearchState>(
+          bloc: cubit,
+          builder: (context, state) {
+            return Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Show eligible providers only",
+                  style: context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+                ),
+                Transform.scale(
+                  scale: 0.75,
+                  child: CupertinoSwitch(
+                    value: cubit.state.isShowEligibleProvider,
+                    onChanged: cubit.toggleShowEligibleProvider,
+                    activeColor: context.colorScheme.secondary,
+                  ),
+                )
+              ],
+            );
+          },
         ),
       ],
     );
@@ -281,21 +307,25 @@ class SearchTopResultMobile extends StatelessWidget {
                   "Show eligible providers only",
                   style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600, color: context.colorScheme.onSurface.withOpacity(0.5)),
                 ),
-                Transform.scale(
-                  scale: 0.7,
-                  child: CupertinoSwitch(
-                    value: true,
-                    onChanged: (value) {},
-                    activeColor: context.colorScheme.secondary,
-                  ),
-                )
+                BlocBuilder<SearchCubit, SearchState>(
+                    bloc: cubit,
+                    builder: (context, state) {
+                      return Transform.scale(
+                        scale: 0.7,
+                        child: CupertinoSwitch(
+                          value: cubit.state.isShowEligibleProvider,
+                          onChanged: cubit.toggleShowEligibleProvider,
+                          activeColor: context.colorScheme.secondary,
+                        ),
+                      );
+                    })
               ],
             ),
           ],
         ),
         InkWell(
           onTap: () {
-            cubit.navigator.navigator.showBottomSheet(context, const SearchMobileFilterCategories());
+            cubit.navigator.navigator.showBottomSheet(context, SearchMobileFilterCategories(cubit: cubit));
           },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

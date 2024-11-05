@@ -29,6 +29,7 @@ class Assets {
   static const String starCheck = "assets/icons/star_check.svg";
   static const String happyVector = "assets/icons/happyVectorIcon.png";
   static const String filter = "assets/icons/filter.svg";
+  static const String noDataFound = "assets/icons/no_data_found.png";
 
   //services
   static const String education = "assets/icons/services/education.svg";

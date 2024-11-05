@@ -11,6 +11,7 @@ abstract class FirebaseCollection{
   final usersCollection=FirebaseFirestore.instance.collection('users');
   final providersCollection=FirebaseFirestore.instance.collection('providers');
   final checkInCollection=FirebaseFirestore.instance.collection('checkIns');
+  final roadmapSettingsCollection=FirebaseFirestore.instance.collection('roadmap_settings');
 
 
 
