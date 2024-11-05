@@ -23,6 +23,8 @@ class CustomStarRating extends StatelessWidget {
         Icons.star,
         color: context.colorScheme.secondary,
       ),
+      // unratedColor for rating widget
+      unratedColor:context.colorScheme.tertiaryContainer,
       onRatingUpdate: (rating) {
         print(rating);
         onChange?.call(rating);

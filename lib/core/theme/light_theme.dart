@@ -22,6 +22,8 @@ const Color _lightTertiaryContainerColor = Color(0xFFBFD4D9);
 
 const Color _lightCardColor = Color(0xFFF6F9FA);
 
+const Color _lightAddPhotoButton = Color(0xFFF1F6F8);
+
 final ThemeData LIGHT_THEME = ThemeData(
   primaryColor: _lightPrimary,
   useMaterial3: false,
@@ -86,5 +88,7 @@ final ThemeData LIGHT_THEME = ThemeData(
     tertiary: _lightTertiaryColor,
     onTertiary: _lightOnTertiaryColor,
     tertiaryContainer: _lightTertiaryContainerColor,
+    secondaryContainer: _lightAddPhotoButton,
   ),
+
 );

@@ -46,7 +46,7 @@ class _RateCardState extends State<RateCard> {
       return SizedBox(
         width: deviceSize == DeviceSize.web ? 1000 : null,
         height: deviceSize == DeviceSize.web
-            ? 500
+            ? 520
             : MediaQuery.of(context).size.height * 0.8,
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -95,7 +95,7 @@ class _RateCardState extends State<RateCard> {
               const SizedBox(height: 20),
               constraints.maxWidth < kMenuBreakPoint
                   ? Expanded(
-                    child: ListView.builder(
+                    child: ListView.separated(
                         itemCount: _questions.length,
                         itemBuilder: (context, index) {
                           String question = _questions[index];
@@ -138,7 +138,7 @@ class _RateCardState extends State<RateCard> {
                                                 .secondary,
                                           ),
                                           borderRadius:
-                                              BorderRadius.circular(4),
+                                              BorderRadius.circular(5),
                                         ),
                                         alignment: Alignment.center,
                                         child: Text(
@@ -156,17 +156,17 @@ class _RateCardState extends State<RateCard> {
                                   );
                                 }),
                               ),
-                              const SizedBox(height: 16),
                             ],
                           );
                         },
+                      separatorBuilder: (context, index) => const SizedBox(height: 20),
                       ),
                   )
                   : Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Flexible(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: _questions.length - 3,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -198,8 +198,8 @@ class _RateCardState extends State<RateCard> {
                                       });
                                     },
                                     child: Container(
-                                      width: 60,
-                                      height: 30,
+                                      width: 85,
+                                      height: 50,
                                       decoration: BoxDecoration(
                                         color: isSelected
                                             ? context.themeData.colorScheme
@@ -210,7 +210,7 @@ class _RateCardState extends State<RateCard> {
                                               .secondary,
                                         ),
                                         borderRadius:
-                                        BorderRadius.circular(4),
+                                        BorderRadius.circular(10),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
@@ -228,15 +228,15 @@ class _RateCardState extends State<RateCard> {
                                 );
                               }),
                             ),
-                            const SizedBox(height: 16),
                           ],
                         );
                       },
+                      separatorBuilder: (context, index) => const SizedBox(height: 30),
                     ),
                   ),
                   SizedBox(width: 20,),
                   Flexible(
-                    child: ListView.builder(
+                    child: ListView.separated(
                       itemCount: _questions.length -3,
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
@@ -268,8 +268,8 @@ class _RateCardState extends State<RateCard> {
                                       });
                                     },
                                     child: Container(
-                                      width: 60,
-                                      height: 30,
+                                      width: 85,
+                                      height: 50,
                                       decoration: BoxDecoration(
                                         color: isSelected
                                             ? context.themeData.colorScheme
@@ -280,7 +280,7 @@ class _RateCardState extends State<RateCard> {
                                               .secondary,
                                         ),
                                         borderRadius:
-                                        BorderRadius.circular(4),
+                                        BorderRadius.circular(10),
                                       ),
                                       alignment: Alignment.center,
                                       child: Text(
@@ -298,32 +298,37 @@ class _RateCardState extends State<RateCard> {
                                 );
                               }),
                             ),
-                            const SizedBox(height: 16),
+
                           ],
                         );
                       },
+                      separatorBuilder: (context, index) => const SizedBox(height: 30),
                     ),
                   )
                 ],
               ),
               const SizedBox(height: 20),
               Center(
-                child: ElevatedButton(
-                  onPressed: _allRatingsSelected
-                      ? () {
-                          Navigator.pop(context);
-                          widget.navigator.navigator.showDialogBox(
-                              context,
-                              ReviewCard(
-                                ratings: _ratings,
-                                title: widget.title,
-                              ));
-                        }
-                      : null,
-                  child: const Text("Write a Review"),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 40, vertical: 15),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: constraints.maxWidth > kMenuBreakPoint ? 73 : null,
+                  child: ElevatedButton(
+                    onPressed: _allRatingsSelected
+                        ? () {
+                            Navigator.pop(context);
+                            widget.navigator.navigator.showDialogBox(
+                                context,
+                                ReviewCard(
+                                  ratings: _ratings,
+                                  title: widget.title,
+                                ));
+                          }
+                        : null,
+                    child: const Text("Write a Review"),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 40, vertical: 15),
+                    ),
                   ),
                 ),
               ),

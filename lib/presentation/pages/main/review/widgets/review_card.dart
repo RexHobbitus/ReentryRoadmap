@@ -12,6 +12,7 @@ import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.d
 import 'package:reentry_roadmap/presentation/widgets/custom_star_rating.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
+import '../../../../../core/utils/constants.dart';
 import '../../../../../data/models/review_parameter.dart';
 import '../../../../../data/repositories/database/review_service.dart';
 import '../../provider/write_review/add_photos_button.dart';
@@ -63,40 +64,7 @@ class _ReviewCardState extends State<ReviewCard> {
             ),
             _selectedImages(),
             AddPhotosButton(onTap: kIsWeb ? _pickWebImages : _pickImages),
-            CustomCheckBox(
-              text: "Post review anonymously",
-              onChange: (val) {
-                postAnonymously = val;
-              },
-            ),
-            const SizedBox(height: 20),
-            CustomButton(
-              text: "Post Review",
-              isDisabled: isButtonDisabled,
-              onTap: () async {
-                final reviewService = ReviewService();
-                final reviewParameter = ReviewParameter(
-                  rating: _rating,
-                  review: _review,
-                  images: _images,
-                  postAnonymously: postAnonymously,
-                  ratings: widget.ratings,
-                );
-
-                try {
-                  //ToDo: change the providerId to providerId variable
-                  /// The ProviderID is hardcoded here, you should replace it with the actual provider ID
-                  await reviewService.submitReview(
-                      providerId: "hyg5P5o0VROkvq8sxDun4NZtzYp1",
-                      review: reviewParameter);
-                  Navigator.pop(context);
-                  showSuccessDialog(context);
-                } catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Failed to post review: $error')));
-                }
-              },
-            ),
+            deviceSize == DeviceSize.web ? _PostReviewButtonWeb(constraints,kMenuBreakPoint) : _PostReviewButtonMobile(constraints,kMenuBreakPoint),
           ],
         ),
       );
@@ -234,7 +202,92 @@ class _ReviewCardState extends State<ReviewCard> {
     }
   }
 
-  void showSuccessDialog(BuildContext context) {
+  Widget _PostReviewButtonWeb(BoxConstraints constraints , kMenuBreakPoint){
+    return Row(
+      children: [
+        CustomButton(
+          text: "Post Review",
+          width: 450,
+          height: 73,
+          isDisabled: isButtonDisabled,
+          onTap: () async {
+            final reviewService = ReviewService();
+            final reviewParameter = ReviewParameter(
+              rating: _rating,
+              review: _review,
+              images: _images,
+              postAnonymously: postAnonymously,
+              ratings: widget.ratings,
+            );
+
+            try {
+              //ToDo: change the providerId to providerId variable
+              /// The ProviderID is hardcoded here, you should replace it with the actual provider ID
+              await reviewService.submitReview(
+                  providerId: "hyg5P5o0VROkvq8sxDun4NZtzYp1",
+                  review: reviewParameter);
+              Navigator.pop(context);
+              showSuccessDialog(context,constraints,kMenuBreakPoint);
+            } catch (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to post review: $error')));
+            }
+          },
+        ),
+        const SizedBox(width: 20),
+        CustomCheckBox(
+          text: "Post review anonymously",
+          onChange: (val) {
+            postAnonymously = val;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _PostReviewButtonMobile(BoxConstraints constraints , kMenuBreakPoint){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children:[
+        CustomCheckBox(
+          text: "Post review anonymously",
+          onChange: (val) {
+            postAnonymously = val;
+          },
+        ),
+        const SizedBox(height: 20),
+        CustomButton(
+          text: "Post Review",
+          isDisabled: isButtonDisabled,
+          onTap: () async {
+            final reviewService = ReviewService();
+            final reviewParameter = ReviewParameter(
+              rating: _rating,
+              review: _review,
+              images: _images,
+              postAnonymously: postAnonymously,
+              ratings: widget.ratings,
+            );
+
+            try {
+              //ToDo: change the providerId to providerId variable
+              /// The ProviderID is hardcoded here, you should replace it with the actual provider ID
+              await reviewService.submitReview(
+                  providerId: "hyg5P5o0VROkvq8sxDun4NZtzYp1",
+                  review: reviewParameter);
+              Navigator.pop(context);
+              showSuccessDialog(context,constraints,kMenuBreakPoint);
+            } catch (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to post review: $error')));
+            }
+          },
+        ),
+      ]
+    );
+  }
+
+  void showSuccessDialog(BuildContext context ,BoxConstraints constraints , kMenuBreakPoint) {
     showDialog(
       context: context,
       barrierDismissible: true,
@@ -257,8 +310,8 @@ class _ReviewCardState extends State<ReviewCard> {
           ),
           content: Builder(builder: (context) {
             return Container(
-              width: 370,
-              height: 270,
+              width: constraints.maxWidth < kMenuBreakPoint ? 200 : 500,
+              height: constraints.maxWidth < kMenuBreakPoint ? 200 : 350,
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 child: Center(
@@ -281,7 +334,7 @@ class _ReviewCardState extends State<ReviewCard> {
                           style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Colors.grey,
+                            color:Color(0xFF396773)
                           )),
                     ],
                   ),

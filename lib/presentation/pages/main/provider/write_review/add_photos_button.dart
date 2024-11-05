@@ -11,12 +11,13 @@ class AddPhotosButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: context.sw,
+        height: 60,
         padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
         margin: const EdgeInsets.symmetric(vertical: 5),
         decoration: BoxDecoration(
-          color: context.themeData.cardColor,
+          color: context.themeData.colorScheme.secondaryContainer,
           borderRadius: BorderRadius.circular(10),
-          border: Border.all(color: context.colorScheme.tertiary,width: 1)
+          border: Border.all(color: context.colorScheme.tertiaryContainer,width: 1)
         ),
         child: Center(
           child: Row(
