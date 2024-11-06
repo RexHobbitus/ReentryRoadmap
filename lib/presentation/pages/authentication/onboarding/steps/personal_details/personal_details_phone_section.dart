@@ -23,10 +23,11 @@ class PersonalDetailsPhoneSection extends StatelessWidget {
           height: 20,
         ),
         CustomTextField(
+          width: double.infinity,
           initialValue: cubit.phoneNumber,
           keyboard: TextInputType.phone,
-          onChange: (val){
-            cubit.phoneNumber=val;
+          onChange: (val) {
+            cubit.phoneNumber = val;
             cubit.notifyTextFieldUpdates();
           },
         ),

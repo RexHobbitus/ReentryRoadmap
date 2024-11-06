@@ -26,7 +26,7 @@ class ExploreServicesSlider extends StatefulWidget {
 class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
   int _activeIndex = 0;
   CarouselSliderController buttonCarouselController =
-  CarouselSliderController();
+      CarouselSliderController();
 
   ExploreState get state => widget.cubit.state;
 
@@ -44,24 +44,26 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
                   autoPlay: false,
                   enlargeCenterPage: true,
                   viewportFraction: 1,
-                  aspectRatio: user.isLoggedIn?0.6:0.68,
+                  aspectRatio: user.isLoggedIn ? 0.6 : 0.68,
                   initialPage: _activeIndex,
                   onPageChanged: (index, _) {
                     setState(() {
                       _activeIndex = index;
                     });
                   }),
-              itemBuilder: (BuildContext context, int itemIndex,
-                  int pageViewIndex) =>
-                  ProviderServiceCard(
-                    isOnboardedMode: user.isLoggedIn,
-                    onTap: widget.cubit.openProviderDetail,
-                    provider:
-                    state.loading ? Provider.shimmer() : state
-                        .services[itemIndex],
-                  ),
+              itemBuilder:
+                  (BuildContext context, int itemIndex, int pageViewIndex) =>
+                      ProviderServiceCard(
+                isOnboardedMode: user.isLoggedIn,
+                onTap: widget.cubit.openProviderDetail,
+                provider: state.loading
+                    ? Provider.shimmer()
+                    : state.services[itemIndex],
+              ),
             ),
-            const SizedBox(height: 10,),
+            const SizedBox(
+              height: 10,
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -85,7 +87,7 @@ class _ExploreServicesSliderState extends State<ExploreServicesSlider> {
                       dotHeight: 10,
                       dotWidth: 10,
                       spacing: 20,
-                      dotColor:context.colorScheme.tertiaryContainer,
+                      dotColor: context.colorScheme.tertiaryContainer,
                       activeDotColor: context.colorScheme.secondary),
                 ),
                 IconButton(

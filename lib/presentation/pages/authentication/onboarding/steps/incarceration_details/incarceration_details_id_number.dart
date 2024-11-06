@@ -54,6 +54,7 @@ class _IncarcerationDetailsIdNumberState
         ),
         _selectedIdType.toLowerCase() == "other institutional id"
             ? CustomTextField(
+                width: double.infinity,
                 initialValue: cubit.otherIdType,
                 label: "Enter ID Type",
                 onChange: (val) {
@@ -64,6 +65,7 @@ class _IncarcerationDetailsIdNumberState
             : const SizedBox.shrink(),
         if (_selectedIdType.isNotEmpty)
           CustomTextField(
+            width: double.infinity,
             initialValue: cubit.idNumber,
             label: "ID Number",
             onChange: (val) {

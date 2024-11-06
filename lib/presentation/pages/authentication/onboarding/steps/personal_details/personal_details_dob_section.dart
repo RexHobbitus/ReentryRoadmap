@@ -15,14 +15,20 @@ class PersonalDetailsDobSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const OnboardingTitleWidget(
-          title:"What is your Date of Birth?",
+          title: "What is your Date of Birth?",
         ),
-        CustomDatePickerField(
-          initialValue:cubit.selectedDob,
-          onChange: (date){
-            cubit.selectedDob=date;
-            cubit.notifyTextFieldUpdates();
-          },
+        Row(
+          children: [
+            Expanded(
+              child: CustomDatePickerField(
+                initialValue: cubit.selectedDob,
+                onChange: (date) {
+                  cubit.selectedDob = date;
+                  cubit.notifyTextFieldUpdates();
+                },
+              ),
+            ),
+          ],
         ),
       ],
     );

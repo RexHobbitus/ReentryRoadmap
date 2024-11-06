@@ -33,7 +33,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-          width: 35,
+          width: 20,
           child: Checkbox(
               value: _initialValue,
               shape: RoundedRectangleBorder(
@@ -45,10 +45,13 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
                 });
               }),
         ),
+        SizedBox(
+          width: 10,
+        ),
         Text(
           widget.text ?? "None",
-          style: context.textTheme.bodyLarge?.copyWith(
-              color: context.colorScheme.tertiary),
+          style: context.textTheme.bodyLarge
+              ?.copyWith(color: context.colorScheme.tertiary),
         )
       ],
     );

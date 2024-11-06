@@ -83,14 +83,17 @@ class _SignUpState extends State<SignUpPage> {
                       height: 20,
                     ),
                     CustomTextField(
+                      width: double.infinity,
                       controller: cubit.txtEmail,
                       label: "Email",
                     ),
                     CustomTextField(
+                      width: double.infinity,
                       controller: cubit.txtPassword,
                       label: "Password",
                     ),
                     CustomTextField(
+                      width: double.infinity,
                       controller: cubit.txtConfirmPassword,
                       label: "Confirm Password",
                     ),

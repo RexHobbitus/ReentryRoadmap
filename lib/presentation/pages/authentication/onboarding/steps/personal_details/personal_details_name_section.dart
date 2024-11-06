@@ -23,6 +23,8 @@ class PersonalDetailsNameSection extends StatelessWidget {
           spacing: 15,
           children: [
             CustomTextField(
+              
+                      width: double.infinity,
               initialValue: cubit.firstName,
               onChange: (val) {
                 cubit.firstName = val;
