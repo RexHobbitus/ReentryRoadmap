@@ -15,9 +15,13 @@ import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.d
 import 'package:reentry_roadmap/presentation/widgets/custom_star_rating.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
+import '../../../../../core/utils/constants.dart';
+import '../../../../../data/models/review_parameter.dart';
+import '../../../../../data/repositories/database/review_service.dart';
 import 'add_photos_button.dart';
 import 'write_review_parameter.dart';
 
+/// There must be a rate card before this and don't forget to update the static title
 class WriteReviewPopup extends StatefulWidget {
   Function(WriteReviewParameter)? onPostReview;
 
@@ -42,14 +46,15 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _titleWidget(),
-            const SizedBox(
+            _titleWidget(title: "NestedPie"),
+
+            Divider(
               height: 30,
+              color: context.colorScheme.onSurface.withOpacity(0.3),
             ),
-            _ratingWidget(),
-            const SizedBox(
-              height: 20,
-            ),
+            SizedBox(height: 20),
+            deviceSize == DeviceSize.web ? _ratingWidgetWeb() :_ratingWidget(),
+            const SizedBox(height: 20),
             CustomTextField(
               isDetail: true,
               width: deviceSize == DeviceSize.web ? constraints.maxWidth : null,
@@ -61,28 +66,8 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
             ),
             _selectedImages(),
             AddPhotosButton(onTap: kIsWeb ? _pickWebImages : _pickImages),
-            CustomCheckBox(
-              text: "Post review anonymously",
-              onChange: (val) {
-                postAnonymously = val;
-              },
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            CustomButton(
-              text: "Post Review",
-              isDisabled: isButtonDisabled,
-              onTap: () {
-                Navigator.pop(context);
-                widget.onPostReview?.call(WriteReviewParameter(
-                  rating: _rating,
-                  review: _review,
-                  images: _images,
-                  postAnonymously: postAnonymously,
-                ));
-              },
-            )
+            const SizedBox(height: 20),
+            deviceSize == DeviceSize.web ? _PostReviewButtonWeb(constraints,kMenuBreakPoint) : _PostReviewButtonMobile(constraints,kMenuBreakPoint),
           ],
         ),
       );
@@ -91,24 +76,19 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
 
   bool get isButtonDisabled => _rating <= 0 || _review.isEmpty;
 
-  Widget _titleWidget() {
+  Widget _titleWidget({required String title}) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Row(
           children: [
             Text(
-              "Opengate Hayward",
+              title,
               style: context.textTheme.titleMedium
                   ?.copyWith(fontWeight: FontWeight.w600),
             ),
-            const SizedBox(
-              width: 20,
-            ),
-            SvgPicture.asset(
-              Assets.verified,
-              width: 15,
-            ),
+            const SizedBox(width: 20),
+            SvgPicture.asset(Assets.verified, width: 15),
           ],
         ),
         IconButton(
@@ -147,56 +127,56 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
     return _images.isEmpty
         ? const SizedBox.shrink()
         : SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (var img in _images)
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                    child: Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: kIsWeb
-                              ? Image.memory(
-                                  img,
-                                  height: 80,
-                                  width: 80,
-                                  fit: BoxFit.cover,
-                                )
-                              : Image.file(
-                                  img,
-                                  height: 80,
-                                  width: 80,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              _images.remove(img);
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.all(3),
-                            child: CircleAvatar(
-                              radius: 15,
-                              backgroundColor: context.colorScheme.surface,
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.red,
-                                size: 15,
-                              ),
-                            ),
-                          ),
-                        )
-                      ],
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          for (var img in _images)
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Stack(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: kIsWeb
+                        ? Image.memory(
+                      img,
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
+                    )
+                        : Image.file(
+                      img,
+                      height: 80,
+                      width: 80,
+                      fit: BoxFit.cover,
                     ),
                   ),
-              ],
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        _images.remove(img);
+                      });
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(3),
+                      child: CircleAvatar(
+                        radius: 15,
+                        backgroundColor: context.colorScheme.surface,
+                        child: Icon(
+                          Icons.delete,
+                          color: Colors.red,
+                          size: 15,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
-          );
+        ],
+      ),
+    );
   }
 
   ImagePicker _imagePicker = ImagePicker();
@@ -224,4 +204,179 @@ class _WriteReviewPopupState extends State<WriteReviewPopup> {
       });
     }
   }
+
+  Widget _PostReviewButtonWeb(BoxConstraints constraints , kMenuBreakPoint){
+    return Row(
+      children: [
+        CustomButton(
+          text: "Post Review",
+          width: 350,
+          height: 73,
+          isDisabled: isButtonDisabled,
+          onTap: () async {
+            final reviewService = ReviewService();
+            final reviewParameter = ReviewParameter(
+              rating: _rating,
+              review: _review,
+              images: _images,
+              postAnonymously: postAnonymously,
+              ratings: {},
+            );
+
+            try {
+              //ToDo: change the providerId to providerId variable
+              /// The ProviderID is hardcoded here, you should replace it with the actual provider ID
+              await reviewService.submitReview(
+                  providerId: "hyg5P5o0VROkvq8sxDun4NZtzYp1",
+                  review: reviewParameter);
+              Navigator.pop(context);
+              showSuccessDialog(context,constraints,kMenuBreakPoint);
+            } catch (error) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('Failed to post review: $error')));
+            }
+          },
+        ),
+        const SizedBox(width: 20),
+        CustomCheckBox(
+          text: "Post review anonymously",
+          onChange: (val) {
+            postAnonymously = val;
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _PostReviewButtonMobile(BoxConstraints constraints , kMenuBreakPoint){
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children:[
+          CustomCheckBox(
+            text: "Post review anonymously",
+            onChange: (val) {
+              postAnonymously = val;
+            },
+          ),
+          const SizedBox(height: 20),
+          CustomButton(
+            text: "Post Review",
+            isDisabled: isButtonDisabled,
+            onTap: () async {
+              final reviewService = ReviewService();
+              final reviewParameter = ReviewParameter(
+                rating: _rating,
+                review: _review,
+                images: _images,
+                postAnonymously: postAnonymously,
+                ratings: {},
+              );
+
+              try {
+                //ToDo: change the providerId to providerId variable
+                /// The ProviderID is hardcoded here, you should replace it with the actual provider ID
+                await reviewService.submitReview(
+                    providerId: "hyg5P5o0VROkvq8sxDun4NZtzYp1",
+                    review: reviewParameter);
+                Navigator.pop(context);
+                showSuccessDialog(context,constraints,kMenuBreakPoint);
+              } catch (error) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(content: Text('Failed to post review: $error')));
+              }
+            },
+          ),
+        ]
+    );
+  }
+
+  Widget _ratingWidgetWeb(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          "Write a Review",
+          style: context.textTheme.bodyMedium
+              ?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        Spacer(),
+        Text(
+          "Select a Rating",
+          style: context.textTheme.bodyMedium
+              ?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        SizedBox(width: 10),
+        CustomStarRating(
+          disableTap: false,
+          initialValue: _rating,
+          onChange: (val) {
+            setState(() {
+              _rating = val;
+            });
+          },
+        ),
+      ],
+    );
+  }
+
+  void showSuccessDialog(BuildContext context ,BoxConstraints constraints , kMenuBreakPoint) {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          titlePadding: EdgeInsets.zero,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          title: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          ),
+          content: Builder(builder: (context) {
+            return Container(
+              width: constraints.maxWidth < kMenuBreakPoint ? 200 : 500,
+              height: constraints.maxWidth < kMenuBreakPoint ? 200 : 350,
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "Review Posted Successfully!",
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                          "Thank you for writing a review. Your review helps other people find and choose the best services available.",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color:Color(0xFF396773)
+                          )),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          }),
+        );
+      },
+    );
+  }
+
 }
