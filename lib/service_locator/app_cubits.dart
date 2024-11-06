@@ -74,7 +74,8 @@ class AppCubits {
     getIt.registerSingleton<ProfileCubit>(ProfileCubit(
       navigator: getIt(),
       logoutUseCase: getIt(),
-      userStore: getIt(),
+      appUserRepository: getIt(),
+      authRepository: getIt(),
     ));
 
     getIt.registerSingleton<BottomNavNavigator>(BottomNavNavigator(getIt()));
@@ -141,6 +142,8 @@ class AppCubits {
       userStore: getIt(),
       snackBar: getIt(),
       changePasswordUseCase: getIt(),
+      updateDataSharingSettingsUseCase: getIt(),
+      userRepository: getIt(),
     ));
   }
 }

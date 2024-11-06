@@ -1,12 +1,16 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/presentation/pages/main/profile/profile_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 
 class ProfileBannerSection extends StatelessWidget {
   const ProfileBannerSection({
     super.key,
+    required this.cubit,
   });
+
+  final ProfileCubit cubit;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +65,7 @@ class ProfileBannerSection extends StatelessWidget {
               return CustomButton(
                 text: 'Learn More',
                 width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
-                onTap: () {},
+                onTap: cubit.openMore,
               );
             },
           )

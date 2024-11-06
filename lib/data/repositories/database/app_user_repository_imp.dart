@@ -7,13 +7,16 @@ import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import '../../../domain/entities/check_in.dart';
+import '../../../domain/entities/current_needs_info.dart';
+import '../../../domain/entities/data_sharing_settings.dart';
 import '../../../domain/entities/onboarding_info.dart';
+import '../../../domain/entities/personal_info.dart';
 import '../../../domain/entities/provider.dart';
 import 'dart:developer' as logger;
 
-class AppUserRepositoryImp extends FirebaseCollection
-    with FirebaseFunctions
-    implements AppUserRepository {
+import '../../../domain/entities/user_profile_update.dart';
+
+class AppUserRepositoryImp extends FirebaseCollection with FirebaseFunctions implements AppUserRepository {
   @override
   Future<void> submitAssessment(OnboardingInfo onboardingInfo) async {
     try {
@@ -34,18 +37,15 @@ class AppUserRepositoryImp extends FirebaseCollection
         'onboardingInfo': onboardingInfo.toJson(),
       };
 
-      await docRef.set(userData,
-          SetOptions(merge: true)); // Using merge to update existing document
+      await docRef.set(userData, SetOptions(merge: true)); // Using merge to update existing document
     } catch (e) {
       throw Exception('Failed to save answers: $e');
     }
   }
 
   @override
-  Future<void> giveReviewToProvider(
-      {required String providerId, required ProviderReview review}) async {
-    DocumentReference ref =
-        providersCollection.doc(providerId).collection("reviews").doc();
+  Future<void> giveReviewToProvider({required String providerId, required ProviderReview review}) async {
+    DocumentReference ref = providersCollection.doc(providerId).collection("reviews").doc();
     Provider provider = await getProviderFromId(id: providerId);
     review.id = ref.id;
     review.uploadedBy = auth.currentUser?.uid;
@@ -54,17 +54,11 @@ class AppUserRepositoryImp extends FirebaseCollection
     final ratingKey = review.rating?.toInt().toString() ?? 1;
     final newRatingCount = (provider.ratingCount?.toJson()[ratingKey] ?? 0) + 1;
 
-    await providersCollection
-        .doc(provider.userId)
-        .collection("reviews")
-        .doc(ref.id)
-        .set(review.toData().toJson());
+    await providersCollection.doc(provider.userId).collection("reviews").doc(ref.id).set(review.toData().toJson());
     final newTotalReviews = (provider.totalReviews ?? 0) + 1;
     logger.log("++++ REVIEW ADDED INTO REVIEW SUB COLLECTION +++++++");
     final newAvgRating =
-        (((provider.avgRating ?? 0) * (provider.totalReviews ?? 0)) +
-                review.rating!) /
-            newTotalReviews;
+        (((provider.avgRating ?? 0) * (provider.totalReviews ?? 0)) + review.rating!) / newTotalReviews;
     await providersCollection.doc(provider.userId).update({
       "avgRating": newAvgRating,
       "totalReviews": FieldValue.increment(1),
@@ -97,10 +91,8 @@ class AppUserRepositoryImp extends FirebaseCollection
       logger.log("GETTING MATCHING PROVIDERS FOR NAME: ${input}");
       // Fetch all providers where the first letter or a pattern match is found.
       QuerySnapshot querySnapshot = await providersCollection
-          .where('providerOnboardingInfo.providerDetails.providerNameLocation',
-              isGreaterThanOrEqualTo: input)
-          .where('providerOnboardingInfo.providerDetails.providerNameLocation',
-              isLessThanOrEqualTo: '${input}\uf8ff')
+          .where('providerOnboardingInfo.providerDetails.providerNameLocation', isGreaterThanOrEqualTo: input)
+          .where('providerOnboardingInfo.providerDetails.providerNameLocation', isLessThanOrEqualTo: '${input}\uf8ff')
           .get();
 
       // Filter results for partial matches.
@@ -118,17 +110,94 @@ class AppUserRepositoryImp extends FirebaseCollection
   }
 
   @override
-  Future<void> submitCheckIn({required CheckIn checkIn, }) async {
-    String docId=checkInCollection.doc().id;
+  Future<void> submitCheckIn({
+    required CheckIn checkIn,
+  }) async {
+    String docId = checkInCollection.doc().id;
     await checkInCollection.doc(docId).set({
-      "id":docId,
-      "userId":auth.currentUser?.uid,
-      "createdAt":FieldValue.serverTimestamp(),
-      "updatedAt":FieldValue.serverTimestamp(),
-      "checkIn":checkIn.toJson(),
+      "id": docId,
+      "userId": auth.currentUser?.uid,
+      "createdAt": FieldValue.serverTimestamp(),
+      "updatedAt": FieldValue.serverTimestamp(),
+      "checkIn": checkIn.toJson(),
     });
-    await usersCollection.doc(auth.currentUser?.uid).update({
-      "onboardingInfo.currentNeedsInfo":checkIn.currentNeedsInfo?.toJson()
-    });
+    await usersCollection
+        .doc(auth.currentUser?.uid)
+        .update({"onboardingInfo.currentNeedsInfo": checkIn.currentNeedsInfo?.toJson()});
+  }
+
+  @override
+  Future<void> updateUserDataSharingSettings(UserDataSharingSettings userDataSharingSettings) async {
+    final user = auth.currentUser;
+    if (user == null) throw Exception('User not logged in');
+
+    final docRef = usersCollection.doc(user.uid);
+
+    await docRef.set({
+      'dataSharingSettings': userDataSharingSettings.toJson(),
+    }, SetOptions(merge: true));
+  }
+
+  @override
+  Future<UserDataSharingSettings> getUserDataSharingSettings() async {
+    final user = auth.currentUser;
+    if (user == null) return UserDataSharingSettings.defaultSettings();
+
+    final docRef = usersCollection.doc(user.uid);
+    final docSnapshot = await docRef.get();
+
+    if (!docSnapshot.exists) {
+      return UserDataSharingSettings.defaultSettings();
+    }
+
+    final data = docSnapshot.data();
+    final settingsData = data?['dataSharingSettings'] ?? {};
+
+    if (settingsData.isEmpty) {
+      // If dataSharingSettings is empty, initialize with default settings and update Firestore
+      final defaultSettings = UserDataSharingSettings.defaultSettings();
+      await docRef.set({
+        'dataSharingSettings': defaultSettings.toJson(),
+      }, SetOptions(merge: true));
+      return defaultSettings;
+    }
+
+    return UserDataSharingSettings.fromJson(settingsData);
+  }
+
+  @override
+  Future<void> updateUserProfileInfo(UserProfileUpdateInfo updateData) async {
+    try {
+      final user = auth.currentUser;
+
+      if (user == null) throw Exception('User not logged in');
+
+      final docRef = usersCollection.doc(user.uid);
+
+      // Get existing document first
+      final docSnapshot = await docRef.get();
+      if (!docSnapshot.exists) {
+        throw Exception('User profile not found');
+      }
+
+      final existingData = docSnapshot.data() as Map<String, dynamic>;
+      final existingOnboardingInfo = Map<String, dynamic>.from(existingData['onboardingInfo'] ?? {});
+
+      // Only update the specific sections
+      if (updateData.personalInfo != null) {
+        existingOnboardingInfo['personalInfo'] = updateData.personalInfo!.toJson();
+      }
+      if (updateData.currentNeedsInfo != null) {
+        existingOnboardingInfo['currentNeedsInfo'] = updateData.currentNeedsInfo!.toJson();
+      }
+
+      // Update document with merged data
+      await docRef.update({
+        'onboardingInfo': existingOnboardingInfo,
+        'updatedAt': FieldValue.serverTimestamp(),
+      });
+    } catch (e) {
+      throw Exception('Failed to update profile info: $e');
+    }
   }
 }

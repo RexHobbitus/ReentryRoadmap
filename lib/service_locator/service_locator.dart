@@ -14,6 +14,8 @@ import 'package:reentry_roadmap/domain/usecases/logout_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/onboarding_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/provider_onboarding_use_case.dart';
 import 'package:reentry_roadmap/domain/usecases/sign_up_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/update_data_sharing_settings_use_case.dart';
+import 'package:reentry_roadmap/domain/usecases/update_user_profile_info_use_case.dart';
 import '../core/alert/app_snack_bar.dart';
 import '../core/navigation/app_navigator.dart';
 import '../data/repositories/database/hive_database_repository.dart';
@@ -76,6 +78,16 @@ class ServiceLocator {
       appUserRepository: getIt(),
     ));
     getIt.registerSingleton<ChangePasswordUseCase>(ChangePasswordUseCase(
+      authRepository: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<UpdateDataSharingSettingsUseCase>(UpdateDataSharingSettingsUseCase(
+      appUserRepository: getIt(),
+      authRepository: getIt(),
+      userStore: getIt(),
+    ));
+    getIt.registerSingleton<UpdateUserProfileInfoUseCase>(UpdateUserProfileInfoUseCase(
+      appUserRepository: getIt(),
       authRepository: getIt(),
       userStore: getIt(),
     ));

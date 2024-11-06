@@ -1,13 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
-import 'package:reentry_roadmap/domain/entities/login_user.dart';
-import 'package:reentry_roadmap/domain/stores/user_store.dart';
-import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_scroll_view.dart';
 import 'profile_cubit.dart';
 import 'profile_initial_params.dart';
-import 'profile_state.dart';
 import 'widgets/profile_contact_details.dart';
 import 'widgets/profile_current_needs.dart';
 import 'widgets/profile_incarceration_details.dart';
@@ -58,47 +53,29 @@ class _ProfileState extends State<ProfilePage> {
               const SizedBox(
                 height: 16,
               ),
-              const ProfileBannerSection(),
+              ProfileBannerSection(cubit: cubit),
               const SizedBox(
                 height: 16,
               ),
-              const ProfileContactDetailsSection(),
+              ProfileContactDetailsSection(cubit: cubit),
               const SizedBox(
                 height: 15,
               ),
-              const ProfilePersonalDetails(),
+              ProfilePersonalDetails(cubit: cubit),
               const SizedBox(
                 height: 15,
               ),
-              const ProfileIncarcerationDetails(),
+              ProfileIncarcerationDetails(cubit: cubit),
               const SizedBox(
                 height: 15,
               ),
-              const ProfileCurrentNeeds(),
+              ProfileCurrentNeeds(cubit: cubit),
               const SizedBox(
                 height: 15,
               ),
               const ProfileServiceProvidersAccessed(),
               const SizedBox(
                 height: 15,
-              ),
-              BlocBuilder<UserStore, LoginUser>(
-                bloc: cubit.userStore,
-                builder: (context, user) {
-                  return BlocBuilder<ProfileCubit, ProfileState>(
-                    bloc: cubit,
-                    builder: (context, state) {
-                      return user.isLoggedIn
-                          ? Center(
-                              child: CustomButton(
-                                text: "Logout",
-                                onTap: cubit.logoutAction,
-                              ),
-                            )
-                          : const SizedBox();
-                    },
-                  );
-                },
               ),
             ],
           ),

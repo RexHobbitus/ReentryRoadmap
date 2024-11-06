@@ -10,8 +10,7 @@ class CurrentNeedsCareerChange extends StatefulWidget {
   const CurrentNeedsCareerChange({super.key});
 
   @override
-  State<CurrentNeedsCareerChange> createState() =>
-      _CurrentNeedsCareerChangeState();
+  State<CurrentNeedsCareerChange> createState() => _CurrentNeedsCareerChangeState();
 }
 
 class _CurrentNeedsCareerChangeState extends State<CurrentNeedsCareerChange> {
@@ -22,13 +21,12 @@ class _CurrentNeedsCareerChangeState extends State<CurrentNeedsCareerChange> {
 
   String selected = "";
 
-   OnboardingCubit get cubit  => getIt();
+  OnboardingCubit get cubit => getIt();
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-     selected=cubit.lookingForCareerChange;
+    selected = cubit.lookingForCareerChange;
   }
 
   @override
@@ -39,7 +37,6 @@ class _CurrentNeedsCareerChangeState extends State<CurrentNeedsCareerChange> {
         const OnboardingTitleWidget(
           title: "Are you looking for a career change?",
         ),
-
         Wrap(
           children: [
             for (var option in options)
@@ -49,7 +46,7 @@ class _CurrentNeedsCareerChangeState extends State<CurrentNeedsCareerChange> {
                 onTap: () {
                   setState(() {
                     selected = option;
-                    cubit.lookingForCareerChange=option;
+                    cubit.lookingForCareerChange = option;
                     cubit.notifyTextFieldUpdates();
                   });
                 },

@@ -121,7 +121,9 @@ class CustomTextField extends StatelessWidget {
           decoration: InputDecoration(
             labelText: label,
             labelStyle: AppStyle.hintStyle(context),
-            hintStyle: AppStyle.hintStyle(context),
+            hintStyle: (readOnly != null && readOnly == true)
+                ? AppStyle.textFieldTextStyle(context)
+                : AppStyle.hintStyle(context),
             floatingLabelBehavior: FloatingLabelBehavior.always,
             hintText: hint,
             hintFadeDuration: const Duration(milliseconds: 500),

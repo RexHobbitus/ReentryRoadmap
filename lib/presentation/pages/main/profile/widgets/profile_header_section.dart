@@ -10,16 +10,11 @@ class ProfileHeaderSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      minLeadingWidth: 0,
-      horizontalTitleGap: 0,
       titleAlignment: ListTileTitleAlignment.bottom,
       visualDensity: const VisualDensity(vertical: -3),
       contentPadding: EdgeInsets.zero,
-      leading: CircleAvatar(
-        radius: 40,
-        child: Image.asset(
-          Assets.profilePhoto,
-        ),
+      leading: Image.asset(
+        Assets.profilePhoto,
       ),
       title: Text(
         'Danathan Danamite',

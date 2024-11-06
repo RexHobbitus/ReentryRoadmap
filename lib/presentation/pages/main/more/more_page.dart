@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../widgets/custom_button.dart';
 import 'more_cubit.dart';
 import 'more_initial_params.dart';
-import 'more_state.dart';
 
 class MorePage extends StatefulWidget {
   final MoreCubit cubit;
@@ -11,10 +10,10 @@ class MorePage extends StatefulWidget {
   static const path = '/MorePage';
 
   const MorePage({
-    Key? key,
+    super.key,
     required this.cubit,
     required this.initialParams,
-  }) : super(key: key);
+  });
 
   @override
   State<MorePage> createState() => _MoreState();
@@ -32,8 +31,22 @@ class _MoreState extends State<MorePage> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-      body:  Center(child: Text("More page"),),
+    return Scaffold(
+      body: Center(
+          child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return CustomButton(
+                text: 'Check In',
+                width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
+                onTap: cubit.openCheckIn,
+              );
+            },
+          )
+        ],
+      )),
     );
   }
 }

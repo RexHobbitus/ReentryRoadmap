@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 
 class ProfileTile extends StatelessWidget {
-  const ProfileTile({super.key, required this.title, required this.widget});
+  const ProfileTile({super.key, required this.title, required this.child});
   final String title;
-  final Widget widget;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class ProfileTile extends StatelessWidget {
             ),
           ),
         ),
-        widget,
+        child,
       ],
     );
   }

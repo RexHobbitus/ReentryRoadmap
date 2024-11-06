@@ -36,19 +36,40 @@ class SettingsPasswordChangeSection extends StatelessWidget {
             CustomTextField(
               controller: cubit.txtCurrentPassword,
               label: "Enter Current Password",
-              suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+              hide: !state.currentPasswordVisible,
+              suffix: IconButton(
+                onPressed: cubit.toggleCurrentPasswordVisibility,
+                icon: Icon(
+                  state.currentPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: context.themeData.colorScheme.secondary,
+                ),
+              ),
               width: double.maxFinite,
             ),
             CustomTextField(
               controller: cubit.txtNewPassword,
               label: "Enter New Password",
-              suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+              hide: !state.newPasswordVisible,
+              suffix: IconButton(
+                onPressed: cubit.toggleNewPasswordVisibility,
+                icon: Icon(
+                  state.newPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: context.themeData.colorScheme.secondary,
+                ),
+              ),
               width: double.maxFinite,
             ),
             CustomTextField(
               controller: cubit.txtConfirmNewPassword,
               label: "Confirm New Password",
-              suffix: IconButton(onPressed: () {}, icon: const Icon(Icons.remove_red_eye)),
+              hide: !state.confirmPasswordVisible,
+              suffix: IconButton(
+                onPressed: cubit.toggleConfirmPasswordVisibility,
+                icon: Icon(
+                  state.confirmPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                  color: context.themeData.colorScheme.secondary,
+                ),
+              ),
               width: double.maxFinite,
             ),
             TextButton(

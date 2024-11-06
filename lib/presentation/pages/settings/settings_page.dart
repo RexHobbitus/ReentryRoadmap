@@ -47,7 +47,7 @@ class _SettingsPageState extends State<SettingsPage> {
               const SizedBox(height: 16),
               const SettingsNotificationTile(),
               const SizedBox(height: 6),
-              const SettingsDataSharingSection(),
+              SettingsDataSharingSection(cubit: cubit),
               const SizedBox(height: 16),
             ],
           ),
