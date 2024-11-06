@@ -1,8 +1,13 @@
+import 'dart:math';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/extensions/url_launcher_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/organization.dart';
 import 'package:reentry_roadmap/domain/entities/program.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
@@ -10,14 +15,17 @@ import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.
 
 class SearchProviderTileWeb extends StatelessWidget {
   final Provider service;
+  final List<OrganizationData> organizationList;
 
   const SearchProviderTileWeb({
     super.key,
     required this.service,
+    required this.organizationList,
   });
 
   @override
   Widget build(BuildContext context) {
+    List features = service.getAllFeatures();
     final chipList = service.getAllCategories();
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
@@ -41,11 +49,11 @@ class SearchProviderTileWeb extends StatelessWidget {
                           CustomCachedImage(
                             imgUrl: service.onboardingInfo?.providerDetails?.images?.firstOrNull ?? kPlaceHolderImage,
                             height: 260,
-                            width: 230,
+                            width: max(180, MediaQuery.sizeOf(context).width * .15),
                           ),
                           Container(
                             height: 260,
-                            width: 230,
+                            width: max(180, MediaQuery.sizeOf(context).width * .15),
                             alignment: Alignment.center,
                             decoration: const BoxDecoration(
                               gradient: LinearGradient(
@@ -97,24 +105,40 @@ class SearchProviderTileWeb extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              Text(
-                                "Opengate Foundation",
-                                style: context.textTheme.labelMedium?.copyWith(
-                                  color: context.colorScheme.secondaryContainer,
-                                  decorationColor: context.colorScheme.secondaryContainer,
-                                  decoration: TextDecoration.underline,
-                                ),
+                          Builder(builder: (context) {
+                            var list = organizationList
+                                .where(
+                                  (element) => element.orgId == service.orgId,
+                                )
+                                .toList();
+
+                            if (list.isEmpty) return const SizedBox.shrink();
+                            return CupertinoButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: () {
+                                service.onboardingInfo?.providerDetails?.orgWebsite?.launchUrlInBrowser();
+                              },
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    list.first.orgName??"",
+                                    style: context.textTheme.labelMedium?.copyWith(
+                                      color: context.colorScheme.secondaryContainer,
+                                      decorationColor: context.colorScheme.secondaryContainer,
+                                      decoration: TextDecoration.underline,
+                                    ),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 12,
+                                    color: context.colorScheme.secondaryContainer,
+                                  ),
+                                ],
                               ),
-                              const SizedBox(width: 4),
-                              Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                size: 12,
-                                color: context.colorScheme.secondaryContainer,
-                              ),
-                            ],
-                          ),
+                            );
+                          }),
                           Text(
                             service.onboardingInfo?.providerDetails?.providerNameLocation ?? "",
                             maxLines: 1,
@@ -141,19 +165,29 @@ class SearchProviderTileWeb extends StatelessWidget {
                             runSpacing: 10,
                             crossAxisAlignment: WrapCrossAlignment.center,
                             children: [
-                              for (var category in List.from(chipList).take(3).toList()) ServiceCardCategoryChip(title: category),
+                              for (var category in List.from(chipList).take(3).toList())
+                                ServiceCardCategoryChip(title: category),
                               chipList.length > 3
                                   ? Text(
                                       "+ ${chipList.length - 3} More",
-                                      style: context.textTheme.bodyMedium?.copyWith(color: context.themeData.colorScheme.tertiary, fontSize: 10),
+                                      style: context.textTheme.bodyMedium
+                                          ?.copyWith(color: context.themeData.colorScheme.tertiary, fontSize: 10),
                                     )
                                   : const SizedBox.shrink(),
                             ],
                           ),
                           const SizedBox(height: 20),
-                          const _ProviderFeature(title: "Women Only"),
-                          const SizedBox(height: 4),
-                          const _ProviderFeature(title: "Formerly Incarcerated Leadership"),
+                          for (String feature in features.take(2))
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [_ProviderFeature(title: feature), const SizedBox(height: 4)],
+                            ),
+                          if (features.length > 2) ...[
+                            Text(
+                              "+${features.length - 2} More",
+                              style: context.textTheme.labelMedium,
+                            ),
+                          ],
                           const SizedBox(height: 10),
                           Text(
                             "Our Take",
@@ -164,7 +198,8 @@ class SearchProviderTileWeb extends StatelessWidget {
                             "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.  It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout...",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 3,
-                            style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.secondaryContainer),
+                            style:
+                                context.textTheme.labelMedium?.copyWith(color: context.colorScheme.secondaryContainer),
                           ),
                         ],
                       ),
@@ -173,7 +208,7 @@ class SearchProviderTileWeb extends StatelessWidget {
                 ),
               ),
             ),
-            if (constraints.maxWidth > 800 && (service.onboardingInfo?.programs ?? []).isNotEmpty) ...[
+            if ((service.onboardingInfo?.programs ?? []).isNotEmpty) ...[
               _ManagementProgram(programs: service.onboardingInfo?.programs ?? []),
             ],
           ],
@@ -203,7 +238,9 @@ class _ManagementProgramState extends State<_ManagementProgram> {
           final program = widget.programs[currentProgram.value];
           final programCategoryList = program.programCategories?.map((e) => e.title ?? "").toList() ?? [];
           return Container(
-            width: 300,
+            constraints: BoxConstraints(
+              maxWidth: max(220, MediaQuery.sizeOf(context).width * .2),
+            ),
             height: 400,
             decoration: BoxDecoration(color: context.colorScheme.tertiaryContainer),
             child: Column(
@@ -229,11 +266,13 @@ class _ManagementProgramState extends State<_ManagementProgram> {
                           spacing: 10,
                           crossAxisAlignment: WrapCrossAlignment.center,
                           children: [
-                            for (var category in List.from(programCategoryList).take(1).toList()) _ProgramCategoryTile(label: category),
+                            for (var category in List.from(programCategoryList).take(1).toList())
+                              _ProgramCategoryTile(label: category),
                             if ((program.programCategories ?? []).length > 1) ...[
                               Text(
                                 "+ ${(program.programCategories ?? []).length - 1} More",
-                                style: context.textTheme.bodyMedium?.copyWith(color: context.themeData.colorScheme.secondary, fontSize: 10),
+                                style: context.textTheme.bodyMedium
+                                    ?.copyWith(color: context.themeData.colorScheme.secondary, fontSize: 10),
                               ),
                             ]
                           ],
@@ -249,7 +288,15 @@ class _ManagementProgramState extends State<_ManagementProgram> {
                               style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(height: 8),
-                            for (var info in program.eligibilityCriteria?.take(2).toList() ?? []) _FeatureOrEligibilityTile(title: info),
+                            for (var info in program.eligibilityCriteria?.take(2).toList() ?? [])
+                              _FeatureOrEligibilityTile(title: info),
+                            if ((program.eligibilityCriteria?.length ?? 0) > 2) ...[
+                              Text(
+                                "+ ${(program.eligibilityCriteria ?? []).length - 2} More",
+                                style: context.textTheme.bodyMedium
+                                    ?.copyWith(color: context.themeData.colorScheme.secondary, fontSize: 10),
+                              ),
+                            ]
                           ],
                         ),
                         const SizedBox(height: 10),
@@ -263,29 +310,39 @@ class _ManagementProgramState extends State<_ManagementProgram> {
                               style: context.textTheme.labelMedium?.copyWith(fontWeight: FontWeight.w600),
                             ),
                             const SizedBox(height: 8),
-                            for (var info in program.features?.take(2).toList() ?? []) _FeatureOrEligibilityTile(title: info),
+                            for (var info in program.features?.take(2).toList() ?? [])
+                              _FeatureOrEligibilityTile(title: info),
+                            if ((program.features?.length ?? 0) > 2) ...[
+                              Text(
+                                "+ ${(program.features ?? []).length - 2} More",
+                                style: context.textTheme.bodyMedium
+                                    ?.copyWith(color: context.themeData.colorScheme.secondary, fontSize: 10),
+                              ),
+                            ]
                           ],
                         ),
                         const SizedBox(height: 12),
                       ],
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: context.colorScheme.primary,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SvgPicture.asset(Assets.starCheck),
-                            const SizedBox(width: 5),
-                            Text(
-                              "Eligible!",
-                              style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSecondary),
-                            ),
-                          ],
-                        ),
-                      ),
+                      if ((program.eligibilityRatio ?? 0) >= 90) ...[
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: context.colorScheme.primary,
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              SvgPicture.asset(Assets.starCheck),
+                              const SizedBox(width: 5),
+                              Text(
+                                (program.eligibilityRatio ?? 0) >= 100 ? "Eligible!" : "Might be Eligible",
+                                style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSecondary),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
                     ],
                   ),
                 ),
@@ -311,7 +368,10 @@ class _ManagementProgramState extends State<_ManagementProgram> {
                         widget.programs.length,
                         (index) {
                           if (index == currentProgram.value) {
-                            return CircleAvatar(backgroundColor: context.colorScheme.secondary, radius: 16, child: Text(" ${index + 1} "));
+                            return CircleAvatar(
+                                backgroundColor: context.colorScheme.secondary,
+                                radius: 16,
+                                child: Text(" ${index + 1} "));
                           }
                           return Text(" ${index + 1} ");
                         },

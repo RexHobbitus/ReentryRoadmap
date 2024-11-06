@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 
@@ -20,6 +21,7 @@ class ProviderDetailsInfo extends Equatable {
   String? contactPerson;
   String? orgWebsite;
   List<OperatingHour>? operatingHours;
+  GeoPoint? gpsLocation;
 
   ProviderDetailsInfo({
     this.providerNameLocation,
@@ -38,6 +40,7 @@ class ProviderDetailsInfo extends Equatable {
     this.contactPerson,
     this.orgWebsite,
     this.operatingHours,
+    this.gpsLocation,
   });
 
   ProviderDetailsInfo.fromJson(Map<String, dynamic> json) {
@@ -62,6 +65,7 @@ class ProviderDetailsInfo extends Equatable {
         operatingHours!.add(OperatingHour.fromJson(v));
       });
     }
+    gpsLocation = json['gpsLocation'];
   }
 
   ProviderDetailsInfo.shimmer() {
@@ -75,13 +79,13 @@ class ProviderDetailsInfo extends Equatable {
     zipCode = "Testing";
     images = List.generate(5, (index) => kPlaceHolderImage);
     photosByOther = List.generate(5, (index) => kPlaceHolderImage);
-
     officialNumber = "Testing";
     officialEmail = "Testing";
     officialFax = "Testing";
     contactPerson = "Testing";
     orgWebsite = "Testing";
     operatingHours = List.generate(7, (index) => OperatingHour.shimmer());
+
   }
 
   Map<String, dynamic> toJson() {
@@ -101,50 +105,11 @@ class ProviderDetailsInfo extends Equatable {
     data['officialFax'] = officialFax;
     data['contactPerson'] = contactPerson;
     data['orgWebsite'] = orgWebsite;
+    data['gpsLocation'] = gpsLocation;
     if (this.operatingHours != null) {
-      data['operatingHours'] =
-          this.operatingHours!.map((v) => v.toJson()).toList();
+      data['operatingHours'] = this.operatingHours!.map((v) => v.toJson()).toList();
     }
     return data;
-  }
-
-  ProviderDetailsInfo copyWith({
-    String? providerNameLocation,
-    String? providerLocationDescribe,
-    String? relationReentry,
-    String? street,
-    String? city,
-    String? country,
-    String? state,
-    String? zipCode,
-    List<String>? images,
-    List<String>? photosByOther,
-    String? officialNumber,
-    String? officialEmail,
-    String? officialFax,
-    String? contactPerson,
-    String? orgWebsite,
-    List<OperatingHour>? operatingHours,
-  }) {
-    return ProviderDetailsInfo(
-      providerNameLocation: providerNameLocation ?? this.providerNameLocation,
-      providerLocationDescribe:
-          providerLocationDescribe ?? this.providerLocationDescribe,
-      relationReentry: relationReentry ?? this.relationReentry,
-      street: street ?? this.street,
-      city: city ?? this.city,
-      country: country ?? this.country,
-      state: state ?? this.state,
-      zipCode: zipCode ?? this.zipCode,
-      images: images ?? this.images,
-      photosByOther: photosByOther ?? this.photosByOther,
-      officialNumber: officialNumber ?? this.officialNumber,
-      officialEmail: officialEmail ?? this.officialEmail,
-      officialFax: officialFax ?? this.officialFax,
-      contactPerson: contactPerson ?? this.contactPerson,
-      orgWebsite: orgWebsite ?? this.orgWebsite,
-      operatingHours: operatingHours ?? this.operatingHours,
-    );
   }
 
   @override
@@ -165,5 +130,46 @@ class ProviderDetailsInfo extends Equatable {
         contactPerson,
         orgWebsite,
         operatingHours,
+      gpsLocation
       ];
+
+  ProviderDetailsInfo copyWith({
+    String? providerNameLocation,
+    String? providerLocationDescribe,
+    String? relationReentry,
+    String? street,
+    String? city,
+    String? country,
+    String? state,
+    String? zipCode,
+    List<dynamic>? images,
+    List<dynamic>? photosByOther,
+    String? officialNumber,
+    String? officialEmail,
+    String? officialFax,
+    String? contactPerson,
+    String? orgWebsite,
+    List<OperatingHour>? operatingHours,
+    GeoPoint? gpsLocation,
+  }) {
+    return ProviderDetailsInfo(
+      providerNameLocation: providerNameLocation ?? this.providerNameLocation,
+      providerLocationDescribe: providerLocationDescribe ?? this.providerLocationDescribe,
+      relationReentry: relationReentry ?? this.relationReentry,
+      street: street ?? this.street,
+      city: city ?? this.city,
+      country: country ?? this.country,
+      state: state ?? this.state,
+      zipCode: zipCode ?? this.zipCode,
+      images: images ?? this.images,
+      photosByOther: photosByOther ?? this.photosByOther,
+      officialNumber: officialNumber ?? this.officialNumber,
+      officialEmail: officialEmail ?? this.officialEmail,
+      officialFax: officialFax ?? this.officialFax,
+      contactPerson: contactPerson ?? this.contactPerson,
+      orgWebsite: orgWebsite ?? this.orgWebsite,
+      operatingHours: operatingHours ?? this.operatingHours,
+      gpsLocation: gpsLocation ?? this.gpsLocation,
+    );
+  }
 }

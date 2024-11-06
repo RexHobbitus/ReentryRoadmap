@@ -70,6 +70,8 @@ dependencies:
   go_router: ^14.2.7
   url_strategy: ^0.3.0
 
+  #for get location
+  geolocator: ^13.0.1
 
 
   #firebase

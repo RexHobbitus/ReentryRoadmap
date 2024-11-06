@@ -1,10 +1,12 @@
 import 'package:get_it/get_it.dart';
 import 'package:reentry_roadmap/data/repositories/database/app_user_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
+import 'package:reentry_roadmap/data/repositories/database/oraganization_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/provider_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/roadmap_settings_repository_impl.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
+import 'package:reentry_roadmap/domain/repositories/database/organization_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/roadmap_settings_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
@@ -40,6 +42,7 @@ class ServiceLocator {
     getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
     getIt.registerSingleton<AppUserRepository>(AppUserRepositoryImp());
     getIt.registerSingleton<ProviderRepository>(ProviderRepositoryImp());
+    getIt.registerSingleton<OrganizationRepository>(OrganizationRepositoryImp());
     getIt.registerSingleton<RoadmapSettingsRepository>(RoadmapSettingsRepositoryImpl());
 
     getIt.registerSingleton<UserStore>(UserStore());

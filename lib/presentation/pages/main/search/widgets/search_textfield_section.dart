@@ -46,9 +46,9 @@ class SearchTextFieldSection extends StatelessWidget {
           ),
           const SizedBox(height: 12, width: 28),
           if (constraints.maxWidth > kMenuBreakPoint) ...[
-            const Expanded(child: SearchWebField()),
+            Expanded(child: SearchWebField(cubit:cubit)),
           ] else ...[
-            const SearchMobileField(),
+             SearchMobileField(cubit: cubit,),
           ]
         ];
         if (constraints.maxWidth > kMenuBreakPoint) {

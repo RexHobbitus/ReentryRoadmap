@@ -1,22 +1,32 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/core/extensions/url_launcher_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/organization.dart';
+import 'package:reentry_roadmap/domain/entities/program.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/service_card_category_chip.dart';
 
 class SearchProviderTileMobile extends StatelessWidget {
   final Provider service;
+  final List<OrganizationData> organizationList;
 
   const SearchProviderTileMobile({
     super.key,
     required this.service,
+    required this.organizationList
   });
 
   @override
   Widget build(BuildContext context) {
+    List features = [];
+    for(Program ele in service.onboardingInfo?.programs??[]){
+      features = [...features,ele.features??[]];
+    }
     final chipList = service.getAllCategories();
     return Container(
       clipBehavior: Clip.hardEdge,
@@ -91,23 +101,40 @@ class SearchProviderTileMobile extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    Text(
-                      "Opengate Foundation",
-                      style: context.textTheme.labelMedium?.copyWith(
-                        color: context.colorScheme.secondaryContainer,
-                        decorationColor: context.colorScheme.secondaryContainer,
-                        decoration: TextDecoration.underline,
+                Builder(
+                  builder: (context) {
+                    var list = organizationList
+                        .where(
+                          (element) => element.orgId == service.orgId,
+                    )
+                        .toList();
+
+                    if (list.isEmpty) return const SizedBox.shrink();
+                    return CupertinoButton(
+                      padding: EdgeInsets.zero,
+                      onPressed: () {
+                        service.onboardingInfo?.providerDetails?.orgWebsite?.launchUrlInBrowser();
+                      },
+                      child: Row(
+                        children: [
+                          Text(
+                            list.first.orgName??"",
+                            style: context.textTheme.labelMedium?.copyWith(
+                              color: context.colorScheme.secondaryContainer,
+                              decorationColor: context.colorScheme.secondaryContainer,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 12,
+                            color: context.colorScheme.secondaryContainer,
+                          ),
+                        ],
                       ),
-                    ),
-                    const SizedBox(width: 4),
-                    Icon(
-                      Icons.arrow_forward_ios_rounded,
-                      size: 12,
-                      color: context.colorScheme.secondaryContainer,
-                    ),
-                  ],
+                    );
+                  }
                 ),
                 Text(
                   service.onboardingInfo?.providerDetails?.providerNameLocation ?? "",
@@ -156,31 +183,43 @@ class SearchProviderTileMobile extends StatelessWidget {
                 const SizedBox(height: 8),
                 for (var info in service.getAllFeatures().take(2).toList()) _FeatureOrEligibilityTile(title: info),
                 const SizedBox(height: 10),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8),
-                    color: context.colorScheme.primary,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+
+                Builder(
+                  builder: (context) {
+                    List eligibleTile = service.onboardingInfo?.programs?.where((element) => (element.eligibilityRatio??0)>=90,).toList()??[];
+
+                    if(eligibleTile.isEmpty){
+                      return const SizedBox.shrink();
+                    }
+                    bool showFullEligible = service.onboardingInfo?.programs?.where((element) => (element.eligibilityRatio??0)>=100,).toList().isNotEmpty??false;
+
+                    return Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        color: context.colorScheme.primary,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          SvgPicture.asset(Assets.starCheck),
-                          const SizedBox(width: 5),
-                          Text(
-                            "Eligible!",
-                            style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSecondary),
+                          Row(
+                            children: [
+                              SvgPicture.asset(Assets.starCheck),
+                              const SizedBox(width: 5),
+                              Text(
+                                showFullEligible? "Eligible!":"Might be Eligible",
+                                style: context.textTheme.bodySmall?.copyWith(color: context.colorScheme.onSecondary),
+                              ),
+                            ],
                           ),
+                          Text(
+                            "for ${eligibleTile.length} Programs",
+                            style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.primaryContainer),
+                          )
                         ],
                       ),
-                      Text(
-                        "for 4 Programs",
-                        style: context.textTheme.labelMedium?.copyWith(color: context.colorScheme.primaryContainer),
-                      )
-                    ],
-                  ),
+                    );
+                  }
                 ),
               ],
             ),

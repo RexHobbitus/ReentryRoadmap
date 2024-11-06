@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
@@ -26,6 +27,16 @@ class _SearchMobileFilterCategoriesState extends State<SearchMobileFilterCategor
   ValueNotifier<Set<String>> selectedFeatures = ValueNotifier({});
   ValueNotifier<List<String>> eligibilities = ValueNotifier([]);
   ValueNotifier<Set<String>> selectedEligibilities = ValueNotifier({});
+  TextEditingController maxDistance = TextEditingController();
+  TextEditingController minDistance = TextEditingController();
+
+  @override
+  void initState() {
+
+    super.initState();
+    maxDistance.text = widget.cubit.maxDistanceController.text;
+    minDistance.text = widget.cubit.minDistanceController.text;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +62,15 @@ class _SearchMobileFilterCategoriesState extends State<SearchMobileFilterCategor
                           style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(width: 16),
-                        Text(
-                          "Reset",
-                          style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onSurface.withOpacity(0.5)),
+                        CupertinoButton(
+                          onPressed: () {
+                            widget.cubit.navigator.navigator.pop(context);
+                            widget.cubit.resetFilters();
+                          },
+                          child: Text(
+                            "Reset",
+                            style: context.textTheme.labelLarge?.copyWith(color: context.colorScheme.onSurface.withOpacity(0.5)),
+                          ),
                         ),
                       ],
                     ),
@@ -71,6 +88,7 @@ class _SearchMobileFilterCategoriesState extends State<SearchMobileFilterCategor
                 child: SingleChildScrollView(
                   physics: const ClampingScrollPhysics(),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       ValueListenableBuilder(
                           valueListenable: categoryList,
@@ -140,7 +158,7 @@ class _SearchMobileFilterCategoriesState extends State<SearchMobileFilterCategor
                             );
                           }),
                       const SizedBox(height: 30),
-                      const SearchFilterFields(),
+                       SearchFilterFields(cubit: widget.cubit,fromBottom:true,maxDistance: maxDistance,miniDistance: minDistance,),
                       const SizedBox(height: 30),
                       ValueListenableBuilder(
                           valueListenable: selectedFeatures,
@@ -176,23 +194,27 @@ class _SearchMobileFilterCategoriesState extends State<SearchMobileFilterCategor
                             );
                           }),
                       const SizedBox(height: 30),
-                      CustomButton(
-                        text: "Apply Filters",
-                        width: double.infinity,
-                        onTap: () {
-                          widget.cubit.fillFilterList(
-                            categoryList: categoryList.value,
-                            selectedEligibilities: selectedEligibilities.value,
-                            selectedFeatures: selectedFeatures.value,
-                          );
-                          widget.cubit.navigator.navigator.pop(context);
-                        },
-                      ),
-                      const SizedBox(height: 30),
+
                     ],
                   ),
                 ),
               ),
+              const SizedBox(height: 4),
+              CustomButton(
+                text: "Apply Filters",
+                width: double.infinity,
+                onTap: () {
+                  widget.cubit.maxDistanceController.text = maxDistance.text;
+                  widget.cubit.minDistanceController.text = minDistance.text;
+                  widget.cubit.fillFilterList(
+                    categoryList: categoryList.value,
+                    selectedEligibilities: selectedEligibilities.value,
+                    selectedFeatures: selectedFeatures.value,
+                  );
+                  widget.cubit.navigator.navigator.pop(context);
+                },
+              ),
+              const SizedBox(height: 8),
             ],
           );
         });

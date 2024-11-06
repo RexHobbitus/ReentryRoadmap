@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
 
 import 'operating_hour_json.dart';
@@ -19,7 +20,7 @@ class ProviderDetailsInfoJson {
   String? contactPerson;
   String? orgWebsite;
   List<OperatingHourJson>? operatingHours;
-
+  GeoPoint? gpsLocation;
   ProviderDetailsInfoJson({
     this.providerNameLocation,
     this.providerLocationDescribe,
@@ -37,6 +38,7 @@ class ProviderDetailsInfoJson {
     this.contactPerson,
     this.orgWebsite,
     this.operatingHours,
+    this.gpsLocation,
   });
 
   ProviderDetailsInfoJson.fromJson(Map<String, dynamic> json) {
@@ -61,6 +63,8 @@ class ProviderDetailsInfoJson {
         operatingHours!.add(OperatingHourJson.fromJson(v));
       });
     }
+    gpsLocation = json['gpsLocation'];
+
   }
 
   Map<String, dynamic> toJson() {
@@ -80,6 +84,8 @@ class ProviderDetailsInfoJson {
     data['officialFax'] = this.officialFax;
     data['contactPerson'] = this.contactPerson;
     data['orgWebsite'] = this.orgWebsite;
+    data['gpsLocation'] = gpsLocation;
+
     if (this.operatingHours != null) {
       data['operatingHours'] =
           this.operatingHours!.map((v) => v.toJson()).toList();
@@ -106,6 +112,8 @@ class ProviderDetailsInfoJson {
       photosByOther: photosByOther ?? [],
       operatingHours:
           operatingHours?.map((data) => data.toDomain()).toList() ?? [],
+        gpsLocation:gpsLocation
+
     );
   }
 
@@ -118,20 +126,19 @@ class ProviderDetailsInfoJson {
     String? country,
     String? state,
     String? zipCode,
-    DateTime? startTime,
-    DateTime? endTime,
     List<String>? images,
+    List<String>? photosByOther,
     String? officialNumber,
     String? officialEmail,
     String? officialFax,
     String? contactPerson,
     String? orgWebsite,
     List<OperatingHourJson>? operatingHours,
+    GeoPoint? gpsLocation,
   }) {
     return ProviderDetailsInfoJson(
       providerNameLocation: providerNameLocation ?? this.providerNameLocation,
-      providerLocationDescribe:
-          providerLocationDescribe ?? this.providerLocationDescribe,
+      providerLocationDescribe: providerLocationDescribe ?? this.providerLocationDescribe,
       relationReentry: relationReentry ?? this.relationReentry,
       street: street ?? this.street,
       city: city ?? this.city,
@@ -139,12 +146,14 @@ class ProviderDetailsInfoJson {
       state: state ?? this.state,
       zipCode: zipCode ?? this.zipCode,
       images: images ?? this.images,
+      photosByOther: photosByOther ?? this.photosByOther,
       officialNumber: officialNumber ?? this.officialNumber,
       officialEmail: officialEmail ?? this.officialEmail,
       officialFax: officialFax ?? this.officialFax,
       contactPerson: contactPerson ?? this.contactPerson,
       orgWebsite: orgWebsite ?? this.orgWebsite,
       operatingHours: operatingHours ?? this.operatingHours,
+      gpsLocation: gpsLocation ?? this.gpsLocation,
     );
   }
 }

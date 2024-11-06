@@ -39,7 +39,7 @@ class CustomTextField extends StatelessWidget {
   bool showCurrentCharacters;
   TextInputType? keyboard;
   List<TextInputFormatter>? inputFormatters;
-  Function? suffixAction;
+  VoidCallback? suffixAction;
   InputBorder? inputBorder;
   FocusNode? focusNode;
   Widget? suffix;
@@ -141,8 +141,11 @@ class CustomTextField extends StatelessWidget {
                 horizontal: 20, vertical: device == DeviceSize.web ? 20 : 15),
             fillColor: context.themeData.cardColor,
             suffixIcon: suffixPath != null
-                ? InkWell(
-                    onTap: () {},
+                ? InkWell(borderRadius: BorderRadius.circular(30),
+                    onTap: () {
+                      suffixAction?.call();
+
+                    },
                     child: SvgPicture.asset(suffixPath!),
                   )
                 : suffix,

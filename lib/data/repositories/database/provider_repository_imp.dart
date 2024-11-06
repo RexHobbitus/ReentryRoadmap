@@ -1,8 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:reentry_roadmap/data/models/categories_json.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
 import 'package:reentry_roadmap/data/models/provider_review_json.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
+import 'package:reentry_roadmap/domain/entities/program.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 
@@ -42,7 +44,9 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
   @override
   Future<List<Provider>> getExplorePageServices() async {
     QuerySnapshot querySnapshot = await providersCollection.where('status', isEqualTo: "Approved").get();
-    return (querySnapshot.docs).map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
+    return (querySnapshot.docs)
+        .map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
+        .toList();
   }
 
   @override
@@ -62,20 +66,35 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
   @override
   Future<List<ProviderReview>> getProviderReviews({required String id}) async {
     QuerySnapshot querySnapshot = await providersCollection.doc(id).collection('reviews').get();
-    return (querySnapshot.docs).map((data) => ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
+    return (querySnapshot.docs)
+        .map((data) => ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
+        .toList();
   }
 
   @override
   Future<List<Provider>> getSearchPageServices({
     required List<CategoryData> categories,
     String? particularServiceSelected,
+    required List<String> features,
+    required List<String> eligibility,
+    required bool showOnlyEligibleProvider,
+    required String searchText,
+    required String locationText,
+    double? long,
+    double? lat,
+    double? maxDistance,
+    double? minDistance,
   }) async {
     QuerySnapshot querySnapshot = await providersCollection.get();
-    List<Provider> result = (querySnapshot.docs).map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
+    List<Provider> result = (querySnapshot.docs)
+        .map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
+        .toList();
+
     List<Provider> toReturn = [];
     if (particularServiceSelected?.isNotEmpty ?? false) {
       for (final service in result) {
-        final serviceCategories = service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
+        final serviceCategories =
+            service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
         if (serviceCategories?.contains(particularServiceSelected) ?? false) {
           toReturn.add(service);
         }
@@ -86,12 +105,14 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
     List<String> selectedSubCategories = [];
     categories.where((element) => element.isSelected ?? false).forEach(
       (category) {
-        selectedSubCategories.addAll(category.subCategories?.where((element) => element.isSelected).map((e) => e.title).toList() ?? []);
+        selectedSubCategories
+            .addAll(category.subCategories?.where((element) => element.isSelected).map((e) => e.title).toList() ?? []);
       },
     );
     if (selectedCategories.isNotEmpty) {
       for (final service in result) {
-        final serviceCategories = service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
+        final serviceCategories =
+            service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
         for (var category in selectedCategories) {
           if (serviceCategories?.contains(category.title) ?? false) {
             final selectedSubCategory = category.subCategories?.where((element) => element.isSelected).toList();
@@ -115,6 +136,130 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
       toReturn.addAll(result);
     }
 
+    // reorder features and eligibility
+    List<Provider> tempReturn = [];
+    for (var service in toReturn) {
+      var programList = service.onboardingInfo?.programs ?? [];
+      List<Program> tempProgramList = [];
+      for (var program in programList) {
+        // reorder features
+        var programFeatures = program.features ?? [];
+        var selectedFeatures = programFeatures
+            .where(
+              (element) => features.contains(element),
+            )
+            .toList();
+        var unselectedFeatures = programFeatures
+            .where(
+              (element) => !features.contains(element),
+            )
+            .toList();
+        programFeatures = [...selectedFeatures, ...unselectedFeatures];
+
+        // reorder eligibility
+        var programEligibility = program.eligibilityCriteria ?? [];
+        var selectedEligibility = programEligibility
+            .where(
+              (element) => eligibility.contains(element),
+            )
+            .toList();
+
+        var unselectedEligibility = programEligibility
+            .where(
+              (element) => !eligibility.contains(element),
+            )
+            .toList();
+        programEligibility = [...selectedEligibility, ...unselectedEligibility];
+        tempProgramList.add(program.copyWith(
+            features: programFeatures,
+            eligibilityCriteria: programEligibility,
+            eligibilityRatio: selectedEligibility.isEmpty || programEligibility.isEmpty
+                ? 0
+                : eligibility.length / programEligibility.length * 100));
+      }
+
+      tempReturn.add(service.copyWith(
+          onboardingInfo: service.onboardingInfo?.copyWith(
+              programs: [...tempProgramList]..sort(
+                  (a, b) => (b.eligibilityRatio ?? 0).compareTo(a.eligibilityRatio ?? 0),
+                ))));
+    }
+    // filter provider with 100% or more then eligibilityRatio
+    if (showOnlyEligibleProvider) {
+      List<Provider> eligibleFilterList = [];
+      for (var service in tempReturn) {
+        final list = service.onboardingInfo?.programs
+            ?.where(
+              (e) => (e.eligibilityRatio ?? 0) >= 100,
+            )
+            .toList();
+
+        if (list?.isNotEmpty ?? false) {
+          eligibleFilterList.add(service);
+        }
+      }
+      tempReturn = eligibleFilterList;
+    }
+    toReturn = tempReturn;
+    // apply search query
+    if (searchText.isNotEmpty) {
+      toReturn = toReturn.where(
+        (element) {
+          return element.onboardingInfo?.providerDetails?.providerNameLocation
+                  ?.toLowerCase()
+                  .contains(searchText.toLowerCase()) ??
+              false;
+        },
+      ).toList();
+    }
+
+    // apply location query
+    if (locationText.isNotEmpty) {
+      toReturn = toReturn.where(
+        (element) {
+          return element.completeAddress.toLowerCase().contains(locationText.toLowerCase());
+        },
+      ).toList();
+    }
+
+    //apple distance filter
+    if (!([lat, long,].contains(null))) {
+      if(maxDistance!=null||minDistance!=null){
+        List<Provider> tempList = [];
+        for (Provider service in toReturn) {
+          if(service.onboardingInfo?.providerDetails?.gpsLocation!=null){
+
+            final meters = Geolocator.distanceBetween(
+                lat!,
+                long!,
+                service.onboardingInfo!.providerDetails!.gpsLocation!.latitude,
+                service.onboardingInfo!.providerDetails!.gpsLocation!.longitude);
+            final miles = metersToMiles(meters);
+            if(![minDistance,maxDistance].contains(null)){
+              if(miles>minDistance!&&miles<maxDistance! ){
+                tempList.add(service);
+              }
+            }else if(minDistance!=null){
+              if(miles>minDistance){
+                tempList.add(service);
+              }
+            }else if(maxDistance!=null){
+              if(miles<maxDistance){
+                tempList.add(service);
+              }
+            }
+
+          }
+
+        }
+        toReturn = tempList;
+      }
+
+    }
     return toReturn.toSet().toList();
+  }
+
+  double metersToMiles(double meters) {
+    return meters * 0.000621371;
   }
 }

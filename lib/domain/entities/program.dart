@@ -6,13 +6,13 @@ class Program {
   List<ProgramCategory>? programCategories;
   List<String>? features;
   List<String>? eligibilityCriteria;
-
+  double? eligibilityRatio;
   Program(
       {this.name,
       this.description,
       this.programCategories,
       this.features,
-      this.eligibilityCriteria});
+      this.eligibilityCriteria,this.eligibilityRatio,});
 
   Program.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -46,5 +46,23 @@ class Program {
     data['features'] = this.features;
     data['eligibilityCriteria'] = this.eligibilityCriteria;
     return data;
+  }
+
+  Program copyWith({
+    String? name,
+    String? description,
+    List<ProgramCategory>? programCategories,
+    List<String>? features,
+    List<String>? eligibilityCriteria,
+    double? eligibilityRatio,
+  }) {
+    return Program(
+      name: name ?? this.name,
+      description: description ?? this.description,
+      programCategories: programCategories ?? this.programCategories,
+      features: features ?? this.features,
+      eligibilityCriteria: eligibilityCriteria ?? this.eligibilityCriteria,
+      eligibilityRatio: eligibilityRatio ?? this.eligibilityRatio,
+    );
   }
 }

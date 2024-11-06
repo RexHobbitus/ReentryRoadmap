@@ -9,6 +9,7 @@ class ProviderJson {
   String? email;
   Timestamp? createdAt;
   Timestamp? updatedAt;
+  String? orgId;
   ProviderOnboardingInfoJson? onboardingInfo;
   double? avgRating;
   int? totalReviews;
@@ -18,6 +19,7 @@ class ProviderJson {
     this.userId,
     this.createdAt,
     this.updatedAt,
+    this.orgId,
     this.onboardingInfo,
     this.email,
     this.avgRating,
@@ -31,6 +33,7 @@ class ProviderJson {
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    orgId = json['orgId'];
     onboardingInfo = json['providerOnboardingInfo'] != null
         ? new ProviderOnboardingInfoJson.fromJson(
             json['providerOnboardingInfo'])
@@ -48,6 +51,7 @@ class ProviderJson {
     data['email'] = this.email;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
+    data['orgId'] = this.orgId;
     if (this.onboardingInfo != null) {
       data['onboardingInfo'] = this.onboardingInfo!.toJson();
     }
@@ -65,6 +69,7 @@ class ProviderJson {
       email: email,
       createdAt: createdAt.toString(),
       updatedAt: updatedAt.toString(),
+      orgId: orgId,
       onboardingInfo: onboardingInfo?.toDomain(),
       avgRating: avgRating ?? 0,
       totalReviews: totalReviews ?? 0,

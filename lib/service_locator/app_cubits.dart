@@ -70,6 +70,7 @@ class AppCubits {
       userStore: getIt(),
       snackBar: getIt(),
       providerRepository: getIt(),
+      organizationRepository: getIt(),
       roadmapSettingsRepository: getIt(),
     ));
     getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));

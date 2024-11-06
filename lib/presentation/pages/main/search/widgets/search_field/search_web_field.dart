@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/presentation/pages/main/search/search_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_textfield.dart';
 
 class SearchWebField extends StatelessWidget {
-  const SearchWebField({super.key});
+  final SearchCubit cubit;
+  const SearchWebField({super.key, required this. cubit});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class SearchWebField extends StatelessWidget {
               children: [
                 Expanded(
                   child: CustomTextField(
-                    controller: TextEditingController(),
+                    controller: cubit.searchController,
                     hint: "Search for a service",
                     bottomPadding: 0,
                     textFieldMode: TextFieldMode.search,
@@ -40,9 +42,12 @@ class SearchWebField extends StatelessWidget {
                 ),
                 Expanded(
                   child: CustomTextField(
-                    controller: TextEditingController(),
+                    controller: cubit.locationController,
                     hint: "Enter Location",
                     suffixPath: Assets.search,
+                    suffixAction: () {
+                      cubit.onSearch();
+                    },
                     bottomPadding: 0,
                     textFieldMode: TextFieldMode.search,
                   ),

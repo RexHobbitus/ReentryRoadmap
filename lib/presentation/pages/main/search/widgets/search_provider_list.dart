@@ -12,6 +12,7 @@ import 'package:reentry_roadmap/presentation/pages/main/search/search_state.dart
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_mobile_filter_categories.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_provider_tile_mobile.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_provider_tile_web.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 class SearchProviderList extends StatelessWidget {
@@ -31,83 +32,101 @@ class SearchProviderList extends StatelessWidget {
         builder: (context, state) {
           return Skeletonizer(
             enabled: state.listLoading,
-            child: Column(
-              children: [
-                const SizedBox(height: 15),
-                if (isBigScreen) ...[
-                  SearchTopResultWeb(cubit: cubit),
-                ] else ...[
-                  SearchTopResultMobile(cubit: cubit),
-                ],
-                const SizedBox(height: 20),
-                if (isBigScreen) ...[
-                  const LearnMoreWeb(),
-                ] else ...[
-                  const LearnMoreMobile(),
-                ],
-                const SizedBox(height: 30),
-                if (!state.listLoading && state.services.isEmpty) ...[
-                  Image.asset(
-                    Assets.noDataFound,
-                    width: min(MediaQuery.sizeOf(context).width * 0.8, MediaQuery.sizeOf(context).width * 0.4),
-                  )
-                ] else ...[
-                  ListView.separated(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: state.listLoading ? 3 : state.services.length,
-                    itemBuilder: (context, index) {
-                      Provider service = state.listLoading ? Provider.shimmer() : state.services[index];
-                      if (isBigScreen) {
-                        return SearchProviderTileWeb(service: service);
-                      }
-                      return SearchProviderTileMobile(service: service);
-                    },
-                    separatorBuilder: (context, index) => const SizedBox(height: 16),
-                  ),
-                  const SizedBox(height: 30),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        size: 14,
-                      ),
-                      ...List.generate(
-                        5,
-                        (index) {
-                          if (index == 2) {
-                            return Container(
-                                margin: const EdgeInsets.symmetric(horizontal: 10),
-                                padding: const EdgeInsets.all(6),
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: context.colorScheme.surfaceContainer,
-                                  border: Border.all(color: context.colorScheme.tertiaryContainer),
-                                ),
-                                child: Text(" ${index + 1} "));
-                          }
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Text(" ${index + 1} "),
+            child: CustomResponsiveBuilder(
+              builder:(context, constraints, device)  {
+                return Column(
+                  children: [
+                    const SizedBox(height: 15),
+                    if (constraints.maxWidth>1000) ...[
+                      SearchTopResultWeb(cubit: cubit),
+                    ] else ...[
+                      SearchTopResultMobile(cubit: cubit),
+                    ],
+                    const SizedBox(height: 20),
+                    if (isBigScreen) ...[
+                      const LearnMoreWeb(),
+                    ] else ...[
+                      const LearnMoreMobile(),
+                    ],
+                    const SizedBox(height: 30),
+                    if (!state.listLoading && state.paginatedServices.isEmpty) ...[
+                      CustomResponsiveBuilder(
+                        builder: (context, constraints, device) {
+                          return Image.asset(
+                            Assets.noDataFound,
+                            width: device==DeviceSize.mobile? 220: min(MediaQuery.sizeOf(context).width * 0.8, MediaQuery.sizeOf(context).width * 0.4),
                           );
+                        }
+                      )
+                    ] else ...[
+                      ListView.separated(
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: state.listLoading ? 3 : state.paginatedServices.length,
+                        itemBuilder: (context, index) {
+                          Provider service = state.listLoading ? Provider.shimmer() : state.paginatedServices[index];
+                          if (isBigScreen) {
+                            return SearchProviderTileWeb(service: service,organizationList:state.organizationList);
+                          }
+                          return SearchProviderTileMobile(service: service,organizationList: state.organizationList,);
                         },
+                        separatorBuilder: (context, index) => const SizedBox(height: 16),
                       ),
-                      const Icon(
-                        Icons.arrow_forward_ios_rounded,
-                        size: 14,
+                      const SizedBox(height: 30),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CupertinoButton(
+                            onPressed:state.currentPage==1?null: () {
+                              cubit.handlePagination(page: state.currentPage-1);
+                            },
+                            child: const Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              size: 14,
+                            ),
+                          ),
+                          ...List.generate(
+                            state.pageShowcaseList.length,
+                            (index) {
+                              if (state.currentPage == state.pageShowcaseList[index]) {
+                                return Container(
+                                    margin: const EdgeInsets.symmetric(horizontal: 10),
+                                    padding: const EdgeInsets.all(6),
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: context.colorScheme.surfaceContainer,
+                                      border: Border.all(color: context.colorScheme.tertiaryContainer),
+                                    ),
+                                    child: Text(" ${state.pageShowcaseList[index]} "));
+                              }
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: 10),
+                                child: Text(" ${state.pageShowcaseList[index]} "),
+                              );
+                            },
+                          ),
+                          CupertinoButton(
+                            onPressed:state.totalPage==state.currentPage?null: () {
+                              cubit.handlePagination(page: state.currentPage+1);
+                            },
+                            child: const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ],
-                  ),
-                ],
-                const SizedBox(height: 30),
-                if (isBigScreen) ...[
-                  const _AddProviderWeb(),
-                ] else ...[
-                  const _AddProviderMobile(),
-                ],
-                const SizedBox(height: 30),
-              ],
+                    const SizedBox(height: 30),
+                    if (isBigScreen) ...[
+                      const _AddProviderWeb(),
+                    ] else ...[
+                      const _AddProviderMobile(),
+                    ],
+                    const SizedBox(height: 30),
+                  ],
+                );
+              }
             ),
           );
         });
@@ -365,18 +384,7 @@ class LearnMoreWeb extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                RichText(
-                  text: TextSpan(
-                    children: const [
-                      TextSpan(text: "Provide a "),
-                      TextSpan(text: "Check In", style: TextStyle(decoration: TextDecoration.underline)),
-                      TextSpan(text: " to get the best matches!"),
-                    ],
-                    style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary),
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                ),
+                Text("Provide a check In  to get the best matches!",style:context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary)),
                 const SizedBox(height: 4),
                 Text(
                   "Update us on your reentry journey so we can find you the best services",
@@ -417,16 +425,8 @@ class LearnMoreMobile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          RichText(
-            text: TextSpan(
-              children: const [
-                TextSpan(text: "Provide a "),
-                TextSpan(text: "Check In", style: TextStyle(decoration: TextDecoration.underline)),
-                TextSpan(text: " to get the best matches!"),
-              ],
-              style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary, fontWeight: FontWeight.w600),
-            ),
-          ),
+          Text("Provide a check In  to get the best matches!",             style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary, fontWeight: FontWeight.w600)),
+
           const SizedBox(height: 10),
           Text(
             "Update us on your reentry journey so we can find you the best services",

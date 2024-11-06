@@ -121,6 +121,7 @@ class SearchCategoriesMenu extends StatelessWidget {
                                       alignment: Alignment.centerLeft,
                                       child: Text(
                                         item.title ?? "",
+                                        style: TextStyle(color: item.isSelected??false ? context.colorScheme.primary : null),
                                       ),
                                     ),
                                   ),

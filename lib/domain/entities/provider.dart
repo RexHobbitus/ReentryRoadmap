@@ -8,6 +8,7 @@ class Provider extends Equatable {
   String? email;
   String? createdAt;
   String? updatedAt;
+  String? orgId;
   ProviderOnboardingInfo? onboardingInfo;
   double? avgRating;
   int? totalReviews;
@@ -17,6 +18,7 @@ class Provider extends Equatable {
     this.userId,
     this.createdAt,
     this.updatedAt,
+    this.orgId,
     this.onboardingInfo,
     this.email,
     this.avgRating,
@@ -29,6 +31,7 @@ class Provider extends Equatable {
     email = json['email'];
     createdAt = json['createdAt'];
     updatedAt = json['updatedAt'];
+    orgId = json['orgId'];
     onboardingInfo = json['onboardingInfo'] != null ? new ProviderOnboardingInfo.fromJson(json['onboardingInfo']) : null;
     avgRating = json['avgRating'];
     totalReviews = json['totalReviews'];
@@ -98,6 +101,7 @@ class Provider extends Equatable {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['userId'] = this.userId;
     data['email'] = this.email;
+    data['orgId'] = this.orgId;
     data['createdAt'] = this.createdAt;
     data['updatedAt'] = this.updatedAt;
     if (this.onboardingInfo != null) {
@@ -113,6 +117,7 @@ class Provider extends Equatable {
     String? email,
     String? createdAt,
     String? updatedAt,
+    String? orgId,
     ProviderOnboardingInfo? onboardingInfo,
     double? avgRating,
     int? totalReviews,
@@ -122,6 +127,7 @@ class Provider extends Equatable {
       email: email ?? this.email,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      orgId: orgId ?? this.orgId,
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
       avgRating: avgRating ?? this.avgRating,
       totalReviews: totalReviews ?? this.totalReviews,
@@ -137,6 +143,7 @@ class Provider extends Equatable {
         onboardingInfo,
         avgRating,
         totalReviews,
+    orgId,
         ratingCount,
       ];
 }

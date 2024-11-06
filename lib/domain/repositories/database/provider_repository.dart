@@ -19,5 +19,7 @@ abstract class ProviderRepository with FirebaseFunctions {
   Future<List<Provider>> getSearchPageServices({
     required List<CategoryData> categories,
     String? particularServiceSelected,
+    required List<String> features,
+    required List<String> eligibility, required bool showOnlyEligibleProvider, required String searchText, required String locationText, double? long, double? lat, double? maxDistance, double? minDistance,
   });
 }

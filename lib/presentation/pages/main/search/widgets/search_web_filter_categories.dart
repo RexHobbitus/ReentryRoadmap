@@ -55,7 +55,7 @@ class _SearchWebFilterCategoriesState extends State<SearchWebFilterCategories> {
                   SearchFilterSubCategoryWeb(cubit: widget.cubit),
                 ],
                 const SizedBox(height: 30),
-                const SearchFilterFields(),
+                 SearchFilterFields( cubit: widget.cubit,fromBottom: false,),
                 const SizedBox(height: 30),
                 SearchFeatureEligibilityFilterWeb(
                   title: "Features",

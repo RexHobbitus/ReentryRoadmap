@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_ca
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_provider_list.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_textfield_section.dart';
 import 'package:reentry_roadmap/presentation/pages/main/search/widgets/search_web_filter_categories.dart';
+import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
 import 'search_cubit.dart';
 import 'search_initial_params.dart';
@@ -53,15 +54,18 @@ class _SearchState extends State<SearchPage> {
             Divider(height: 1, color: context.colorScheme.tertiaryContainer),
             Expanded(
               child: SingleChildScrollView(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (isBigScreen) ...[
-                      Expanded(flex: 2, child: SearchWebFilterCategories(cubit: cubit)),
-                      const SizedBox(width: 60),
+                controller: cubit.scrollController,
+                child: CustomResponsiveBuilder(
+                  builder: (context, constraints, device) =>  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      if (constraints.maxWidth > 1000) ...[
+                        Expanded(flex: 2, child: SearchWebFilterCategories(cubit: cubit)),
+                        const SizedBox(width: 60),
+                      ],
+                      Expanded(flex: 10, child: SearchProviderList(cubit: cubit, isBigScreen: isBigScreen)),
                     ],
-                    Expanded(flex: 10, child: SearchProviderList(cubit: cubit, isBigScreen: isBigScreen)),
-                  ],
+                  ),
                 ),
               ),
             ),
