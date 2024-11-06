@@ -1,9 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/app_user_json.dart';
+import 'package:reentry_roadmap/data/models/ceo_info_json.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_collection.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
+import 'package:reentry_roadmap/domain/entities/ceo_info.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import '../../../domain/entities/check_in.dart';
@@ -130,5 +132,11 @@ class AppUserRepositoryImp extends FirebaseCollection
     await usersCollection.doc(auth.currentUser?.uid).update({
       "onboardingInfo.currentNeedsInfo":checkIn.currentNeedsInfo?.toJson()
     });
+  }
+
+  @override
+  Future<CeoInfo> getCeoInfo() async {
+    DocumentSnapshot snapshot=(await ceoCollection.get()).docs.first;
+    return CeoInfoJson.fromJson(snapshot.data() as Map<String,dynamic>).toDomain();
   }
 }

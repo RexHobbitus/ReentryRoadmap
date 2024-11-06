@@ -27,7 +27,7 @@ class ExploreServiceCategoriesSection extends StatelessWidget {
       int crossAxisCount = (constraints.maxWidth / itemWidth).floor();
       return AlignedGridView.count(
         crossAxisCount: crossAxisCount,
-        mainAxisSpacing: 13,
+        mainAxisSpacing: 5,
         crossAxisSpacing: 13,
         shrinkWrap: true,
         primary: false,

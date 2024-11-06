@@ -43,63 +43,92 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
-        bloc: cubit,
-        builder: (context, state) {
-          return Skeletonizer(
-            enabled: state.loading,
-            ignorePointers: state.loading,
-            child: CustomScrollView(
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Wrap(
-                    spacing: 20,
-                    children: [
-                      ProviderDetailHeader(
+      body: CustomResponsiveBuilder(
+        builder: (context,constraints,deviceSize) {
+          return BlocBuilder<ProviderDetailCubit, ProviderDetailState>(
+            bloc: cubit,
+            builder: (context, state) {
+              return Skeletonizer(
+                enabled: state.loading,
+                ignorePointers: state.loading,
+                child: CustomScrollView(
+                  slivers: [
+                    deviceSize==DeviceSize.mobile?SliverToBoxAdapter(
+                      child: ProviderDetailHeader(
                         cubit: cubit,
                       ),
-                      CustomResponsiveBuilder(
-                          builder: (context, constraints, deviceSize) {
-                        return Container(
-                          width: deviceSize == DeviceSize.web
-                              ? constraints.maxWidth - 500
-                              : constraints.maxWidth,
-                          margin: const EdgeInsets.symmetric(vertical: 20),
-                          child: Column(
-                            children: [
-                              ProviderDetailMenuBar(
-                                cubit: cubit,
-                              ),
-                              BlocBuilder<ProviderDetailCubit,
-                                  ProviderDetailState>(
-                                bloc: cubit,
-                                builder: (context, state) {
-                                  return state.selectedMenuIndex == 0
-                                      ? AboutProviderSection(
-                                          cubit: cubit,
-                                        )
-                                      : state.selectedMenuIndex == 1
-                                          ? ReviewsSection(
-                                              cubit: cubit,
-                                            )
-                                          : state.selectedMenuIndex == 2
-                                              ? const OurTakeSection()
-                                              : PhotosSection(
-                                                  cubit: cubit,
-                                                );
-                                },
-                              ),
-                            ],
-                          ),
-                        );
-                      })
-                    ],
-                  ),
+                    ):const SliverToBoxAdapter(),
+                    deviceSize==DeviceSize.mobile?SliverAppBar(
+                      elevation: 0.0,
+                      pinned: true,
+                      primary: false,
+                      // surfaceTintColor: Colors.red,
+                      automaticallyImplyLeading: false,
+                      // backgroundColor: Colors.transparent,
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      titleSpacing: 0,
+                      toolbarHeight: 100,
+                      title: ProviderDetailMenuBar(
+                        cubit: cubit,
+                      ),
+                    ):const SliverToBoxAdapter(),
+                    SliverToBoxAdapter(
+                      child: Wrap(
+                        spacing: 20,
+                        children: [
+                          /// In the case of web screen size show header here
+                          deviceSize==DeviceSize.web?ProviderDetailHeader(
+                            cubit: cubit,
+                          ):const SizedBox(),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kScreenHorizontalPadding),
+                            child: CustomResponsiveBuilder(
+                                builder: (context, constraints, deviceSize) {
+                              return Container(
+                                width: deviceSize == DeviceSize.web
+                                    ? constraints.maxWidth - 500
+                                    : constraints.maxWidth,
+                                margin: const EdgeInsets.symmetric(vertical: 20),
+                                child: Column(
+                                  children: [
+                                    /// In the case of web screen size show menu bar
+                                    deviceSize==DeviceSize.web?ProviderDetailMenuBar(
+                                      cubit: cubit,
+                                    ):const SizedBox(),
+                                    BlocBuilder<ProviderDetailCubit,
+                                        ProviderDetailState>(
+                                      bloc: cubit,
+                                      builder: (context, state) {
+                                        return state.selectedMenuIndex == 0
+                                            ? AboutProviderSection(
+                                                cubit: cubit,
+                                              )
+                                            : state.selectedMenuIndex == 1
+                                                ? ReviewsSection(
+                                                    cubit: cubit,
+                                                  )
+                                                : state.selectedMenuIndex == 2
+                                                    ? const OurTakeSection()
+                                                    : PhotosSection(
+                                                        cubit: cubit,
+                                                      );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              );
+            },
           );
-        },
+        }
       ),
     );
   }
