@@ -1,0 +1,4 @@
+class CreateProviderInitialParams {
+
+const CreateProviderInitialParams();
+}

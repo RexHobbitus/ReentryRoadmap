@@ -20,6 +20,8 @@ import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_
 import 'package:url_strategy/url_strategy.dart';
 import '../../presentation/pages/authentication/login/login_page.dart';
 import '../../presentation/pages/authentication/onboarding/onboarding_page.dart';
+import '../../presentation/pages/create_provider/create_provider_initial_params.dart';
+import '../../presentation/pages/create_provider/create_provider_page.dart';
 import '../../presentation/pages/main/bottom_nav/bottom_nav_page.dart';
 import '../../presentation/pages/main/explore/explore_page.dart';
 import '../../presentation/pages/main/more/more_page.dart';
@@ -179,6 +181,16 @@ class AppRouter {
             cubit: getIt(),
             initialParams:
                 ProviderDetailInitialParams(id: state.pathParameters['id']!),
+          );
+        },
+      ),
+
+      GoRoute(
+        path: CreateProviderPage.path,
+        builder: (context, state) {
+          return CreateProviderPage(
+            cubit: getIt(),
+            initialParams: const CreateProviderInitialParams(),
           );
         },
       ),

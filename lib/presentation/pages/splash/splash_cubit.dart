@@ -6,6 +6,7 @@ import 'package:reentry_roadmap/presentation/pages/authentication/onboarding/onb
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/provider_onboarding/provider_onboarding_initial_params.dart';
+import '../create_provider/create_provider_initial_params.dart';
 import 'splash_initial_params.dart';
 import 'splash_state.dart';
 import 'splash_navigator.dart';
@@ -34,7 +35,8 @@ class SplashCubit extends Cubit<SplashState> {
         navigator
             .openProviderOnboarding(const ProviderOnboardingInitialParams());
       } else {
-        navigator.openExplore(const ExploreInitialParams());
+        // navigator.openExplore(const ExploreInitialParams());
+        navigator.openCreateProvider(const CreateProviderInitialParams());
       }
     });
   }
