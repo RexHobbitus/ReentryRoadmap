@@ -25,7 +25,8 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
       bloc: cubit,
       builder: (context, state) {
         int _currentStep = state.providerOnboardingSectionIndex + 1;
-        debugPrint("Current step: ${_currentStep}");
+        bool isLastSkip= _currentStep==cubit.onBoardingSteps.length-4 && cubit.selectedPrograms.isNotEmpty;
+        debugPrint("Current step: ${_currentStep} => total steps ${cubit.onBoardingSteps.length}");
         return CustomResponsiveBuilder(builder: (context, constraints, device) {
           return Padding(
             padding:
@@ -183,10 +184,13 @@ class ProviderOnboardingFooterWidget extends StatelessWidget {
                           if (_currentStep == 3 ||
                               _currentStep == 7 ||
                               _currentStep == 10 ||
-                              _currentStep == 11)
+                              _currentStep == 11 ||
+                              (_currentStep==cubit.onBoardingSteps.length-4 && cubit.selectedPrograms.isNotEmpty)
+                          )
                             CustomTextButton(
                               text: "Skip Question",
-                              onTap: cubit.nextStepAction,
+                              onTap: isLastSkip?cubit.submitOnboardingInfo:
+                              cubit.nextStepAction,
                             ),
                           if (_currentStep > 1)
                             SizedBox(

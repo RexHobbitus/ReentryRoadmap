@@ -11,7 +11,7 @@ class ProviderDetailButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.icon,
-    this.isPrimary=false,
+    this.isPrimary = false,
     this.onTap,
   });
 
@@ -23,7 +23,9 @@ class ProviderDetailButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
         margin: const EdgeInsets.symmetric(horizontal: 2, vertical: 6),
         decoration: BoxDecoration(
-            color:isPrimary?context.colorScheme.primary:context.colorScheme.secondary,
+            color: isPrimary
+                ? context.colorScheme.primary
+                : context.colorScheme.secondary,
             borderRadius: BorderRadius.circular(5)),
         child: Row(
           mainAxisSize: MainAxisSize.min,

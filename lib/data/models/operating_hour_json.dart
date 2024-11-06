@@ -3,8 +3,8 @@ import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
 
 class OperatingHourJson {
   final String day;
-  final Timestamp startTime;
-  final Timestamp endTime;
+  final Timestamp? startTime;
+  final Timestamp? endTime;
 
   OperatingHourJson({
     required this.day,
@@ -31,8 +31,10 @@ class OperatingHourJson {
   OperatingHour toDomain() {
     return OperatingHour(
       day: day,
-      startTime: startTime.toDate(),
-      endTime: endTime.toDate(),
+      startTime: startTime?.toDate()??
+          DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 9),
+      endTime: endTime?.toDate()??
+          DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, 17),
     );
   }
 }

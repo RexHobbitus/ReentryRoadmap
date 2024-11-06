@@ -12,6 +12,8 @@ abstract class FirebaseCollection{
   final providersCollection=FirebaseFirestore.instance.collection('providers');
   final checkInCollection=FirebaseFirestore.instance.collection('checkIns');
   final ceoCollection=FirebaseFirestore.instance.collection('ceo');
+  final featuredProvidersOurTakeCollection=FirebaseFirestore.instance.collection('featuredProvidersOurTake');
+
 
 
 

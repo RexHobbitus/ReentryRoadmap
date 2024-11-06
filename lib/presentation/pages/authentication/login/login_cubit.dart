@@ -44,8 +44,7 @@ class LoginCubit extends Cubit<LoginState> {
         password: password,
         role: isProvider ? "provider" : "user",
       );
-      snackBar.show("Logged in successfully",
-          snackBarType: SnackBarType.SUCCESS);
+      snackBar.show("Logged in successfully", snackBarType: SnackBarType.SUCCESS);
       if (status == UserSessionStatus.userLoggedInWithNoOnboarding) {
         navigator.openOnboarding(const OnboardingInitialParams());
       } else if (status == UserSessionStatus.providerLoggedInWithNoOnboarding) {

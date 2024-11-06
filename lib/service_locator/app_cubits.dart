@@ -55,6 +55,7 @@ class AppCubits {
       userStore: getIt(),
       snackBar: getIt(),
       providerRepository: getIt(),
+      appUserRepository: getIt(),
     ));
     getIt.registerSingleton<MoreNavigator>(MoreNavigator(getIt()));
     getIt.registerSingleton<MoreCubit>(MoreCubit(
@@ -135,8 +136,7 @@ class AppCubits {
     ));
     getIt.registerSingleton<LearnMoreNavigator>(LearnMoreNavigator(getIt()));
     getIt.registerFactory(() => LearnMoreCubit(
-      navigator: getIt(),
-    ));
-
+          navigator: getIt(),
+        ));
   }
 }

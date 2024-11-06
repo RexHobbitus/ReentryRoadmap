@@ -24,56 +24,50 @@ class ProviderDetailFooter extends StatelessWidget {
     return  CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
       return deviceSize == DeviceSize.web
           ? const SizedBox.shrink()
-          : Container(
-              //  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              decoration: BoxDecoration(
-                color: context.themeData.cardColor,
+          : Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              BlocBuilder<UserStore, LoginUser>(
+                bloc: cubit.userStore,
+                builder: (context, user) {
+                  return user.isLoggedIn
+                      ? Row(
+                          children: [
+                            Expanded(
+                              flex:4,
+                              child: ProviderDetailButton(
+                                  title: "Add Review",
+                                  icon: Icons.add,
+                                  onTap: cubit.addReviewAction),
+                            ),
+                            Expanded(
+                              flex:5,
+                              child: ProviderDetailButton(
+                                title: "Suggest on edit",
+                                icon: Icons.edit,
+                                onTap: cubit.suggestEditAction,
+                              ),
+                            ),
+                             const Expanded(
+                               flex:3,
+                              child: ProviderDetailButton(
+                                title: "Save",
+                                icon: Icons.bookmark_border,
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox();
+                },
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  BlocBuilder<UserStore, LoginUser>(
-                    bloc: cubit.userStore,
-                    builder: (context, user) {
-                      return user.isLoggedIn
-                          ? Row(
-                              children: [
-                                Expanded(
-                                  flex:4,
-                                  child: ProviderDetailButton(
-                                      title: "Add Review",
-                                      icon: Icons.add,
-                                      onTap: cubit.addReviewAction),
-                                ),
-                                Expanded(
-                                  flex:5,
-                                  child: ProviderDetailButton(
-                                    title: "Suggest on edit",
-                                    icon: Icons.edit,
-                                    onTap: cubit.suggestEditAction,
-                                  ),
-                                ),
-                                 const Expanded(
-                                   flex:3,
-                                  child: ProviderDetailButton(
-                                    title: "Save",
-                                    icon: Icons.bookmark_border,
-                                  ),
-                                ),
-                              ],
-                            )
-                          : SizedBox();
-                    },
-                  ),
-                  const SizedBox(height: 10,),
-                  CustomButton(
-                    text: "Contact OpenGate",
-                    onTap: cubit.contactAction,
-                    style: context.textTheme.titleMedium,
-                  ),
-                ],
+              const SizedBox(height: 10,),
+              CustomButton(
+                text: "Contact OpenGate",
+                onTap: cubit.contactAction,
+                style: context.textTheme.titleMedium,
               ),
-            );
+            ],
+          );
     });
   }
 }

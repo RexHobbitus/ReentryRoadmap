@@ -8,6 +8,7 @@ import 'explore_initial_params.dart';
 import 'widgets/explore_footer_section.dart';
 import 'widgets/explore_search_section.dart';
 import 'widgets/explore_service_categories_section.dart';
+
 class ExplorePage extends StatefulWidget {
   final ExploreCubit cubit;
   final ExploreInitialParams initialParams;
@@ -41,8 +42,8 @@ class _ExploreState extends State<ExplorePage> {
         child: Column(
           children: [
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: kScreenHorizontalPadding),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: kScreenHorizontalPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -61,7 +62,9 @@ class _ExploreState extends State<ExplorePage> {
                 ],
               ),
             ),
-            const ExploreFooterSection(),
+             ExploreFooterSection(
+              cubit: cubit,
+            ),
           ],
         ),
       ),

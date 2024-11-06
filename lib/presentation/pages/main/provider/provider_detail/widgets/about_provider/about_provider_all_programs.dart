@@ -42,7 +42,7 @@ class _AboutProviderAllProgramsState extends State<AboutProviderAllPrograms> {
       return BlocBuilder<UserStore, LoginUser>(
         bloc: widget.cubit.userStore,
         builder: (context, user) {
-          return Column(
+          return programs.isEmpty?const SizedBox.shrink():Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(

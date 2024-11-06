@@ -103,7 +103,9 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
 
   suggestEditAction() {
     navigator.navigator
-        .showDialogBox(context, const ProviderSuggestEditPopup());
+        .showDialogBox(context,  ProviderSuggestEditPopup(
+      provider: state.provider,
+    ));
   }
 
   contactAction() {

@@ -2,6 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
 import 'package:reentry_roadmap/domain/entities/service_category.dart';
+import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
@@ -18,12 +19,15 @@ class ExploreCubit extends Cubit<ExploreState> {
   UserStore userStore;
   AppSnackBar snackBar;
   ProviderRepository providerRepository;
+  AppUserRepository appUserRepository;
 
   ExploreCubit({
     required this.navigator,
     required this.userStore,
     required this.snackBar,
     required this.providerRepository,
+    required this.appUserRepository,
+
   }) : super(ExploreState.initial());
 
   BuildContext get context => navigator.context;
@@ -31,6 +35,8 @@ class ExploreCubit extends Cubit<ExploreState> {
   onInit(ExploreInitialParams initialParams) {
     debugPrint("Explore init called...");
     _getServices();
+    _getCeoInfo();
+    _getFeaturedProvidersOurTake();
   }
 
   openProviderDetail(Provider provider) {
@@ -67,5 +73,18 @@ class ExploreCubit extends Cubit<ExploreState> {
 
   learnMoreAction(){
     navigator.openLearnMore(const LearnMoreInitialParams());
+  }
+  _getCeoInfo(){
+    emit(state.copyWith(loadingCeoInfo: true));
+    appUserRepository.getCeoInfo().then((val){
+      emit(state.copyWith(ceoInfo: val,loadingCeoInfo: false));
+    });
+  }
+
+  _getFeaturedProvidersOurTake(){
+    emit(state.copyWith(loadingOurTakes: true));
+    appUserRepository.getFeaturedProvidersOurTake().then((featuredProviders){
+      emit(state.copyWith(featuredProvidersOurTake: featuredProviders,loadingOurTakes:false));
+    });
   }
 }

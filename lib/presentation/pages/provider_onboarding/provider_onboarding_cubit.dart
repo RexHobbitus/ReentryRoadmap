@@ -1,10 +1,7 @@
-import 'dart:async';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
-import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/general_service.dart';
 import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
 import 'package:reentry_roadmap/domain/entities/provider_details_info.dart';
@@ -189,6 +186,9 @@ class ProviderOnboardingCubit extends Cubit<ProviderOnboardingState> {
     emit(state.copyWith(providerOnboardingSectionIndex: step));
   }
 
+  submitOnboardingInfo(){
+    _sendOnboardingInformation();
+  }
   nextStepAction() {
     if (isProviderOnboardingCompleted()) {
       _sendOnboardingInformation();

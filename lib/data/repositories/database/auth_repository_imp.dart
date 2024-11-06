@@ -22,7 +22,9 @@ class AuthRepositoryImp extends FirebaseCollection implements AuthRepository {
         ///  get user record
         var userDocument =
             await usersCollection.doc(userCredential.user?.uid).get();
-
+        if(!userDocument.exists){
+          throw "Invalid credentials or role";
+        }
         return LoginUser(
             role: "user",
             data: AppUserJson.fromJson(

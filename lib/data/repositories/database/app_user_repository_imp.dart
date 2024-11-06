@@ -1,11 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/app_user_json.dart';
 import 'package:reentry_roadmap/data/models/ceo_info_json.dart';
+import 'package:reentry_roadmap/data/models/featured_provider_our_take_json.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_collection.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/app_user.dart';
 import 'package:reentry_roadmap/domain/entities/ceo_info.dart';
+import 'package:reentry_roadmap/domain/entities/featured_provider_our_take.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import '../../../domain/entities/check_in.dart';
@@ -138,5 +140,15 @@ class AppUserRepositoryImp extends FirebaseCollection
   Future<CeoInfo> getCeoInfo() async {
     DocumentSnapshot snapshot=(await ceoCollection.get()).docs.first;
     return CeoInfoJson.fromJson(snapshot.data() as Map<String,dynamic>).toDomain();
+  }
+
+  @override
+  Future<List<FeaturedProviderOurTake>> getFeaturedProvidersOurTake() async {
+    QuerySnapshot querySnapshot=await featuredProvidersOurTakeCollection.get();
+    List<FeaturedProviderOurTake> data=[];
+    for(var doc in querySnapshot.docs){
+      data.add(FeaturedProviderOurTakeJson.fromJson(doc.data() as Map<String,dynamic>).toDomain());
+    }
+    return data;
   }
 }

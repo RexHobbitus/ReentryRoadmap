@@ -1,7 +1,7 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
-import 'package:reentry_roadmap/core/utils/app_style.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_check_box.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
@@ -11,7 +11,8 @@ import '../../../../../widgets/custom_title_card.dart';
 import '../../../../../widgets/operating_hours_widget.dart';
 
 class ProviderSuggestEditPopup extends StatefulWidget {
-  const ProviderSuggestEditPopup({super.key});
+  final Provider provider;
+  const ProviderSuggestEditPopup({super.key,required this.provider});
 
   @override
   State<ProviderSuggestEditPopup> createState() =>
@@ -20,7 +21,7 @@ class ProviderSuggestEditPopup extends StatefulWidget {
 
 class _ProviderSuggestEditPopupState extends State<ProviderSuggestEditPopup> {
   bool providerStillOpen = true;
-
+  Provider get _provider=> widget.provider;
   @override
   Widget build(BuildContext context) {
     return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
@@ -76,24 +77,29 @@ class _ProviderSuggestEditPopupState extends State<ProviderSuggestEditPopup> {
                       children: [
                         CustomTextField(
                           label: "Name of the provider location",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.providerNameLocation,
                         ),
                         CustomTextField(
                           label: "Name of the parent location",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.providerLocationDescribe,
                         ),
                         CustomTextField(
                           label: "Relation to reentry",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.relationReentry,
                         ),
                         _label("Location"),
                         CustomTextField(
                           label: "Street",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.street,
                         ),
                         CustomTextField(
                           label: "City",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.city,
                         ),
                         CustomTextField(
-                          initialValue: "",
                           label: "Country",
                           disable: true,
+                          initialValue: _provider.onboardingInfo?.providerDetails?.country,
                           key: UniqueKey(),
                           onTap: () {
                             showCountryPicker(
@@ -107,16 +113,20 @@ class _ProviderSuggestEditPopupState extends State<ProviderSuggestEditPopup> {
                         ),
                         CustomTextField(
                           label: "Zipcode",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.zipCode,
                         ),
                         _label("Operating Hours"),
-                        OperatingHoursWidget(),
-                        SizedBox(
+                        OperatingHoursWidget(
+                          operatingHours: _provider.onboardingInfo?.providerDetails?.operatingHours,
+                        ),
+                        const SizedBox(
                           height: 20,
                         ),
                         CustomTextField(
                           label: "Organization website",
+                          initialValue: _provider.onboardingInfo?.providerDetails?.orgWebsite,
                         ),
-                        SizedBox(
+                        const  SizedBox(
                           height: 40,
                         ),
                       ],

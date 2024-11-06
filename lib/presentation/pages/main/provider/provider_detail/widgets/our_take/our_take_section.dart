@@ -1,12 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/utils/app_style.dart';
-import 'package:reentry_roadmap/core/utils/assets.dart';
+import 'package:reentry_roadmap/domain/entities/ceo_info.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 class OurTakeSection extends StatelessWidget {
-  const OurTakeSection({super.key});
+  final ProviderDetailCubit cubit;
+  const OurTakeSection({super.key,required this.cubit});
 
   @override
   Widget build(BuildContext context) {
@@ -67,33 +69,41 @@ class OurTakeSection extends StatelessWidget {
   }
 
   Widget _ceoInformation({required BuildContext context}) {
-    return Row(
-      children: [
-        const CircleAvatar(
-          radius: 20,
-          backgroundImage: CachedNetworkImageProvider(
-              "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"),
-        ),
-        const SizedBox(
-          width: 20,
-        ),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Danny Yoon",
-              style: context.textTheme.bodyLarge,
-            ),
-            Text(
-              "CEO of Dignifi",
-              style: context.textTheme.bodyMedium?.copyWith(
-                color: context.colorScheme.secondaryFixed
+    return FutureBuilder<CeoInfo>(
+      future: cubit.appUserRepository.getCeoInfo(),
+      builder: (context,snapshot) {
+        CeoInfo? ceoInfo=snapshot.hasData?snapshot.data:CeoInfo.shimmer();
+        return Skeletonizer(
+          enabled: !snapshot.hasData,
+          child: Row(
+            children: [
+               CircleAvatar(
+                radius: 20,
+                backgroundImage: CachedNetworkImageProvider("${ceoInfo?.profilePic}"),
               ),
-            ),
-          ],
-        )
-      ],
+              const SizedBox(
+                width: 20,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "${ceoInfo?.name}",
+                    style: context.textTheme.bodyLarge,
+                  ),
+                  Text(
+                    "${ceoInfo?.position}",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: context.colorScheme.secondaryFixed
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        );
+      }
     );
   }
 
