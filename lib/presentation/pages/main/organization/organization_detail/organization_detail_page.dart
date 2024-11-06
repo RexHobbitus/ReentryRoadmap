@@ -6,9 +6,12 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/navigation/app_navigator.dart';
 import 'package:reentry_roadmap/core/theme/light_theme.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_page.dart';
+import 'package:reentry_roadmap/presentation/pages/main/notification/notification_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/organization/organization_detail/organization_detail_cubit.dart';
+import 'package:reentry_roadmap/presentation/pages/main/organization/organization_detail/organization_detail_state.dart';
 import 'package:reentry_roadmap/presentation/widgets/header_logo.dart';
 
 import '../../../../../core/utils/assets.dart';
@@ -17,18 +20,36 @@ import '../../../../widgets/custom_cached_image.dart';
 import '../../../../widgets/custom_expansion_tile.dart';
 import '../../../../widgets/header_auth_buttons.dart';
 import '../../../../widgets/service_card_category_chip.dart';
+import '../../../authentication/login/login_initial_params.dart';
 import '../../../authentication/login/login_page.dart';
+import '../../../authentication/sign_up/sign_up_initial_params.dart';
 import '../../notification/notification_page.dart';
+import 'organization_detail_initial_params.dart';
 
-class OrganizationDetailPage extends StatelessWidget {
+class OrganizationDetailPage extends StatefulWidget {
   final OrganizationDetailCubit cubit;
+  final OrganizationDetailInitialParams initialParams;
 
   static const path = '/OrganizationDetailPage';
 
   const OrganizationDetailPage({
     super.key,
     required this.cubit,
+    required this.initialParams,
   });
+
+  @override
+  State<OrganizationDetailPage> createState() => _OrganizationDetailPageState();
+}
+
+class _OrganizationDetailPageState extends State<OrganizationDetailPage> {
+  OrganizationDetailCubit get cubit => widget.cubit;
+
+  @override
+  void initState() {
+    cubit.onInit(widget.initialParams);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,18 +66,20 @@ class OrganizationDetailPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(right: 20),
                 child: BlocBuilder<UserStore, LoginUser>(
-                  bloc: cubit.userStore,
+                  bloc: widget.cubit.userStore,
                   builder: (ctx, state) {
                     return state.isLoggedIn
                         ? IconButton(
-                            onPressed: () => AppNavigator()
-                                .push(context, NotificationPage.path, null),
+                            onPressed: () => AppNavigator().push(
+                                context,
+                                NotificationPage.path,
+                                const NotificationInitialParams()),
                             icon: SvgPicture.asset(Assets.notification))
                         : HeaderAuthButtons(
-                            loginAction: () => AppNavigator()
-                                .push(context, LoginPage.path, null),
-                            signUpAction: () => AppNavigator()
-                                .push(context, SignUpPage.path, null),
+                            loginAction: () => AppNavigator().push(context,
+                                LoginPage.path, const LoginInitialParams()),
+                            signUpAction: () => AppNavigator().push(context,
+                                SignUpPage.path, const SignUpInitialParams()),
                             isMobileView: true,
                           );
                   },
@@ -66,282 +89,89 @@ class OrganizationDetailPage extends StatelessWidget {
           );
         }),
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 26),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "OpenGate Foundation",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.themeData.colorScheme.onSurface,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 27),
-                  Text(
-                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. The point of using Lorem Ipsum. It is a long established fact that a reader.",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.themeData.colorScheme.onSurface,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 25),
-                  Column(
+      body: BlocBuilder<OrganizationDetailCubit, OrganizationDetailState>(
+        bloc: cubit,
+        builder: (context, state) {
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 30, vertical: 26),
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomExpansionTile(
-                        title: "Education",
-                        children: [
-                          _subCategoryTile(
-                              context: context, title: "No formal education"),
-                          _subCategoryTile(
-                              context: context, title: "Primary education"),
-                          _subCategoryTile(
-                              context: context,
-                              title: "Secondary education or high school"),
-                          _subCategoryTile(
-                              context: context, title: "Bachelor's degree"),
-                          _subCategoryTile(
-                              context: context, title: "Master's degree"),
-                        ],
-                      ),
-                      CustomExpansionTile(
-                        title: "Employment",
-                        children: [
-                          _subCategoryTile(context: context, title: "Employed"),
-                          _subCategoryTile(
-                              context: context, title: "Self-employed"),
-                          _subCategoryTile(
-                              context: context, title: "Out of work"),
-                          _subCategoryTile(
-                              context: context, title: "Homemaker"),
-                          _subCategoryTile(context: context, title: "Student"),
-                          _subCategoryTile(context: context, title: "Retired"),
-                        ],
-                      ),
-                      CustomExpansionTile(
-                        title: "Housing",
-                        showLine: false,
-                        children: [
-                          _subCategoryTile(
-                              context: context, title: "Apartment"),
-                          _subCategoryTile(context: context, title: "Condo"),
-                          _subCategoryTile(
-                              context: context, title: "Townhouse"),
-                          _subCategoryTile(
-                              context: context, title: "Single-family Home"),
-                          _subCategoryTile(context: context, title: "Duplex"),
-                          _subCategoryTile(context: context, title: "Studio"),
-                        ],
-                      ),
-                    ],
-                  )
-                ],
-              ),
-            ),
-            Container(
-              width: double.maxFinite,
-              decoration: const BoxDecoration(
-                color: lightBlueColor,
-                // color: Color(0xFFF1F6F8)
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Our Take",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.themeData.colorScheme.onSurface,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w600),
-                  ),
-                  Row(
-                    children: [
                       Text(
-                        "Our Rating",
+                        state.orgData.orgName ?? "",
+                        style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.themeData.colorScheme.onSurface,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 27),
+                      Text(
+                        state.orgData.orgDescription ?? "",
                         style: context.textTheme.bodyMedium?.copyWith(
                             color: context.themeData.colorScheme.onSurface,
                             fontSize: 15,
                             fontWeight: FontWeight.w500),
                       ),
-                      const SizedBox(width: 10),
-                      _ourRating(context: context),
+                      const SizedBox(height: 25),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (var index = 0;
+                              index < (state.orgData.categories ?? []).length;
+                              index++)
+                            CustomExpansionTile(
+                              title: state.orgData.categories?[index].title ??
+                                  "N/A",
+                              showLine: index !=
+                                  (state.orgData.categories ?? []).length - 1,
+                              children: [
+                                for (var subCategory in state.orgData
+                                        .categories?[index].subCategories ??
+                                    [])
+                                  _subCategoryTile(
+                                      context: context, title: subCategory),
+                              ],
+                            ),
+                        ],
+                      )
                     ],
                   ),
-                  const SizedBox(height: 30),
-                  Text(
-                    "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. The point of using Lorem Ipsum. It is a long established fact that a reader. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.themeData.colorScheme.onSurface,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w500),
+                ),
+                _outTake(),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.all(30),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Providers under this organization",
+                        style: context.textTheme.bodyMedium?.copyWith(
+                            color: context.themeData.colorScheme.onSurface,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w500),
+                      ),
+                      const SizedBox(height: 30),
+                      ListView.separated(
+                          itemCount: state.providerList.length,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) => _providerCard(
+                              index: index,
+                              providerData: state.providerList[index]),
+                          separatorBuilder: (context, index) =>
+                              const SizedBox(height: 30)),
+                    ],
                   ),
-                  const SizedBox(height: 30),
-                  _ceoInformation(context: context),
-                  const SizedBox(height: 30),
-                  Container(
-                    decoration: BoxDecoration(
-                        // color: context.themeData.colorScheme.tertiaryContainer,
-                        color: const Color(0XffBFD4D9),
-                        borderRadius: BorderRadius.circular(10)),
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 23, horizontal: 28),
-                    child: Text(
-                      "Disclaimer: This is our opinions, meant to help you make a decision and not a factual disclaimer of the company. Our team has attempted to make it as accurate as possible at the time of publishing",
-                      style: context.textTheme.bodyMedium?.copyWith(
-                          color: context.themeData.colorScheme.onSurface,
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500),
-                    ),
-                  ),
-                ],
-              ),
+                )
+              ],
             ),
-            const SizedBox(height: 5),
-            Padding(
-              padding: const EdgeInsets.all(30),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Providers under this organization",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        color: context.themeData.colorScheme.onSurface,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 30),
-                  ListView.separated(
-                      itemCount: 3,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) => Container(
-                            decoration: BoxDecoration(
-                              color: lightBlueColor,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 26, vertical: 28),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  _serviceImage(context: context),
-                                  const SizedBox(height: 20),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "Opengate Foundation",
-                                        style: context.textTheme.bodyMedium
-                                            ?.copyWith(
-                                          color: lightGreenColor,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15,
-                                          decoration: TextDecoration.underline,
-                                        ),
-                                      ),
-                                      Text(
-                                        " >",
-                                        style: context.textTheme.bodyMedium
-                                            ?.copyWith(
-                                          color: lightGreenColor,
-                                          fontWeight: FontWeight.w500,
-                                          fontSize: 15,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 5),
-                                  _serviceTitle(
-                                      context: context,
-                                      title: "OpenGate Oakland"),
-                                  const SizedBox(height: 5),
-                                  _locationWidget(
-                                      context: context,
-                                      location:
-                                          "5506 Martha Ave, Hayward, CA 99922"),
-                                  const SizedBox(height: 20),
-                                  _serviceCategories(context: context),
-                                  const SizedBox(height: 32),
-                                  Text(
-                                    "Eligibility Criteria",
-                                    style: context.textTheme.bodyMedium
-                                        ?.copyWith(fontWeight: FontWeight.w600),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  _featureOrEligibilityTile(
-                                      context: context, title: 'Woman'),
-                                  _featureOrEligibilityTile(
-                                      context: context,
-                                      title: 'Within 5 years of incarceration',
-                                      showCheck: index == 0),
-                                  const SizedBox(height: 15),
-                                  Text(
-                                    "Features",
-                                    style: context.textTheme.bodyMedium
-                                        ?.copyWith(fontWeight: FontWeight.w600),
-                                  ),
-                                  const SizedBox(height: 10),
-                                  _featureOrEligibilityTile(
-                                      context: context,
-                                      title: 'Holistsic Wrap-around Service'),
-                                  _featureOrEligibilityTile(
-                                      context: context,
-                                      title:
-                                          'Formerly Incarcerated Leadership'),
-                                  const SizedBox(height: 30),
-                                  Container(
-                                    width: double.maxFinite,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 15, horizontal: 10),
-                                    decoration: BoxDecoration(
-                                        color: context.themeData.primaryColor,
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                    child: Row(
-                                      children: [
-                                        SvgPicture.asset(Assets.starCheck),
-                                        const SizedBox(width: 5),
-                                        Text(
-                                          index == 0
-                                              ? "Eligible!"
-                                              : "Most Likely Eligible",
-                                          style: context.textTheme.bodyMedium
-                                              ?.copyWith(
-                                                  color: context.themeData
-                                                      .colorScheme.onPrimary,
-                                                  fontSize: 12,
-                                                  fontWeight: FontWeight.w500),
-                                        ),
-                                        const Spacer(),
-                                        Text(
-                                          "for 4 programs",
-                                          style: context.textTheme.bodySmall
-                                              ?.copyWith(
-                                                  color: context.themeData
-                                                      .colorScheme.onPrimary
-                                                      .withOpacity(0.5),
-                                                  fontSize: 12),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                      separatorBuilder: (context, index) =>
-                          const SizedBox(height: 30)),
-                ],
-              ),
-            )
-          ],
-        ),
+          );
+        },
       ),
       // bottomNavigationBar: ProviderDetailFooter(
       //   cubit: cubit,
@@ -373,6 +203,67 @@ class OrganizationDetailPage extends StatelessWidget {
                   thickness: 0.5,
                   height: 2,
                 ),
+        ],
+      ),
+    );
+  }
+
+  Widget _outTake() {
+    return Container(
+      width: double.maxFinite,
+      decoration: const BoxDecoration(
+        color: lightBlueColor,
+        // color: Color(0xFFF1F6F8)
+      ),
+      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Our Take",
+            style: context.textTheme.bodyMedium?.copyWith(
+                color: context.themeData.colorScheme.onSurface,
+                fontSize: 20,
+                fontWeight: FontWeight.w600),
+          ),
+          Row(
+            children: [
+              Text(
+                "Our Rating",
+                style: context.textTheme.bodyMedium?.copyWith(
+                    color: context.themeData.colorScheme.onSurface,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500),
+              ),
+              const SizedBox(width: 10),
+              _ourRating(context: context),
+            ],
+          ),
+          const SizedBox(height: 30),
+          Text(
+            "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum. It is a long established fact that a reader. The point of using Lorem Ipsum. It is a long established fact that a reader. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+            style: context.textTheme.bodyMedium?.copyWith(
+                color: context.themeData.colorScheme.onSurface,
+                fontSize: 12,
+                fontWeight: FontWeight.w500),
+          ),
+          const SizedBox(height: 30),
+          _ceoInformation(context: context),
+          const SizedBox(height: 30),
+          Container(
+            decoration: BoxDecoration(
+                // color: context.themeData.colorScheme.tertiaryContainer,
+                color: const Color(0XffBFD4D9),
+                borderRadius: BorderRadius.circular(10)),
+            padding: const EdgeInsets.symmetric(vertical: 23, horizontal: 28),
+            child: Text(
+              "Disclaimer: This is our opinions, meant to help you make a decision and not a factual disclaimer of the company. Our team has attempted to make it as accurate as possible at the time of publishing",
+              style: context.textTheme.bodyMedium?.copyWith(
+                  color: context.themeData.colorScheme.onSurface,
+                  fontSize: 12,
+                  fontWeight: FontWeight.w500),
+            ),
+          ),
         ],
       ),
     );
@@ -414,34 +305,153 @@ class OrganizationDetailPage extends StatelessWidget {
               "https://images.ctfassets.net/h6goo9gw1hh6/2sNZtFAWOdP1lmQ33VwRN3/24e953b920a9cd0ff2e1d587742a2472/1-intro-photo-final.jpg?w=1200&h=992&fl=progressive&q=70&fm=jpg"),
         ),
         const SizedBox(width: 20),
-        Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Danny Yoon",
-              style: context.textTheme.bodyMedium
-                  ?.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
-            ),
-            Text(
-              "CEO of Dignifi",
-              style: context.textTheme.bodyMedium
-                  ?.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
-            ),
-          ],
+        Expanded(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Danny Yoon",
+                style: context.textTheme.bodyMedium
+                    ?.copyWith(fontSize: 15, fontWeight: FontWeight.w500),
+              ),
+              Text(
+                "CEO of Dignifi",
+                style: context.textTheme.bodyMedium
+                    ?.copyWith(fontSize: 12, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
         )
       ],
     );
   }
 
-  Widget _serviceImage({required BuildContext context}) {
+  Widget _providerCard({required int index, Provider? providerData}) {
+    List<String> eligibilityCriteria =
+        providerData?.getAllEligibilityCriteria().take(2).toList() ?? [];
+    List<String> features =
+        providerData?.getAllFeatures().take(2).toList() ?? [];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: lightBlueColor,
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 28),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _serviceImage(context: context, providerData: providerData),
+            const SizedBox(height: 20),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: providerData?.onboardingInfo?.providerDetails
+                            ?.providerNameLocation ??
+                        "",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: lightGreenColor,
+                      fontWeight: FontWeight.w500,
+                      overflow: TextOverflow.ellipsis,
+                      fontSize: 15,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                  TextSpan(
+                    text: " >",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                      color: lightGreenColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 5),
+            _serviceTitle(
+                context: context,
+                title: providerData?.onboardingInfo?.providerDetails
+                        ?.providerNameLocation ??
+                    ""),
+            const SizedBox(height: 5),
+            _locationWidget(
+                context: context,
+                location: providerData?.completeAddress ?? ""),
+            const SizedBox(height: 20),
+            _serviceCategories(context: context, providerData: providerData),
+            const SizedBox(height: 32),
+            if (eligibilityCriteria.isNotEmpty) ...[
+              Text(
+                "Eligibility Criteria",
+                style: context.textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              for (var info in eligibilityCriteria)
+                _featureOrEligibilityTile(context: context, title: info),
+              SizedBox(height: features.isEmpty ? 30 : 15),
+            ],
+            if (features.isNotEmpty) ...[
+              Text(
+                "Features",
+                style: context.textTheme.bodyMedium
+                    ?.copyWith(fontWeight: FontWeight.w600),
+              ),
+              const SizedBox(height: 10),
+              for (var info in features)
+                _featureOrEligibilityTile(context: context, title: info),
+              const SizedBox(height: 30),
+            ],
+            Container(
+              width: double.maxFinite,
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                  color: context.themeData.primaryColor,
+                  borderRadius: BorderRadius.circular(10)),
+              child: Row(
+                children: [
+                  SvgPicture.asset(Assets.starCheck),
+                  const SizedBox(width: 5),
+                  Text(
+                    index == 0 ? "Eligible!" : "Most Likely Eligible",
+                    style: context.textTheme.bodyMedium?.copyWith(
+                        color: context.themeData.colorScheme.onPrimary,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500),
+                  ),
+                  const Spacer(),
+                  Text(
+                    "for 4 programs",
+                    style: context.textTheme.bodySmall?.copyWith(
+                        color: context.themeData.colorScheme.onPrimary
+                            .withOpacity(0.5),
+                        fontSize: 12),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _serviceImage(
+      {required BuildContext context, Provider? providerData}) {
     return Stack(
       children: [
-        const CustomCachedImage(
+        CustomCachedImage(
           radius: 10,
           width: double.maxFinite,
           height: 210,
-          imgUrl: kPlaceHolderImage,
+          imgUrl: (providerData?.onboardingInfo?.providerDetails?.images ?? [])
+                  .isEmpty
+              ? kPlaceHolderImage
+              : providerData?.onboardingInfo?.providerDetails?.images?.first,
         ),
         // Gradient overlay
         Positioned.fill(
@@ -469,7 +479,7 @@ class OrganizationDetailPage extends StatelessWidget {
           child: Align(
             alignment: Alignment.bottomLeft,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
               margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
               decoration: BoxDecoration(
                 color: context.themeData.colorScheme.primary,
@@ -481,13 +491,11 @@ class OrganizationDetailPage extends StatelessWidget {
                   Icon(
                     Icons.star,
                     color: context.themeData.colorScheme.tertiaryContainer,
-                    size: 10,
+                    size: 12,
                   ),
-                  const SizedBox(
-                    width: 5,
-                  ),
+                  const SizedBox(width: 5),
                   Text(
-                    "4.9 (189)",
+                    "${providerData?.avgRating ?? "0.0"} (${providerData?.totalReviews ?? "0"})",
                     style: context.textTheme.bodySmall
                         ?.copyWith(color: context.colorScheme.onPrimary),
                   )
@@ -506,15 +514,15 @@ class OrganizationDetailPage extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SvgPicture.asset(Assets.location),
-        const SizedBox(
-          width: 5,
-        ),
-        Text(
-          location,
-          style: context.textTheme.bodySmall?.copyWith(
-            color: lightGreenColor,
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
+        const SizedBox(width: 5),
+        Expanded(
+          child: Text(
+            location,
+            style: context.textTheme.bodySmall?.copyWith(
+              color: lightGreenColor,
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+            ),
           ),
         )
       ],
@@ -522,24 +530,30 @@ class OrganizationDetailPage extends StatelessWidget {
   }
 
   Widget _serviceTitle({required String title, required BuildContext context}) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          title,
-          style: context.textTheme.titleSmall?.copyWith(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
+    return Text.rich(
+      TextSpan(
+        children: [
+          TextSpan(
+            text: title,
+            style: context.textTheme.titleSmall?.copyWith(
+              fontSize: 20,
+              fontWeight: FontWeight.w600,
+            ),
           ),
-        ),
-        const SizedBox(width: 10),
-        SvgPicture.asset(Assets.verified, height: 16, width: 15),
-      ],
+          WidgetSpan(
+              alignment: PlaceholderAlignment.top,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: SvgPicture.asset(Assets.verified, height: 16, width: 15),
+              )),
+        ],
+      ),
     );
   }
 
-  Widget _serviceCategories({required BuildContext context}) {
-    List<String> categories = kServiceCategories.map((e) => e.title).toList();
+  Widget _serviceCategories(
+      {required BuildContext context, Provider? providerData}) {
+    List<String> categories = providerData?.getAllCategories() ?? [];
     int maxLimit = 4;
     return Wrap(
       //  mainAxisSize: MainAxisSize.min,

@@ -12,68 +12,71 @@ import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_cached_image.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
+import '../../../../../../core/alert/app_snack_bar.dart';
 import '../../../../../../core/navigation/app_navigator.dart';
+import '../../../organization/organization_detail/organization_detail_initial_params.dart';
 import '../../../organization/organization_detail/organization_detail_page.dart';
 
 class ProviderDetailHeader extends StatelessWidget {
   final ProviderDetailCubit cubit;
-  ProviderDetailHeader({super.key,required this.cubit});
+
+  ProviderDetailHeader({super.key, required this.cubit});
 
   final CustomInfoWindowController _customInfoWindowController =
       CustomInfoWindowController();
 
-  ProviderDetailState get state=>cubit.state;
+  ProviderDetailState get state => cubit.state;
+
   @override
   Widget build(BuildContext context) {
-    return CustomResponsiveBuilder(
-      builder: (context,constraints,deviceSize) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: deviceSize==DeviceSize.web?450:null,
-              padding: const EdgeInsets.all(15),
-              margin: const EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                  color: context.themeData.cardColor,
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  _headerTopSection(context),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  const Divider(
-                    thickness: 1,
-                    height: 0,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _headerMiddleSection(context),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  _headerMapSection(context),
-                ],
-              ),
+    return CustomResponsiveBuilder(builder: (context, constraints, deviceSize) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: deviceSize == DeviceSize.web ? 450 : null,
+            padding: const EdgeInsets.all(15),
+            margin: const EdgeInsets.symmetric(vertical: 20),
+            decoration: BoxDecoration(
+                color: context.themeData.cardColor,
+                borderRadius: BorderRadius.circular(10)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                _headerTopSection(context),
+                const SizedBox(
+                  height: 10,
+                ),
+                const Divider(
+                  thickness: 1,
+                  height: 0,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                _headerMiddleSection(context),
+                const SizedBox(
+                  height: 10,
+                ),
+                _headerMapSection(context),
+              ],
             ),
-            Visibility(
-              visible: deviceSize==DeviceSize.web,
-              child: CustomButton(
-                text: "Contact ${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
-                onTap:cubit.contactAction,
-                width: 450,
-              ),
-            )
-          ],
-        );
-      }
-    );
+          ),
+          Visibility(
+            visible: deviceSize == DeviceSize.web,
+            child: CustomButton(
+              text:
+                  "Contact ${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
+              onTap: cubit.contactAction,
+              width: 450,
+            ),
+          )
+        ],
+      );
+    });
   }
 
   Widget _headerTopSection(BuildContext context) {
@@ -81,8 +84,17 @@ class ProviderDetailHeader extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () =>
-              AppNavigator().push(context, OrganizationDetailPage.path, null),
+          onTap: () {
+            String orgId = state.provider.orgId ?? "";
+            if (orgId.isEmpty) {
+              AppSnackBar().show("Organization not found!");
+            } else {
+              AppNavigator().push(
+                  context,
+                  "${OrganizationDetailPage.path}/$orgId",
+                  OrganizationDetailInitialParams(id: orgId));
+            }
+          },
           child: Text(
             "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation} >",
             style: context.textTheme.bodyMedium?.copyWith(
@@ -167,10 +179,14 @@ class ProviderDetailHeader extends StatelessWidget {
         ),
         _iconWithText(
             iconPath: Assets.arrow,
-            title: "${state.provider.onboardingInfo!.providerDetails!.relationReentry}",
+            title:
+                "${state.provider.onboardingInfo!.providerDetails!.relationReentry}",
             context: context),
         _iconWithText(
-            iconPath: Assets.web, title: "${state.provider.onboardingInfo!.providerDetails!.orgWebsite}", context: context),
+            iconPath: Assets.web,
+            title:
+                "${state.provider.onboardingInfo!.providerDetails!.orgWebsite}",
+            context: context),
         _iconWithText(
             iconPath: Assets.clock,
             title: "Mon - Sun, 9am - 5am",
@@ -248,7 +264,8 @@ class ProviderDetailHeader extends StatelessWidget {
               CustomCachedImage(
                 width: 80,
                 borderRadius: BorderRadius.circular(10),
-                imgUrl: "${state.provider.onboardingInfo?.providerDetails?.images?.first??kPlaceHolderImage}",
+                imgUrl:
+                    "${state.provider.onboardingInfo?.providerDetails?.images?.first ?? kPlaceHolderImage}",
               ),
               const SizedBox(
                 width: 10,

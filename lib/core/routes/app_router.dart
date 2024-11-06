@@ -11,6 +11,7 @@ import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_
 import 'package:reentry_roadmap/presentation/pages/main/more/more_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/notification/notification_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/organization/organization_detail/organization_detail_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/profile/profile_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_detail_page.dart';
@@ -184,10 +185,12 @@ class AppRouter {
         },
       ),
       GoRoute(
-        path: OrganizationDetailPage.path,
+        path: "${OrganizationDetailPage.path}/:id",
         builder: (context, state) {
           return OrganizationDetailPage(
             cubit: getIt(),
+            initialParams: OrganizationDetailInitialParams(
+                id: state.pathParameters['id']!),
           );
         },
       ),

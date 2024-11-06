@@ -13,6 +13,7 @@ class Provider extends Equatable {
   double? avgRating;
   int? totalReviews;
   RatingCount? ratingCount;
+  String? orgId;
   Provider({
     this.userId,
     this.createdAt,
@@ -22,6 +23,7 @@ class Provider extends Equatable {
     this.avgRating,
     this.totalReviews,
     this.ratingCount,
+    this.orgId,
   });
 
   Provider.fromJson(Map<String, dynamic> json) {
@@ -37,6 +39,7 @@ class Provider extends Equatable {
     ratingCount = json['ratingCount'] != null
         ? new RatingCount.fromJson(json['ratingCount'])
         : null;
+    orgId = json['orgId'] ?? "";
   }
 
   Provider.shimmer() {
@@ -119,6 +122,7 @@ class Provider extends Equatable {
     }
     data['avgRating'] = this.avgRating;
     data['totalReviews'] = this.totalReviews;
+    data['orgId'] = this.orgId;
     return data;
   }
 
@@ -130,6 +134,7 @@ class Provider extends Equatable {
     ProviderOnboardingInfo? onboardingInfo,
     double? avgRating,
     int? totalReviews,
+    String? orgId,
   }) {
     return Provider(
       userId: userId ?? this.userId,
@@ -139,6 +144,7 @@ class Provider extends Equatable {
       onboardingInfo: onboardingInfo ?? this.onboardingInfo,
       avgRating: avgRating ?? this.avgRating,
       totalReviews: totalReviews ?? this.totalReviews,
+      orgId: orgId ?? this.orgId,
 
     );
   }
@@ -153,5 +159,6 @@ class Provider extends Equatable {
         onboardingInfo,
         avgRating,
         totalReviews,
+        orgId,
       ];
 }

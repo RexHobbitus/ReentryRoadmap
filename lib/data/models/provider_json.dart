@@ -13,6 +13,7 @@ class ProviderJson {
   double? avgRating;
   int? totalReviews;
   RatingCountJson? ratingCount;
+  String? orgId;
 
   ProviderJson({
     this.userId,
@@ -23,7 +24,7 @@ class ProviderJson {
     this.avgRating,
     this.totalReviews,
     this.ratingCount,
-
+    this.orgId,
   });
 
   ProviderJson.fromJson(Map<String, dynamic> json) {
@@ -40,6 +41,7 @@ class ProviderJson {
     ratingCount = json['ratingCount'] != null
         ? new RatingCountJson.fromJson(json['ratingCount'])
         : null;
+    orgId = json['orgId'];
   }
 
   Map<String, dynamic> toJson() {
@@ -56,19 +58,20 @@ class ProviderJson {
     if (this.ratingCount != null) {
       data['ratingCount'] = this.ratingCount!.toJson();
     }
+    data['orgId'] = this.orgId;
     return data;
   }
 
   Provider toDomain() {
     return Provider(
-      userId: userId,
-      email: email,
-      createdAt: createdAt.toString(),
-      updatedAt: updatedAt.toString(),
-      onboardingInfo: onboardingInfo?.toDomain(),
-      avgRating: avgRating ?? 0,
-      totalReviews: totalReviews ?? 0,
-      ratingCount: ratingCount?.toDomain()
-    );
+        userId: userId,
+        email: email,
+        createdAt: createdAt.toString(),
+        updatedAt: updatedAt.toString(),
+        onboardingInfo: onboardingInfo?.toDomain(),
+        avgRating: avgRating ?? 0,
+        totalReviews: totalReviews ?? 0,
+        ratingCount: ratingCount?.toDomain(),
+        orgId: orgId ?? "");
   }
 }
