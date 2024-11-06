@@ -213,7 +213,7 @@ class _ReviewCardState extends State<ReviewCard> {
       children: [
         CustomButton(
           text: "Post Review",
-          width: 450,
+          width: 350,
           height: 73,
           isDisabled: isButtonDisabled,
           onTap: () async {

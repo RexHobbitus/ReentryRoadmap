@@ -36,6 +36,7 @@ class _CustomCheckBoxState extends State<CustomCheckBox> {
           width: 35,
           child: Checkbox(
               value: _initialValue,
+
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(
                   4,

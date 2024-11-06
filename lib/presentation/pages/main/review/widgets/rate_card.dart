@@ -84,21 +84,28 @@ class _RateCardState extends State<RateCard> {
                         ),
                         const SizedBox(width: 10),
                         SvgPicture.asset(Assets.verified),
+                        Spacer(),
+                        IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Icon(Icons.close))
                       ],
                     ),
               Divider(color: context.themeData.colorScheme.secondary),
               const SizedBox(height: 10),
               const Text(
                 "Reflecting on your experience with this provider, how much would you agree with the following statements? Rank your experience on a scale of 1-5 where 1 represents 'disagree' and 5 represents 'completely agree'.",
-                style: TextStyle(fontSize: 14.0,
-                color:Colors.black,
+                style: TextStyle(
+                  fontSize: 14.0,
+                  color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               const SizedBox(height: 20),
               constraints.maxWidth < kMenuBreakPoint
                   ? Expanded(
-                    child: ListView.separated(
+                      child: ListView.separated(
                         itemCount: _questions.length,
                         itemBuilder: (context, index) {
                           String question = _questions[index];
@@ -135,8 +142,8 @@ class _RateCardState extends State<RateCard> {
                                           color: isSelected
                                               ? context.themeData.colorScheme
                                                   .secondary
-                                              : context.themeData.colorScheme.secondaryContainer,
-
+                                              : context.themeData.colorScheme
+                                                  .secondaryContainer,
                                           borderRadius:
                                               BorderRadius.circular(5),
                                         ),
@@ -159,153 +166,161 @@ class _RateCardState extends State<RateCard> {
                             ],
                           );
                         },
-                      separatorBuilder: (context, index) => const SizedBox(height: 20),
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 20),
                       ),
-                  )
+                    )
                   : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Flexible(
-                    child: ListView.separated(
-                      itemCount: _questions.length - 3,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        String question = _questions[index];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              question,
-                              style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceAround,
-                              children: List.generate(5, (i) {
-                                int ratingValue = i + 1;
-                                bool isSelected =
-                                    _ratings[question] == ratingValue;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 2.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _ratings[question] = ratingValue;
-                                      });
-                                    },
-                                    child: Container(
-                                      width: 85,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? context.themeData.colorScheme
-                                            .secondary
-                                            : context.themeData.colorScheme.secondaryContainer,
-
-                                        borderRadius:
-                                        BorderRadius.circular(10),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        ratingValue.toString(),
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : context.themeData.colorScheme
-                                              .secondary,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                    ),
+                      children: [
+                        Flexible(
+                          child: ListView.separated(
+                            itemCount: _questions.length - 3,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              String question = _questions[index];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    question,
+                                    style: const TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500),
                                   ),
-                                );
-                              }),
-                            ),
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 30),
-                    ),
-                  ),
-                  SizedBox(width: 20,),
-                  Flexible(
-                    child: ListView.separated(
-                      itemCount: _questions.length -3,
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        String question = _questions[index+3];
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              question,
-                              style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(height: 8),
-                            Row(
-                              mainAxisAlignment:
-                              MainAxisAlignment.spaceAround,
-                              children: List.generate(5, (i) {
-                                int ratingValue = i + 1;
-                                bool isSelected =
-                                    _ratings[question] == ratingValue;
-                                return Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 2.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _ratings[question] = ratingValue;
-                                      });
-                                    },
-                                    child: Container(
-                                      width: 85,
-                                      height: 50,
-                                      decoration: BoxDecoration(
-                                        color: isSelected
-                                            ? context.themeData.colorScheme
-                                            .secondary
-                                            : context.themeData.colorScheme.secondaryContainer,
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
 
-                                        borderRadius:
-                                        BorderRadius.circular(10),
-                                      ),
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        ratingValue.toString(),
-                                        style: TextStyle(
-                                          color: isSelected
-                                              ? Colors.white
-                                              : context.themeData.colorScheme
-                                              .secondary,
-                                          fontWeight: FontWeight.bold,
+                                    children: List.generate(5, (i) {
+                                      int ratingValue = i + 1;
+                                      bool isSelected =
+                                          _ratings[question] == ratingValue;
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _ratings[question] = ratingValue;
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 85,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? context.themeData
+                                                      .colorScheme.secondary
+                                                  : context
+                                                      .themeData
+                                                      .colorScheme
+                                                      .secondaryContainer,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              ratingValue.toString(),
+                                              style: TextStyle(
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : context.themeData
+                                                        .colorScheme.secondary,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                    ),
+                                      );
+                                    }),
                                   ),
-                                );
-                              }),
-                            ),
-
-                          ],
-                        );
-                      },
-                      separatorBuilder: (context, index) => const SizedBox(height: 30),
+                                ],
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 30),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 90,
+                        ),
+                        Flexible(
+                          child: ListView.separated(
+                            itemCount: _questions.length - 3,
+                            shrinkWrap: true,
+                            itemBuilder: (context, index) {
+                              String question = _questions[index + 3];
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    question,
+                                    style: const TextStyle(
+                                        fontSize: 14.0,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: List.generate(5, (i) {
+                                      int ratingValue = i + 1;
+                                      bool isSelected =
+                                          _ratings[question] == ratingValue;
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2.0),
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            setState(() {
+                                              _ratings[question] = ratingValue;
+                                            });
+                                          },
+                                          child: Container(
+                                            width: 85,
+                                            height: 50,
+                                            decoration: BoxDecoration(
+                                              color: isSelected
+                                                  ? context.themeData
+                                                      .colorScheme.secondary
+                                                  : context
+                                                      .themeData
+                                                      .colorScheme
+                                                      .secondaryContainer,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                            alignment: Alignment.center,
+                                            child: Text(
+                                              ratingValue.toString(),
+                                              style: TextStyle(
+                                                color: isSelected
+                                                    ? Colors.white
+                                                    : context.themeData
+                                                        .colorScheme.secondary,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                ],
+                              );
+                            },
+                            separatorBuilder: (context, index) =>
+                                const SizedBox(height: 30),
+                          ),
+                        )
+                      ],
                     ),
-                  )
-                ],
-              ),
               const SizedBox(height: 20),
               Center(
                 child: Container(
                   width: MediaQuery.of(context).size.width,
-                  height: constraints.maxWidth > kMenuBreakPoint ? 73 : null,
+                  height: constraints.maxWidth > kMenuBreakPoint ? 73 : 56,
                   child: ElevatedButton(
                     onPressed: _allRatingsSelected
                         ? () {
