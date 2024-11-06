@@ -8,6 +8,7 @@ import 'package:reentry_roadmap/domain/repositories/database/provider_repository
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_contact_form/provider_contact_form.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/provider_suggest_edit/provider_suggest_edit_popup.dart';
+import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/reviews/new_rate_card.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/write_review/write_review_popup.dart';
 import 'package:reentry_roadmap/presentation/pages/popups/information_popup.dart';
 import '../../../popups/upload_photos_popup.dart';
@@ -86,6 +87,10 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
         });
       },
     ));
+  }
+
+  showRateCard(){
+    navigator.navigator.showDialogBox(context, NewRateCard(navigator:navigator,));
   }
 
   addPhotosAction() {

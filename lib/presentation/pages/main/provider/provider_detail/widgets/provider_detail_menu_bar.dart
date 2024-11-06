@@ -78,7 +78,7 @@ class ProviderDetailMenuBar extends StatelessWidget {
                 title: "Add Review",
                 icon: Icons.add,
                 isPrimary: true,
-                onTap: cubit.addReviewAction),
+                onTap: cubit.showRateCard),
             const SizedBox(width: 10,),
             const ProviderDetailButton(
               title: "Save",

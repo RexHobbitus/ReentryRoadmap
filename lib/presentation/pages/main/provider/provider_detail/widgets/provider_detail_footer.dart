@@ -41,7 +41,8 @@ class ProviderDetailFooter extends StatelessWidget {
                     ProviderDetailButton(
                         title: "Add Review",
                         icon: Icons.add,
-                        onTap: cubit.addReviewAction),
+                        onTap: cubit.showRateCard
+                    ),
                     ProviderDetailButton(
                       title: "Suggest on edit",
                       icon: Icons.edit,

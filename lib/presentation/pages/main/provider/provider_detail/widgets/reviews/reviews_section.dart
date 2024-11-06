@@ -46,7 +46,7 @@ class ReviewsSection extends StatelessWidget {
                         ? ProviderDetailButton(
                             title: "Add Review",
                             icon: Icons.add,
-                            onTap: cubit.addReviewAction,
+                            onTap: cubit.showRateCard,
                             isPrimary: true,
                           )
                         : const SizedBox.shrink(),
