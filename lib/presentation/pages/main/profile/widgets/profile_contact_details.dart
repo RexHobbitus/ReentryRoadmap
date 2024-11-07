@@ -120,7 +120,9 @@ class ProfileContactDetailsSection extends StatelessWidget {
             width: 16,
           ),
           title: Text(
-            '${cubit.phoneNumber.substring(0, 3)} ${cubit.phoneNumber.substring(3, 6)} ${cubit.phoneNumber.substring(6)}',
+            cubit.phoneNumber.isNotEmpty
+                ? '${cubit.phoneNumber.substring(0, 3)} ${cubit.phoneNumber.substring(3, 6)} ${cubit.phoneNumber.substring(6)}'
+                : '',
             style: context.textTheme.bodyLarge,
           ),
         ),

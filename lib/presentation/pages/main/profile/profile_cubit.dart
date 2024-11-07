@@ -237,8 +237,8 @@ class ProfileCubit extends Cubit<ProfileState> {
           highestLevelOfEducation = currentNeedsInfo.highestLevelOfEducation ?? "";
           tradeCertifications = currentNeedsInfo.tradeCertifications ?? [];
 
-          // Convert skills to improve to the correct format
           skillsToImprove = (currentNeedsInfo.skillsToImproveOn ?? [])
+              .where((skill) => skill.isNotEmpty)
               .map((skill) => SkillToImprove(title: skill, value: skill))
               .toList();
 
@@ -249,9 +249,10 @@ class ProfileCubit extends Cubit<ProfileState> {
           currentSalaryLevel = currentNeedsInfo.currentSalaryStatus ?? "";
           lookingForCareerChange = currentNeedsInfo.lookingForCareerChange ?? "";
 
-          // Convert aspiring careers to Career objects
-          careersToPursue =
-              (currentNeedsInfo.aspiringCareerTrack ?? []).map((career) => Career(title: career)).toList();
+          careersToPursue = (currentNeedsInfo.aspiringCareerTrack ?? [])
+              .where((career) => career.isNotEmpty)
+              .map((career) => Career(title: career))
+              .toList();
 
           expectedSalaryLevel = currentNeedsInfo.aspiringSalaryLevel ?? "";
           otherResource = currentNeedsInfo.otherResourceWanted ?? "";
