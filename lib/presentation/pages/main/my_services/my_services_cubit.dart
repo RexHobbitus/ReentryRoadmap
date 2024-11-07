@@ -5,6 +5,8 @@ import 'package:reentry_roadmap/core/enums/my_services_status.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/domain/repositories/database/my_services_repository.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/login/login_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_up_initial_params.dart';
 
 import 'my_services_initial_params.dart';
 import 'my_services_navigator.dart';
@@ -84,5 +86,16 @@ class MyServicesCubit extends Cubit<MyServicesState> {
     String filteredText = text.replaceAll(regExp, '').trim();
 
     return filteredText;
+  }
+
+
+  openLoginScreenAction(){
+
+    navigator.openLogin(const LoginInitialParams());
+  }
+
+  openSignupScreenAction(){
+
+    navigator.openSignUp(const SignUpInitialParams());
   }
 }

@@ -5,12 +5,13 @@ import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
 import 'package:reentry_roadmap/core/theme/light_theme.dart';
 import 'package:reentry_roadmap/core/utils/assets.dart';
 import 'package:reentry_roadmap/core/utils/resposive.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_cubit.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_responsive_builder.dart';
 
 class LoginViewMyServicesSection extends StatelessWidget {
-  const LoginViewMyServicesSection({super.key});
-
+  const LoginViewMyServicesSection({super.key,required this.cubit});
+final MyServicesCubit cubit;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,7 +90,7 @@ class LoginViewMyServicesSection extends StatelessWidget {
                     color: lightSurfaceContainerColor,
 
                     onTap:    () {
-
+                        cubit.openLoginScreenAction();
                     },
                     text: "Log in",
                     width: 140,
@@ -102,7 +103,7 @@ class LoginViewMyServicesSection extends StatelessWidget {
                     width: 100,
                     height:deviceSize == DeviceSize.web? 80: 60,
                     onTap:    () {
-
+                      cubit.openSignupScreenAction();
                     },
                   ))
             ],

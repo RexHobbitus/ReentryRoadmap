@@ -194,104 +194,115 @@ class _MyServicesState extends State<MyServicesPage>
 
   @override
   Widget build(BuildContext context) {
-
-    return FirebaseAuth.instance.currentUser == null? const LoginViewMyServicesSection(): BlocProvider(
-      create: (context) =>
-          widget.cubit..getMyServices(FirebaseAuth.instance.currentUser!.uid),
-      child: Builder(builder: (context) {
-        return Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: Responsive.isDesktop(context) ? 80 : 24,vertical: 10),
-          child: Scaffold(
-            appBar: PreferredSize(
-                preferredSize:
-                    Size.fromHeight(Responsive.isDesktop(context) ? 210 : 140),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Responsive.isDesktop(context)
-                        ? 30.verticalSpace
-                        : 14.verticalSpace,
-                    Text(
-                      "My Services",
-                      style: context.textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.w500,
-                          fontSize: Responsive.isDesktop(context) ? 30 : 16),
-                    ),
-                    Responsive.isDesktop(context)
-                        ? 30.verticalSpace
-                        : 12.verticalSpace,
-                    Responsive.isDesktop(context)
-                        ? DesktopTabBar(
-                            onTap: (index) {
-                              context.read<MyServicesCubit>().updateServices(
-                                  kMyServicesTabBarItems[index]);
-                            },
-                            tabController: tabController,
-                          )
-                        : TabBar(
-                            onTap: (index) {
-                              context.read<MyServicesCubit>().updateServices(
-                                  kMyServicesTabBarItems[index]);
-                            },
-                            controller: tabController,
-                            indicator: null,
-                            isScrollable: Responsive.isMobile(context),
-                            labelColor: context.colorScheme.primary,
-                            labelStyle: context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                            ),
-                            unselectedLabelColor: context.colorScheme.onSurface,
-                            indicatorColor: Colors.transparent,
-                            unselectedLabelStyle:
-                                context.textTheme.bodySmall?.copyWith(
-                              fontWeight: FontWeight.w500,
-                            ),
-                            tabs: kMyServicesTabBarItems
-                                .map((title) => Tab(
-                                      text: title,
-                                    ))
-                                .toList(),
+    return FirebaseAuth.instance.currentUser == null
+        ?  LoginViewMyServicesSection(cubit: widget.cubit,)
+        : BlocProvider(
+            create: (context) => widget.cubit
+              ..getMyServices(FirebaseAuth.instance.currentUser!.uid),
+            child: Builder(builder: (context) {
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    horizontal: Responsive.isDesktop(context) ? 80 : 24,
+                    vertical: 10),
+                child: Scaffold(
+                  appBar: PreferredSize(
+                      preferredSize: Size.fromHeight(
+                          Responsive.isDesktop(context) ? 210 : 140),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Responsive.isDesktop(context)
+                              ? 30.verticalSpace
+                              : 14.verticalSpace,
+                          Text(
+                            "My Services",
+                            style: context.textTheme.titleLarge?.copyWith(
+                                fontWeight: FontWeight.w500,
+                                fontSize:
+                                    Responsive.isDesktop(context) ? 30 : 16),
                           ),
-                    Responsive.isMobile(context) || Responsive.isTablet(context)
-                        ? Column(
-                            children: [
-                              Divider(
-                                height: 20,
-                                thickness: 1.5,
-                                color: context.colorScheme.tertiaryContainer,
-                                indent: 0,
-                              ),
-                              20.verticalSpace,
-                            ],
-                          )
-                        : 40.verticalSpace,
-                  ],
-                )),
-            body: BlocBuilder<MyServicesCubit, MyServicesState>(
-              builder: (context, state) {
-                if (state.loading) {
-                  return const Center(child: CircularProgressIndicator());
-                } else {
-                  return TabBarView(
-                      physics: Responsive.isDesktop(context)
-                          ? const NeverScrollableScrollPhysics()
-                          : const BouncingScrollPhysics(),
-                      controller: tabController,
-                      children: const [
-                        SavedServices(),
-                        ContactedServices(),
-                        ActiveServices(),
-                        CompletedServices(),
-                        InEligibleServices()
-                      ]);
-                }
-              },
-            ),
-          ),
-        );
-      }),
-    );
+                          Responsive.isDesktop(context)
+                              ? 30.verticalSpace
+                              : 12.verticalSpace,
+                          Responsive.isDesktop(context)
+                              ? DesktopTabBar(
+                                  onTap: (index) {
+                                    context
+                                        .read<MyServicesCubit>()
+                                        .updateServices(
+                                            kMyServicesTabBarItems[index]);
+                                  },
+                                  tabController: tabController,
+                                )
+                              : TabBar(
+                                  onTap: (index) {
+                                    context
+                                        .read<MyServicesCubit>()
+                                        .updateServices(
+                                            kMyServicesTabBarItems[index]);
+                                  },
+                                  controller: tabController,
+                                  indicator: null,
+                                  isScrollable: Responsive.isMobile(context),
+                                  labelColor: context.colorScheme.primary,
+                                  labelStyle:
+                                      context.textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                  unselectedLabelColor:
+                                      context.colorScheme.onSurface,
+                                  indicatorColor: Colors.transparent,
+                                  unselectedLabelStyle:
+                                      context.textTheme.bodySmall?.copyWith(
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                  tabs: kMyServicesTabBarItems
+                                      .map((title) => Tab(
+                                            text: title,
+                                          ))
+                                      .toList(),
+                                ),
+                          Responsive.isMobile(context) ||
+                                  Responsive.isTablet(context)
+                              ? Column(
+                                  children: [
+                                    Divider(
+                                      height: 20,
+                                      thickness: 1.5,
+                                      color:
+                                          context.colorScheme.tertiaryContainer,
+                                      indent: 0,
+                                    ),
+                                    20.verticalSpace,
+                                  ],
+                                )
+                              : 40.verticalSpace,
+                        ],
+                      )),
+                  body: BlocBuilder<MyServicesCubit, MyServicesState>(
+                    builder: (context, state) {
+                      if (state.loading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else {
+                        return TabBarView(
+                            physics: Responsive.isDesktop(context)
+                                ? const NeverScrollableScrollPhysics()
+                                : const BouncingScrollPhysics(),
+                            controller: tabController,
+                            children: const [
+                              SavedServices(),
+                              ContactedServices(),
+                              ActiveServices(),
+                              CompletedServices(),
+                              InEligibleServices()
+                            ]);
+                      }
+                    },
+                  ),
+                ),
+              );
+            }),
+          );
   }
 }
 //
