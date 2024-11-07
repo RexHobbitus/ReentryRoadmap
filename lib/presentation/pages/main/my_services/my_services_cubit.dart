@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/core/enums/my_services_status.dart';
 import 'package:reentry_roadmap/core/utils/constants.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/domain/repositories/database/my_services_repository.dart';
@@ -26,17 +27,25 @@ class MyServicesCubit extends Cubit<MyServicesState> {
 
   onInit(MyServicesInitialParams initialParams) {}
 
-  getMyServices(String id) async {
+    getMyServices(String id, {MyServicesStatus? myServicesStatus}) async {
     try {
       emit(state.copyWith(loading: true));
       services = await myServicesRepository.getMyServices(userId: id);
 
       final filteredMyServices = services
-          .where((element) =>
-              removeServices(element.serviceStatus!.name) ==
-              kMyServicesTabBarItems[0].toLowerCase())
+          .where((element) {
+            if(myServicesStatus != null){
+              return removeServices(element.serviceStatus!.name) ==
+                  removeServices(myServicesStatus.name).toLowerCase();
+
+            }else{
+              return removeServices(element.serviceStatus!.name) ==
+                  kMyServicesTabBarItems[0].toLowerCase();
+
+            }
+            })
           .toList();
-      filteredServices=filteredMyServices;
+      filteredServices = filteredMyServices;
       emit(state.copyWith(myServices: filteredMyServices));
     } catch (e) {
       snackBar.show(e.toString());
@@ -45,15 +54,20 @@ class MyServicesCubit extends Cubit<MyServicesState> {
     }
   }
 
+
+
   updateServices(String selectedServiceType) {
     try {
       emit(state.copyWith(loading: true));
       final filteredMyServices = services
-          .where((element) =>
-              removeServices(element.serviceStatus!.name) ==
-              selectedServiceType.toLowerCase())
+          .where((element) {
+            // print(selectedServiceType.toLowerCase());
+            // print(removeServices(element.serviceStatus!.name));
+            return removeServices(element.serviceStatus!.name) ==
+              selectedServiceType.toLowerCase();
+          })
           .toList();
-      filteredServices=filteredMyServices;
+      filteredServices = filteredMyServices;
       emit(state.copyWith(myServices: filteredMyServices));
     } catch (e) {
       snackBar.show(e.toString());
@@ -71,5 +85,4 @@ class MyServicesCubit extends Cubit<MyServicesState> {
 
     return filteredText;
   }
-  
 }

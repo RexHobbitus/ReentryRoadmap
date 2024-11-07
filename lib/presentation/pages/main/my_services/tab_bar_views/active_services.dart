@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/cubits/my_services_tile_cubit.dart';
@@ -15,7 +16,10 @@ class ActiveServices extends StatelessWidget {
     return CustomSingleChildScrollView(
       child: CustomResponsiveBuilder(
         builder: (context, constraints, deviseSize) {
-          return context.read<MyServicesCubit>().filteredServices.isEmpty
+          return context
+              .read<MyServicesCubit>()
+              .filteredServices
+              .isEmpty
               ? const NoServicesView(
               title: "You don't have active service provider yet",
               desc: "Active Services will appear here") : Center(
@@ -23,18 +27,41 @@ class ActiveServices extends StatelessWidget {
               spacing: 20,
               runSpacing: 20,
               children: List.generate(
-                context.read<MyServicesCubit>().filteredServices.length,
+                context
+                    .read<MyServicesCubit>()
+                    .filteredServices
+                    .length,
                     (index) {
                   return BlocProvider(
                     create: (context) =>
                         MyServicesTileCubit(
-                            context.read<MyServicesCubit>().filteredServices[index]),
-                    child: ServicesTile(
-                      onBtnTap:(){
+                            context
+                                .read<MyServicesCubit>()
+                                .filteredServices[index]),
+                    child: BlocBuilder<MyServicesTileCubit,MyServicesTileState>(
+                        builder: (context,state) {
+                          return ServicesTile(
+                            btnLoading: state.loading,
+                            onBtnTap: () {
+                              context.read<MyServicesTileCubit>()
+                                  .updateActiveServiceStatus(
+                                  FirebaseAuth.instance.currentUser!.uid,
+                                  context
+                                      .read<MyServicesCubit>()
+                                      .filteredServices[index].serviceId!,
+                                  true);
 
-                      },
-                      onTap: (p0) {},
-                      myService: context.read<MyServicesCubit>().filteredServices[index],
+
+                            },
+                            onTap: (p0) {
+
+
+                            },
+                            myService: context
+                                .read<MyServicesCubit>()
+                                .filteredServices[index],
+                          );
+                        }
                     ),
                   );
                 },

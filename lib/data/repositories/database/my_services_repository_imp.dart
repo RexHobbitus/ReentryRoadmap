@@ -27,4 +27,15 @@ import 'package:reentry_roadmap/domain/repositories/database/my_services_reposit
       return [];
     }
   }
+
+  @override
+  Future<void> updateActiveServiceStatus({required String userId,required String serviceId,required Map<String, dynamic> data}) async {
+
+     await usersCollection
+        .doc(userId)
+        .collection(_myServicesSubCollection).doc(serviceId).update(data);
+
+
+
+  }
 }
