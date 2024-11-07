@@ -43,12 +43,13 @@ class _SettingsPageState extends State<SettingsPage> {
           child: Column(
             children: [
               const SetttingsAppbarWidget(),
+              const SizedBox(height: 10),
               SettingsPasswordChangeSection(cubit: cubit),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
               const SettingsNotificationTile(),
-              const SizedBox(height: 6),
+              const SizedBox(height: 10),
               SettingsDataSharingSection(cubit: cubit),
-              const SizedBox(height: 16),
+              const SizedBox(height: 10),
             ],
           ),
         ),

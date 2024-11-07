@@ -181,7 +181,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     textFieldUpdateListener.add(true);
   }
 
-  String fullName() => firstName + middleName + lastName;
+  String fullName() => '$firstName $middleName $lastName';
 
   _getUserInfo() async {
     try {

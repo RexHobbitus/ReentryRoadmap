@@ -115,7 +115,7 @@ class ProfileContactDetailsSection extends StatelessWidget {
             width: 16,
           ),
           title: Text(
-            cubit.phoneNumber,
+            '${cubit.phoneNumber.substring(0, 3)} ${cubit.phoneNumber.substring(3, 6)} ${cubit.phoneNumber.substring(6)}',
             style: context.textTheme.bodyLarge,
           ),
         ),
@@ -171,6 +171,7 @@ class ProfileContactDetailsSection extends StatelessWidget {
             style: context.textTheme.bodyMedium?.copyWith(
               color: context.colorScheme.onSecondary,
               fontWeight: FontWeight.w500,
+              fontSize: 15,
             ),
           ),
           state.loading

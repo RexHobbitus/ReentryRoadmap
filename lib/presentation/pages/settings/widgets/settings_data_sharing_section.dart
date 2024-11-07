@@ -236,7 +236,7 @@ class SettingsDataSharingSection extends StatelessWidget {
                     height: 8,
                   ),
                   Text(
-                    'Personal Information',
+                    'Our Data Policy',
                     style: context.textTheme.bodyMedium
                         ?.copyWith(fontWeight: FontWeight.w600, color: Colors.white, fontSize: 18),
                   ),

@@ -47,35 +47,35 @@ class _ProfileState extends State<ProfilePage> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const SizedBox(
-                height: 16,
+                height: 30,
               ),
               const ProfileHeaderSection(),
               const SizedBox(
-                height: 16,
+                height: 30,
               ),
               ProfileBannerSection(cubit: cubit),
               const SizedBox(
-                height: 16,
+                height: 30,
               ),
               ProfileContactDetailsSection(cubit: cubit),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
               ProfilePersonalDetails(cubit: cubit),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
               ProfileIncarcerationDetails(cubit: cubit),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
               ProfileCurrentNeeds(cubit: cubit),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
               const ProfileServiceProvidersAccessed(),
               const SizedBox(
-                height: 15,
+                height: 30,
               ),
             ],
           ),
