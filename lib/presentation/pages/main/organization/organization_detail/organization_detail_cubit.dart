@@ -29,7 +29,7 @@ class OrganizationDetailCubit extends Cubit<OrganizationDetailState> {
         .collection('providers')
         .where("orgId", isEqualTo: orgId)
         .get();
-
+    print("Minor change : ");
     List<Provider> tmoProviderList = providerData.docs
         .map((data) =>
             ProviderJson.fromJson(data.data() as Map<String, dynamic>)
