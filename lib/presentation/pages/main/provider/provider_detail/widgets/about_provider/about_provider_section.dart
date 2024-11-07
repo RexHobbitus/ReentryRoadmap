@@ -21,24 +21,23 @@ class AboutProviderSection extends StatelessWidget {
       children: [
         ProviderDetailTitle(
           title:
-          "About ${state.provider.onboardingInfo?.providerDetails
-              ?.providerNameLocation}",
+              "About ${state.provider.onboardingInfo?.providerDetails?.providerNameLocation}",
         ),
         Text(
-          "${state.provider.onboardingInfo?.providerDetails
-              ?.providerLocationDescribe}",
+          "${state.provider.onboardingInfo?.providerDetails?.providerLocationDescribe}",
           style: AppStyle.providerDetailBody(context),
         ),
         const SizedBox(
           height: 50,
         ),
         (state.provider.onboardingInfo?.generalService == null ||
-            state.provider.onboardingInfo?.generalService?.serviceCategories
-                ?.isEmpty == true
-        ) ? const SizedBox.shrink():
-        AboutProviderGeneralServices(
-          cubit: cubit,
-        ),
+                state.provider.onboardingInfo?.generalService?.serviceCategories
+                        ?.isEmpty ==
+                    true)
+            ? const SizedBox.shrink()
+            : AboutProviderGeneralServices(
+                cubit: cubit,
+              ),
         AboutProviderAllPrograms(
           cubit: cubit,
         ),

@@ -100,7 +100,9 @@ class ProviderDetailHeader extends StatelessWidget {
           "${state.provider.onboardingInfo!.providerDetails!.providerNameLocation}",
           style: context.textTheme.titleMedium,
         ),
-        const SizedBox(height: 10,),
+        const SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             Container(
@@ -291,10 +293,12 @@ class ProviderDetailHeader extends StatelessWidget {
           const SizedBox(
             width: 10,
           ),
-          Text(
-            title,
-            style: context.textTheme.bodyLarge?.copyWith(
-              color: context.colorScheme.secondaryFixed,
+          Expanded(
+            child: Text(
+              title,
+              style: context.textTheme.bodyLarge?.copyWith(
+                color: context.colorScheme.secondaryFixed,
+              ),
             ),
           )
         ],
