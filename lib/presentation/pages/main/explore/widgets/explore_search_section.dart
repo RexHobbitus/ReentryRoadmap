@@ -62,8 +62,8 @@ class ExploreSearchSection extends StatelessWidget {
               ),
             ),
             constraints.maxWidth > kMenuBreakPoint
-                ? const ExploreWebSearchField()
-                : ExploreMobileSearchField(),
+                ? ExploreWebSearchField(cubit: cubit)
+                : ExploreMobileSearchField(cubit: cubit),
           ],
         );
       }),

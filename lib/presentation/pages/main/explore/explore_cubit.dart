@@ -34,15 +34,13 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   openProviderDetail(Provider provider) {
-    navigator
-        .openProviderDetail(ProviderDetailInitialParams(id: provider.userId!));
+    navigator.openProviderDetail(ProviderDetailInitialParams(id: provider.userId!));
   }
 
   _getServices() async {
     try {
       emit(state.copyWith(loading: state.services.isEmpty));
-      List<Provider> services =
-          await providerRepository.getExplorePageServices();
+      List<Provider> services = await providerRepository.getExplorePageServices();
       emit(state.copyWith(services: services));
     } catch (e) {
       snackBar.show(e.toString());
@@ -55,7 +53,13 @@ class ExploreCubit extends Cubit<ExploreState> {
     navigator.openCheckIn(const CheckInInitialParams());
   }
 
-  categoryAction(ServiceCategory category) {
-    navigator.openSearch(const SearchInitialParams());
+  categoryAction(ServiceCategory? category) {
+    navigator.openSearch(SearchInitialParams(
+      selectedCategory: category?.title ?? "",
+
+      ///TODO: Implement location and searchQuery
+      location: "",
+      searchQuery: "",
+    ));
   }
 }

@@ -35,8 +35,7 @@ import '../../presentation/pages/splash/splash_page.dart';
 import '../../service_locator/service_locator.dart';
 import '../navigation/app_navigator.dart';
 
-final GlobalKey<NavigatorState> _shellNavigatorKey =
-    GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
   static initialize() {
@@ -99,9 +98,10 @@ class AppRouter {
             GoRoute(
               path: SearchPage.path,
               builder: (context, state) {
+                SearchInitialParams? searchInitialParams = state.extra as SearchInitialParams?;
                 return SearchPage(
                   cubit: getIt(),
-                  initialParams: const SearchInitialParams(),
+                  initialParams: searchInitialParams ?? const SearchInitialParams(selectedCategory: '', searchQuery: "", location: ""),
                 );
               },
             ),
@@ -188,8 +188,7 @@ class AppRouter {
         builder: (context, state) {
           return ProviderDetailPage(
             cubit: getIt(),
-            initialParams:
-                ProviderDetailInitialParams(id: state.pathParameters['id']!),
+            initialParams: ProviderDetailInitialParams(id: state.pathParameters['id']!),
           );
         },
       ),

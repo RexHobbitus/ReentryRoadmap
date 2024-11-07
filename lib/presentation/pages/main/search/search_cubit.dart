@@ -50,6 +50,8 @@ class SearchCubit extends Cubit<SearchState> {
   Timer? _timer;
 
   onInit(SearchInitialParams initialParams) {
+    print("initialParams===>${initialParams.selectedCategory}");
+    emit(state.copyWith(selectedCategory: initialParams.selectedCategory));
     _getServices();
     _getCategories();
     _getCurrentLocation();
@@ -71,12 +73,12 @@ class SearchCubit extends Cubit<SearchState> {
     final index = state.categoriesList.indexWhere((element) => element.title == categoryData.title);
     if (index == -1) return;
     if (categoryData.isSelected == false) {
-      List<SubCategoryData> subCategoryList =
-          categoryData.subCategories?.map((e) => e.copyWith(isSelected: false)).toList() ?? [];
+      List<SubCategoryData> subCategoryList = categoryData.subCategories?.map((e) => e.copyWith(isSelected: false)).toList() ?? [];
       categoryData = categoryData.copyWith(subCategories: subCategoryList);
     }
 
     emit(state.copyWith(
+        selectedCategory: "",
         categoriesList: [...state.categoriesList]
           ..removeAt(index)
           ..insert(index, categoryData)));
@@ -90,9 +92,7 @@ class SearchCubit extends Cubit<SearchState> {
     if (categoryIndex == -1) return;
     CategoryData categoryData = state.categoriesList[categoryIndex];
     categoryData = categoryData.copyWith(
-        subCategories: categoryData.subCategories
-            ?.map((e) => e.title == value ? e.copyWith(isSelected: !e.isSelected) : e)
-            .toList());
+        subCategories: categoryData.subCategories?.map((e) => e.title == value ? e.copyWith(isSelected: !e.isSelected) : e).toList());
 
     emit(state.copyWith(
         categoriesList: [...state.categoriesList]
@@ -139,9 +139,8 @@ class SearchCubit extends Cubit<SearchState> {
         locationText: locationController.text,
         lat: lat,
         long: long,
-        minDistance:minDistanceController.text.isEmpty?null:double.parse(minDistanceController.text),
-        maxDistance:maxDistanceController.text.isEmpty?null:double.parse(maxDistanceController.text),
-
+        minDistance: minDistanceController.text.isEmpty ? null : double.parse(minDistanceController.text),
+        maxDistance: maxDistanceController.text.isEmpty ? null : double.parse(maxDistanceController.text),
       );
       await _getOrganizationData(
           organizationIds: services
@@ -177,8 +176,7 @@ class SearchCubit extends Cubit<SearchState> {
   }
 
   void handleCategorySelection(List<CategoryData> result) {
-    List<CategoryData> selectedCategoryList =
-        state.categoriesList.where((element) => element.isSelected ?? false).toList();
+    List<CategoryData> selectedCategoryList = state.categoriesList.where((element) => element.isSelected ?? false).toList();
     List<CategoryData> tempResult = List.from(result);
     for (var element in result) {
       final contains = selectedCategoryList.where((element) => element.title == element.title).isNotEmpty;
@@ -212,6 +210,16 @@ class SearchCubit extends Cubit<SearchState> {
       List<String>? eligibilitiesList = await roadmapSettingsRepository.getEligibilities();
 
       List<String>? featuresList = await roadmapSettingsRepository.getFeatures();
+
+      if (state.selectedCategory.isNotEmpty) {
+        final index = state.categoriesList.indexWhere((e) => e.title == state.selectedCategory);
+        final category = categoriesList[index].copyWith(isSelected: true);
+        if (!index.isNegative) {
+          categoriesList = [...categoriesList]
+            ..removeAt(index)
+            ..insert(index, category);
+        }
+      }
 
       emit(state.copyWith(eligibilities: eligibilitiesList, features: featuresList, categoriesList: categoriesList));
     } catch (e) {
@@ -256,8 +264,7 @@ class SearchCubit extends Cubit<SearchState> {
       pageShowcaseList: _generatePagination(page, state.totalPage),
     ));
     if (!isInitial) {
-      scrollController.animateTo(scrollController.position.minScrollExtent,
-          duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
+      scrollController.animateTo(scrollController.position.minScrollExtent, duration: const Duration(milliseconds: 300), curve: Curves.easeIn);
     }
   }
 
@@ -286,14 +293,12 @@ class SearchCubit extends Cubit<SearchState> {
     organizationIds.removeWhere(
       (element) => element == "",
     );
-    List<OrganizationData> result =
-        await organizationRepository.getSetViseOrganization(organizationSet: organizationIds);
+    List<OrganizationData> result = await organizationRepository.getSetViseOrganization(organizationSet: organizationIds);
     emit(state.copyWith(organizationList: result));
   }
 
   Future<void> _getCurrentLocation() async {
-    if (await _checkPermission(
-        context: context, permission: kIsWeb ? Permission.location : Permission.locationWhenInUse)) {
+    if (await _checkPermission(context: context, permission: kIsWeb ? Permission.location : Permission.locationWhenInUse)) {
       await _getCurrentLatLong();
     }
   }
@@ -334,7 +339,7 @@ class SearchCubit extends Cubit<SearchState> {
     _timer = null;
     _timer = Timer(
       const Duration(seconds: 1),
-          () {
+      () {
         if (lat != null && long != null) {
           _getServices();
         }
