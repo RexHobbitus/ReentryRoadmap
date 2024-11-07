@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "808749677810",
+    "firebase_url": "https://diginifi-default-rtdb.firebaseio.com",
     "project_id": "diginifi",
     "storage_bucket": "diginifi.appspot.com"
   },
@@ -12,7 +13,20 @@
           "package_name": "com.app.reentryroadmap"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "808749677810-i5smtvu11j93jekgbpt20rgfmi0mtdmj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.app.reentryroadmap",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "808749677810-6r71f475jqn40ciahihh3mrqcmdar79k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyDyOWgxvj_LaM5TRuZhddcksFr-8LzTmXo"
@@ -20,7 +34,63 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808749677810-6r71f475jqn40ciahihh3mrqcmdar79k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "808749677810-6l6btinmmj3ap9u910emmbntjsdfralb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.reentryroadmap"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:808749677810:android:d3a0f17e729b249145246b",
+        "android_client_info": {
+          "package_name": "com.dignifi.dbadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "808749677810-j8cntpjb8pncne5jdjljb0q7k1plrsf8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dignifi.dbadmin",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "808749677810-6r71f475jqn40ciahihh3mrqcmdar79k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyOWgxvj_LaM5TRuZhddcksFr-8LzTmXo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "808749677810-6r71f475jqn40ciahihh3mrqcmdar79k.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "808749677810-6l6btinmmj3ap9u910emmbntjsdfralb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.app.reentryroadmap"
+              }
+            }
+          ]
         }
       }
     }
