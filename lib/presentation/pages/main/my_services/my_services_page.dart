@@ -23,6 +23,7 @@ import 'package:reentry_roadmap/presentation/pages/main/my_services/tab_bar_view
 import 'package:reentry_roadmap/presentation/pages/main/my_services/tab_bar_views/ineligible_services.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/tab_bar_views/saved_services.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/desktop_tab_bar.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/login_view_my_services_section.dart';
 
 import 'my_services_cubit.dart';
 import 'my_services_initial_params.dart';
@@ -193,7 +194,8 @@ class _MyServicesState extends State<MyServicesPage>
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
+
+    return FirebaseAuth.instance.currentUser == null? const LoginViewMyServicesSection(): BlocProvider(
       create: (context) =>
           widget.cubit..getMyServices(FirebaseAuth.instance.currentUser!.uid),
       child: Builder(builder: (context) {

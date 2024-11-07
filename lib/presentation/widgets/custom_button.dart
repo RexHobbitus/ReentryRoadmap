@@ -14,6 +14,7 @@ class CustomButton extends StatelessWidget {
   final String? iconPath;
   final IconAlignment? iconAlignment;
   final double? radius;
+  final Color? color;
   const CustomButton({
     super.key,
     this.onTap,
@@ -27,6 +28,7 @@ class CustomButton extends StatelessWidget {
     this.iconPath,
     this.iconAlignment,
     this.radius,
+    this.color
 
   });
 
@@ -48,7 +50,7 @@ class CustomButton extends StatelessWidget {
                   ? context.colorScheme.tertiary
                   : isSecondary
                       ? context.themeData.colorScheme.secondary
-                      : null,
+                      : color,
               // Set the disabled background color
               foregroundColor: isDisabled
                   ? context.colorScheme.surface
