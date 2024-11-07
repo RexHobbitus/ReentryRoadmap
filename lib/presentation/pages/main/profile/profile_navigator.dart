@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../../core/navigation/app_navigator.dart';
 import '../more/more_navigator.dart';
+import 'profile_for_provider_page.dart';
 import 'profile_page.dart';
 import 'profile_initial_params.dart';
 
@@ -17,6 +18,10 @@ class ProfileNavigator with MoreRoute {
 mixin ProfileRoute {
   openProfile(ProfileInitialParams initialParams) {
     navigator.push(context, ProfilePage.path, initialParams);
+  }
+
+  openProfileForProviderPage(ProfileInitialParams initialParams) {
+    navigator.push(context, ProfileForProviderPage.path, initialParams);
   }
 
   AppNavigator get navigator;

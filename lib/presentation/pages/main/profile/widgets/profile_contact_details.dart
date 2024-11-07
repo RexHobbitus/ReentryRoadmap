@@ -12,9 +12,10 @@ import '../../../../widgets/custom_textfield.dart';
 import '../profile_state.dart';
 
 class ProfileContactDetailsSection extends StatelessWidget {
-  const ProfileContactDetailsSection({super.key, required this.cubit});
+  const ProfileContactDetailsSection({super.key, required this.cubit, this.isViewOnly = false});
 
   final ProfileCubit cubit;
+  final bool isViewOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,11 @@ class ProfileContactDetailsSection extends StatelessWidget {
               _heading(context: context, state: state),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 30),
-                child: state.edit ? editDetails(context) : viewOnlyDetails(context),
+                child: isViewOnly
+                    ? viewOnlyDetails(context)
+                    : state.edit
+                        ? editDetails(context)
+                        : viewOnlyDetails(context),
               ),
             ],
           ),
@@ -174,19 +179,9 @@ class ProfileContactDetailsSection extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          state.loading
-              ? TextButton.icon(
-                  onPressed: cubit.editAction,
-                  style: TextButton.styleFrom(
-                    padding: EdgeInsets.zero,
-                    tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce the touch target size
-                    visualDensity: VisualDensity.compact,
-                  ),
-                  label: CircularProgressIndicator(
-                    color: context.colorScheme.onSecondary,
-                  ),
-                )
-              : !state.edit
+          isViewOnly
+              ? const SizedBox.shrink()
+              : state.loading
                   ? TextButton.icon(
                       onPressed: cubit.editAction,
                       style: TextButton.styleFrom(
@@ -194,33 +189,45 @@ class ProfileContactDetailsSection extends StatelessWidget {
                         tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce the touch target size
                         visualDensity: VisualDensity.compact,
                       ),
-                      label: Text(
-                        'Edit',
-                        style: context.textTheme.titleMedium!.copyWith(
-                          color: context.colorScheme.onSecondary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                      icon: Icon(
-                        Icons.edit,
+                      label: CircularProgressIndicator(
                         color: context.colorScheme.onSecondary,
                       ),
                     )
-                  : TextButton(
-                      onPressed: cubit.saveAction,
-                      style: TextButton.styleFrom(
-                        padding: EdgeInsets.zero,
-                        tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce the touch target size
-                        visualDensity: VisualDensity.compact,
-                      ),
-                      child: Text(
-                        'Save',
-                        style: context.textTheme.titleMedium!.copyWith(
-                          color: context.colorScheme.onSecondary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    )
+                  : !state.edit
+                      ? TextButton.icon(
+                          onPressed: cubit.editAction,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce the touch target size
+                            visualDensity: VisualDensity.compact,
+                          ),
+                          label: Text(
+                            'Edit',
+                            style: context.textTheme.titleMedium!.copyWith(
+                              color: context.colorScheme.onSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          icon: Icon(
+                            Icons.edit,
+                            color: context.colorScheme.onSecondary,
+                          ),
+                        )
+                      : TextButton(
+                          onPressed: cubit.saveAction,
+                          style: TextButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            tapTargetSize: MaterialTapTargetSize.shrinkWrap, // Reduce the touch target size
+                            visualDensity: VisualDensity.compact,
+                          ),
+                          child: Text(
+                            'Save',
+                            style: context.textTheme.titleMedium!.copyWith(
+                              color: context.colorScheme.onSecondary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        )
         ],
       ),
     );

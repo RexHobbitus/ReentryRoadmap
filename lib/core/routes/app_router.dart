@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/presentation/pages/authentication/sign_up/sign_u
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/check_in/check_in_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/account/account_initial_params.dart';
+import 'package:reentry_roadmap/presentation/pages/main/profile/profile_for_provider_page.dart';
 import 'package:reentry_roadmap/presentation/pages/settings/settings_page.dart';
 import 'package:reentry_roadmap/presentation/pages/main/bottom_nav/bottom_nav_initial_params.dart';
 import 'package:reentry_roadmap/presentation/pages/main/explore/explore_initial_params.dart';
@@ -118,6 +119,15 @@ class AppRouter {
               path: ProfilePage.path,
               builder: (context, state) {
                 return ProfilePage(
+                  cubit: getIt(),
+                  initialParams: const ProfileInitialParams(),
+                );
+              },
+            ),
+            GoRoute(
+              path: ProfileForProviderPage.path,
+              builder: (context, state) {
+                return ProfileForProviderPage(
                   cubit: getIt(),
                   initialParams: const ProfileInitialParams(),
                 );

@@ -36,4 +36,8 @@ class AccountCubit extends Cubit<AccountState> {
   openProfile() {
     navigator.openProfile(const ProfileInitialParams());
   }
+
+  // openProfileForProviderPage() {
+  //   navigator.openProfileForProviderPage(const ProfileInitialParams());
+  // }
 }
