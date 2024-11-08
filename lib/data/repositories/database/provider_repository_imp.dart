@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/data/models/provider_json.dart';
 import 'package:reentry_roadmap/data/models/provider_review_json.dart';
 import 'package:reentry_roadmap/data/repositories/database/firebase_functions.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
+import '../../../core/enums/review_sorting.dart';
 import '../../../core/utils/constants.dart';
 import '../../../domain/entities/provider_onboarding_info.dart';
 import '../../../domain/repositories/database/provider_repository.dart';
@@ -68,8 +71,26 @@ class ProviderRepositoryImp extends FirebaseCollection
   }
 
   @override
-  Future<List<ProviderReview>> getProviderReviews({required String id}) async {
-    QuerySnapshot querySnapshot = await providersCollection.doc(id).collection('reviews').get();
+  Future<List<ProviderReview>> getProviderReviews({required String id,ReviewSorting sorting=ReviewSorting.newestFirst}) async {
+    log("++++ get reviews by ${sorting}");
+    Query query = providersCollection.doc(id).collection('reviews');
+
+    // Apply sorting based on the parameter
+    switch (sorting) {
+      case ReviewSorting.newestFirst:
+        query = query.orderBy('createdAt', descending: true);
+        break;
+      case ReviewSorting.oldestFirst:
+        query = query.orderBy('createdAt', descending: false);
+        break;
+      case ReviewSorting.highestRating:
+        query = query.orderBy('rating', descending: true);
+        break;
+      case ReviewSorting.lowestRating:
+        query = query.orderBy('rating', descending: false);
+        break;
+    }
+    QuerySnapshot querySnapshot = await query.get();
     return (querySnapshot.docs)
         .map((data) =>
         ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>)

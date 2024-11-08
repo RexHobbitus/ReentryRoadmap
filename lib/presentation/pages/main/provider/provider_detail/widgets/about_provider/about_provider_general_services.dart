@@ -37,11 +37,13 @@ class AboutProviderGeneralServices extends StatelessWidget {
                 children: [
                   const ProviderDetailTitle(title: "General Services"),
                   constraints.maxWidth > 400
-                      ? user.isLoggedIn?ProviderDetailButton(
-                          title: "Suggest on edit",
-                          icon: Icons.edit,
-                          onTap: cubit.suggestEditAction,
-                        ):const SizedBox.shrink()
+                      ? user.isLoggedIn
+                          ? ProviderDetailButton(
+                              title: "Suggest on edit",
+                              icon: Icons.edit,
+                              onTap: cubit.suggestEditAction,
+                            )
+                          : const SizedBox.shrink()
                       : const SizedBox.shrink()
                 ],
               ),
@@ -49,12 +51,21 @@ class AboutProviderGeneralServices extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    user.isLoggedIn?const CustomCheckBox(
-                      text: "Select to Contact",
-                    ):const SizedBox.shrink(),
-                    user.isLoggedIn?const SizedBox(
-                      height: 20,
-                    ):const SizedBox.shrink(),
+                    user.isLoggedIn
+                        ? CustomCheckBox(
+                            text: "Select to Contact",
+                            value: cubit.selectedPrograms
+                                .contains("General Services"),
+                            onChange: (val) {
+                              cubit.selectContactAction("General Services");
+                            },
+                          )
+                        : const SizedBox.shrink(),
+                    user.isLoggedIn
+                        ? const SizedBox(
+                            height: 20,
+                          )
+                        : const SizedBox.shrink(),
                     AboutProviderCategoriesSubSection(
                       cubit: cubit,
                     ),
@@ -66,7 +77,6 @@ class AboutProviderGeneralServices extends StatelessWidget {
                       features: cubit.state.provider.onboardingInfo
                               ?.generalService?.features ??
                           [],
-
                     ),
                   ],
                 ),

@@ -16,9 +16,9 @@ class ExploreBannerSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return  Container(
       width: double.maxFinite,
-      padding: const EdgeInsets.only(top: 20, bottom: 30, right: 29, left: 29),
+      padding: const EdgeInsets.only(top: 30, bottom: 30, right: 29, left: 29),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         color: context.themeData.colorScheme.secondary,
@@ -26,49 +26,53 @@ class ExploreBannerSection extends StatelessWidget {
       child: BlocBuilder<UserStore, LoginUser>(
         bloc: cubit.userStore,
         builder: (context, state) {
-          return Wrap(
+          return  Wrap(
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
             runAlignment: WrapAlignment.end,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  state.isLoggedIn
-                      ? _loggedInUserText(context)
-                      : _notLoggedInUserText(context),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    state.isLoggedIn
-                        ? "Update us on your reentry journey to help us better understand your needs."
-                        : "Share your reentry journey with us to help us better understand your needs.",
-                    style: context.textTheme.bodyLarge?.copyWith(
-                      color: context.themeData.colorScheme.tertiaryContainer,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                ],
-              ),
-              CustomResponsiveBuilder(builder: (context, constraints,deviceSize) {
-                return CustomButton(
-                  text: "Learn More",
-                  width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
-                  height:deviceSize==DeviceSize.web?80:56,
-                  style: context.textTheme.bodyLarge,
-                  onTap:cubit.learnMoreAction,
-                );
-              })
+              ..._children(context,state),
             ],
           );
         },
       ),
     );
   }
+
+  List<Widget>  _children(BuildContext context,LoginUser state)=>[
+    Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        state.isLoggedIn
+            ? _loggedInUserText(context)
+            : _notLoggedInUserText(context),
+        const SizedBox(
+          height: 10,
+        ),
+        Text(
+          state.isLoggedIn
+              ? "Update us on your reentry journey to help us better understand your needs."
+              : "Share your reentry journey with us to help us better understand your needs.",
+          style: context.textTheme.bodyLarge?.copyWith(
+            color: context.themeData.colorScheme.tertiaryContainer,
+          ),
+        ),
+      ],
+    ),
+    CustomResponsiveBuilder(builder: (context, constraints,deviceSize) {
+      return Padding(
+        padding: EdgeInsets.only(top:deviceSize==DeviceSize.mobile?20:0 ),
+        child: CustomButton(
+          text: "Learn More",
+          width: constraints.maxWidth > 350 ? 200 : constraints.maxWidth,
+          height:deviceSize==DeviceSize.web?80:56,
+          style: context.textTheme.bodyLarge,
+          onTap:cubit.learnMoreAction,
+        ),
+      );
+    }),
+  ];
 
   Widget _notLoggedInUserText(BuildContext context) {
     return RichText(

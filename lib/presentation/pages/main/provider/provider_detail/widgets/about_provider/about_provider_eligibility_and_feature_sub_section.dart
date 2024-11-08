@@ -16,7 +16,7 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     super.key,
     required this.features,
     required this.eligibility,
-    this.isLoggedIn=false,
+    this.isLoggedIn = false,
   });
 
   @override
@@ -24,19 +24,21 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     return CustomResponsiveBuilder(
       builder: (context, constraints, deviceSize) {
         return Padding(
-          padding:  EdgeInsets.symmetric(vertical: isLoggedIn?5:15),
+          padding: EdgeInsets.symmetric(vertical: isLoggedIn ? 5 : 15),
           child: deviceSize == DeviceSize.web
               ? Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    _eligibilitySection(isWeb: true,context: context),
-                    _featureSection(isWeb: true,context: context),
+                    Expanded(child: _eligibilitySection(isWeb: true, context: context),),
+                    Expanded(child: _featureSection(isWeb: true, context: context),)
                   ],
                 )
               : Column(
                   children: [
                     _eligibilitySection(context: context),
-                    const SizedBox(height: 20,),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     _featureSection(context: context),
                   ],
                 ),
@@ -45,25 +47,26 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     );
   }
 
-  _eligibilitySection({bool isWeb = false,required BuildContext context}) {
+  _eligibilitySection({bool isWeb = false, required BuildContext context}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        isLoggedIn?Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: CustomButton(
-            text: "Eligible!",
-            iconPath: Assets.starCheck,
-            onTap: () {},
-            isSecondary: true,
-            color: context.colorScheme.secondary,
-            style: context.textTheme.bodyLarge?.copyWith(
-                color: context.colorScheme.onSecondary
-            ),
-            width: isWeb ? 120 : null,
-          ),
-        ):const SizedBox.shrink(),
+        isLoggedIn
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: CustomButton(
+                  text: "Eligible!",
+                  iconPath: Assets.starCheck,
+                  onTap: () {},
+                  isSecondary: true,
+                  color: context.colorScheme.secondary,
+                  style: context.textTheme.bodyLarge
+                      ?.copyWith(color: context.colorScheme.onSecondary),
+                  width: isWeb ? 120 : null,
+                ),
+              )
+            : const SizedBox.shrink(),
         AboutProviderEligibilityCriteriaSubSection(
           eligibilities: eligibility,
         ),
@@ -71,25 +74,26 @@ class AboutProviderEligibilityAndFeatureSubSection extends StatelessWidget {
     );
   }
 
-  _featureSection({bool isWeb = false,required BuildContext context}) {
+  _featureSection({bool isWeb = false, required BuildContext context}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        isLoggedIn?Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
-          child: CustomButton(
-            text: "Recommended for you",
-            iconPath: Assets.starCheck,
-            onTap: () {},
-            isSecondary: true,
-            color: context.colorScheme.secondary,
-            style: context.textTheme.bodyLarge?.copyWith(
-              color: context.colorScheme.onSecondary
-            ),
-            width: isWeb ? 200 : null,
-          ),
-        ):const SizedBox.shrink(),
+        isLoggedIn
+            ? Padding(
+                padding: const EdgeInsets.symmetric(vertical: 20),
+                child: CustomButton(
+                  text: "Recommended for you",
+                  iconPath: Assets.starCheck,
+                  onTap: () {},
+                  isSecondary: true,
+                  color: context.colorScheme.secondary,
+                  style: context.textTheme.bodyLarge
+                      ?.copyWith(color: context.colorScheme.onSecondary),
+                  width: isWeb ? 300 : null,
+                ),
+              )
+            : const SizedBox.shrink(),
         AboutProviderFeatureSubSection(
           features: features,
         ),

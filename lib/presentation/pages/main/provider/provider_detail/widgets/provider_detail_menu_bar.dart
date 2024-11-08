@@ -32,37 +32,10 @@ class ProviderDetailMenuBar extends StatelessWidget {
         builder: (context, state) {
           return Column(
             children: [
+              deviceSize==DeviceSize.web?
+              _menusButtons(context: context,state: state,deviceSize: deviceSize):
               FittedBox(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        for (var index = 0; index < menus.length; index++)
-                          TextButton(
-                            onPressed: () {
-                              cubit.onMenuTap(index);
-                            },
-                            child: Text(
-                              menus[index],
-                              style: context.textTheme.bodyLarge?.copyWith(
-                                fontWeight: state.selectedMenuIndex == index
-                                    ? FontWeight.w600
-                                    : null,
-                                color: state.selectedMenuIndex == index
-                                    ? context.colorScheme.primary
-                                    : context.colorScheme.tertiary,
-                              ),
-                            ),
-                          )
-                      ],
-                    ),
-                    deviceSize == DeviceSize.web
-                        ? _webButtons()
-                        : const SizedBox.shrink()
-                  ],
-                ),
+                child: _menusButtons(context: context,state: state,deviceSize: deviceSize)
               ),
               const Divider(
                 thickness: 1,
@@ -73,6 +46,39 @@ class ProviderDetailMenuBar extends StatelessWidget {
         },
       );
     });
+  }
+
+  Widget _menusButtons({required BuildContext context,required ProviderDetailState state,required DeviceSize deviceSize}){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            for (var index = 0; index < menus.length; index++)
+              TextButton(
+                onPressed: () {
+                  cubit.onMenuTap(index);
+                },
+                child: Text(
+                  menus[index],
+                  style: context.textTheme.bodyLarge?.copyWith(
+                    fontWeight: state.selectedMenuIndex == index
+                        ? FontWeight.w600
+                        : null,
+                    color: state.selectedMenuIndex == index
+                        ? context.colorScheme.primary
+                        : context.colorScheme.tertiary,
+                  ),
+                ),
+              )
+          ],
+        ),
+        deviceSize == DeviceSize.web
+            ? _webButtons()
+            : const SizedBox.shrink()
+      ],
+    );
   }
 
   _webButtons() {

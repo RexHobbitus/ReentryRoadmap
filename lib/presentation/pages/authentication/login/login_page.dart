@@ -56,59 +56,70 @@ class _LoginState extends State<LoginPage> {
             );
           }),
         ),
-        body: BlocBuilder<LoginCubit, LoginState>(
-          bloc: cubit,
-          builder: (context, state) {
-            return Padding(
-              padding: const EdgeInsets.all(kScreenHorizontalPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Log In",
-                    style: context.textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: context.colorScheme.onSurface),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Please log in to gain full access and personalized assistance.",
-                    style: context.textTheme.bodyMedium?.copyWith(
-                        fontWeight: FontWeight.w900,
-                        color: context.colorScheme.tertiary),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomTextField(
-                    controller: cubit.txtEmail,
-                    label: "Email",
-                  ),
-                  CustomTextField(
-                    controller: cubit.txtPassword,
-                    label: "Password",
-                  ),
-                  CustomCheckBox(
-                    text: "Create account as Provider",
-                    value: cubit.isProvider,
-                    onChange: (val) {
-                      cubit.isProvider = val;
-                    },
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  CustomButton(
-                    text: "Log In",
-                    onTap: cubit.loginAction,
-                    isLoading: state.loading,
-                  )
-                ],
-              ),
-            );
-          },
+        body: Center(
+          child: BlocBuilder<LoginCubit, LoginState>(
+            bloc: cubit,
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(kScreenHorizontalPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      "Log In",
+                      style: context.textTheme.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: context.colorScheme.onSurface),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Please log in to gain full access and personalized assistance.",
+                      style: context.textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w900,
+                          color: context.colorScheme.tertiary),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomTextField(
+                      controller: cubit.txtEmail,
+                      label: "Email",
+                    ),
+                    CustomTextField(
+                      controller: cubit.txtPassword,
+                      label: "Password",
+                      hide: state.hidePassword,
+                      suffix: IconButton(
+                          onPressed: cubit.togglePassword,
+                          icon: Icon(state.hidePassword?
+                          Icons.visibility:
+                          Icons.visibility_off)),
+
+                    ),
+                    // CustomCheckBox(
+                    //   text: "Create account as Provider",
+                    //   value: cubit.isProvider,
+                    //   onChange: (val) {
+                    //     cubit.isProvider = val;
+                    //   },
+                    // ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CustomButton(
+                      text: "Log In",
+                      onTap: cubit.loginAction,
+                      width: 300,
+                      isLoading: state.loading,
+                    )
+                  ],
+                ),
+              );
+            },
+          ),
         ));
   }
 }

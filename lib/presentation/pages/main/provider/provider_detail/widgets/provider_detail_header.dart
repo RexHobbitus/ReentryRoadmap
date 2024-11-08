@@ -33,8 +33,13 @@ class ProviderDetailHeader extends StatelessWidget {
           Container(
             width: deviceSize == DeviceSize.web ? 450 : null,
             padding: const EdgeInsets.all(15),
+            margin: deviceSize == DeviceSize.web? const EdgeInsets.symmetric(
+              horizontal: 40,
+              vertical: 20
+            ):null,
             decoration: BoxDecoration(
               color: context.colorScheme.surfaceDim,
+              borderRadius: deviceSize == DeviceSize.web?BorderRadius.circular(20):null
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +66,7 @@ class ProviderDetailHeader extends StatelessWidget {
                 const SizedBox(
                   height: 22,
                 ),
-                ProviderDetailFooter(
+                deviceSize == DeviceSize.web?const SizedBox.shrink():ProviderDetailFooter(
                   cubit: cubit,
                 ),
               ],

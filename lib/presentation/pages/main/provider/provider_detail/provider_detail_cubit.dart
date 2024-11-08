@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/alert/app_snack_bar.dart';
+import 'package:reentry_roadmap/core/enums/photo_sorting.dart';
+import 'package:reentry_roadmap/core/enums/review_sorting.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
@@ -32,10 +34,21 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
 
   BuildContext get context => navigator.context;
 
+  ReviewSorting reviewSorting=ReviewSorting.newestFirst;
+  PhotoSorting photoSorting=PhotoSorting.allPhotos;
+
+  List<String> selectedPrograms=[];
+
   onInit(ProviderDetailInitialParams initialParams) {
     debugPrint("Provider id: ${initialParams.id}");
     _getProviderDetail(initialParams.id);
    _getProviderReviews(initialParams.id);
+  }
+
+  disposeAction(){
+    selectedPrograms.clear();
+    reviewSorting= ReviewSorting.newestFirst;
+    photoSorting=PhotoSorting.allPhotos;
   }
 
   onMenuTap(int index) {
@@ -59,7 +72,7 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
     try {
       emit(state.copyWith(loadingReviews: true));
       List<ProviderReview> reviews =
-          await providerRepository.getProviderReviews(id: id);
+          await providerRepository.getProviderReviews(id: id,sorting: reviewSorting);
       emit(state.copyWith(reviews: reviews));
     } catch (e) {
       snackBar.show(e.toString());
@@ -108,8 +121,11 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
     ));
   }
 
+
   contactAction() {
     navigator.navigator.showDialogBox(context, ProviderContactForm(
+      selectedPrograms:selectedPrograms,
+      provider: state.provider,
       onSendMessage: () {
         Navigator.pop(context);
         navigator.navigator.showDialogBox(
@@ -123,4 +139,33 @@ class ProviderDetailCubit extends Cubit<ProviderDetailState> {
       },
     ));
   }
+  sortReviews(ReviewSorting? sorting){
+    reviewSorting=sorting!;
+    _getProviderReviews(state.provider.userId!);
+  }
+  sortPhotos(PhotoSorting? sorting){
+    photoSorting=sorting!;
+  }
+
+  List<String> getPhotos(){
+    List<String> ownerPhotos=(state.provider.onboardingInfo?.providerDetails?.images??[]) as List<String>;
+    List<String> otherPhotos=(state.provider.onboardingInfo?.providerDetails?.photosByOther??[]) as List<String>;
+    switch (photoSorting){
+      case PhotoSorting.allPhotos:
+        return ownerPhotos+otherPhotos;
+      case PhotoSorting.photosByOwner:
+        return ownerPhotos;
+      case PhotoSorting.photosByOthers:
+        return otherPhotos;
+    }
+  }
+
+  selectContactAction(String val){
+    if(selectedPrograms.contains(val)){
+      selectedPrograms.remove(val);
+    }else{
+      selectedPrograms.add(val);
+    }
+  }
+
 }

@@ -37,7 +37,7 @@ class CustomButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return isLoading
-        ? const Center(child: CircularProgressIndicator())
+        ? CircularProgressIndicator()
         : ElevatedButton.icon(
             style: ElevatedButton.styleFrom(
               elevation: 0,

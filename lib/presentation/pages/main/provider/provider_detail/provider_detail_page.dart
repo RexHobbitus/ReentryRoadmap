@@ -41,6 +41,13 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
   }
 
   @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    cubit.disposeAction();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body:
@@ -78,8 +85,8 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
                         )
                       : const SliverToBoxAdapter(),
                   SliverToBoxAdapter(
-                    child: Wrap(
-                      spacing: 20,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         /// In the case of web screen size show header here
                         deviceSize == DeviceSize.web
@@ -87,19 +94,19 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
                                 cubit: cubit,
                               )
                             : const SizedBox(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: kScreenHorizontalPadding),
-                          child: CustomResponsiveBuilder(
-                              builder: (context, constraints, deviceSize) {
-                            return Container(
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: kScreenHorizontalPadding),
+                            child: Container(
                               width: deviceSize == DeviceSize.web
-                                  ? constraints.maxWidth - 500
+                                  ? null
                                   : constraints.maxWidth,
                               margin: const EdgeInsets.symmetric(vertical: 20),
                               child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  /// In the case of web screen size show menu bar
+                                  // /// In the case of web screen size show menu bar
                                   deviceSize == DeviceSize.web
                                       ? ProviderDetailMenuBar(
                                           cubit: cubit,
@@ -126,13 +133,13 @@ class _ProviderDetailState extends State<ProviderDetailPage> {
                                                     );
                                     },
                                   ),
-                                  ProviderDetailFooter(
+                                  deviceSize == DeviceSize.web?const SizedBox.shrink(): ProviderDetailFooter(
                                     cubit: cubit,
                                   ),
                                 ],
                               ),
-                            );
-                          }),
+                            ),
+                          ),
                         )
                       ],
                     ),

@@ -42,56 +42,66 @@ class _AboutProviderAllProgramsState extends State<AboutProviderAllPrograms> {
       return BlocBuilder<UserStore, LoginUser>(
         bloc: widget.cubit.userStore,
         builder: (context, user) {
-          return programs.isEmpty?const SizedBox.shrink():Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const ProviderDetailTitle(title: "All Programs"),
-                  constraints.maxWidth > 400
-                      ? user.isLoggedIn
-                          ? ProviderDetailButton(
-                              title: "Suggest on edit",
-                              icon: Icons.edit,
-                              onTap: widget.cubit.suggestEditAction,
-                            )
-                          : const SizedBox.shrink()
-                      : const SizedBox.shrink()
-                ],
-              ),
-              for (var program in programs)
-                CustomSectionContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        program.name ?? "N/A",
-                        style: context.textTheme.titleMedium,
-                      ),
-                      user.isLoggedIn
-                          ? const CustomCheckBox(
-                              text: "Select to Contact",
-                            )
-                          : const SizedBox.shrink(),
-                      user.isLoggedIn
-                          ? const SizedBox(
-                              height: 20,
-                            )
-                          : const SizedBox.shrink(),
-                      AboutProviderCategoriesSubSection(
-                        cubit: widget.cubit,
-                      ),
-                      AboutProviderEligibilityAndFeatureSubSection(
-                        isLoggedIn: user.isLoggedIn,
-                        eligibility: program.eligibilityCriteria ?? [],
-                        features: program.features ?? [],
-                      ),
-                    ],
-                  ),
-                )
-            ],
-          );
+          return programs.isEmpty
+              ? const SizedBox.shrink()
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const ProviderDetailTitle(title: "All Programs"),
+                        constraints.maxWidth > 400
+                            ? user.isLoggedIn
+                                ? ProviderDetailButton(
+                                    title: "Suggest on edit",
+                                    icon: Icons.edit,
+                                    onTap: widget.cubit.suggestEditAction,
+                                  )
+                                : const SizedBox.shrink()
+                            : const SizedBox.shrink()
+                      ],
+                    ),
+                    for (var program in programs)
+                      CustomSectionContainer(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              program.name ?? "N/A",
+                              style: context.textTheme.titleMedium,
+                            ),
+                            user.isLoggedIn
+                                ? CustomCheckBox(
+                                    text: "Select to Contact",
+                                    value: widget.cubit.selectedPrograms.contains(program.name!),
+                                    onChange: (val) {
+                                      widget.cubit.selectContactAction(program.name!);
+                                    },
+                                  )
+                                : const SizedBox.shrink(),
+                            Text(
+                              "${program.description}",
+                              style: context.textTheme.bodyMedium,
+                            ),
+                            user.isLoggedIn
+                                ? const SizedBox(
+                                    height: 20,
+                                  )
+                                : const SizedBox.shrink(),
+                            AboutProviderCategoriesSubSection(
+                              cubit: widget.cubit,
+                            ),
+                            AboutProviderEligibilityAndFeatureSubSection(
+                              isLoggedIn: user.isLoggedIn,
+                              eligibility: program.eligibilityCriteria ?? [],
+                              features: program.features ?? [],
+                            ),
+                          ],
+                        ),
+                      )
+                  ],
+                );
         },
       );
     });

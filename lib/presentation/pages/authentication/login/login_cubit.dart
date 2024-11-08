@@ -76,4 +76,8 @@ class LoginCubit extends Cubit<LoginState> {
       throw "Please enter valid email addresss.";
     }
   }
+
+  togglePassword(){
+    emit(state.copyWith(hidePassword: !state.hidePassword));
+  }
 }

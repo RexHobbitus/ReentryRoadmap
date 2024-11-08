@@ -140,7 +140,7 @@ class WebHeader extends StatelessWidget {
               ),
               iconAlignment: IconAlignment.end,
               label: Text(
-                "For Provider",
+                "For Providers",
                 style: AppStyle.webMenuTextStyle(context),
               ))),
     );

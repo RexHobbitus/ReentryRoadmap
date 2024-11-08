@@ -7,7 +7,6 @@ class ProviderDetailState {
   final int selectedMenuIndex;
   final Provider provider;
   final List<ProviderReview> reviews;
-
   const ProviderDetailState({
     required this.loading,
     required this.loadingReviews,

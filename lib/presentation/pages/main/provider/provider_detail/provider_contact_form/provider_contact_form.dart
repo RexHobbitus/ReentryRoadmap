@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:reentry_roadmap/core/extensions/theme_extension.dart';
+import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/presentation/pages/main/provider/provider_detail/widgets/provider_detail_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_button.dart';
 import 'package:reentry_roadmap/presentation/widgets/custom_option_tile.dart';
@@ -9,8 +10,16 @@ import '../../../../../widgets/custom_switch_button.dart';
 
 class ProviderContactForm extends StatefulWidget {
   final VoidCallback? onSendMessage;
+  final List<String> selectedPrograms;
+  final Provider provider;
 
-  const ProviderContactForm({super.key, this.onSendMessage});
+  const ProviderContactForm({
+    super.key,
+    this.onSendMessage,
+    required this.selectedPrograms,
+    required this.provider,
+
+  });
 
   @override
   State<ProviderContactForm> createState() => _ProviderContactFormState();
@@ -19,10 +28,17 @@ class ProviderContactForm extends StatefulWidget {
 class _ProviderContactFormState extends State<ProviderContactForm> {
   List<String> programs = [
     "General Services",
-    "Supernova program",
-    "Management Program",
   ];
   List<String> selectedProgram = [];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    List<String> allPrograms=widget.provider.onboardingInfo?.programs?.map((program)=>program.name.toString()).toList()??[];
+    programs.addAll(allPrograms);
+    selectedProgram=widget.selectedPrograms;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +75,12 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
                 height: 20,
               ),
               _label(
-                  "Write a message to OpenGate Hayward expressing why you are interested in their program (Optional)"),
+                  "Write a message to ${widget.provider.onboardingInfo?.providerDetails?.providerNameLocation} expressing why you are interested in their program (Optional)"),
               CustomTextField(
                 isDetail: true,
               ),
               _label(
-                  "Would you like to share your profile with OpenGate Hayward?"),
+                  "Would you like to share your profile with ${widget.provider.onboardingInfo?.providerDetails?.providerNameLocation}?"),
               RichText(
                   text: TextSpan(
                       text: "Configure what you share in your ",
@@ -78,7 +94,9 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
                           decoration: TextDecoration.underline,
                         ))
                   ])),
-              const SizedBox(height: 20,),
+              const SizedBox(
+                height: 20,
+              ),
               const CustomSwitchButton(),
               const SizedBox(
                 height: 100,
@@ -121,7 +139,7 @@ class _ProviderContactFormState extends State<ProviderContactForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    "Contact OpenGate Hayward",
+                    "Contact ${widget.provider.onboardingInfo?.providerDetails?.providerNameLocation}",
                     style: context.textTheme.titleMedium
                         ?.copyWith(fontWeight: FontWeight.w600),
                   ),
