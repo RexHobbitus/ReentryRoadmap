@@ -10,6 +10,7 @@ import 'package:reentry_roadmap/core/utils/resposive.dart';
 import 'package:reentry_roadmap/domain/entities/my_service.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/cubits/my_services_tile_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/features_view.dart';
+import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/program_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_categories_view.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_image.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/service_updates_view.dart';
@@ -88,9 +89,16 @@ class _ServicesTileState extends State<ServicesTile> {
                   ),
                   20.verticalSpace,
                   const ServiceCategoriesView(),
-                  20.verticalSpace,
+
+                  widget.myService.serviceStatus != MyServicesStatus.savedServices?   Divider(
+                    height: 30,
+                    color: context.colorScheme.tertiaryContainer,
+                  ):SizedBox(),
+                widget.myService.serviceStatus != MyServicesStatus.savedServices?  const ProgramView():SizedBox(),
+                  14.verticalSpace,
                   const FeaturesView(),
-                  const Divider(
+                   Divider(
+                    color: context.colorScheme.tertiaryContainer,
                     height: 30,
                   ),
                   ServiceUpdatesView(),
