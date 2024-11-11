@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:reentry_roadmap/domain/entities/operating_hour.dart';
 
 class OperatingHourJson {
-  final String day;
-  final Timestamp startTime;
-  final Timestamp endTime;
+  final String? day;
+  final Timestamp? startTime;
+  final Timestamp? endTime;
 
   OperatingHourJson({
     required this.day,
@@ -31,8 +31,8 @@ class OperatingHourJson {
   OperatingHour toDomain() {
     return OperatingHour(
       day: day,
-      startTime: startTime.toDate(),
-      endTime: endTime.toDate(),
+      startTime: startTime?.toDate() ,
+      endTime: endTime?.toDate(),
     );
   }
 }

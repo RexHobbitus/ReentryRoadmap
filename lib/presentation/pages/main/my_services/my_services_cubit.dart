@@ -52,6 +52,7 @@ class MyServicesCubit extends Cubit<MyServicesState> {
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
+
       emit(state.copyWith(loading: false));
     }
   }
@@ -74,6 +75,7 @@ class MyServicesCubit extends Cubit<MyServicesState> {
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
+
       emit(state.copyWith(loading: false));
     }
   }

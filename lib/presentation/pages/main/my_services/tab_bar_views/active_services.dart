@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reentry_roadmap/core/enums/my_services_status.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/cubits/my_services_tile_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/my_services_cubit.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/no_services_view.dart';
@@ -38,7 +39,15 @@ class ActiveServices extends StatelessWidget {
                             context
                                 .read<MyServicesCubit>()
                                 .filteredServices[index]),
-                    child: BlocBuilder<MyServicesTileCubit,MyServicesTileState>(
+                    child: BlocConsumer<MyServicesTileCubit,MyServicesTileState>(
+                    listener:  (context, state) {
+                      if(state.serviceStatusUpdated){
+                        context.read<MyServicesCubit>().getMyServices(
+                            FirebaseAuth.instance.currentUser!.uid,myServicesStatus: MyServicesStatus.activeServices
+                        );
+                      }
+
+                    },
                         builder: (context,state) {
                           return ServicesTile(
                             btnLoading: state.loading,

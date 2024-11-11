@@ -24,6 +24,7 @@ import 'package:reentry_roadmap/presentation/pages/main/my_services/tab_bar_view
 import 'package:reentry_roadmap/presentation/pages/main/my_services/tab_bar_views/saved_services.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/desktop_tab_bar.dart';
 import 'package:reentry_roadmap/presentation/pages/main/my_services/widgets/login_view_my_services_section.dart';
+import 'package:reentry_roadmap/service_locator/service_locator.dart';
 
 import 'my_services_cubit.dart';
 import 'my_services_initial_params.dart';
@@ -67,7 +68,7 @@ class _MyServicesState extends State<MyServicesPage>
         provider: ProviderJson(
             email: "test@provder.com",
             avgRating: 2.5,
-            onboardingInfo: ProviderOnboardingInfoJson(
+            providerOnboardingInfo: ProviderOnboardingInfoJson(
                 generalService: GeneralServiceJson(eligibilityCriteria: [
                   "Within 5 Years of Incarceration"
                 ], features: [
@@ -169,7 +170,7 @@ class _MyServicesState extends State<MyServicesPage>
             ratingCount: RatingCountJson(i2: 1, i4: 1),
             totalReviews: 2,
             userId: "6LPJyTXlJmObVAaM0liJt73l5ay1"),
-        serviceStatus: MyServicesStatus.activeServices,
+        serviceStatus: MyServicesStatus.contactedServices,
         statusUpdates: [
           "Sep 26 2024 - Mar 26 2025",
           "Service used for 6 months",
@@ -195,9 +196,14 @@ class _MyServicesState extends State<MyServicesPage>
   @override
   Widget build(BuildContext context) {
     return FirebaseAuth.instance.currentUser == null
-        ?  LoginViewMyServicesSection(cubit: widget.cubit,)
+        ? LoginViewMyServicesSection(
+            cubit: widget.cubit,
+          )
         : BlocProvider(
-            create: (context) => widget.cubit
+            create: (context) => MyServicesCubit(
+                navigator: getIt.get(),
+                myServicesRepository: getIt.get(),
+                snackBar: getIt.get())
               ..getMyServices(FirebaseAuth.instance.currentUser!.uid),
             child: Builder(builder: (context) {
               return Padding(
