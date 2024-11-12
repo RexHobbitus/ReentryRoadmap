@@ -58,15 +58,4 @@ class Assets {
       "assets/icons/service_providers/openheart.png";
   static const String serviceProviderOpenSky =
       "assets/icons/service_providers/opensky.png";
-
-
-  // My Services
-
-  static const String responseTime =
-      "assets/icons/response_time.svg";
-  static const String noServices =
-      "assets/icons/my_services/no_service_placeholder.png";
-
-
 }
-

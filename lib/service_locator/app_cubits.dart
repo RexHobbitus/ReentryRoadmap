@@ -62,9 +62,9 @@ class AppCubits {
       navigator: getIt(),
     ));
     getIt.registerSingleton<MyServicesNavigator>(MyServicesNavigator(getIt()));
-
-    getIt.registerSingleton<MyServicesCubit>(
-        MyServicesCubit(navigator: getIt(), myServicesRepository: getIt(),snackBar: getIt()));
+    getIt.registerSingleton<MyServicesCubit>(MyServicesCubit(
+      navigator: getIt(),
+    ));
     getIt.registerSingleton<ReviewNavigator>(ReviewNavigator(getIt()));
     getIt.registerSingleton<ReviewCubit>(ReviewCubit(
       navigator: getIt(),

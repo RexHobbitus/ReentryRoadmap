@@ -29,7 +29,8 @@ class CustomButton extends StatelessWidget {
     this.iconPath,
     this.iconAlignment,
     this.radius,
-    this.isLoading, // Assuming this is the new property from one of the branches
+    this.style,
+    this.color,
 
   });
 

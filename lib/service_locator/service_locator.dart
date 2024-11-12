@@ -1,11 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:reentry_roadmap/data/repositories/database/app_user_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
-import 'package:reentry_roadmap/data/repositories/database/my_services_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/provider_repository_imp.dart';
 import 'package:reentry_roadmap/domain/repositories/database/app_user_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/auth_repository.dart';
-import 'package:reentry_roadmap/domain/repositories/database/my_services_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
 import 'package:reentry_roadmap/domain/usecases/check_in_use_case.dart';
@@ -41,7 +39,6 @@ class ServiceLocator {
     getIt.registerSingleton<AuthRepository>(AuthRepositoryImp());
     getIt.registerSingleton<AppUserRepository>(AppUserRepositoryImp());
     getIt.registerSingleton<ProviderRepository>(ProviderRepositoryImp());
-    getIt.registerSingleton<MyServicesRepository>(MyServicesRepositoryImp());
 
     getIt.registerSingleton<UserStore>(UserStore());
 
