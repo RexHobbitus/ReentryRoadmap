@@ -32,102 +32,106 @@ class SearchProviderList extends StatelessWidget {
         builder: (context, state) {
           return Skeletonizer(
             enabled: state.listLoading,
-            child: CustomResponsiveBuilder(
-              builder:(context, constraints, device)  {
-                return Column(
-                  children: [
-                    const SizedBox(height: 15),
-                    if (constraints.maxWidth>1000) ...[
-                      SearchTopResultWeb(cubit: cubit),
-                    ] else ...[
-                      SearchTopResultMobile(cubit: cubit),
-                    ],
-                    const SizedBox(height: 20),
-                    if (isBigScreen) ...[
-                      const LearnMoreWeb(),
-                    ] else ...[
-                      const LearnMoreMobile(),
-                    ],
-                    const SizedBox(height: 30),
-                    if (!state.listLoading && state.paginatedServices.isEmpty) ...[
-                      CustomResponsiveBuilder(
-                        builder: (context, constraints, device) {
-                          return Image.asset(
-                            Assets.noDataFound,
-                            width: device==DeviceSize.mobile? 220: min(MediaQuery.sizeOf(context).width * 0.8, MediaQuery.sizeOf(context).width * 0.4),
-                          );
-                        }
-                      )
-                    ] else ...[
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: state.listLoading ? 3 : state.paginatedServices.length,
-                        itemBuilder: (context, index) {
-                          Provider service = state.listLoading ? Provider.shimmer() : state.paginatedServices[index];
-                          if (isBigScreen) {
-                            return SearchProviderTileWeb(service: service,organizationList:state.organizationList);
-                          }
-                          return SearchProviderTileMobile(service: service,organizationList: state.organizationList,);
-                        },
-                        separatorBuilder: (context, index) => const SizedBox(height: 16),
-                      ),
-                      const SizedBox(height: 30),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CupertinoButton(
-                            onPressed:state.currentPage==1?null: () {
-                              cubit.handlePagination(page: state.currentPage-1);
-                            },
-                            child: const Icon(
-                              Icons.arrow_back_ios_new_rounded,
-                              size: 14,
-                            ),
-                          ),
-                          ...List.generate(
-                            state.pageShowcaseList.length,
-                            (index) {
-                              if (state.currentPage == state.pageShowcaseList[index]) {
-                                return Container(
-                                    margin: const EdgeInsets.symmetric(horizontal: 10),
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      color: context.colorScheme.surfaceContainer,
-                                      border: Border.all(color: context.colorScheme.tertiaryContainer),
-                                    ),
-                                    child: Text(" ${state.pageShowcaseList[index]} "));
-                              }
-                              return Padding(
-                                padding: const EdgeInsets.symmetric(horizontal: 10),
-                                child: Text(" ${state.pageShowcaseList[index]} "),
-                              );
-                            },
-                          ),
-                          CupertinoButton(
-                            onPressed:state.totalPage==state.currentPage?null: () {
-                              cubit.handlePagination(page: state.currentPage+1);
-                            },
-                            child: const Icon(
-                              Icons.arrow_forward_ios_rounded,
-                              size: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                    const SizedBox(height: 30),
-                    if (isBigScreen) ...[
-                      const _AddProviderWeb(),
-                    ] else ...[
-                      const _AddProviderMobile(),
-                    ],
-                    const SizedBox(height: 30),
+            child: CustomResponsiveBuilder(builder: (context, constraints, device) {
+              return Column(
+                children: [
+                  const SizedBox(height: 15),
+                  if (constraints.maxWidth > 1000) ...[
+                    SearchTopResultWeb(cubit: cubit),
+                  ] else ...[
+                    SearchTopResultMobile(cubit: cubit),
                   ],
-                );
-              }
-            ),
+                  const SizedBox(height: 20),
+                  if (isBigScreen) ...[
+                    const LearnMoreWeb(),
+                  ] else ...[
+                    const LearnMoreMobile(),
+                  ],
+                  const SizedBox(height: 30),
+                  if (!state.listLoading && state.paginatedServices.isEmpty) ...[
+                    CustomResponsiveBuilder(builder: (context, constraints, device) {
+                      return Image.asset(
+                        Assets.noDataFound,
+                        width:
+                            device == DeviceSize.mobile ? 220 : min(MediaQuery.sizeOf(context).width * 0.8, MediaQuery.sizeOf(context).width * 0.4),
+                      );
+                    })
+                  ] else ...[
+                    ListView.separated(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: state.listLoading ? 3 : state.paginatedServices.length,
+                      itemBuilder: (context, index) {
+                        Provider service = state.listLoading ? Provider.shimmer() : state.paginatedServices[index];
+                        if (isBigScreen) {
+                          return SearchProviderTileWeb(service: service, organizationList: state.organizationList);
+                        }
+                        return SearchProviderTileMobile(
+                          service: service,
+                          organizationList: state.organizationList,
+                        );
+                      },
+                      separatorBuilder: (context, index) => const SizedBox(height: 16),
+                    ),
+                    const SizedBox(height: 30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CupertinoButton(
+                          onPressed: state.currentPage == 1
+                              ? null
+                              : () {
+                                  cubit.handlePagination(page: state.currentPage - 1);
+                                },
+                          child: const Icon(
+                            Icons.arrow_back_ios_new_rounded,
+                            size: 14,
+                          ),
+                        ),
+                        ...List.generate(
+                          state.pageShowcaseList.length,
+                          (index) {
+                            if (state.currentPage == state.pageShowcaseList[index]) {
+                              return Container(
+                                  margin: const EdgeInsets.symmetric(horizontal: 10),
+                                  padding: const EdgeInsets.all(6),
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: context.colorScheme.surfaceContainer,
+                                    border: Border.all(color: context.colorScheme.tertiaryContainer),
+                                  ),
+                                  child: Text(" ${state.pageShowcaseList[index]} "));
+                            }
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10),
+                              child: Text(" ${state.pageShowcaseList[index]} "),
+                            );
+                          },
+                        ),
+                        CupertinoButton(
+                          onPressed: state.totalPage == state.currentPage
+                              ? null
+                              : () {
+                                  cubit.handlePagination(page: state.currentPage + 1);
+                                },
+                          child: const Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            size: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: 30),
+                  if (isBigScreen) ...[
+                    const _AddProviderWeb(),
+                  ] else ...[
+                    const _AddProviderMobile(),
+                  ],
+                  const SizedBox(height: 30),
+                ],
+              );
+            }),
           );
         });
   }
@@ -265,14 +269,16 @@ class SearchTopResultWeb extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Expanded(
-          child: Text(
-            "Top Results for ‘First Steps’",
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+        if (cubit.searchController.text.isNotEmpty) ...[
+          Expanded(
+            child: Text(
+              "Top Results for '${cubit.searchController.text}'",
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: context.textTheme.titleLarge?.copyWith(fontWeight: FontWeight.w600),
+            ),
           ),
-        ),
+        ],
         const SizedBox(width: 10),
         BlocBuilder<SearchCubit, SearchState>(
           bloc: cubit,
@@ -315,10 +321,12 @@ class SearchTopResultMobile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              "Top Results for ‘First Steps’",
-              style: context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
-            ),
+            if (cubit.searchController.text.isNotEmpty) ...[
+              Text(
+                "Top Results for ‘${cubit.searchController.text}’",
+                style: context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w600),
+              ),
+            ],
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -384,7 +392,8 @@ class LearnMoreWeb extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Provide a check In  to get the best matches!",style:context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary)),
+                Text("Provide a check In  to get the best matches!",
+                    style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary)),
                 const SizedBox(height: 4),
                 Text(
                   "Update us on your reentry journey so we can find you the best services",
@@ -425,8 +434,8 @@ class LearnMoreMobile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text("Provide a check In  to get the best matches!",             style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary, fontWeight: FontWeight.w600)),
-
+          Text("Provide a check In  to get the best matches!",
+              style: context.textTheme.titleLarge?.copyWith(color: context.colorScheme.onSecondary, fontWeight: FontWeight.w600)),
           const SizedBox(height: 10),
           Text(
             "Update us on your reentry journey so we can find you the best services",

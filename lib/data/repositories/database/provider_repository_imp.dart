@@ -7,6 +7,7 @@ import 'package:reentry_roadmap/data/repositories/database/firebase_functions.da
 import 'package:reentry_roadmap/domain/entities/program.dart';
 import 'package:reentry_roadmap/domain/entities/provider.dart';
 import 'package:reentry_roadmap/domain/entities/provider_review.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 import '../../../core/utils/constants.dart';
 import '../../../domain/entities/provider_onboarding_info.dart';
@@ -44,9 +45,7 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
   @override
   Future<List<Provider>> getExplorePageServices() async {
     QuerySnapshot querySnapshot = await providersCollection.where('status', isEqualTo: "Approved").get();
-    return (querySnapshot.docs)
-        .map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
-        .toList();
+    return (querySnapshot.docs).map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
   }
 
   @override
@@ -66,9 +65,7 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
   @override
   Future<List<ProviderReview>> getProviderReviews({required String id}) async {
     QuerySnapshot querySnapshot = await providersCollection.doc(id).collection('reviews').get();
-    return (querySnapshot.docs)
-        .map((data) => ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
-        .toList();
+    return (querySnapshot.docs).map((data) => ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
   }
 
   @override
@@ -85,34 +82,45 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
     double? maxDistance,
     double? minDistance,
   }) async {
+    print("particularServiceSelected===>$particularServiceSelected");
     QuerySnapshot querySnapshot = await providersCollection.get();
-    List<Provider> result = (querySnapshot.docs)
-        .map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain())
-        .toList();
+    List<Provider> result = (querySnapshot.docs).map((data) => ProviderJson.fromJson(data.data() as Map<String, dynamic>).toDomain()).toList();
+    List<CategoryData> selectedCategories = categories.where((element) => element.isSelected ?? false).toList();
 
+    if (selectedCategories.isEmpty &&
+        (particularServiceSelected?.isEmpty ?? false) &&
+        features.isEmpty &&
+        eligibility.isEmpty &&
+        showOnlyEligibleProvider == false &&
+        searchText.isEmpty &&
+        locationText.isEmpty &&
+        maxDistance == null &&
+        minDistance == null) {
+      return result;
+    }
     List<Provider> toReturn = [];
     if (particularServiceSelected?.isNotEmpty ?? false) {
       for (final service in result) {
-        final serviceCategories =
-            service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
-        if (serviceCategories?.contains(particularServiceSelected) ?? false) {
+        final serviceCategories = service.getAllCategories();
+        print("serviceCategories===>$serviceCategories of ${service.onboardingInfo?.providerDetails?.providerNameLocation}");
+        if (serviceCategories.contains(particularServiceSelected)) {
           toReturn.add(service);
         }
       }
-      return toReturn;
+      // return toReturn;
     }
-    List<CategoryData> selectedCategories = categories.where((element) => element.isSelected ?? false).toList();
+    print("toReturn11===>${toReturn.length}");
+
     List<String> selectedSubCategories = [];
     categories.where((element) => element.isSelected ?? false).forEach(
       (category) {
-        selectedSubCategories
-            .addAll(category.subCategories?.where((element) => element.isSelected).map((e) => e.title).toList() ?? []);
+        selectedSubCategories.addAll(category.subCategories?.where((element) => element.isSelected).map((e) => e.title).toList() ?? []);
       },
     );
     if (selectedCategories.isNotEmpty) {
       for (final service in result) {
-        final serviceCategories =
-            service.onboardingInfo?.generalService?.serviceCategories?.map((e) => e.title).toList();
+        final serviceCategories = service.getAllCategories();
+        print("serviceCategories===>$serviceCategories of ${service.onboardingInfo?.providerDetails?.providerNameLocation}");
         for (var category in selectedCategories) {
           if (serviceCategories?.contains(category.title) ?? false) {
             final selectedSubCategory = category.subCategories?.where((element) => element.isSelected).toList();
@@ -132,9 +140,9 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
           }
         }
       }
-    } else {
-      toReturn.addAll(result);
     }
+
+    print("toReturn11===>${toReturn.length}");
 
     // reorder features and eligibility
     List<Provider> tempReturn = [];
@@ -173,9 +181,7 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
         tempProgramList.add(program.copyWith(
             features: programFeatures,
             eligibilityCriteria: programEligibility,
-            eligibilityRatio: selectedEligibility.isEmpty || programEligibility.isEmpty
-                ? 0
-                : eligibility.length / programEligibility.length * 100));
+            eligibilityRatio: selectedEligibility.isEmpty || programEligibility.isEmpty ? 0 : eligibility.length / programEligibility.length * 100));
       }
 
       tempReturn.add(service.copyWith(
@@ -205,10 +211,8 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
     if (searchText.isNotEmpty) {
       toReturn = toReturn.where(
         (element) {
-          return element.onboardingInfo?.providerDetails?.providerNameLocation
-                  ?.toLowerCase()
-                  .contains(searchText.toLowerCase()) ??
-              false;
+          final text = element.onboardingInfo?.providerDetails?.providerNameLocation?.toLowerCase();
+          return StringSimilarity.compareTwoStrings(text, searchText.toLowerCase()) > 0.5;
         },
       ).toList();
     }
@@ -223,43 +227,39 @@ class ProviderRepositoryImp extends FirebaseCollection with FirebaseFunctions im
     }
 
     //apple distance filter
-    if (!([lat, long,].contains(null))) {
-      if(maxDistance!=null||minDistance!=null){
+    if (!([
+      lat,
+      long,
+    ].contains(null))) {
+      if (maxDistance != null || minDistance != null) {
         List<Provider> tempList = [];
         for (Provider service in toReturn) {
-          if(service.onboardingInfo?.providerDetails?.gpsLocation!=null){
-
-            final meters = Geolocator.distanceBetween(
-                lat!,
-                long!,
-                service.onboardingInfo!.providerDetails!.gpsLocation!.latitude,
+          if (service.onboardingInfo?.providerDetails?.gpsLocation != null) {
+            final meters = Geolocator.distanceBetween(lat!, long!, service.onboardingInfo!.providerDetails!.gpsLocation!.latitude,
                 service.onboardingInfo!.providerDetails!.gpsLocation!.longitude);
             final miles = metersToMiles(meters);
-            if(![minDistance,maxDistance].contains(null)){
-              if(miles>minDistance!&&miles<maxDistance! ){
+            if (![minDistance, maxDistance].contains(null)) {
+              if (miles > minDistance! && miles < maxDistance!) {
                 tempList.add(service);
               }
-            }else if(minDistance!=null){
-              if(miles>minDistance){
+            } else if (minDistance != null) {
+              if (miles > minDistance) {
                 tempList.add(service);
               }
-            }else if(maxDistance!=null){
-              if(miles<maxDistance){
+            } else if (maxDistance != null) {
+              if (miles < maxDistance) {
                 tempList.add(service);
               }
             }
-
           }
-
         }
         toReturn = tempList;
       }
-
     }
     return toReturn.toSet().toList();
   }
+}
 
-  double metersToMiles(double meters) {
-    return meters * 0.000621371;
-  }
+double metersToMiles(double meters) {
+  return meters * 0.000621371;
 }

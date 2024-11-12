@@ -14,6 +14,7 @@ import 'package:reentry_roadmap/domain/repositories/database/organization_reposi
 import 'package:reentry_roadmap/domain/repositories/database/provider_repository.dart';
 import 'package:reentry_roadmap/domain/repositories/database/roadmap_settings_repository.dart';
 import 'package:reentry_roadmap/domain/stores/user_store.dart';
+import 'package:string_similarity/string_similarity.dart';
 
 import 'search_initial_params.dart';
 import 'search_navigator.dart';
@@ -45,8 +46,8 @@ class SearchCubit extends Cubit<SearchState> {
   TextEditingController locationController = TextEditingController();
   TextEditingController minDistanceController = TextEditingController();
   TextEditingController maxDistanceController = TextEditingController();
-  double? lat;
-  double? long;
+  double? currentLat;
+  double? currentLong;
   Timer? _timer;
 
   onInit(SearchInitialParams initialParams) {
@@ -137,20 +138,14 @@ class SearchCubit extends Cubit<SearchState> {
         showOnlyEligibleProvider: state.isShowEligibleProvider,
         searchText: searchController.text,
         locationText: locationController.text,
-        lat: lat,
-        long: long,
+        lat: currentLat,
+        long: currentLong,
         minDistance: minDistanceController.text.isEmpty ? null : double.parse(minDistanceController.text),
         maxDistance: maxDistanceController.text.isEmpty ? null : double.parse(maxDistanceController.text),
       );
-      await _getOrganizationData(
-          organizationIds: services
-              .map(
-                (e) => e.orgId ?? "",
-              )
-              .toList()
-              .toSet()
-              .toList());
-      emit(state.copyWith(services: services));
+      await _getOrganizationData(organizationIds: services.map((e) => e.orgId ?? "").toList().toSet().toList());
+      _filterServices(services: services);
+      // emit(state.copyWith(services: services));
     } catch (e) {
       snackBar.show(e.toString());
     } finally {
@@ -306,8 +301,8 @@ class SearchCubit extends Cubit<SearchState> {
   Future<void> _getCurrentLatLong() async {
     try {
       Position position = await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
-      lat = position.latitude;
-      long = position.longitude;
+      currentLat = position.latitude;
+      currentLong = position.longitude;
     } on Exception catch (e) {
       debugPrint("field to get current location: $e");
     }
@@ -340,12 +335,116 @@ class SearchCubit extends Cubit<SearchState> {
     _timer = Timer(
       const Duration(seconds: 1),
       () {
-        if (lat != null && long != null) {
+        if (currentLat != null && currentLong != null) {
           _getServices();
         }
         _timer?.cancel();
         _timer = null;
       },
     );
+  }
+
+  void _filterServices({required List<Provider> services}) {
+    Map<String, double> score = {};
+    //Category
+    final selectedCategories = state.categoriesList.where((element) => element.isSelected ?? false).map((e) => e.title).toList();
+    if (selectedCategories.isEmpty) {
+      selectedCategories.add(searchController.text);
+    }
+    for (var service in services) {
+      int containsCategory = 0;
+      List<String> toCompare = service.getAllCategories();
+      int totalCategory = toCompare.length;
+      for (var element in toCompare) {
+        if (selectedCategories.contains(element)) {
+          containsCategory += 1;
+        }
+      }
+      if (containsCategory > 0) {
+        final percentage = containsCategory / totalCategory;
+        print("percentage===>$percentage");
+        score[service.userId ?? ""] = score[service.userId ?? ""] ?? 0.0 + percentage;
+      }
+    }
+
+    //Relevance of Text Search
+    for (var service in services) {
+      final titleSimilarity = StringSimilarity.compareTwoStrings(
+          service.onboardingInfo?.providerDetails?.providerNameLocation?.toLowerCase(), searchController.text.toLowerCase());
+      if (titleSimilarity > 0.5) {
+        score[service.userId ?? ""] = score[service.userId ?? ""] ?? 0.0 + titleSimilarity - 0.5;
+      }
+
+      final descSimilarity = StringSimilarity.compareTwoStrings(
+          service.onboardingInfo?.providerDetails?.providerLocationDescribe?.toLowerCase(), searchController.text.toLowerCase());
+      if (descSimilarity > 0.5) {
+        score[service.userId ?? ""] = score[service.userId ?? ""] ?? 0.0 + descSimilarity - 0.5;
+      }
+    }
+
+    //Proximity to the User
+    if (minDistanceController.text.isNotEmpty && maxDistanceController.text.isNotEmpty && currentLat != null && currentLong != null) {
+      Map<String, double> milesScore = {};
+      for (var service in services) {
+        final meters = Geolocator.distanceBetween(currentLat!, currentLong!, service.onboardingInfo!.providerDetails!.gpsLocation!.latitude,
+            service.onboardingInfo!.providerDetails!.gpsLocation!.longitude);
+        final miles = _metersToMiles(meters);
+        milesScore[service.userId ?? ""] = miles;
+      }
+      List<MapEntry<String, double>> sortedEntries = milesScore.entries.toList()..sort((a, b) => a.value.compareTo(b.value));
+      for (int i = 0; i < sortedEntries.length; i++) {
+        score[sortedEntries[i].key] = (score[sortedEntries[i].key] ?? 0.0) + (1 / (i + 1));
+      }
+    }
+
+    //Eligibility for Programs
+    if (state.selectedEligibilities.isNotEmpty) {
+      for (var service in services) {
+        List<double> eligibilityScores = service.onboardingInfo?.programs?.map((e) => (e.eligibilityRatio ?? 0.0) / 100).toList() ?? [];
+        int scoreLength = eligibilityScores.length;
+        double totalScore = 0.0;
+        for (var element in eligibilityScores) {
+          totalScore += element;
+        }
+        score[service.userId ?? ""] = (score[service.userId ?? ""] ?? 0.0) + (totalScore / scoreLength);
+      }
+    }
+
+    //Features
+    for (var service in services) {
+      final features = service.getAllFeatures();
+      final serviceFeatures = service.getAllFeatures();
+      for (var feature in features) {
+        if (serviceFeatures.contains(feature)) {
+          score[service.userId ?? ""] = (score[service.userId ?? ""] ?? 0.0) + (0.1);
+        }
+      }
+    }
+
+    for (var service in services) {
+      if (!score.containsKey(service.userId)) {
+        score[service.userId ?? ""] = 0.0;
+      }
+    }
+    List<MapEntry<String, double>> scoreSortedEntries = score.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    print("scoreSortedEntries===>${scoreSortedEntries.map((e) => e.value).toList()}");
+    for (int i = 0; i < scoreSortedEntries.length; i++) {
+      score[scoreSortedEntries[i].key] = (score[scoreSortedEntries[i].key] ?? 0.0) + (1 / (i + 1));
+    }
+
+    List<Provider> tempServices = [];
+
+    for (var entry in scoreSortedEntries) {
+      final service = services.where((element) => element.userId == entry.key).firstOrNull;
+      if (service != null) {
+        tempServices.add(service);
+      }
+    }
+
+    emit(state.copyWith(services: tempServices));
+  }
+
+  double _metersToMiles(double meters) {
+    return meters * 0.000621371;
   }
 }

@@ -101,6 +101,8 @@ dependencies:
   #image_picker_web: ^4.0.0
   file_picker: ^8.1.2
 
+  string_similarity: ^2.1.1
+
 
 
 
