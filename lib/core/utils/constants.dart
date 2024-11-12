@@ -244,6 +244,22 @@ const List<String> kFirstStepsSubCategories = [
   'Benefits Acquisition',
 ];
 
+const List<String> kMyServicesTabBarItems = [
+  'Saved',
+  'Contacted',
+  'Active',
+  'Completed',
+  'Ineligible',
+];
+
+const List<String> kMyServicesTabBarItemsDesktop = [
+  'Saved Services',
+  'Contacted Services',
+  'Active Services',
+  'Completed Services',
+  'Ineligible Services',
+];
+
 // Features (examples)
 const List<String> kProgramFeatures = [
   'Local Hiring and Fair Minimum Wage',

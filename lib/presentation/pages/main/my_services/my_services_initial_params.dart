@@ -1,4 +1,5 @@
 class MyServicesInitialParams {
 
-const MyServicesInitialParams();
+ //final String serviceType;
+const MyServicesInitialParams(  );
 }

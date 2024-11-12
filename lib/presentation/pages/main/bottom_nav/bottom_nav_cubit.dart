@@ -31,7 +31,7 @@ class BottomNavCubit extends Cubit<BottomNavState> {
   onInit(BottomNavInitialParams initialParams) {}
 
   loginAction() async {
-    navigator.openLogin(const LoginInitialParams());
+      navigator.openLogin(const LoginInitialParams());
   }
 
 
