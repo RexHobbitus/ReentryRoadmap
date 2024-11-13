@@ -50,14 +50,20 @@ class AppRouter {
 
   static final router = GoRouter(
     navigatorKey: AppNavigator.navigatorKey,
-    initialLocation: SplashPage.path,
+    initialLocation: '/',
+    // initialLocation: SplashPage.path,
     routes: [
-      // GoRoute(
-      //   path: ProviderDetailsPage.path, // Define the path for ProviderDetailsPage
-      //   builder: (context, state) {
-      //     return const ProviderDetailsPage(); // Your provider details page
-      //   },
-      // ),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => ProviderDetailsPage(),
+      ),
+      GoRoute(
+        path:
+            ProviderDetailsPage.path, // Define the path for ProviderDetailsPage
+        builder: (context, state) {
+          return const ProviderDetailsPage(); // Your provider details page
+        },
+      ),
       GoRoute(
         path: ProviderContactDetails.path,
         builder: (context, state) {

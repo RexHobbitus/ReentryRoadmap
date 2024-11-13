@@ -43,7 +43,8 @@ class ProviderRepositoryImp extends FirebaseCollection
 
   @override
   Future<List<Provider>> getExplorePageServices() async {
-    QuerySnapshot querySnapshot = await providersCollection.where('status',isEqualTo: "Approved").get();
+    QuerySnapshot querySnapshot =
+        await providersCollection.where('status', isEqualTo: "Approved").get();
     return (querySnapshot.docs)
         .map((data) =>
             ProviderJson.fromJson(data.data() as Map<String, dynamic>)
@@ -60,20 +61,23 @@ class ProviderRepositoryImp extends FirebaseCollection
   }
 
   @override
-  Future<void> uploadPhotosOfProvider({required String providerId, required List<dynamic> images}) async {
-    List<String> urls=await uploadFiles(images);
+  Future<void> uploadPhotosOfProvider(
+      {required String providerId, required List<dynamic> images}) async {
+    List<String> urls = await uploadFiles(images);
     await providersCollection.doc(providerId).update({
-      "providerOnboardingInfo.providerDetails.photosByOther":FieldValue.arrayUnion(urls),
+      "providerOnboardingInfo.providerDetails.photosByOther":
+          FieldValue.arrayUnion(urls),
     });
   }
 
   @override
   Future<List<ProviderReview>> getProviderReviews({required String id}) async {
-    QuerySnapshot querySnapshot = await providersCollection.doc(id).collection('reviews').get();
+    QuerySnapshot querySnapshot =
+        await providersCollection.doc(id).collection('providerReviews').get();
     return (querySnapshot.docs)
         .map((data) =>
-        ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>)
-            .toDomain())
+            ProviderReviewJson.fromJson(data.data() as Map<String, dynamic>)
+                .toDomain())
         .toList();
   }
 }

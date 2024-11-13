@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:reentry_roadmap/core/utils/pref_utils.dart';
 import 'package:reentry_roadmap/data/repositories/database/app_user_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/auth_repository_imp.dart';
 import 'package:reentry_roadmap/data/repositories/database/provider_repository_imp.dart';
@@ -33,6 +34,7 @@ class ServiceLocator {
     getIt
         .registerSingleton<LocalDatabaseRepository>(HiveDatabaseRepository())
         .initialize();
+    PrefUtil.init();
 
     /// http request repository
     getIt.registerSingleton<NetworkRepository>(DioNetworkRepository(getIt()));

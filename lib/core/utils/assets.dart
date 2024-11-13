@@ -1,5 +1,6 @@
 class Assets {
   static const String explore = "assets/icons/explore.svg";
+  static const String noData = "assets/icons/noData.png";
   static const String myServices = "assets/icons/my_services.svg";
   static const String signup = "assets/icons/signup.svg";
   static const String review = "assets/icons/review.svg";
